@@ -12,7 +12,7 @@ const compressionOpts = {
   filter: /\.(js|css|html|svg|json|txt|xml|wasm)$/,
 };
 export default defineConfig({
-  base: '/TaskFlow/',
+  base: '/',
   plugins: [
     react(),
     tailwindcss(),
@@ -102,8 +102,8 @@ export default defineConfig({
         name: 'TaskFlow',
         short_name: 'TF',
         description: 'Список задач',
-        start_url: '/TaskFlow/?utm_source=homescreen',
-        scope: '/TaskFlow/',
+        start_url: '/?utm_source=homescreen',
+        scope: '/',
         display: 'standalone',
         background_color: '#FFFFFF',
         theme_color: '#111111',

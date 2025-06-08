@@ -12,6 +12,7 @@ const compressionOpts = {
   filter: /\.(js|css|html|svg|json|txt|xml|wasm)$/,
 };
 export default defineConfig({
+  base: '/TaskFlow/',
   plugins: [
     react(),
     tailwindcss(),

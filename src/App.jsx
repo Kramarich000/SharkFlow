@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import routes from './config/routes';
@@ -12,6 +12,13 @@ import Footer from './components/main-components/Footer';
 
 function App() {
   const { isMobile } = useResponsive();
+  // const [isLoading, setIsLoading] = useState(true);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => setIsLoading(false), 1500); // 1.5 секунды
+  //   return () => clearTimeout(timer);
+  // }, []);
+
+  // if (isLoading) return <Loader />;
   return (
     <Router>
       {/* <ErrorBoundary FallbackComponent={FallbackComponent}></ErrorBoundary> */}

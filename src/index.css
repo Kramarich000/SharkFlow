@@ -11,6 +11,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 a {
   text-decoration: inherit;
   transition: color 0.3s ease;
@@ -18,13 +23,6 @@ a {
 
 a:hover {
   color: gray;
-}
-
-header::before {
-  content: '';
-  background-color: #000;
-  display: block;
-  width: 100%;
 }
 
 body {
@@ -111,9 +109,4 @@ scrollbar-track {
 
 .accordion-btn[aria-expanded="true"]~.accordion-panel {
   max-height: 500px;
-}
-
-.vk-logo::before {
-  content: '';
-  background-color: white;
 }

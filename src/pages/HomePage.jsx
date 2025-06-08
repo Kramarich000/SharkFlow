@@ -6,6 +6,7 @@ import Separator from '../components/main-components/Separator';
 import BackToTop from '../components/main-components/BackToTop';
 import HowItWorks from '../components/home-components/HowItWorks';
 import Partners from '../components/home-components/Partners';
+import About from '../components/home-components/About';
 
 const Features = lazy(() => import('../components/home-components/Features'));
 const Slider = lazy(() => import('../components/home-components/Slider'));
@@ -33,6 +34,8 @@ export default function HomePage() {
         <Advantages />
         <Separator />
         <Security />
+        <Separator />
+        <About />
         <Separator />
         <FAQ />
         <Separator />

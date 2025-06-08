@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 export default function Partners() {
   return (
-    <section className="py-16 px-4 mx-auto">
+    <section className="py-16 mx-auto">
       <h2 className="text-3xl mb-8">Наши партнёры</h2>
       <div className="grid sm:grid-cols-2 gap-10 justify-items-center">
         {partners.map((item) => (
@@ -17,7 +17,7 @@ export default function Partners() {
             whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
             transition={{ delay: item.id * 0.12 }}
             viewport={{ once: true }}
-            className="max-w-full w-30"
+            className="max-w-full w-30 hover:scale-110 duration-400 !transition-transform"
             key={item.id}
             href={item.link}
             rel="noopener norefferer"

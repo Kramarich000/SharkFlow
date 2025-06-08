@@ -1,12 +1,14 @@
 import { PulseLoader } from 'react-spinners';
 
-const LoaderContainer = ({ children }) => <div>{children}</div>;
+const LoaderContainer = ({ children }) => (
+  <div className="h-full">{children}</div>
+);
 
 const Loader = ({ color = '#111111' }) => {
   return (
     <LoaderContainer>
       <PulseLoader
-        className="min-h-screen overflow-hidden"
+        className="!flex justify-center items-center h-full"
         speedMultiplier={0.7}
         size={50}
         color={color}

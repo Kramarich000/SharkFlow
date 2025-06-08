@@ -10,7 +10,7 @@ export default function ReviewCard({ avatar, name, joined, rating, comment }) {
     ));
 
   return (
-    <div className="h-full p-4 text-white">
+    <div className="h-full min-h-[300px] p-4 text-white">
       <div className="relative w-full h-full text-center">
         <img
           src={avatar}
@@ -20,9 +20,9 @@ export default function ReviewCard({ avatar, name, joined, rating, comment }) {
         />
       </div>
       <h4 className="font-semibold text-lg mt-2">{name}</h4>
-      <p className="text-sm text-gray-400 mb-2">Дата регистрации: {joined}</p>
+      <p className="text-gray-400 mb-2">Дата регистрации: {joined}</p>
       <div className="flex justify-center mb-2">{renderStars()}</div>
-      <p className="text-gray-300 text-[12px] xs:text-sm">{comment}</p>
+      <p className="text-gray-300">{comment}</p>
     </div>
   );
 }

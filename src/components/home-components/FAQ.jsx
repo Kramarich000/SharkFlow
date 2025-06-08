@@ -12,7 +12,7 @@ import { faqs } from '../../data/faqs';
 
 export default function FAQ() {
   return (
-    <section className="py-16 px-4 mx-auto">
+    <section className="py-16 mx-auto">
       <h2 className="text-3xl mb-8">Часто задаваемые вопросы</h2>
       <div className="space-y-4">
         {faqs.map((item) => (
@@ -24,7 +24,7 @@ export default function FAQ() {
                 transition={{ delay: 0.1 * item.id }}
                 viewport={{ once: true }}
               >
-                <DisclosureButton className="w-full flex justify-between !px-0 items-center py-4 text-lg font-medium !border-b-black !rounded-none focus:outline-none hover:text-[#808080] !transition">
+                <DisclosureButton className="w-full flex justify-between !px-2 items-center py-4 text-lg font-medium !border-b-black !rounded-none focus:outline-none hover:text-[#808080] !transition">
                   {item.question}
                   <FaArrowDown
                     className={`transition-transform ${

@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 
-export default function HomeFeatures() {
+export default function Features() {
   return (
-    <section>
-      <h2 className="text-3xl mb-4">Ключевые особенности</h2>
-      <ul className="grid grid-cols-2 gap-4">
+    <section className="relative mx-auto py-12">
+      <h2 className="text-3xl mb-8">Ключевые особенности</h2>
+      <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <motion.li
           className="bg-[#111111] text-white rounded-4xl p-4"
           initial={{ transform: 'translateY(100px)', opacity: 0 }}

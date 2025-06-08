@@ -17,7 +17,7 @@ function App() {
       {/* <ErrorBoundary FallbackComponent={FallbackComponent}></ErrorBoundary> */}
       <Suspense fallback={<Loader />}>
         <Header />
-        <main className="p-4 max-w-[1280px] mx-auto">
+        <main className="p-5 max-w-[1280px] mx-auto grow">
           <Routes>
             {routes.map((route) => (
               <Route

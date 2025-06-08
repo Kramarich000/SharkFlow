@@ -3,13 +3,14 @@ import { motion } from 'framer-motion';
 
 export default function Footer({ isAuthenticated }) {
   return (
-    <footer className="bg-[#111111] text-white p-4 px-8 text-xl w-full">
+    <footer className="bg-[#111111] text-white p-4 px-8 text-xl w-full mt-4">
       <motion.nav
         initial={{ opacity: 0, transform: 'translateY(20px)' }}
-        animate={{ opacity: 1, transform: 'translateY(0)' }}
+        whileInView={{ opacity: 1, transform: 'translateY(0)' }}
         transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
       >
-        <ul className="flex items-center max-w-[1280px] mx-auto justify-between">
+        <ul className="flex items-center max-w-[1280px] mx-auto justify-between flex-wrap">
           <li className="group w-14">
             <Link to="/">
               <svg
@@ -59,12 +60,43 @@ export default function Footer({ isAuthenticated }) {
         </ul>
       </motion.nav>
       <div className="flex gap-4 justify-center items-center mt-4">
-        <Link to="/privacy">Политика конфиденциальности</Link>
-        <Link to="/term">Условия пользования</Link>
-        <a href="https://github.com/Kramarich000/TaskFlow" target="_blank">
+        <motion.div
+          initial={{ opacity: 0, transform: 'translateY(20px)' }}
+          whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <Link to="/privacy">Политика конфиденциальности</Link>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, transform: 'translateY(20px)' }}
+          whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <Link to="/terms">Условия пользования</Link>
+        </motion.div>
+        <motion.a
+          initial={{ opacity: 0, transform: 'translateY(20px)' }}
+          whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          href="https://github.com/Kramarich000/TaskFlow"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           GitHub
-        </a>
+        </motion.a>
       </div>
+      <motion.p
+        initial={{ opacity: 0, transform: 'translateY(20px)' }}
+        whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+        className="mt-4"
+      >
+        © 2025 TaskFlow. Все права защищены.
+      </motion.p>
     </footer>
   );
 }

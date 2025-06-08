@@ -12,13 +12,16 @@ const TaskListPage = lazy(() => import('../pages/TaskListPage'));
 
 const HomePage = lazy(() => import('../pages/HomePage'));
 
+const TermsPage = lazy(() => import('../pages/TermsPage'));
+
+const PrivacyPage = lazy(() => import('../pages/PrivacyPage'));
+
 const baseUrl = 'http://localhost:5173';
 
 const routes = [
   {
     path: '/register',
     component: RegisterPage,
-    importFunc: () => import('../pages/RegisterPage'),
     title: 'Регистрация',
     description: 'Регистрация',
     url: `${baseUrl}/register`,
@@ -26,7 +29,6 @@ const routes = [
   {
     path: '/login',
     component: LoginPage,
-    importFunc: () => import('../pages/LoginPage'),
     title: 'Вход',
     description: 'Регистрация',
     url: `${baseUrl}/login`,
@@ -34,7 +36,6 @@ const routes = [
   {
     path: '/dashboard',
     component: DashboardPage,
-    importFunc: () => import('../pages/DashboardPage'),
     title: 'Мои задачи',
     description: 'Регистрация',
     url: `${baseUrl}/dashboard`,
@@ -42,7 +43,6 @@ const routes = [
   {
     path: '/settings',
     component: SettingsPage,
-    importFunc: () => import('../pages/SettingsPage'),
     title: 'Настройки',
     description: 'Регистрация',
     url: `${baseUrl}/settings`,
@@ -50,7 +50,6 @@ const routes = [
   {
     path: '/task',
     component: TaskListPage,
-    importFunc: () => import('../pages/TaskListPage'),
     title: 'Список',
     description: 'Регистрация',
     url: `${baseUrl}/task`,
@@ -58,10 +57,23 @@ const routes = [
   {
     path: '/',
     component: HomePage,
-    importFunc: () => import('../pages/HomePage'),
     title: 'Главная',
     description: 'Регистрация',
     url: `${baseUrl}/`,
+  },
+  {
+    path: '/terms',
+    component: TermsPage,
+    title: 'Главная',
+    description: 'Регистрация',
+    url: `${baseUrl}/terms`,
+  },
+  {
+    path: '/privacy',
+    component: PrivacyPage,
+    title: 'Главная',
+    description: 'Регистрация',
+    url: `${baseUrl}/privacy`,
   },
 ];
 

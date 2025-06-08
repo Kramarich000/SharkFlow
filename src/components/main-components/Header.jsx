@@ -9,7 +9,7 @@ export default function Header({ isAuthenticated }) {
         animate={{ opacity: 1, transform: 'translateY(0)' }}
         transition={{ duration: 0.5 }}
       >
-        <ul className="flex items-center max-w-[1280px] mx-auto justify-between">
+        <ul className="flex items-center max-w-[1280px] mx-auto justify-between flex-wrap">
           <li className="group w-14">
             <Link to="/">
               <svg

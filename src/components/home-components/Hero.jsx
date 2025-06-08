@@ -1,19 +1,19 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-export default function HomeHero() {
+export default function Hero() {
   return (
     <section className="flex min-h-screen flex-col items-center justify-center">
       <motion.h1
-        className="mb-4"
+        className="mb-8"
         initial={{ transform: 'translateY(30px)', opacity: 0 }}
         whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        TaskFlow — управление задачами и проектами без хаоса.
+        TaskFlow — управление задачами без хаоса.
       </motion.h1>
-      <div className="flex text-3xl mb-4">
+      <div className="flex text-3xl mb-8">
         <motion.p
           initial={{ transform: 'translateY(100px)', opacity: 0 }}
           whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
@@ -47,7 +47,7 @@ export default function HomeHero() {
         viewport={{ once: true }}
       >
         <Link
-          className="bg-[#111111] rounded-4xl p-4 text-xl text-white hover:!text-white hover:bg-gray-600 !transition-all"
+          className="bg-[#111111] rounded-4xl p-4 text-xl text-white hover:!text-white hover:bg-gray-600 !transition-colors"
           to="/register"
         >
           Попробовать сейчас

@@ -56,7 +56,7 @@ export default function RegisterPage() {
               {({ values, handleChange, handleBlur }) => {
                 return (
                   <div>
-                    <Form className="grid gap-8 bg-[#fff] p-8 rounded-2xl">
+                    <Form className="grid gap-8 bg-[#fff] border-b-4 border-[#111111] p-8 rounded-2xl">
                       <h2 className="sm:col-span-2 text-3xl">Регистрация</h2>
 
                       <div className="relative">
@@ -229,7 +229,7 @@ export default function RegisterPage() {
               }}
             >
               {() => (
-                <Form className="grid gap-8 bg-[#fff] p-8 rounded-2xl">
+                <Form className="grid gap-8 bg-[#fff] border-b-4 border-[#111111] p-8 rounded-2xl">
                   <h2 className="text-3xl">Код подтверждения</h2>
                   <div className="relative">
                     <Field

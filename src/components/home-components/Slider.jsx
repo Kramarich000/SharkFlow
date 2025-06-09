@@ -4,10 +4,9 @@ import 'swiper/css/scrollbar';
 import { lazy, Suspense } from 'react';
 import { Scrollbar, Autoplay } from 'swiper/modules';
 import { motion } from 'framer-motion';
-import Loader from '../main-components/Loader';
+import Loader from '@components/main-components/Loader';
 const ReviewCard = lazy(() => import('./Reviewers'));
-
-import reviews from '../../data/reviewers';
+import reviews from '@data/reviewers';
 
 export default function Slider() {
   return (

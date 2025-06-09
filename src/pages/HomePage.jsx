@@ -1,27 +1,26 @@
 import { lazy, Suspense } from 'react';
 
-import Hero from '../components/home-components/Hero';
-import Loader from '../components/main-components/Loader';
-import Separator from '../components/main-components/Separator';
-import BackToTop from '../components/main-components/BackToTop';
-import HowItWorks from '../components/home-components/HowItWorks';
-import Partners from '../components/home-components/Partners';
-import About from '../components/home-components/About';
+import Hero from '@components/home-components/Hero';
+import Loader from '@components/main-components/Loader';
+import BackToTop from '@components/main-components/BackToTop';
 
-const Features = lazy(() => import('../components/home-components/Features'));
-const Slider = lazy(() => import('../components/home-components/Slider'));
-const Advantages = lazy(() =>
-  import('../components/home-components/Advantages'),
-);
-const Security = lazy(() => import('../components/home-components/Security'));
-const FAQ = lazy(() => import('../components/home-components/FAQ'));
-const Contacts = lazy(() => import('../components/home-components/Contacts'));
+const HowItWorks = lazy(() => import('@components/home-components/HowItWorks'));
+const Features = lazy(() => import('@components/home-components/Features'));
+const Slider = lazy(() => import('@components/home-components/Slider'));
+const Advantages = lazy(() => import('@components/home-components/Advantages'));
+const Security = lazy(() => import('@components/home-components/Security'));
+const About = lazy(() => import('@components/home-components/About'));
+const FAQ = lazy(() => import('@components/home-components/FAQ'));
+const Contacts = lazy(() => import('@components/home-components/Contacts'));
+const Partners = lazy(() => import('@components/home-components/Partners'));
+const Separator = lazy(() => import('@components/main-components/Separator'));
 
 export default function HomePage() {
   return (
     <>
       <BackToTop />
       <Hero />
+
       <Suspense fallback={<Loader />}>
         <HowItWorks />
         <Separator />

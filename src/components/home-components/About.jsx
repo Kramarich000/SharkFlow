@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import team from '../../data/team';
+import team from '@data/team';
 
 export default function About() {
   return (

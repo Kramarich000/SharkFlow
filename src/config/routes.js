@@ -16,6 +16,8 @@ const TermsPage = lazy(() => import('../pages/TermsPage'));
 
 const PrivacyPage = lazy(() => import('../pages/PrivacyPage'));
 
+const Error404 = lazy(() => import('../pages/errors/Error404'));
+
 const baseUrl = 'http://localhost:5173';
 
 const routes = [
@@ -74,6 +76,13 @@ const routes = [
     title: 'Главная',
     description: 'Регистрация',
     url: `${baseUrl}/privacy`,
+  },
+  {
+    path: '*',
+    component: Error404,
+    title: 'Ошибка - 404',
+    descriptionKey: 'Ошибка 404',
+    url: `${baseUrl}/*`,
   },
 ];
 

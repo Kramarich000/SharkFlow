@@ -54,6 +54,27 @@ button {
   transition: border-color 0.25s;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: black !important;
+  transition: background-color 50000s ease-in-out 0s !important;
+  border-bottom: 1px solid black !important;
+}
+
+input.peer:not(:placeholder-shown)+label,
+input.peer:focus+label {
+  top: 0;
+  font-size: 0.75rem;
+  color: #888888;
+}
+
 scrollbar {
   width: 12px;
   height: 12px;
@@ -109,4 +130,16 @@ scrollbar-track {
 
 .accordion-btn[aria-expanded="true"]~.accordion-panel {
   max-height: 500px;
+}
+
+.peer:not(:placeholder-shown),
+.peer:focus {
+  border-color: #111111 !important;
+  border-bottom-color: #111111 !important;
+  border-radius: 0.5rem;
+}
+
+
+.Toastify__toast {
+  margin-top: 75px;
 }

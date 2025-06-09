@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { advantages } from '../../data/advantages';
+import { advantages } from '@data/advantages';
 
 export default function Advantages() {
   return (

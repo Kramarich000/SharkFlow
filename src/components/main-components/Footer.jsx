@@ -89,7 +89,7 @@ export default function Footer({ isAuthenticated }) {
             GitHub
           </motion.a>
         </div>
-        <motion.p
+        <p
           initial={{ opacity: 0, transform: 'translateY(20px)' }}
           whileInView={{ opacity: 1, transform: 'translateY(0)' }}
           transition={{ duration: 0.5 }}
@@ -97,7 +97,7 @@ export default function Footer({ isAuthenticated }) {
           className="mt-4"
         >
           © 2025 TaskFlow. Все права защищены.
-        </motion.p>
+        </p>
       </div>
     </footer>
   );

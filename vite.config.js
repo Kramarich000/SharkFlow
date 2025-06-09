@@ -5,6 +5,7 @@ import viteCompression from 'vite-plugin-compression';
 import VitePreload from 'vite-plugin-preload';
 import { VitePWA } from 'vite-plugin-pwa';
 import imp from 'vite-plugin-imp';
+import path from 'path';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 const compressionOpts = {
@@ -150,6 +151,23 @@ export default defineConfig({
     },
     logLevel: 'info',
   },
+  resolve: {
+    alias: {
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@errors': path.resolve(__dirname, 'src/pages/errors'),
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
+      '@metadata': path.resolve(__dirname, 'src/metadata'),
+      '@validators': path.resolve(__dirname, 'src/validators'),
+      '@services': path.resolve(__dirname, 'src/services'),
+      '@utils': path.resolve(__dirname, 'src/utils'),
+      '@assets': path.resolve(__dirname, 'src/assets'),
+      '@config': path.resolve(__dirname, 'src/config'),
+      '@data': path.resolve(__dirname, 'src/data'),
+      '@store': path.resolve(__dirname, 'src/store'),
+      '@api': path.resolve(__dirname, 'src/api'),
+    },
+  },
   build: {
     target: 'esnext',
     mode: 'production',
@@ -170,6 +188,7 @@ export default defineConfig({
     modulePreload: {
       polyfill: true,
     },
+
     rollupOptions: {
       output: {
         entryFileNames: 'js/[name].[hash].js',

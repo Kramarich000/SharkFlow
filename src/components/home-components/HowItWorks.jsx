@@ -1,4 +1,4 @@
-import { work } from '../../data/work';
+import { work } from '@data/work';
 import { motion } from 'framer-motion';
 
 export default function HowItWorks() {

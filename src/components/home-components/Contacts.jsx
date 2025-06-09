@@ -97,10 +97,7 @@ export default function Contacts() {
           required
           aria-label="Вопрос"
         />
-        <button
-          type="submit"
-          className="!transition-colors bg-[#1A1A1A] hover:bg-gray-600 w-full text-white py-3 px-6 rounded-2xl mt-2"
-        >
+        <button type="submit" className="primary-btn">
           Отправить
         </button>
       </motion.form>

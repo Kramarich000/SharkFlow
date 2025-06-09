@@ -8,7 +8,7 @@ import {
 import { motion } from 'framer-motion';
 
 import { FaArrowDown } from 'react-icons/fa';
-import { faqs } from '../../data/faqs';
+import { faqs } from '@data/faqs';
 
 export default function FAQ() {
   return (

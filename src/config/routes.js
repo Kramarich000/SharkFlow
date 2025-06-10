@@ -34,6 +34,7 @@ const routes = [
     title: 'Вход',
     description: 'Регистрация',
     url: `${baseUrl}/login`,
+    private: false,
   },
   {
     path: '/dashboard',
@@ -41,6 +42,7 @@ const routes = [
     title: 'Мои задачи',
     description: 'Регистрация',
     url: `${baseUrl}/dashboard`,
+    private: true,
   },
   {
     path: '/settings',
@@ -48,6 +50,7 @@ const routes = [
     title: 'Настройки',
     description: 'Регистрация',
     url: `${baseUrl}/settings`,
+    private: true,
   },
   {
     path: '/task',
@@ -55,6 +58,7 @@ const routes = [
     title: 'Список',
     description: 'Регистрация',
     url: `${baseUrl}/task`,
+    private: true,
   },
   {
     path: '/',
@@ -62,27 +66,31 @@ const routes = [
     title: 'Главная',
     description: 'Регистрация',
     url: `${baseUrl}/`,
+    private: false,
   },
   {
     path: '/terms',
     component: TermsPage,
-    title: 'Главная',
+    title: 'Условия пользования',
     description: 'Регистрация',
     url: `${baseUrl}/terms`,
+    private: false,
   },
   {
     path: '/privacy',
     component: PrivacyPage,
-    title: 'Главная',
+    title: 'Политика конфиденциальности',
     description: 'Регистрация',
     url: `${baseUrl}/privacy`,
+    private: false,
   },
   {
     path: '*',
     component: Error404,
     title: 'Ошибка - 404',
-    descriptionKey: 'Ошибка 404',
+    description: 'Ошибка 404',
     url: `${baseUrl}/*`,
+    private: false,
   },
 ];
 

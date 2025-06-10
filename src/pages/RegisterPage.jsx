@@ -6,12 +6,15 @@ import confirmCodeHandler from '@api/confirmCodeHandler';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
+import { LuEye } from 'react-icons/lu';
+import { LuEyeClosed } from 'react-icons/lu';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
   const [step, setStep] = useState(1);
   const formikRef = useRef(null);
   const navigate = useNavigate();
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   useEffect(() => {
     let timer;
@@ -53,9 +56,9 @@ export default function RegisterPage() {
                 }
               }}
             >
-              {({ values, handleChange, handleBlur }) => {
+              {({ handleChange, handleBlur }) => {
                 return (
-                  <div>
+                  <>
                     <Form className="grid gap-8 bg-[#fff] border-b-4 border-[#111111] p-8 rounded-2xl">
                       <h2 className="sm:col-span-2 text-3xl">Регистрация</h2>
 
@@ -113,7 +116,7 @@ export default function RegisterPage() {
 
                       <div className="relative">
                         <Field
-                          type="password"
+                          type={passwordVisible ? 'password' : 'text'}
                           name="password"
                           autoComplete="new-password"
                           placeholder=" "
@@ -122,17 +125,29 @@ export default function RegisterPage() {
                             handleChange(e);
                           }}
                           onBlur={handleBlur}
-                          className="peer w-full p-4 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
+                          className="peer w-full p-4 pr-8 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
                         />
                         <label
                           htmlFor="password"
                           className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200
-                      peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
-                      peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1
-                      peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
+                            peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
+                            peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1
+                            peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
                         >
                           Введите пароль
                         </label>
+                        <div
+                          className="absolute right-1 bottom-2 !p-2 cursor-pointer"
+                          onClick={() => {
+                            setPasswordVisible(!passwordVisible);
+                          }}
+                        >
+                          {passwordVisible ? (
+                            <LuEyeClosed size={20} />
+                          ) : (
+                            <LuEye size={20} />
+                          )}
+                        </div>
                         <ErrorMessage name="password">
                           {(msg) => (
                             <AnimatedError msg={msg} variant="register" />
@@ -142,7 +157,7 @@ export default function RegisterPage() {
 
                       <div className="relative">
                         <Field
-                          type="password"
+                          type={passwordVisible ? 'password' : 'text'}
                           name="confirmPassword"
                           autoComplete="new-password"
                           placeholder=" "
@@ -152,9 +167,9 @@ export default function RegisterPage() {
                         <label
                           htmlFor="confirmPassword"
                           className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200
-                      peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
-                      peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1
-                      peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
+                            peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
+                            peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1
+                            peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
                         >
                           Подтвердите пароль
                         </label>
@@ -203,8 +218,11 @@ export default function RegisterPage() {
                       >
                         Зарегистрироваться
                       </button>
+                      <Link className="col-span-2 text-blue-600" to="/login">
+                        Уже есть аккаунт?
+                      </Link>
                     </Form>
-                  </div>
+                  </>
                 );
               }}
             </Formik>
@@ -267,7 +285,7 @@ export default function RegisterPage() {
         )}
         {step === 3 && (
           <motion.div
-            key="step1"
+            key="step3"
             initial={{ opacity: 0, transform: 'translateX(50px)' }}
             animate={{ opacity: 1, transform: 'translateX(0)' }}
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}

@@ -10,7 +10,7 @@ export default function About() {
           {team.map((item) => (
             <motion.div
               initial={{ opacity: 0, transform: 'translateY(75px) ' }}
-              whileInView={{ opacity: 1, transform: 'translateY(0) ' }}
+              whileInView={{ opacity: 1, transform: 'translateY(0px) ' }}
               transition={{ duration: 0.5, delay: item.id * 0.2 }}
               viewport={{ once: true }}
               className="rounded-4xl border-2"

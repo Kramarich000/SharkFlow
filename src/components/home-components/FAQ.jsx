@@ -20,7 +20,7 @@ export default function FAQ() {
             {({ open }) => (
               <motion.div
                 initial={{ opacity: 0, transform: 'translateY(50px)' }}
-                whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+                whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
                 transition={{ delay: 0.1 * item.id }}
                 viewport={{ once: true }}
               >

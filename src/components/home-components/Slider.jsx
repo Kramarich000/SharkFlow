@@ -15,7 +15,7 @@ export default function Slider() {
       <motion.div
         className="w-full"
         initial={{ opacity: 0, transform: 'translateY(75px) ' }}
-        whileInView={{ opacity: 1, transform: 'translateY(0) ' }}
+        whileInView={{ opacity: 1, transform: 'translateY(0px) ' }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >

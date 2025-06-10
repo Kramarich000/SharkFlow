@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuthStore } from '@store/authStore';
 
-export default function Header({ isAuthenticated }) {
+export default function Header() {
+  const token = useAuthStore((state) => state.accessToken);
+
   return (
     <header className="bg-[#111111] text-white p-4 px-8 text-xl w-full">
       <div className="max-w-[1240px] mx-auto px-5">
         <motion.nav
           initial={{ opacity: 0, transform: 'translateY(20px)' }}
-          animate={{ opacity: 1, transform: 'translateY(0)' }}
+          animate={{ opacity: 1, transform: 'translateY(0px)' }}
           transition={{ duration: 0.5 }}
         >
           <ul className="flex items-center max-w-[1280px] mx-auto justify-between flex-wrap">
@@ -32,31 +35,50 @@ export default function Header({ isAuthenticated }) {
               <Link to="/">Главная</Link>
             </li>
             |
-            {!isAuthenticated ? (
-              <>
-                <li>
-                  <Link to="/register">Регистрация</Link>
-                </li>
-                |
-                <li>
-                  <Link to="/login">Вход</Link>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <Link to="/dashboard">Мои задачи</Link>
-                </li>
-                |
-                <li>
-                  <Link to="/settings">Настройки</Link>
-                </li>
-                |
-                {/* <li>
-                <Link to="/">Выход</Link>
-              </li> */}
-              </>
-            )}
+            <AnimatePresence>
+              {!token ? (
+                <>
+                  <motion.li
+                    key="register"
+                    initial={{ opacity: 0, transform: 'translateY(-10px)' }}
+                    animate={{ opacity: 1, transform: 'translateY(0px)' }}
+                    exit={{ opacity: 0, transform: 'translateY(-10px)' }}
+                  >
+                    <Link to="/register">Регистрация</Link>
+                  </motion.li>
+                  |
+                  <motion.li
+                    key="login"
+                    initial={{ opacity: 0, transform: 'translateY(-10px)' }}
+                    animate={{ opacity: 1, transform: 'translateY(0px)' }}
+                    exit={{ opacity: 0, transform: 'translateY(-10px)' }}
+                  >
+                    <Link to="/login">Вход</Link>
+                  </motion.li>
+                </>
+              ) : (
+                <>
+                  <motion.li
+                    key="dashboard"
+                    initial={{ opacity: 0, transform: 'translateY(-10px)' }}
+                    animate={{ opacity: 1, transform: 'translateY(0px)' }}
+                    exit={{ opacity: 0, transform: 'translateY(-10px)' }}
+                  >
+                    <Link to="/dashboard">Мои задачи</Link>
+                  </motion.li>
+                  |
+                  <motion.li
+                    key="settings"
+                    initial={{ opacity: 0, transform: 'translateY(-10px)' }}
+                    animate={{ opacity: 1, transform: 'translateY(0px)' }}
+                    exit={{ opacity: 0, transform: 'translateY(-10px)' }}
+                  >
+                    <Link to="/settings">Настройки</Link>
+                  </motion.li>
+                  |
+                </>
+              )}
+            </AnimatePresence>
           </ul>
         </motion.nav>
       </div>

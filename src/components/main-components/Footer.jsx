@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuthStore } from '@store/authStore';
 
 export default function Footer({ isAuthenticated }) {
+  const token = useAuthStore((state) => state.accessToken);
+
   return (
     <footer className="bg-[#111111] text-white p-4 px-8 text-xl w-full mt-4">
       <div className="max-w-[1240px] mx-auto px-5">
         <motion.nav
           initial={{ opacity: 0, transform: 'translateY(20px)' }}
-          whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+          whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
         >
@@ -33,37 +36,56 @@ export default function Footer({ isAuthenticated }) {
               <Link to="/">Главная</Link>
             </li>
             |
-            {!isAuthenticated ? (
-              <>
-                <li>
-                  <Link to="/register">Регистрация</Link>
-                </li>
-                |
-                <li>
-                  <Link to="/login">Вход</Link>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <Link to="/dashboard">Мои задачи</Link>
-                </li>
-                |
-                <li>
-                  <Link to="/settings">Настройки</Link>
-                </li>
-                |
-                {/* <li>
-                <Link to="/">Выход</Link>
-              </li> */}
-              </>
-            )}
+            <AnimatePresence>
+              {!token ? (
+                <>
+                  <motion.li
+                    key="register"
+                    initial={{ opacity: 0, transform: 'translateY(-10px)' }}
+                    animate={{ opacity: 1, transform: 'translateY(0px)' }}
+                    exit={{ opacity: 0, transform: 'translateY(-10px)' }}
+                  >
+                    <Link to="/register">Регистрация</Link>
+                  </motion.li>
+                  |
+                  <motion.li
+                    key="login"
+                    initial={{ opacity: 0, transform: 'translateY(-10px)' }}
+                    animate={{ opacity: 1, transform: 'translateY(0px)' }}
+                    exit={{ opacity: 0, transform: 'translateY(-10px)' }}
+                  >
+                    <Link to="/login">Вход</Link>
+                  </motion.li>
+                </>
+              ) : (
+                <>
+                  <motion.li
+                    key="dashboard"
+                    initial={{ opacity: 0, transform: 'translateY(-10px)' }}
+                    animate={{ opacity: 1, transform: 'translateY(0px)' }}
+                    exit={{ opacity: 0, transform: 'translateY(-10px)' }}
+                  >
+                    <Link to="/dashboard">Мои задачи</Link>
+                  </motion.li>
+                  |
+                  <motion.li
+                    key="settings"
+                    initial={{ opacity: 0, transform: 'translateY(-10px)' }}
+                    animate={{ opacity: 1, transform: 'translateY(0px)' }}
+                    exit={{ opacity: 0, transform: 'translateY(-10px)' }}
+                  >
+                    <Link to="/settings">Настройки</Link>
+                  </motion.li>
+                  |
+                </>
+              )}
+            </AnimatePresence>
           </ul>
         </motion.nav>
         <div className="flex gap-4 justify-center items-center mt-4">
           <motion.div
             initial={{ opacity: 0, transform: 'translateY(20px)' }}
-            whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+            whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
@@ -71,7 +93,7 @@ export default function Footer({ isAuthenticated }) {
           </motion.div>
           <motion.div
             initial={{ opacity: 0, transform: 'translateY(20px)' }}
-            whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+            whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
@@ -79,7 +101,7 @@ export default function Footer({ isAuthenticated }) {
           </motion.div>
           <motion.a
             initial={{ opacity: 0, transform: 'translateY(20px)' }}
-            whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+            whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
             href="https://github.com/Kramarich000/TaskFlow"
@@ -89,15 +111,7 @@ export default function Footer({ isAuthenticated }) {
             GitHub
           </motion.a>
         </div>
-        <p
-          initial={{ opacity: 0, transform: 'translateY(20px)' }}
-          whileInView={{ opacity: 1, transform: 'translateY(0)' }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="mt-4"
-        >
-          © 2025 TaskFlow. Все права защищены.
-        </p>
+        <p className="mt-4">© 2025 TaskFlow. Все права защищены.</p>
       </div>
     </footer>
   );

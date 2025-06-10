@@ -9,7 +9,6 @@ export default async function confirmCodeHandler(values) {
   try {
     const response = await api.post('/verify', payload, {
       headers: { 'Content-Type': 'application/json' },
-      withCredentials: true,
     });
     if (response.status === 201) {
       showToast('Вы успешно зарегистрировались!', 'success');

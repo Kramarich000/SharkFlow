@@ -8,7 +8,7 @@ export default function Features() {
         <motion.li
           className="bg-[#111111] text-white rounded-4xl p-4"
           initial={{ transform: 'translateY(100px)', opacity: 0 }}
-          whileInView={{ transform: 'translateY(0)', opacity: 1 }}
+          whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
           transition={{ delay: 0.25, duration: 0.5 }}
           viewport={{ once: true }}
         >
@@ -21,7 +21,7 @@ export default function Features() {
         <motion.li
           className="bg-[#111111] text-white rounded-4xl p-4"
           initial={{ transform: 'translateY(100px)', opacity: 0 }}
-          whileInView={{ transform: 'translateY(0)', opacity: 1 }}
+          whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
           viewport={{ once: true }}
         >
@@ -34,7 +34,7 @@ export default function Features() {
         <motion.li
           className="bg-[#111111] text-white rounded-4xl p-4"
           initial={{ transform: 'translateY(100px)', opacity: 0 }}
-          whileInView={{ transform: 'translateY(0)', opacity: 1 }}
+          whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
           transition={{ delay: 0.75, duration: 0.5 }}
           viewport={{ once: true }}
         >
@@ -47,7 +47,7 @@ export default function Features() {
         <motion.li
           className="bg-[#111111] text-white rounded-4xl p-4"
           initial={{ transform: 'translateY(100px)', opacity: 0 }}
-          whileInView={{ transform: 'translateY(0)', opacity: 1 }}
+          whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
           transition={{ delay: 1, duration: 0.5 }}
           viewport={{ once: true }}
         >

@@ -24,7 +24,7 @@ const AnimatedError = ({ msg, centered = false, variant = 'default' }) => {
         <motion.div
           key={msg}
           initial={{ opacity: 0, transform: 'translateY(6px)' }}
-          animate={{ opacity: 1, transform: 'translateY(0)' }}
+          animate={{ opacity: 1, transform: 'translateY(0px)' }}
           exit={{ opacity: 0, transform: 'translateY(6px)' }}
           transition={{ duration: 0.25 }}
           className={`absolute ${containerClass} mt-1 bg-red-100 text-red-700 text-sm w-[260px] px-3 py-2 rounded-lg sm:shadow-md z-10`}

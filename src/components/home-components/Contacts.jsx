@@ -6,7 +6,7 @@ export default function Contacts() {
       <motion.h2
         className="text-3xl mb-8"
         initial={{ opacity: 0, transform: 'translateY(30px)' }}
-        whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+        whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
       >
@@ -16,7 +16,7 @@ export default function Contacts() {
       <motion.p
         className="mb-2"
         initial={{ opacity: 0, transform: 'translateY(30px)' }}
-        whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+        whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         transition={{ delay: 0.1, duration: 0.5 }}
         viewport={{ once: true }}
       >
@@ -26,7 +26,7 @@ export default function Contacts() {
       <motion.p
         className="mb-4"
         initial={{ opacity: 0, transform: 'translateY(30px)' }}
-        whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+        whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         transition={{ delay: 0.2, duration: 0.5 }}
         viewport={{ once: true }}
       >
@@ -37,7 +37,7 @@ export default function Contacts() {
       <motion.ul
         className="space-y-3 underline grid grid-cols-2"
         initial={{ opacity: 0, transform: 'translateY(30px)' }}
-        whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+        whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         transition={{ delay: 0.3, duration: 0.5 }}
         viewport={{ once: true }}
       >
@@ -69,7 +69,7 @@ export default function Contacts() {
       <motion.form
         className="p-8 bg-[#111111] rounded-2xl space-y-4"
         initial={{ opacity: 0, transform: 'translateY(30px)' }}
-        whileInView={{ opacity: 1, transform: 'translateY(0)' }}
+        whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         transition={{ delay: 0.3, duration: 0.5 }}
         viewport={{ once: true }}
       >

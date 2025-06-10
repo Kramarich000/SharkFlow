@@ -1,24 +1,16 @@
 import api from '@api/api';
 import { showToast } from '@utils/toast';
 
-export default async function registerHandler(values) {
-  const payload = {
-    user: {
-      login: values.login,
-      email: values.email,
-      password: values.password,
-      confirmPassword: values.confirmPassword,
-    },
-  };
-
+export default async function uploadingUserDataHandle() {
   try {
-    // console.log(payload);
-    const response = await api.post('/register', payload, {
-      headers: { 'Content-Type': 'application/json' },
+    const response = await api.post('/user', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
-
+    console.log('ogo',response);
     if (response.status === 200) {
-      showToast('Успех!', 'success');
+      showToast(response.data.message, 'success');
       return true;
     } else {
       showToast('Что-то пошло не так', 'error');
@@ -26,10 +18,12 @@ export default async function registerHandler(values) {
     }
   } catch (error) {
     if (error.response) {
-      if (error.response.status === 409) {
+      console.log(error);
+
+      if (error.response.status === 401) {
         showToast(error.response.data.error, 'error');
       } else if (error.response.status === 500) {
-        showToast(error.response.data.error, 'error');
+        showToast(`Ошибка: ${error.response.data.error}`, 'error');
       }
     } else {
       showToast('Ошибка сети или сервера. Попробуйте позже.', 'error');

@@ -19,7 +19,7 @@ export default function BackToTop() {
         <motion.button
           key="back-to-top"
           initial={{ opacity: 0, transform: 'translateY(20px)' }}
-          animate={{ opacity: 1, transform: 'translateY(0)' }}
+          animate={{ opacity: 1, transform: 'translateY(0px)' }}
           exit={{ opacity: 0, transform: 'translateY(20px)' }}
           transition={{ duration: 0.3 }}
           onClick={scrollUp}

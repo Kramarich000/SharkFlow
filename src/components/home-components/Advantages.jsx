@@ -16,7 +16,7 @@ export default function Advantages() {
               adv.id % 2 === 0 ? 'text-right' : 'text-left'
             }`}
             initial={{ transform: 'translateY(100px)', opacity: 0 }}
-            whileInView={{ transform: 'translateY(0)', opacity: 1 }}
+            whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
             transition={{ delay: 0.25 * adv.id, duration: 0.5 }}
             viewport={{ once: true }}
           >

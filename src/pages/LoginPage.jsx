@@ -74,7 +74,7 @@ export default function LoginPage() {
 
                     <div className="relative">
                       <Field
-                        type={passwordVisible ? 'password' : 'text'}
+                        type={!passwordVisible ? 'password' : 'text'}
                         name="password"
                         autoComplete="new-password"
                         placeholder=" "
@@ -100,7 +100,7 @@ export default function LoginPage() {
                           setPasswordVisible(!passwordVisible);
                         }}
                       >
-                        {passwordVisible ? (
+                        {!passwordVisible ? (
                           <LuEyeClosed size={20} />
                         ) : (
                           <LuEye size={20} />

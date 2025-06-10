@@ -29,7 +29,7 @@ export default async function loginHandler(values) {
     if (error.response) {
       console.log(error);
 
-      if (error.response.status === 401) {
+      if (error.response.status === 401 || error.response.status === 400) {
         showToast(error.response.data.error, 'error');
       } else if (error.response.status === 500) {
         showToast(`Ошибка: ${error.response.data.error}`, 'error');

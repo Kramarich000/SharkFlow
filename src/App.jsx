@@ -17,37 +17,7 @@ function App() {
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const accessToken = useAuthStore((state) => state.accessToken);
   const blockedPublicPaths = ['/login', '/register'];
-
-  // useEffect(() => {
-  //   const refreshToken = async () => {
-  //     try {
-  //       const response = await api.post('/refresh');
-  //       const newAccessToken = response.data.accessToken;
-  //       setAccessToken(newAccessToken);
-  //       api.defaults.headers.common['Authorization'] =
-  //         `Bearer ${newAccessToken}`;
-  //       console.log('[REFRESH] Token обновлён');
-  //     } catch (err) {
-  //       console.warn('[REFRESH] Ошибка при обновлении токена:', err);
-  //       setAccessToken(null);
-  //     }
-  //   };
-
-  //   refreshToken();
-
-  //   let intervalId;
-  //   if (accessToken) {
-  //     const jitter = Math.floor(Math.random() * 120_000);
-  //     const refreshInterval = 14 * 60 * 1000 + jitter;
-
-  //     intervalId = setInterval(() => {
-  //       console.log('[REFRESH] Token обновлён');
-  //       refreshToken();
-  //     }, refreshInterval);
-  //   }
-
-  //   return () => clearInterval(intervalId);
-  // }, [accessToken, setAccessToken]);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   useEffect(() => {
     const refreshToken = async () => {
@@ -64,6 +34,8 @@ function App() {
           err,
         );
         setAccessToken(null);
+      } finally {
+        setIsAuthLoading(false);
       }
     };
 
@@ -99,13 +71,10 @@ function App() {
 
   const { isMobile } = useResponsive();
 
-  // const [isLoading, setIsLoading] = useState(true);
-  // useEffect(() => {
-  //   const timer = setTimeout(() => setIsLoading(false), 1500); // 1.5 секунды
-  //   return () => clearTimeout(timer);
-  // }, []);
+  if (isAuthLoading) {
+    return <Loader />;
+  }
 
-  // if (isLoading) return <Loader />;
   return (
     <Router>
       {/* <ErrorBoundary FallbackComponent={FallbackComponent}></ErrorBoundary> */}

@@ -22,7 +22,7 @@ export default function RegisterPage() {
     if (step === 3) {
       timer = setTimeout(() => {
         navigate('/login');
-      }, 5000);
+      }, 4000);
     }
 
     return () => clearTimeout(timer);
@@ -116,7 +116,7 @@ export default function RegisterPage() {
 
                       <div className="relative">
                         <Field
-                          type={passwordVisible ? 'password' : 'text'}
+                          type={!passwordVisible ? 'password' : 'text'}
                           name="password"
                           autoComplete="new-password"
                           placeholder=" "
@@ -142,7 +142,7 @@ export default function RegisterPage() {
                             setPasswordVisible(!passwordVisible);
                           }}
                         >
-                          {passwordVisible ? (
+                          {!passwordVisible ? (
                             <LuEyeClosed size={20} />
                           ) : (
                             <LuEye size={20} />
@@ -157,7 +157,7 @@ export default function RegisterPage() {
 
                       <div className="relative">
                         <Field
-                          type={passwordVisible ? 'password' : 'text'}
+                          type={!passwordVisible ? 'password' : 'text'}
                           name="confirmPassword"
                           autoComplete="new-password"
                           placeholder=" "

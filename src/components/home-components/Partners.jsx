@@ -5,7 +5,7 @@ export default function Partners() {
   return (
     <section className="py-16 mx-auto">
       <h2 className="text-3xl mb-8">Наши партнёры</h2>
-      <div className="grid sm:grid-cols-2 gap-10 justify-items-center">
+      <div className="grid sm:grid-cols-2 gap-5 sm:gap-10 justify-items-center">
         {partners.map((item) => (
           <motion.a
             initial={{
@@ -35,7 +35,7 @@ export default function Partners() {
         viewport={{ once: true }}
       >
         <Link
-          className="bg-[#111111] rounded-4xl p-4 text-xl text-white hover:!text-white hover:bg-gray-600 !transition-colors"
+          className="bg-[#111111] mt-4 block sm:inline text-[16px] max-w-[400px] mx-auto sm:text-[20px] rounded-4xl p-4 text-xl text-white hover:!text-white hover:bg-gray-600 !transition-colors"
           to="/register"
         >
           Попробовать сейчас

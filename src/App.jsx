@@ -1,6 +1,4 @@
-import { useState, useEffect, Suspense } from 'react';
-import { useAuthStore } from '@store/authStore';
-import api from '@api/api';
+import { Suspense } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import routes from './config/routes';
@@ -12,62 +10,15 @@ import PrivateRoute from './components/main-components/PrivateRoute';
 import { PublicRoute } from '@components/main-components/PublicRoute';
 import Header from './components/main-components/Header';
 import Footer from './components/main-components/Footer';
+import { useAuthTokenRefresh } from '@hooks/useAuthTokenRefresh';
+import { useSocket } from '@hooks/useSocket';
+import { useAuthStore } from '@store/authStore';
 
 function App() {
-  const setAccessToken = useAuthStore((state) => state.setAccessToken);
-  const accessToken = useAuthStore((state) => state.accessToken);
   const blockedPublicPaths = ['/login', '/register'];
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
-
-  useEffect(() => {
-    const refreshToken = async () => {
-      try {
-        const response = await api.post('/refresh');
-        const newAccessToken = response.data.accessToken;
-        setAccessToken(newAccessToken);
-        api.defaults.headers.common['Authorization'] =
-          `Bearer ${newAccessToken}`;
-        console.log('[REFRESH] Token восстановлен при монтировании');
-      } catch (err) {
-        console.warn(
-          '[REFRESH] Ошибка при первичном восстановлении токена:',
-          err,
-        );
-        setAccessToken(null);
-      } finally {
-        setIsAuthLoading(false);
-      }
-    };
-
-    refreshToken();
-  }, [setAccessToken]);
-
-  useEffect(() => {
-    if (!accessToken) return;
-
-    const refreshToken = async () => {
-      try {
-        const response = await api.post('/refresh');
-        const newAccessToken = response.data.accessToken;
-        setAccessToken(newAccessToken);
-        api.defaults.headers.common['Authorization'] =
-          `Bearer ${newAccessToken}`;
-        console.log('[REFRESH] Token обновлён по таймеру');
-      } catch (err) {
-        console.warn('[REFRESH] Ошибка автообновления токена:', err);
-        setAccessToken(null);
-      }
-    };
-
-    const jitter = Math.floor(Math.random() * 120_000);
-    const refreshInterval = 14 * 60 * 1000 + jitter;
-
-    const intervalId = setInterval(() => {
-      refreshToken();
-    }, refreshInterval);
-
-    return () => clearInterval(intervalId);
-  }, [accessToken, setAccessToken]);
+  const { isAuthLoading } = useAuthTokenRefresh();
+  const accessToken = useAuthStore((state) => state.accessToken);
+  useSocket(accessToken);
 
   const { isMobile } = useResponsive();
 
@@ -80,7 +31,8 @@ function App() {
       {/* <ErrorBoundary FallbackComponent={FallbackComponent}></ErrorBoundary> */}
       <Suspense fallback={<Loader />}>
         <Header />
-        <main className="p-5 max-w-[1280px] mx-auto grow">
+        <main className="p-5 w-full max-w-[1280px] mx-auto grow">
+          {/* <div className="">{notify}</div> */}
           <Routes>
             {routes.map((route) => (
               <Route

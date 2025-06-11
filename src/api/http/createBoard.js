@@ -1,17 +1,23 @@
-import api from '@api/api';
+import api from '@api/http/http';
 import { showToast } from '@utils/toast';
 
-export default async function uploadingUserDataHandle() {
+export default async function createBoard(token, title) {
   try {
-    const response = await api.post('/user', {
-      headers: {
-        'Content-Type': 'application/json',
+    console.log(title);
+    const response = await api.post(
+      '/todo/createBoard',
+      { title: title },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
-    console.log('ogo',response);
-    if (response.status === 200) {
+    );
+    if (response.status === 200 || response.status === 201) {
       showToast(response.data.message, 'success');
-      return true;
+      console.log(response.data);
+      return response.data;
     } else {
       showToast('Что-то пошло не так', 'error');
       return false;
@@ -22,10 +28,12 @@ export default async function uploadingUserDataHandle() {
 
       if (error.response.status === 401) {
         showToast(error.response.data.error, 'error');
+        console.log(`${error}`);
       } else if (error.response.status === 500) {
         showToast(`Ошибка: ${error.response.data.error}`, 'error');
       }
     } else {
+      console.log(`${error.response.data.error}`);
       showToast('Ошибка сети или сервера. Попробуйте позже.', 'error');
     }
     return false;

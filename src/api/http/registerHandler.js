@@ -1,4 +1,4 @@
-import api from '@api/api';
+import api from '@api/http/http';
 import { showToast } from '@utils/toast';
 
 export default async function registerHandler(values) {

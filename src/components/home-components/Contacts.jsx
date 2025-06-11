@@ -35,7 +35,7 @@ export default function Contacts() {
       </motion.p>
 
       <motion.ul
-        className="space-y-3 underline grid grid-cols-2"
+        className="space-y-3 underline sm:grid grid-cols-2"
         initial={{ opacity: 0, transform: 'translateY(30px)' }}
         whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         transition={{ delay: 0.3, duration: 0.5 }}
@@ -67,7 +67,7 @@ export default function Contacts() {
         Если же у вас специфичный вопрос — заполните форму:
       </p>
       <motion.form
-        className="p-8 bg-[#111111] rounded-2xl space-y-4"
+        className="p-4 sm:p-8 bg-[#111111] rounded-2xl space-y-4"
         initial={{ opacity: 0, transform: 'translateY(30px)' }}
         whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         transition={{ delay: 0.3, duration: 0.5 }}

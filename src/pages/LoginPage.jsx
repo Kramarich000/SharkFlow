@@ -1,8 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { loginSchema } from '@validators/loginSchema';
 import AnimatedError from '@components/main-components/AnimatedError';
-import loginHandler from '@api/loginHandler';
-import uploadingUserDataHandle from '@api/uploadingUserDataHandle';
+import loginHandler from '@api/http/loginHandler';
+import uploadingUserDataHandle from '@api/http/uploadingUserDataHandle';
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';

@@ -6,7 +6,7 @@ export default function About() {
     <section className="flex text-[#111111] flex-col  items-center justify-center py-12 mx-auto">
       <h2 className="text-2xl sm:text-3xl mb-8">О нас</h2>
       <div className="w-full">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid sm:grid-cols-2 gap-4">
           {team.map((item) => (
             <motion.div
               initial={{ opacity: 0, transform: 'translateY(75px) ' }}

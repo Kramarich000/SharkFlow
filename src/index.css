@@ -14,6 +14,7 @@
 html,
 body {
   height: 100%;
+
 }
 
 a {
@@ -139,7 +140,7 @@ scrollbar-track {
   border-radius: 0.5rem;
 }
 
-
+/* 
 .Toastify__toast {
   margin-top: 75px;
-}
+} */

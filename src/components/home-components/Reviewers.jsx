@@ -10,7 +10,7 @@ export default function ReviewCard({ avatar, name, joined, rating, comment }) {
     ));
 
   return (
-    <div className="h-full min-h-[300px] p-4 text-white">
+    <div className="h-full min-h-[375px] p-4 text-white">
       <div className="relative w-full h-full text-center">
         <img
           src={avatar}

@@ -1,9 +1,7 @@
 import { toast, Slide } from 'react-toastify';
 
-let currentToastId = null;
-
 export const showToast = (message, type = 'success') => {
-  const options = {
+  toast(message, {
     type,
     autoClose: 3500,
     hideProgressBar: false,
@@ -14,14 +12,5 @@ export const showToast = (message, type = 'success') => {
     closeButton: false,
     pauseOnFocusLoss: false,
     transition: Slide,
-  };
-
-  if (currentToastId && toast.isActive(currentToastId)) {
-    toast.update(currentToastId, {
-      render: message,
-      ...options,
-    });
-  } else {
-    currentToastId = toast(message, options);
-  }
+  });
 };

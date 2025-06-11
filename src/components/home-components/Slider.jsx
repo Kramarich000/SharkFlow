@@ -22,6 +22,7 @@ export default function Slider() {
         <Swiper
           scrollbar={{ hide: false }}
           autoplay={{ delay: 5000 }}
+          loop={true}
           spaceBetween={20}
           modules={[Scrollbar, Autoplay]}
           slidesPerView={1}

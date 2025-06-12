@@ -1,8 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { registerSchema } from '@validators/registerSchema';
 import AnimatedError from '@components/main-components/AnimatedError';
-import registerHandler from '@api/http/registerHandler';
-import confirmCodeHandler from '@api/http/confirmCodeHandler';
+import registerHandler from '@api/http/register/registerHandler';
+import confirmCodeHandler from '@api/http/user/confirmCodeHandler';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IoIosCheckmarkCircle } from 'react-icons/io';

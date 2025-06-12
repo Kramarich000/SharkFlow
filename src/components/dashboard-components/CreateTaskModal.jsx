@@ -43,9 +43,7 @@ export default function CreateTaskModal() {
               as={Fragment}
               enter="ease-out duration-300"
               enterFrom="translate-y-full"
-              enterTo="translate-y-1"
               leave="ease-in duration-200"
-              leaveFrom="translate-y-1"
               leaveTo="translate-y-full"
             >
               <DialogPanel className="w-full border-2 max-w-6xl h-[50vh] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">

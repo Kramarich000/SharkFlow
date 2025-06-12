@@ -1,6 +1,8 @@
 import { create } from 'zustand';
-import api from '@api/http/http';
-import { showToast } from '@utils/toast';
+import { getBoards } from '@api/http/boards/getBoards';
+import { createBoard } from '@api/http/boards/createBoard';
+import { updateBoard } from '@api/http/boards/updateBoard';
+import { deleteBoard } from '@api/http/boards/deleteBoard';
 
 const useBoardStore = create((set, get) => ({
   boards: [],
@@ -8,7 +10,8 @@ const useBoardStore = create((set, get) => ({
   isLoaded: false,
   isOpen: false,
   isCreateBoardModalOpen: false,
-  isEditingTitle: false,
+  isDeleteBoardModalOpen: false,
+  isEditing: false,
   title: '',
   color: '#000',
   newTitle: '',
@@ -19,107 +22,90 @@ const useBoardStore = create((set, get) => ({
   setIsOpen: (isOpen) => set({ isOpen }),
   setIsCreateBoardModalOpen: (isOpen) =>
     set({ isCreateBoardModalOpen: isOpen }),
-  setIsEditingTitle: (isEditingTitle) => set({ isEditingTitle }),
+  setIsDeleteBoardModalOpen: (isOpen) =>
+    set({ isDeleteBoardModalOpen: isOpen }),
+  setisEditing: (isEditing) => set({ isEditing }),
   setTitle: (title) => set({ title }),
   setColor: (color) => set({ color }),
   setNewTitle: (newTitle) => set({ newTitle }),
   setNewColor: (newColor) => set({ newColor }),
 
-  fetchBoards: async (token) => {
-    try {
-      const response = await api.get('/todo/boards', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (response.status === 200) {
-        set({ boards: response.data.boards, isLoaded: true });
-      }
-    } catch (error) {
-      console.error('Ошибка при загрузке досок', error);
-      showToast('Ошибка при загрузке досок', 'error');
+  getBoards: async (token) => {
+    const boards = await getBoards(token);
+    if (boards) {
+      set({ boards, isLoaded: true });
     }
   },
 
   createBoard: async (token) => {
     const { title, color } = get();
-
-    if (!title.trim()) {
-      showToast('Название не может быть пустым', 'error');
-      return false;
-    }
-    if (!color.trim()) {
-      showToast('Выберите цвет!', 'error');
-      return false;
-    }
-
-    try {
-      const response = await api.post(
-        '/todo/createBoard',
-        { title, color },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
-
-      if (response.data && response.data.title && response.data.color) {
-        set((state) => ({
-          boards: [...state.boards, response.data],
-          title: '',
-          color: '#000000',
-          isCreateBoardModalOpen: false,
-        }));
-        showToast('Доска успешно создана', 'success');
-        get().handleBoardSelect(response.data);
-        return true;
-      }
-    } catch (error) {
-      console.error('Ошибка при создании доски:', error);
-      showToast('Серверная ошибка', 'error');
+    const newBoard = await createBoard(token, { title, color });
+    if (newBoard) {
+      set((state) => ({
+        boards: [...state.boards, newBoard],
+        title: '',
+        color: '#000000',
+        isCreateBoardModalOpen: false,
+      }));
+      get().handleBoardSelect(newBoard);
+      return true;
     }
     return false;
   },
+
   updateBoard: async (token) => {
     const { selectedBoard, newTitle, newColor } = get();
+    const hasTitleChanged = selectedBoard?.title !== newTitle;
+    const hasColorChanged = selectedBoard?.color !== newColor;
+
+    if (!hasTitleChanged && !hasColorChanged) {
+      set({ isEditing: false });
+      return false;
+    }
+
+    const updatedData = await updateBoard(token, selectedBoard?.uuid, {
+      title: newTitle,
+      color: newColor,
+    });
+
+    if (updatedData) {
+      const updatedBoard = { ...selectedBoard, ...updatedData };
+      set((state) => ({
+        boards: state.boards.map((b) =>
+          b.uuid === updatedBoard.uuid ? updatedBoard : b,
+        ),
+        selectedBoard: updatedBoard,
+        newTitle: updatedBoard.title,
+        newColor: updatedBoard.color,
+        isEditing: false,
+      }));
+      return true;
+    } else {
+      set({ isEditing: false });
+      return false;
+    }
+  },
+
+  deleteBoard: async (token) => {
+    const { selectedBoard } = get();
     if (!selectedBoard?.uuid) {
-      showToast('Ошибка: доска не выбрана', 'error');
-      return false;
-    }
-    if (!newTitle.trim()) {
-      showToast('Название доски не может быть пустым!', 'error');
       return false;
     }
 
-    try {
-      const response = await api.put(
-        `/todo/editBoard/${selectedBoard.uuid}`,
-        { title: newTitle.trim(), color: newColor.trim() },
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
-
-      if (response.status === 200 && response.data?.data) {
-        const { title, color } = response.data.data;
-        const updatedBoard = {
-          ...selectedBoard,
-          title,
-          color,
+    const deleted = await deleteBoard(token, selectedBoard.uuid);
+    if (deleted) {
+      set((state) => {
+        const updatedBoards = state.boards.filter(
+          (board) => board.uuid !== selectedBoard.uuid,
+        );
+        return {
+          boards: updatedBoards,
+          isDeleteBoardModalOpen: false,
+          selectedBoard: null, //
+          isOpen: false, 
         };
-
-        showToast('Доска успешно обновлена', 'success');
-
-        set((state) => ({
-          boards: state.boards.map((b) =>
-            b.uuid === updatedBoard.uuid ? updatedBoard : b,
-          ),
-          selectedBoard: updatedBoard,
-          newTitle: title,
-          newColor: color,
-          isEditingTitle: false,
-        }));
-        return true;
-      }
-    } catch (error) {
-      console.error('Ошибка при обновлении доски:', error);
-      showToast('Ошибка при обновлении доски', 'error');
-      set({ isEditingTitle: false });
+      });
+      return true;
     }
     return false;
   },
@@ -130,7 +116,7 @@ const useBoardStore = create((set, get) => ({
       newTitle: board.title,
       newColor: board.color,
       isOpen: true,
-      isEditingTitle: false,
+      isEditing: false,
     });
   },
 
@@ -141,7 +127,8 @@ const useBoardStore = create((set, get) => ({
       isLoaded: false,
       isOpen: false,
       isCreateBoardModalOpen: false,
-      isEditingTitle: false,
+      isDeleteBoardModalOpen: false,
+      isEditing: false,
       title: '',
       color: '#808080',
       newTitle: '',

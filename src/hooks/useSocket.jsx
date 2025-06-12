@@ -19,8 +19,8 @@ export function useSocket(accessToken) {
 
     setupSocketListeners(socket, {
       onConnect: () => showToast('Соединение установлено!', 'info'),
-      onError: () =>
-        showToast('Ошибка при попытке установить соединение!', 'error'),
+      // onError: () =>
+      //   showToast('Ошибка при попытке установить соединение!', 'error'),
       onNotify: (data) => setNotify(data.message),
       onDisconnect: () => showToast('Соединение разорвано', 'warning'),
     });

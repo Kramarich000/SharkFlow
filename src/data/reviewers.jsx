@@ -1,8 +1,8 @@
-import firstReviewer from '../assets/images/reviewers/1.jpg';
-import secondReviewer from '../assets/images/reviewers/2.jpg';
-import thirdReviewer from '../assets/images/reviewers/3.jpg';
-import fourthReviewer from '../assets/images/reviewers/4.jpg';
-import fifthReviewer from '../assets/images/reviewers/5.jpg';
+import firstReviewer from '@assets/images/reviewers/1.jpg';
+import secondReviewer from '@assets/images/reviewers/2.jpg';
+import thirdReviewer from '@assets/images/reviewers/3.jpg';
+import fourthReviewer from '@assets/images/reviewers/4.jpg';
+import fifthReviewer from '@assets/images/reviewers/5.jpg';
 const reviews = [
   {
     id: 1,

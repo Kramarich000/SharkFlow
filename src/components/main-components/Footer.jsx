@@ -8,7 +8,7 @@ export default function Footer() {
   const navLinks = token
     ? [
         { path: '/', label: 'Главная' },
-        { path: '/dashboard', label: 'Мои задачи' },
+        { path: '/dashboard', label: 'Мои доски' },
         { path: '/settings', label: 'Настройки' },
       ]
     : [

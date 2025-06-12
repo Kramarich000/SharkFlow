@@ -1,7 +1,7 @@
-import firstDeveloper from '../assets/images/reviewers/1.jpg';
-import secondDeveloper from '../assets/images/reviewers/2.jpg';
-import thirdDeveloper from '../assets/images/reviewers/3.jpg';
-import fourthDeveloper from '../assets/images/reviewers/4.jpg';
+import firstDeveloper from '@assets/images/reviewers/1.jpg';
+import secondDeveloper from '@assets/images/reviewers/2.jpg';
+import thirdDeveloper from '@assets/images/reviewers/3.jpg';
+import fourthDeveloper from '@assets/images/reviewers/4.jpg';
 
 const team = [
   {

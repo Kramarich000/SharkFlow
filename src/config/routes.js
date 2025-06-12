@@ -1,22 +1,22 @@
 import { lazy } from 'react';
 
-const RegisterPage = lazy(() => import('../pages/RegisterPage'));
+const RegisterPage = lazy(() => import('@pages/RegisterPage'));
 
-const LoginPage = lazy(() => import('../pages/LoginPage'));
+const LoginPage = lazy(() => import('@pages/LoginPage'));
 
-const DashboardPage = lazy(() => import('../pages/DashboardPage'));
+const DashboardPage = lazy(() => import('@pages/DashboardPage'));
 
-const SettingsPage = lazy(() => import('../pages/SettingsPage'));
+const SettingsPage = lazy(() => import('@pages/SettingsPage'));
 
-const TaskListPage = lazy(() => import('../pages/TaskListPage'));
+const TaskListPage = lazy(() => import('@pages/TaskListPage'));
 
-const HomePage = lazy(() => import('../pages/HomePage'));
+const HomePage = lazy(() => import('@pages/HomePage'));
 
-const TermsPage = lazy(() => import('../pages/TermsPage'));
+const TermsPage = lazy(() => import('@pages/TermsPage'));
 
-const PrivacyPage = lazy(() => import('../pages/PrivacyPage'));
+const PrivacyPage = lazy(() => import('@pages/PrivacyPage'));
 
-const Error404 = lazy(() => import('../pages/errors/Error404'));
+const Error404 = lazy(() => import('@pages/errors/Error404'));
 
 const baseUrl =
   process.env.NODE_ENV === 'production'
@@ -46,7 +46,7 @@ const routes = [
   {
     path: '/dashboard',
     component: DashboardPage,
-    title: 'Мои задачи',
+    title: 'Мои доски',
     description: 'Регистрация',
     url: `${baseUrl}/dashboard`,
     private: true,

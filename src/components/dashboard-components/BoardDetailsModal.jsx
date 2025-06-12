@@ -6,9 +6,10 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
-import { FaPencilAlt, FaPlus } from 'react-icons/fa';
-import { IoCloseOutline, IoClose, IoCheckmark } from 'react-icons/io5';
+import { FaPlus, FaTrash } from 'react-icons/fa';
+import { IoCloseOutline, IoCheckmark } from 'react-icons/io5';
 import { ColorSelector } from '@components/dashboard-components/ColorSelector';
+import { IoMdSettings } from 'react-icons/io';
 import useBoardStore from '@store/boardStore';
 import useTaskStore from '@store/taskStore';
 import { useAuthStore } from '@store/authStore';
@@ -18,20 +19,24 @@ export default function BoardDetailsModal() {
   const {
     selectedBoard,
     isOpen,
-    isEditingTitle,
+    isEditing,
     newTitle,
     newColor,
     setNewTitle,
     setNewColor,
     setIsOpen,
-    setIsEditingTitle,
+    setisEditing,
     updateBoard,
+    setIsDeleteBoardModalOpen,
   } = useBoardStore();
 
   const { setIsCreateTaskModalOpen } = useTaskStore();
 
   const saveUpdateBoard = () => {
     updateBoard(token);
+  };
+  const saveDeleteBoard = () => {
+    setIsDeleteBoardModalOpen(true);
   };
 
   return (
@@ -49,19 +54,28 @@ export default function BoardDetailsModal() {
               as={Fragment}
               enter="ease-out duration-300"
               enterFrom="translate-y-full"
-              enterTo="translate-y-1"
               leave="ease-in duration-200"
-              leaveFrom="translate-y-1"
               leaveTo="translate-y-full"
             >
               <DialogPanel
-                className="w-full max-w-6xl h-[80vh] !border-4 bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all"
+                className="w-full max-w-6xl h-[90vh] border-4 border-b-0 bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all"
                 style={{ borderColor: `#${selectedBoard?.color}` }}
               >
-                {' '}
-                <div className="relative flex items-center justify-center px-[40px]">
-                  {isEditingTitle ? (
+                <div
+                  className="relative flex items-center justify-center gap-2 px-[80px]"
+                  // onKeyDown={(e) => {
+                  //   if (e.key === 'Enter') saveUpdateBoard();
+                  //   if (e.key === 'Escape') setisEditing(false);
+                  // }}
+                >
+                  {isEditing ? (
                     <>
+                      <button className="!p-2 group" onClick={saveDeleteBoard}>
+                        <FaTrash
+                          size={40}
+                          className="group-hover:text-red-500 transition-colors"
+                        />
+                      </button>
                       <ColorSelector
                         wrapperClassName="absolute z-50"
                         pickerClassName="top-[50px]"
@@ -73,40 +87,39 @@ export default function BoardDetailsModal() {
                         onChange={(e) => setNewTitle(e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') saveUpdateBoard();
-                          if (e.key === 'Escape') setIsEditingTitle(false);
+                          if (e.key === 'Escape') setisEditing(false);
                         }}
                         autoFocus
-                        className="text-center text-4xl border-b-2 border-[#111111] focus:outline-none w-full"
+                        className="text-center max-w-xl text-4xl border-b-2 border-[#111111] focus:outline-none w-full"
                       />
-
                       <button
-                        className="!p-2"
+                        className="!p-1.5"
                         onClick={saveUpdateBoard}
                         title="Сохранить"
                       >
-                        <IoCheckmark size={32} />
+                        <IoCheckmark size={40} />
                       </button>
-                      <button
+                      {/* <button
                         className="!p-2"
-                        onClick={() => setIsEditingTitle(false)}
+                        onClick={() => setisEditing(false)}
                         title="Отмена"
                       >
-                        <IoCloseOutline size={32} />
-                      </button>
+                        <IoCloseOutline size={40} />
+                      </button> */}
                     </>
                   ) : (
                     <>
                       <DialogTitle
-                        onClick={() => setIsEditingTitle(true)}
-                        className="text-center text-4xl whitespace-nowrap overflow-x-auto overflow-y-hidden border-b-2 border-transparent"
+                        onClick={() => setisEditing(true)}
+                        className="text-center max-w-xl text-4xl whitespace-nowrap overflow-x-hidden overflow-y-hidden overflow-ellipsis border-b-2 border-transparent"
                       >
                         {selectedBoard?.title}
                       </DialogTitle>
                       <button
-                        onClick={() => setIsEditingTitle(true)}
+                        onClick={() => setisEditing(true)}
                         title="Редактировать"
                       >
-                        <FaPencilAlt size={25} />
+                        <IoMdSettings size={40} />
                       </button>
                     </>
                   )}
@@ -157,7 +170,7 @@ export default function BoardDetailsModal() {
                     className="bg-white hover:bg-[#e6e5e5] !transition-colors rounded-3xl relative col-span-2"
                     onClick={() => setIsCreateTaskModalOpen(true)}
                   >
-                    <FaPlus size={30} color="rgba(0,0,0,.3)" />
+                    <FaPlus size={40} color="rgba(0,0,0,.3)" />
                   </button>
                 </div>
                 <button
@@ -165,7 +178,7 @@ export default function BoardDetailsModal() {
                   className="inline-flex !transition-transform absolute right-0 justify-center px-4 py-2 text-sm top-[5px]"
                   onClick={() => setIsOpen(false)}
                 >
-                  <IoClose size={40} />
+                  <IoCloseOutline size={40} />
                 </button>
               </DialogPanel>
             </TransitionChild>

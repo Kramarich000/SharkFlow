@@ -41,33 +41,29 @@ export default function CreateBoardModal() {
               as={Fragment}
               enter="ease-out duration-300"
               enterFrom="translate-y-full"
-              enterTo="translate-y-1"
               leave="ease-in duration-200"
-              leaveFrom="translate-y-1"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-6xl h-[50vh] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="w-full border-2 max-w-6xl h-[30vh] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
                 <div className="flex items-center justify-between">
-                  <div className="">
-                    <input
-                      autoFocus
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleCreateBoard();
-                      }}
-                      className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
-                      placeholder="Введите название доски"
-                    />
-                    <ColorSelector
-                      wrapperClassName="relative"
-                      pickerClassName="top-[-50px] left-75"
-                      color={color}
-                      setColor={setColor}
-                    />
-                  </div>
+                  <input
+                    autoFocus
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleCreateBoard();
+                    }}
+                    className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
+                    placeholder="Введите название доски"
+                  />
+                  <ColorSelector
+                    wrapperClassName="relative"
+                    pickerClassName="top-[-22px] left-[-270px]"
+                    color={color}
+                    setColor={setColor}
+                  />
                   <button
-                    className="!p-2 mr-20"
+                    className="!p-2 mx-20"
                     onClick={handleCreateBoard}
                     title="Сохранить"
                   >

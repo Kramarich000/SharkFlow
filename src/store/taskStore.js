@@ -17,7 +17,6 @@ const useTaskStore = create((set, get) => ({
     })),
   setIsCreateTaskModalOpen: (isOpen) => set({ isCreateTaskModalOpen: isOpen }),
 
-  // Actions
   createTask: async (token, boardId) => {
     const { taskState } = get();
 
@@ -31,7 +30,7 @@ const useTaskStore = create((set, get) => ({
         `/todo/createTask/${boardId}`,
         taskState,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          // headers: { Authorization: `Bearer ${token}` },
         },
       );
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useAuthStore } from '@store/authStore';
 import useBoardStore from '@store/boardStore';
@@ -27,20 +27,28 @@ export default function DashboardPage() {
     }
   }, [token, getBoards]);
 
-  const filteredBoards = boards.filter((board) =>
-    board.title.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredBoards = useMemo(() => {
+    return boards.filter((board) =>
+      board.title.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+  }, [boards, searchTerm]);
 
-  const totalPages = Math.ceil(filteredBoards.length / pageSize);
+  const totalPages = Math.ceil(filteredBoards.length / pageSize) || 1;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [totalPages, currentPage]);
 
   const currentBoards = filteredBoards.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize,
   );
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm]);
 
   return (
     <div className="flex flex-col h-full">
@@ -53,14 +61,14 @@ export default function DashboardPage() {
           required
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="peer w-full p-2 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[0px] focus:rounded-[8px] transition-all"
+          className="peer w-full p-2 placeholder:!text-gray-900 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[0px] focus:rounded-[8px] transition-all"
         />
         <label
           htmlFor="search"
-          className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-500 transition-all duration-200
-                              peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
-                              peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-[#c7c7c7] px-1
-                              peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
+          className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2  transition-all duration-200
+                      peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
+                      peer-focus:top-0 peer-focus:text-sm bg-[#c7c7c7] px-1
+                      peer-valid:top-0 peer-valid:text-sm"
         >
           Поиск досок...
         </label>
@@ -71,7 +79,7 @@ export default function DashboardPage() {
         >
           <p className="flex justify-between items-center text-left">
             Создать
-            <FaPlus size={25} color="rgba(0,0,0,.3)" />
+            <FaPlus size={25} color="rgba(0,0,0,.5)" />
           </p>
         </button>
       </div>
@@ -149,6 +157,7 @@ export default function DashboardPage() {
         <span>
           Страница {currentPage} из {totalPages}
         </span>
+
         <button
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}

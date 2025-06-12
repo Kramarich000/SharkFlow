@@ -20,8 +20,12 @@ const Error404 = lazy(() => import('../pages/errors/Error404'));
 
 const baseUrl =
   process.env.NODE_ENV === 'production'
-    ? 'https://taskflow-blyt.onrender.com'
+    ? 'http://localhost:4173'
     : 'http://localhost:5173';
+// const baseUrl =
+//   process.env.NODE_ENV === 'production'
+//     ? 'https://taskflow-blyt.onrender.com'
+//     : 'http://localhost:5173';
 
 const routes = [
   {

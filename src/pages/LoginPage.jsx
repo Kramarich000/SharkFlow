@@ -126,7 +126,7 @@ export default function LoginPage() {
                     </div>
 
                     <button className="primary-btn sm:col-span-2" type="submit">
-                      Зарегистрироваться
+                      Войти
                     </button>
                     <Link className="text-blue-600" to="/register">
                       Нет аккаунта?

@@ -2,7 +2,6 @@ import { lazy, Suspense } from 'react';
 
 import Hero from '@components/home-components/Hero';
 import Loader from '@components/main-components/Loader';
-import BackToTop from '@components/main-components/BackToTop';
 
 const HowItWorks = lazy(() => import('@components/home-components/HowItWorks'));
 const Features = lazy(() => import('@components/home-components/Features'));
@@ -18,7 +17,6 @@ const Separator = lazy(() => import('@components/main-components/Separator'));
 export default function HomePage() {
   return (
     <>
-      <BackToTop />
       <Hero />
 
       <Suspense fallback={<Loader />}>

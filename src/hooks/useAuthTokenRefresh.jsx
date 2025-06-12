@@ -30,38 +30,38 @@ export function useAuthTokenRefresh() {
     refreshToken();
   }, [setAccessToken]);
 
-  useEffect(() => {
-    if (!accessToken) {
-      setIsAuthLoading(false);
-      return;
-    }
+  // useEffect(() => {
+  //   if (!accessToken) {
+  //     setIsAuthLoading(false);
+  //     return;
+  //   }
 
-    const refreshToken = async () => {
-      try {
-        const response = await api.post('/refresh');
-        const newAccessToken = response.data.accessToken;
-        setAccessToken(newAccessToken);
-        api.defaults.headers.common['Authorization'] =
-          `Bearer ${newAccessToken}`;
-        console.log('[REFRESH] Token обновлён по таймеру');
-      } catch (err) {
-        console.warn('[REFRESH] Ошибка автообновления токена:', err);
-        setAccessToken(null);
-      } finally {
-        setIsAuthLoading((prev) => {
-          if (prev) return false;
-          return prev;
-        });
-      }
-    };
+  //   const refreshToken = async () => {
+  //     try {
+  //       const response = await api.post('/refresh');
+  //       const newAccessToken = response.data.accessToken;
+  //       setAccessToken(newAccessToken);
+  //       api.defaults.headers.common['Authorization'] =
+  //         `Bearer ${newAccessToken}`;
+  //       console.log('[REFRESH] Token обновлён по таймеру');
+  //     } catch (err) {
+  //       console.warn('[REFRESH] Ошибка автообновления токена:', err);
+  //       setAccessToken(null);
+  //     } finally {
+  //       setIsAuthLoading((prev) => {
+  //         if (prev) return false;
+  //         return prev;
+  //       });
+  //     }
+  //   };
 
-    const jitter = Math.floor(Math.random() * 120_000);
-    const refreshInterval = 14 * 60 * 1000 + jitter;
+  //   const jitter = Math.floor(Math.random() * 120_000);
+  //   const refreshInterval = 14 * 60 * 1000 + jitter;
 
-    const intervalId = setInterval(refreshToken, refreshInterval);
+  //   const intervalId = setInterval(refreshToken, refreshInterval);
 
-    return () => clearInterval(intervalId);
-  }, [accessToken, setAccessToken]);
+  //   return () => clearInterval(intervalId);
+  // }, [accessToken, setAccessToken]);
 
   return { isAuthLoading };
 }

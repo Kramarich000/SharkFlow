@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useAuthStore } from '@store/authStore';
 import useBoardStore from '@store/boardStore';
@@ -9,17 +9,17 @@ import DeleteBoardModal from '@components/dashboard-components/DeleteBoardModal'
 import { GrPowerCycle } from 'react-icons/gr';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { FaEye } from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa';
 
 export default function DashboardPage() {
   const token = useAuthStore((state) => state.accessToken);
 
-  const {
-    boards,
-    handleBoardSelect,
-    getBoards,
-    setIsCreateBoardModalOpen,
-    isDeleteBoardModalOpen,
-  } = useBoardStore();
+  const { boards, handleBoardSelect, getBoards, setIsCreateBoardModalOpen } =
+    useBoardStore();
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
   useEffect(() => {
     if (token) {
@@ -27,11 +27,47 @@ export default function DashboardPage() {
     }
   }, [token, getBoards]);
 
+  const filteredBoards = boards.filter((board) =>
+    board.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  const totalPages = Math.ceil(filteredBoards.length / pageSize);
+
+  const currentBoards = filteredBoards.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize,
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
   return (
-    <div>
-      <h2 className="mb-4 text-3xl font-semibold">Мои доски</h2>
-      <div className="max-w-full mx-auto max-h-150 overflow-auto grid sm:grid-cols-2 gap-4 flex-wrap">
-        {boards.map((board) => (
+    <div className="flex flex-col h-full">
+      <h2 className="mb-2 text-3xl font-semibold">Мои доски</h2>
+      <div className="relative mb-4">
+        <input
+          type="text"
+          name="search"
+          placeholder=" "
+          required
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="peer w-full p-2 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[0px] focus:rounded-[8px] transition-all"
+        />
+        <label
+          htmlFor="search"
+          className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-500 transition-all duration-200
+                              peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
+                              peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-[#c7c7c7] px-1
+                              peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
+        >
+          Поиск досок...
+        </label>
+      </div>
+
+      <div className="w-full mx-auto grid sm:grid-cols-2 gap-4 flex-wrap mb-4">
+        {currentBoards.map((board) => (
           <div
             key={`${board.uuid}-${board.createdAt}`}
             className="relative overflow-auto !border-0 !border-b-8 max-h-[269px] bg-white !transition-all box-content duration-200 p-4 min-w-[300px]"
@@ -103,7 +139,25 @@ export default function DashboardPage() {
           />
         </button>
       </div>
-
+      <div className="flex justify-center items-center gap-4 mt-auto">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+        >
+          <FaArrowLeft />
+        </button>
+        <span>
+          Страница {currentPage} из {totalPages}
+        </span>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+        >
+          <FaArrowLeft className="rotate-180" />
+        </button>
+      </div>
       <CreateBoardModal />
       <CreateTaskModal />
       <BoardDetailsModal />

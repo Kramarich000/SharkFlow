@@ -13,6 +13,7 @@ import Footer from './components/main-components/Footer';
 import { useAuthTokenRefresh } from '@hooks/useAuthTokenRefresh';
 import { useSocket } from '@hooks/useSocket';
 import { useAuthStore } from '@store/authStore';
+import BackToTop from '@components/main-components/BackToTop';
 
 function App() {
   const blockedPublicPaths = ['/login', '/register'];
@@ -68,6 +69,7 @@ function App() {
               />
             ))}
           </Routes>
+          <BackToTop />
         </main>
         <Footer />
       </Suspense>

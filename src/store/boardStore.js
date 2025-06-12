@@ -101,7 +101,7 @@ const useBoardStore = create((set, get) => ({
         return {
           boards: updatedBoards,
           isDeleteBoardModalOpen: false,
-          selectedBoard: null, //
+          selectedBoard: null, 
           isOpen: false, 
         };
       });

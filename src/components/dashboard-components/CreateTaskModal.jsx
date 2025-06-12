@@ -7,24 +7,35 @@ import {
 } from '@headlessui/react';
 import { FaCheck } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
-import Flatpickr from 'react-flatpickr';
-import 'flatpickr/dist/themes/dark.css';
-import { Russian } from 'flatpickr/dist/l10n/ru.js';
+import useTaskStore from '@store/taskStore';
+import useBoardStore from '@store/boardStore';
+import { useAuthStore } from '@store/authStore';
 
-export default function CreateTaskModal({
-  isOpen,
-  onClose,
-  taskTitle,
-  setTaskTitle,
-  taskDescription,
-  setTaskDescription,
-  taskDeadline,
-  setTaskDeadline,
-  handleCreateTask,
-}) {
+export default function CreateTaskModal() {
+  const token = useAuthStore((state) => state.accessToken);
+  const { selectedBoard } = useBoardStore();
+  const {
+    taskState,
+    setTaskState,
+    isCreateTaskModalOpen,
+    setIsCreateTaskModalOpen,
+    createTask,
+  } = useTaskStore();
+
+  const handleCreateTask = async () => {
+    const newTask = await createTask(token, selectedBoard.uuid);
+    if (newTask) {
+      setIsCreateTaskModalOpen(false);
+    }
+  };
+
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+    <Transition appear show={isCreateTaskModalOpen} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-50"
+        onClose={() => setIsCreateTaskModalOpen(false)}
+      >
         <div className="fixed inset-0 bg-transparent bg-opacity-25" />
         <div className="fixed inset-0">
           <div className="flex min-h-full items-end justify-center p-4 pb-0">
@@ -37,37 +48,39 @@ export default function CreateTaskModal({
               leaveFrom="translate-y-1"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-6xl transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
-                <div className="flex flex-col gap-4 p-4">
-                  <input
-                    autoFocus
-                    value={taskTitle}
-                    onChange={(e) => setTaskTitle(e.target.value)}
-                    className="focus-within:outline-0 w-full focus:outline-0 text-2xl"
-                    placeholder="Введите название задачи"
-                  />
-                  <Flatpickr
-                    placeholder="Выберите дедлайн"
-                    value={taskDeadline}
-                    onChange={([date]) => setTaskDeadline(date.toISOString())}
-                    options={{
-                      enableTime: true,
-                      dateFormat: 'd.m.Y H:i',
-                      time_24hr: true,
-                      locale: Russian,
-                      minDate: new Date(),
-                    }}
-                    className="w-full pr-5 text-xl focus:outline-none"
-                  />
-                  <textarea
-                    value={taskDescription}
-                    onChange={(e) => setTaskDescription(e.target.value)}
-                    className="focus-within:outline-0 w-full focus:outline-0 text-xl resize-none"
-                    placeholder="Введите описание задачи"
-                    rows={4}
-                  />
+              <DialogPanel className="w-full border-2 max-w-6xl h-[50vh] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+                <div className="flex items-center justify-between">
+                  <div className="w-full">
+                    <input
+                      autoFocus
+                      value={taskState.title}
+                      onChange={(e) => setTaskState({ title: e.target.value })}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleCreateTask();
+                      }}
+                      className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
+                      placeholder="Введите название задачи"
+                    />
+                    <textarea
+                      value={taskState.description}
+                      onChange={(e) =>
+                        setTaskState({ description: e.target.value })
+                      }
+                      className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-lg mt-4 resize-none"
+                      placeholder="Введите описание задачи"
+                      rows={4}
+                    />
+                    <input
+                      type="datetime-local"
+                      value={taskState.deadline}
+                      onChange={(e) =>
+                        setTaskState({ deadline: e.target.value })
+                      }
+                      className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-lg mt-4"
+                    />
+                  </div>
                   <button
-                    className="!p-2 self-end"
+                    className="!p-2 mr-20"
                     onClick={handleCreateTask}
                     title="Сохранить"
                   >
@@ -78,7 +91,7 @@ export default function CreateTaskModal({
                   <button
                     type="button"
                     className="inline-flex !transition-transform absolute top-0 right-0 justify-center px-4 py-2 text-sm"
-                    onClick={onClose}
+                    onClick={() => setIsCreateTaskModalOpen(false)}
                   >
                     <IoClose size={40} />
                   </button>

@@ -9,24 +9,38 @@ import {
 import { FaPencilAlt, FaPlus } from 'react-icons/fa';
 import { IoCloseOutline, IoClose, IoCheckmark } from 'react-icons/io5';
 import { ColorSelector } from '@components/dashboard-components/ColorSelector';
-export default function BoardDetailsModal({
-  isOpen,
-  onClose,
-  selectedBoard,
-  isEditingTitle,
-  newTitle,
-  newColor,
-  setNewTitle,
-  setNewColor,
-  saveUpdateBoard,
-  editBoard,
-  tasks,
-  openCreateTaskModal,
-  setIsEditingTitle,
-}) {
+import useBoardStore from '@store/boardStore';
+import useTaskStore from '@store/taskStore';
+import { useAuthStore } from '@store/authStore';
+
+export default function BoardDetailsModal() {
+  const token = useAuthStore((state) => state.accessToken);
+  const {
+    selectedBoard,
+    isOpen,
+    isEditingTitle,
+    newTitle,
+    newColor,
+    setNewTitle,
+    setNewColor,
+    setIsOpen,
+    setIsEditingTitle,
+    updateBoard,
+  } = useBoardStore();
+
+  const { setIsCreateTaskModalOpen } = useTaskStore();
+
+  const saveUpdateBoard = () => {
+    updateBoard(token);
+  };
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+      <Dialog
+        as="div"
+        className="relative z-50"
+        onClose={() => setIsOpen(false)}
+      >
         <div className="fixed inset-0 bg-transparent bg-opacity-25" />
 
         <div className="fixed inset-0">
@@ -83,20 +97,23 @@ export default function BoardDetailsModal({
                   ) : (
                     <>
                       <DialogTitle
-                        onClick={editBoard}
+                        onClick={() => setIsEditingTitle(true)}
                         className="text-center text-4xl whitespace-nowrap overflow-x-auto overflow-y-hidden border-b-2 border-transparent"
                       >
-                        <h2>{selectedBoard?.title}</h2>
+                        {selectedBoard?.title}
                       </DialogTitle>
-                      <button onClick={editBoard} title="Редактировать">
+                      <button
+                        onClick={() => setIsEditingTitle(true)}
+                        title="Редактировать"
+                      >
                         <FaPencilAlt size={25} />
                       </button>
                     </>
                   )}
                 </div>
                 <div className="mt-4 pb-20 text-center grid justify-items-center max-h-full grid-cols-2 gap-[40px] overflow-y-auto">
-                  {tasks?.length ? (
-                    tasks.map((task) => (
+                  {selectedBoard?.tasks?.length ? (
+                    selectedBoard.tasks.map((task) => (
                       <div
                         key={task.uuid}
                         className="border-2 relative w-full rounded-3xl py-2 flex flex-col gap-2 px-6"
@@ -138,7 +155,7 @@ export default function BoardDetailsModal({
                   <button
                     key="create-task"
                     className="bg-white hover:bg-[#e6e5e5] !transition-colors rounded-3xl relative col-span-2"
-                    onClick={openCreateTaskModal}
+                    onClick={() => setIsCreateTaskModalOpen(true)}
                   >
                     <FaPlus size={30} color="rgba(0,0,0,.3)" />
                   </button>
@@ -146,7 +163,7 @@ export default function BoardDetailsModal({
                 <button
                   type="button"
                   className="inline-flex !transition-transform absolute right-0 justify-center px-4 py-2 text-sm top-[5px]"
-                  onClick={onClose}
+                  onClick={() => setIsOpen(false)}
                 >
                   <IoClose size={40} />
                 </button>

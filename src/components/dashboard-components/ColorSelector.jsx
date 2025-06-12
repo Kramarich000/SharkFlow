@@ -1,7 +1,9 @@
-import { SketchPicker } from 'react-color';
+import { HexColorPicker } from 'react-colorful';
 import { useState, useRef, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+
 const normalizeColor = (color) => (color.startsWith('#') ? color : `#${color}`);
+
 export const ColorSelector = ({
   color,
   setColor,
@@ -14,7 +16,12 @@ export const ColorSelector = ({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+      if (
+        pickerRef.current &&
+        !pickerRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
         setShowPicker(false);
       }
     };
@@ -31,7 +38,7 @@ export const ColorSelector = ({
   }, [color]);
 
   return (
-    <div className={`inline-block ${wrapperClassName}`}>
+    <div className={`inline-block relative ${wrapperClassName}`}>
       <button
         ref={buttonRef}
         className="w-10 h-10 !border-2 rounded-full !border-black"
@@ -45,29 +52,12 @@ export const ColorSelector = ({
             initial={{ opacity: 0, transform: 'translateX(50px)' }}
             animate={{ opacity: 1, transform: 'translateX(0px)' }}
             exit={{ opacity: 0, transform: 'translateX(50px)' }}
-            className={`absolute shadow-xl ${pickerClassName}`}
+            className={`absolute z-50 p-4 bg-white rounded-md shadow-xl ${pickerClassName}`}
           >
-            <p className="absolute top-2 left-1/2 transform -translate-x-1/2 text-xl select-none">
+            <p className="text-center text-xl select-none mb-2">
               Выберите цвет
             </p>
-            <SketchPicker
-              color={color}
-              width="310px"
-              className="!pt-10"
-              onChangeComplete={(c) => setColor(c.hex)}
-              presetColors={[
-                '#F87171',
-                '#FB923C',
-                '#FBBF24',
-                '#34D399',
-                '#22D3EE',
-                '#60A5FA',
-                '#818CF8',
-                '#A78BFA',
-                '#F472B6',
-                '#94A3B8',
-              ]}
-            />
+            <HexColorPicker color={color} onChange={setColor} />
           </motion.div>
         )}
       </AnimatePresence>

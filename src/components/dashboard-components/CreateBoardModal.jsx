@@ -8,19 +8,32 @@ import {
 import { FaCheck } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
 import { ColorSelector } from '@components/dashboard-components/ColorSelector';
+import useBoardStore from '@store/boardStore';
+import { useAuthStore } from '@store/authStore';
 
-export default function CreateBoardModal({
-  isOpen,
-  onClose,
-  title,
-  setTitle,
-  color,
-  setColor,
-  handleCreateProject,
-}) {
+export default function CreateBoardModal() {
+  const token = useAuthStore((state) => state.accessToken);
+  const {
+    title,
+    color,
+    setTitle,
+    setColor,
+    createBoard,
+    isCreateBoardModalOpen,
+    setIsCreateBoardModalOpen,
+  } = useBoardStore();
+
+  const handleCreateBoard = async () => {
+    await createBoard(token);
+  };
+
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+    <Transition appear show={isCreateBoardModalOpen} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-50"
+        onClose={() => setIsCreateBoardModalOpen(false)}
+      >
         <div className="fixed inset-0 bg-transparent bg-opacity-25" />
         <div className="fixed inset-0">
           <div className="flex min-h-full items-end justify-center p-4 pb-0">
@@ -41,7 +54,7 @@ export default function CreateBoardModal({
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleCreateProject();
+                        if (e.key === 'Enter') handleCreateBoard();
                       }}
                       className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
                       placeholder="Введите название доски"
@@ -55,7 +68,7 @@ export default function CreateBoardModal({
                   </div>
                   <button
                     className="!p-2 mr-20"
-                    onClick={handleCreateProject}
+                    onClick={handleCreateBoard}
                     title="Сохранить"
                   >
                     <FaCheck size={26} />
@@ -65,7 +78,7 @@ export default function CreateBoardModal({
                   <button
                     type="button"
                     className="inline-flex !transition-transform absolute top-0 right-0 justify-center px-4 py-2 text-sm"
-                    onClick={onClose}
+                    onClick={() => setIsCreateBoardModalOpen(false)}
                   >
                     <IoClose size={40} />
                   </button>

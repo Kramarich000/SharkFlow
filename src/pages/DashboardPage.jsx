@@ -1,63 +1,22 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import { useBoards } from '@hooks/useBoards';
-import { useTasks } from '@hooks/useTasks';
+import { useAuthStore } from '@store/authStore';
+import useBoardStore from '@store/boardStore';
 import CreateBoardModal from '@components/dashboard-components/CreateBoardModal';
 import CreateTaskModal from '@components/dashboard-components/CreateTaskModal';
 import BoardDetailsModal from '@components/dashboard-components/BoardDetailsModal';
-import { showToast } from '@utils/toast';
 
 export default function DashboardPage() {
-  const {
-    boards,
-    selectedBoard,
-    isOpen,
-    isEditingTitle,
-    title,
-    newTitle,
-    color,
-    newColor,
-    setSelectedBoard,
-    setIsOpen,
-    setIsEditingTitle,
-    setTitle,
-    setColor,
-    setNewTitle,
-    setNewColor,
-    createBoard,
-    updateBoard,
-    handleBoardSelect,
-  } = useBoards();
+  const token = useAuthStore((state) => state.accessToken);
 
-  const { taskState, setTaskState, createTask } = useTasks();
+  const { boards, handleBoardSelect, fetchBoards, setIsCreateBoardModalOpen } =
+    useBoardStore();
 
-  const [modalState, setModalState] = useState({
-    showCreateBoardModal: false,
-    showCreateTaskModal: false,
-  });
-
-  const closeModal = () => {
-    setIsOpen(false);
-    setIsEditingTitle(false);
-  };
-
-  const handleCreateProject = async () => {
-    const success = await createBoard(title, color);
-    if (success) {
-      setModalState((prev) => ({ ...prev, showCreateBoardModal: false }));
+  useEffect(() => {
+    if (token) {
+      fetchBoards(token);
     }
-  };
-
-  const handleCreateTask = async () => {
-    const newTask = await createTask(selectedBoard.uuid);
-    if (newTask) {
-      setModalState((prev) => ({ ...prev, showCreateTaskModal: false }));
-      setSelectedBoard((prev) => ({
-        ...prev,
-        tasks: [...(prev?.tasks || []), newTask],
-      }));
-    }
-  };
+  }, [token, fetchBoards]);
 
   return (
     <div>
@@ -101,9 +60,7 @@ export default function DashboardPage() {
         <button
           key="create-board"
           className="bg-white hover:bg-[#e6e5e5] !transition-colors rounded-3xl min-h-[269px] relative"
-          onClick={() =>
-            setModalState((prev) => ({ ...prev, showCreateBoardModal: true }))
-          }
+          onClick={() => setIsCreateBoardModalOpen(true)}
         >
           <FaPlus
             className="absolute top-[32%] left-[42.5%]"
@@ -113,62 +70,9 @@ export default function DashboardPage() {
         </button>
       </div>
 
-      <CreateBoardModal
-        isOpen={modalState.showCreateBoardModal}
-        onClose={() =>
-          setModalState((prev) => ({ ...prev, showCreateBoardModal: false }))
-        }
-        title={title}
-        setTitle={setTitle}
-        color={color}
-        setColor={setColor}
-        handleCreateProject={handleCreateProject}
-      />
-
-      <CreateTaskModal
-        isOpen={modalState.showCreateTaskModal}
-        onClose={() =>
-          setModalState((prev) => ({ ...prev, showCreateTaskModal: false }))
-        }
-        taskTitle={taskState.title}
-        setTaskTitle={(title) => setTaskState((prev) => ({ ...prev, title }))}
-        taskDescription={taskState.description}
-        setTaskDescription={(description) =>
-          setTaskState((prev) => ({ ...prev, description }))
-        }
-        taskDeadline={taskState.deadline}
-        setTaskDeadline={(deadline) =>
-          setTaskState((prev) => ({ ...prev, deadline }))
-        }
-        handleCreateTask={handleCreateTask}
-      />
-
-      <BoardDetailsModal
-        isOpen={isOpen}
-        onClose={closeModal}
-        selectedBoard={selectedBoard}
-        isEditingTitle={isEditingTitle}
-        newTitle={newTitle}
-        newColor={newColor}
-        setNewTitle={setNewTitle}
-        setNewColor={setNewColor}
-        saveUpdateBoard={() => {
-          console.log(newColor);
-          updateBoard(selectedBoard?.uuid, newTitle, newColor);
-        }}
-        editBoard={() => {
-          if (!selectedBoard?.uuid) {
-            showToast('Доска ещё не загружена', 'error');
-            return;
-          }
-          setIsEditingTitle(true);
-        }}
-        tasks={selectedBoard?.tasks}
-        openCreateTaskModal={() =>
-          setModalState((prev) => ({ ...prev, showCreateTaskModal: true }))
-        }
-        setIsEditingTitle={setIsEditingTitle}
-      />
+      <CreateBoardModal />
+      <CreateTaskModal />
+      <BoardDetailsModal />
     </div>
   );
 }

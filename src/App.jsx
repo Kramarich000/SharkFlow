@@ -23,9 +23,9 @@ function App() {
 
   const { isMobile } = useResponsive();
 
-  if (isAuthLoading) {
-    return <Loader />;
-  }
+  // if (isAuthLoading) {
+  //   return <Loader />;
+  // }
 
   return (
     <Router>

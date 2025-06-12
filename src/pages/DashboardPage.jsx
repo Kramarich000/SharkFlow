@@ -45,7 +45,7 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col h-full">
       <h2 className="mb-2 text-3xl font-semibold">Мои доски</h2>
-      <div className="relative mb-4">
+      <div className="relative mb-4 flex gap-4">
         <input
           type="text"
           name="search"
@@ -64,6 +64,16 @@ export default function DashboardPage() {
         >
           Поиск досок...
         </label>
+        <button
+          key="create-board"
+          className="bg-white hover:bg-[#e6e5e5] !transition-colors rounded-3xl w-40"
+          onClick={() => setIsCreateBoardModalOpen(true)}
+        >
+          <p className="flex justify-between items-center text-left">
+            Создать
+            <FaPlus size={25} color="rgba(0,0,0,.3)" />
+          </p>
+        </button>
       </div>
 
       <div className="w-full mx-auto grid sm:grid-cols-2 gap-4 flex-wrap mb-4">
@@ -126,19 +136,8 @@ export default function DashboardPage() {
             </div>
           </div>
         ))}
-
-        <button
-          key="create-board"
-          className="bg-white hover:bg-[#e6e5e5] !transition-colors rounded-3xl min-h-[269px] relative"
-          onClick={() => setIsCreateBoardModalOpen(true)}
-        >
-          <FaPlus
-            className="absolute top-[32%] left-[42.5%]"
-            size={100}
-            color="rgba(0,0,0,.3)"
-          />
-        </button>
       </div>
+
       <div className="flex justify-center items-center gap-4 mt-auto">
         <button
           disabled={currentPage === 1}

@@ -59,15 +59,15 @@ export default function BoardDetailsModal() {
                 style={{ borderColor: `#${selectedBoard?.color}` }}
               >
                 {' '}
-                <ColorSelector
-                  wrapperClassName="absolute z-50"
-                  pickerClassName="top-[50px]"
-                  color={newColor}
-                  setColor={setNewColor}
-                />
                 <div className="relative flex items-center justify-center px-[40px]">
                   {isEditingTitle ? (
                     <>
+                      <ColorSelector
+                        wrapperClassName="absolute z-50"
+                        pickerClassName="top-[50px]"
+                        color={newColor}
+                        setColor={setNewColor}
+                      />
                       <input
                         value={newTitle}
                         onChange={(e) => setNewTitle(e.target.value)}

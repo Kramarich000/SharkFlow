@@ -10,11 +10,10 @@ const useBoardStore = create((set, get) => ({
   isCreateBoardModalOpen: false,
   isEditingTitle: false,
   title: '',
-  color: '#808080',
+  color: '#000',
   newTitle: '',
   newColor: '',
 
-  // Setters
   setBoards: (boards) => set({ boards }),
   setSelectedBoard: (board) => set({ selectedBoard: board }),
   setIsOpen: (isOpen) => set({ isOpen }),
@@ -26,7 +25,6 @@ const useBoardStore = create((set, get) => ({
   setNewTitle: (newTitle) => set({ newTitle }),
   setNewColor: (newColor) => set({ newColor }),
 
-  // Actions
   fetchBoards: async (token) => {
     try {
       const response = await api.get('/todo/boards', {
@@ -79,16 +77,13 @@ const useBoardStore = create((set, get) => ({
     }
     return false;
   },
-
   updateBoard: async (token) => {
     const { selectedBoard, newTitle, newColor } = get();
-
     if (!selectedBoard?.uuid) {
       showToast('Ошибка: доска не выбрана', 'error');
       return false;
     }
-
-    if (!newTitle || !newTitle.trim()) {
+    if (!newTitle.trim()) {
       showToast('Название доски не может быть пустым!', 'error');
       return false;
     }
@@ -96,38 +91,34 @@ const useBoardStore = create((set, get) => ({
     try {
       const response = await api.put(
         `/todo/editBoard/${selectedBoard.uuid}`,
-        {
-          title: newTitle.trim(),
-          color: newColor.trim(),
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
+        { title: newTitle.trim(), color: newColor.trim() },
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data?.data) {
+        const { title, color } = response.data.data;
+        const updatedBoard = {
+          ...selectedBoard,
+          title,
+          color,
+        };
+
         showToast('Доска успешно обновлена', 'success');
 
         set((state) => ({
-          boards: state.boards.map((board) =>
-            board.uuid === selectedBoard.uuid
-              ? { ...board, title: newTitle.trim(), color: newColor.trim() }
-              : board,
+          boards: state.boards.map((b) =>
+            b.uuid === updatedBoard.uuid ? updatedBoard : b,
           ),
-          selectedBoard: state.selectedBoard
-            ? {
-                ...state.selectedBoard,
-                title: newTitle.trim(),
-                color: newColor.trim(),
-              }
-            : state.selectedBoard,
+          selectedBoard: updatedBoard,
+          newTitle: title,
+          newColor: color,
           isEditingTitle: false,
         }));
         return true;
       }
     } catch (error) {
-      console.error('Ошибка при обновлении названия доски:', error);
-      showToast('Ошибка при обновлении названия доски', 'error');
+      console.error('Ошибка при обновлении доски:', error);
+      showToast('Ошибка при обновлении доски', 'error');
       set({ isEditingTitle: false });
     }
     return false;

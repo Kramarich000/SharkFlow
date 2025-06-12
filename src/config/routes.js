@@ -18,14 +18,7 @@ const PrivacyPage = lazy(() => import('@pages/PrivacyPage'));
 
 const Error404 = lazy(() => import('@pages/errors/Error404'));
 
-const baseUrl =
-  process.env.NODE_ENV === 'production'
-    ? 'http://localhost:4173'
-    : 'http://localhost:5173';
-// const baseUrl =
-//   process.env.NODE_ENV === 'production'
-//     ? 'https://taskflow-blyt.onrender.com'
-//     : 'http://localhost:5173';
+import { baseURL } from '@api/http/http';
 
 const routes = [
   {
@@ -33,14 +26,14 @@ const routes = [
     component: RegisterPage,
     title: 'Регистрация',
     description: 'Регистрация',
-    url: `${baseUrl}/register`,
+    url: `${baseURL}/register`,
   },
   {
     path: '/login',
     component: LoginPage,
     title: 'Вход',
     description: 'Регистрация',
-    url: `${baseUrl}/login`,
+    url: `${baseURL}/login`,
     private: false,
   },
   {
@@ -48,7 +41,7 @@ const routes = [
     component: DashboardPage,
     title: 'Мои доски',
     description: 'Регистрация',
-    url: `${baseUrl}/dashboard`,
+    url: `${baseURL}/dashboard`,
     private: true,
   },
   {
@@ -56,7 +49,7 @@ const routes = [
     component: SettingsPage,
     title: 'Настройки',
     description: 'Регистрация',
-    url: `${baseUrl}/settings`,
+    url: `${baseURL}/settings`,
     private: true,
   },
   {
@@ -64,7 +57,7 @@ const routes = [
     component: TaskListPage,
     title: 'Список',
     description: 'Регистрация',
-    url: `${baseUrl}/task`,
+    url: `${baseURL}/task`,
     private: true,
   },
   {
@@ -72,7 +65,7 @@ const routes = [
     component: HomePage,
     title: 'Главная',
     description: 'Регистрация',
-    url: `${baseUrl}/`,
+    url: `${baseURL}/`,
     private: false,
   },
   {
@@ -80,7 +73,7 @@ const routes = [
     component: TermsPage,
     title: 'Условия пользования',
     description: 'Регистрация',
-    url: `${baseUrl}/terms`,
+    url: `${baseURL}/terms`,
     private: false,
   },
   {
@@ -88,7 +81,7 @@ const routes = [
     component: PrivacyPage,
     title: 'Политика конфиденциальности',
     description: 'Регистрация',
-    url: `${baseUrl}/privacy`,
+    url: `${baseURL}/privacy`,
     private: false,
   },
   {
@@ -96,7 +89,7 @@ const routes = [
     component: Error404,
     title: 'Ошибка - 404',
     description: 'Ошибка 404',
-    url: `${baseUrl}/*`,
+    url: `${baseURL}/*`,
     private: false,
   },
 ];

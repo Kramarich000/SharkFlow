@@ -19,7 +19,7 @@ export default function DashboardPage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
     if (token) {
@@ -146,25 +146,41 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      <div className="flex justify-center items-center gap-4 mt-auto">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          <FaArrowLeft />
-        </button>
-        <span>
-          Страница {currentPage} из {totalPages}
-        </span>
+      <div className="flex flex-col justify-center items-center gap-4 mt-auto">
+        <div className="flex justify-center items-center gap-4 mt-auto">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          >
+            <FaArrowLeft />
+          </button>
+          <span>
+            Страница {currentPage} из {totalPages}
+          </span>
 
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          <FaArrowLeft className="rotate-180" />
-        </button>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          >
+            <FaArrowLeft className="rotate-180" />
+          </button>
+        </div>
+        <p>Кол-во досок на странице:</p>
+        <div className="flex gap-8 items-center justify-center">
+          {[10, 20, 30, 50, 100].map((size) => (
+            <button
+              key={size}
+              className={`!text-white !transition-colors hover:!bg-[#111111] !rounded-full px-4 py-2 ${
+                pageSize === size ? '!bg-[#111111]' : '!bg-gray-400'
+              }`}
+              onClick={() => setPageSize(size)}
+            >
+              {size}
+            </button>
+          ))}
+        </div>
       </div>
       <CreateBoardModal />
       <CreateTaskModal />

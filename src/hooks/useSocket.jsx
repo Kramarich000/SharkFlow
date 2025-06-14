@@ -1,4 +1,4 @@
-import { showToast } from '@utils/toast';
+import { showToast } from '@utils/toast/toast';
 import { useEffect, useState } from 'react';
 import {
   connectSocket,

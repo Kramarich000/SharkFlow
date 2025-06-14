@@ -1,5 +1,5 @@
 import { useAuthStore } from '@store/authStore';
-import { showToast } from '@utils/toast';
+import { showToast } from '@utils/toast/toast';
 import axios from 'axios';
 import { useActionData } from 'react-router-dom';
 

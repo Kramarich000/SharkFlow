@@ -1,6 +1,6 @@
 import api from '@api/http/http';
 import { useAuthStore } from '@store/authStore';
-import { showToast } from '@utils/toast';
+import { showToast } from '@utils/toast/toast';
 
 export default async function loginHandler(values) {
   const payload = {

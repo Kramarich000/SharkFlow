@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import api from '@api/http/http';
-import { showToast } from '@utils/toast';
+import { showToast } from '@utils/toast/toast';
 
 const useTaskStore = create((set, get) => ({
   taskState: {

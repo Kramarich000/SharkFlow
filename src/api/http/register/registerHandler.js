@@ -1,5 +1,5 @@
 import api from '@api/http/http';
-import { showToast } from '@utils/toast';
+import { showToast } from '@utils/toast/toast';
 
 export default async function registerHandler(values) {
   const payload = {

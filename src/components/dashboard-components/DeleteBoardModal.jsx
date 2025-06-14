@@ -6,7 +6,7 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 import useBoardStore from '@store/boardStore';
-import { showToast } from '@utils/toast';
+import { showToast } from '@utils/toast/toast';
 
 export default function DeleteBoardModal() {
   const {

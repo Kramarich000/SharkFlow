@@ -2,7 +2,7 @@ import { FaEye, FaThumbtack } from 'react-icons/fa';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { GrPowerCycle } from 'react-icons/gr';
 import { FaStar } from 'react-icons/fa';
-
+import { dateFormatter } from '@utils/date/dateFormatter';
 export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
   return (
     <div
@@ -52,27 +52,11 @@ export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
       <div className="flex flex-col mt-4">
         <div className="flex items-center gap-2">
           <AiOutlineClockCircle size={20} title="Дата создания" />
-          <p>
-            {new Date(board.createdAt).toLocaleString('ru-RU', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
-          </p>
+          <p>{dateFormatter(board.createdAt)}</p>
         </div>
         <div className="flex items-center gap-2 mt-1">
           <GrPowerCycle size={20} title="Дата последнего обновления" />
-          <p>
-            {new Date(board.updatedAt).toLocaleString('ru-RU', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
-          </p>
+          <p>{dateFormatter(board.updatedAt)}</p>
         </div>
       </div>
     </div>

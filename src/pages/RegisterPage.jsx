@@ -115,7 +115,7 @@ export default function RegisterPage() {
                             handleChange(e);
                           }}
                           onBlur={handleBlur}
-                          className="peer w-full p-4 pr-8 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
+                          className="input-styles"
                         />
                         <label htmlFor="password" className="label-styles">
                           Введите пароль
@@ -216,7 +216,7 @@ export default function RegisterPage() {
             <Formik
               initialValues={{ confirmationCode: '' }}
               onSubmit={async (values, actions) => {
-                const success = await confirmCodeHandler(values);
+                const success = confirmCodeHandler(values);
                 if (success) {
                   setStep(3);
                 } else {
@@ -236,13 +236,7 @@ export default function RegisterPage() {
                       className="peer input-styles"
                       placeholder=" "
                     />
-                    <label
-                      htmlFor="confirmationCode"
-                      className="absolute  pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200
-                    peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
-                    peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1
-                    peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
-                    >
+                    <label htmlFor="confirmationCode" className="label-styles">
                       Введите код подтверждения
                     </label>
                     <ErrorMessage name="login">

@@ -10,12 +10,12 @@ export default async function loginHandler(values) {
       rememberMe: values.rememberMe,
     },
   };
-  console.log(values);
+  // console.log(values);
   try {
     const response = await api.post('/login', payload, {
       headers: { 'Content-Type': 'application/json' },
     });
-    console.log(response);
+    // console.log(response);
 
     if (response.status === 200) {
       showToast(response.data.message, 'success');
@@ -27,7 +27,7 @@ export default async function loginHandler(values) {
     }
   } catch (error) {
     if (error.response) {
-      console.log(error);
+      // console.log(error);
 
       if (error.response.status === 401 || error.response.status === 400) {
         showToast(error.response.data.error, 'error');

@@ -1,12 +1,11 @@
 import api from '@api/http/http';
 import { showToast } from '@utils/toast';
 
-export async function getBoards(token) {
+export async function getBoards() {
   try {
-    const response = await api.get('/todo/getBoards', {
-    //   headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await api.get('/todo/getBoards', {});
     if (response.status === 200) {
+      // console.log(response.data.boards);
       return response.data.boards;
     } else {
       showToast('Ошибка при загрузке досок', 'error');

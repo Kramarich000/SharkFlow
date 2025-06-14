@@ -74,7 +74,7 @@ export default function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="sm:hidden bg-[#111111] left-0 absolute w-full py-4 rounded-md shadow-md flex flex-col gap-3 text-lg"
+            className="sm:hidden bg-[#111111] z-50 left-0 absolute w-full py-4 rounded-md shadow-md flex flex-col gap-3 text-lg"
           >
             {navLinks.map((link) => (
               <Link

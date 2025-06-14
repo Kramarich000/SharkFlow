@@ -8,11 +8,11 @@ export default async function registerHandler(values) {
       email: values.email,
       password: values.password,
       confirmPassword: values.confirmPassword,
+      acceptedPolicies: values.acceptedPolicies,
     },
   };
 
   try {
-    // console.log(payload);
     const response = await api.post('/register', payload, {
       headers: { 'Content-Type': 'application/json' },
     });

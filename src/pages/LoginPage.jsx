@@ -3,7 +3,7 @@ import { loginSchema } from '@validators/loginSchema';
 import AnimatedError from '@components/main-components/AnimatedError';
 import loginHandler from '@api/http/login/loginHandler';
 import uploadingUserDataHandle from '@api/http/user/uploadingUserDataHandle';
-
+import { FormikCheckbox } from '@components/main-components/FormikCheckbox';
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LuEye } from 'react-icons/lu';
@@ -53,15 +53,9 @@ export default function LoginPage() {
                         autoComplete="email"
                         placeholder=" "
                         required
-                        className="peer w-full p-4 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
+                        className="peer input-styles"
                       />
-                      <label
-                        htmlFor="email"
-                        className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200
-                        peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
-                        peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1
-                        peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
-                      >
+                      <label htmlFor="email" className="label-styles">
                         Введите почту
                       </label>
 
@@ -76,22 +70,17 @@ export default function LoginPage() {
                       <Field
                         type={!passwordVisible ? 'password' : 'text'}
                         name="password"
-                        autoComplete="new-password"
+                        autoComplete="password"
                         placeholder=" "
+                        autoFocus
                         required
                         onChange={(e) => {
                           handleChange(e);
                         }}
                         onBlur={handleBlur}
-                        className="peer w-full p-4 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
+                        className="peer input-styles"
                       />
-                      <label
-                        htmlFor="password"
-                        className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200
-                            peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
-                            peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1
-                            peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
-                      >
+                      <label htmlFor="password" className="label-styles">
                         Введите пароль
                       </label>
                       <div
@@ -114,15 +103,11 @@ export default function LoginPage() {
                     </div>
 
                     <div className="flex col-span-2 justify-center items-center text-sm">
-                      <Field
-                        type="checkbox"
-                        id="rememberMe"
+                      <FormikCheckbox
                         name="rememberMe"
-                        className="p-4 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
+                        id="rememberMe"
+                        label="Запомнить меня"
                       />
-                      <label htmlFor="rememberMe" className="ml-2 text-left">
-                        Запомнить меня
-                      </label>
                     </div>
 
                     <button className="primary-btn sm:col-span-2" type="submit">

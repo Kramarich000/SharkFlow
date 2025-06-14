@@ -15,7 +15,7 @@ export default function HowItWorks() {
             key={item.id}
             className="space-y-2"
           >
-            <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-black to-gray-400 text-white flex items-center justify-center text-3xl font-bold">
+            <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-[#111111] to-gray-400 text-white flex items-center justify-center text-3xl font-bold">
               {item.id}
             </div>
             <h3 className="text-xl font-semibold">{item.title}</h3>

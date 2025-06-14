@@ -9,6 +9,7 @@ import { IoIosCheckmarkCircle } from 'react-icons/io';
 import { LuEye } from 'react-icons/lu';
 import { LuEyeClosed } from 'react-icons/lu';
 import { Link, useNavigate } from 'react-router-dom';
+import { FormikCheckbox } from '@components/main-components/FormikCheckbox';
 
 export default function RegisterPage() {
   const [step, setStep] = useState(1);
@@ -46,6 +47,7 @@ export default function RegisterPage() {
                 email: '',
                 password: '',
                 confirmPassword: '',
+                acceptedPolicies: '',
               }}
               onSubmit={async (values, actions) => {
                 const success = await registerHandler(values);
@@ -59,8 +61,8 @@ export default function RegisterPage() {
               {({ handleChange, handleBlur }) => {
                 return (
                   <>
-                    <Form className="grid gap-8 bg-[#fff] border-b-4 border-[#111111] p-8 rounded-2xl">
-                      <h2 className="sm:col-span-2 text-3xl">Регистрация</h2>
+                    <Form className="sm:grid flex flex-col gap-4 bg-[#fff] border-b-4 border-[#111111] p-8 rounded-2xl">
+                      <h2 className="col-span-2 text-3xl">Регистрация</h2>
 
                       <div className="relative">
                         <Field
@@ -70,15 +72,9 @@ export default function RegisterPage() {
                           autoComplete="username"
                           placeholder=" "
                           required
-                          className="peer w-full p-4 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
+                          className="peer input-styles"
                         />
-                        <label
-                          htmlFor="login"
-                          className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200
-                      peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
-                      peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1
-                      peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
-                        >
+                        <label htmlFor="login" className="label-styles">
                           Введите логин
                         </label>
                         <ErrorMessage name="login">
@@ -95,15 +91,9 @@ export default function RegisterPage() {
                           autoComplete="email"
                           placeholder=" "
                           required
-                          className="peer w-full p-4 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
+                          className="peer input-styles"
                         />
-                        <label
-                          htmlFor="email"
-                          className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200
-                        peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
-                        peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1
-                        peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
-                        >
+                        <label htmlFor="email" className="label-styles">
                           Введите почту
                         </label>
 
@@ -127,13 +117,7 @@ export default function RegisterPage() {
                           onBlur={handleBlur}
                           className="peer w-full p-4 pr-8 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
                         />
-                        <label
-                          htmlFor="password"
-                          className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200
-                            peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
-                            peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1
-                            peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
-                        >
+                        <label htmlFor="password" className="label-styles">
                           Введите пароль
                         </label>
                         <div
@@ -162,14 +146,11 @@ export default function RegisterPage() {
                           autoComplete="new-password"
                           placeholder=" "
                           required
-                          className="peer w-full p-4 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
+                          className="peer input-styles"
                         />
                         <label
                           htmlFor="confirmPassword"
-                          className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200
-                            peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
-                            peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1
-                            peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]"
+                          className="label-styles"
                         >
                           Подтвердите пароль
                         </label>
@@ -180,42 +161,39 @@ export default function RegisterPage() {
                         </ErrorMessage>
                       </div>
 
-                      <div className="flex items-center sm:justify-center text-sm sm:col-span-2">
-                        <Field
-                          type="checkbox"
-                          id="acceptedPolicies"
+                      <div className="text-sm col-span-2">
+                        <FormikCheckbox
                           name="acceptedPolicies"
-                          className="p-4 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
+                          id="acceptedPolicies"
+                          label={
+                            <>
+                              Я согласен(-на) с{' '}
+                              <Link
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600"
+                                to="/privacy"
+                              >
+                                политикой конфиденциальности
+                              </Link>{' '}
+                              и{' '}
+                              <Link
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600"
+                                to="/terms"
+                              >
+                                условиями пользования
+                              </Link>
+                            </>
+                          }
                         />
-                        <label
-                          htmlFor="acceptedPolicies"
-                          className="ml-2 text-left"
-                        >
-                          Я согласен с{' '}
-                          <Link
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600"
-                            to="/privacy"
-                          >
-                            политикой конфиденциальности
-                          </Link>{' '}
-                          и{' '}
-                          <Link
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600"
-                            to="/terms"
-                          >
-                            условиями пользования
-                          </Link>
-                        </label>
+                        <ErrorMessage name="acceptedPolicies">
+                          {(msg) => <AnimatedError msg={msg} centered />}
+                        </ErrorMessage>
                       </div>
 
-                      <button
-                        className="primary-btn sm:col-span-2"
-                        type="submit"
-                      >
+                      <button className="primary-btn col-span-2" type="submit">
                         Зарегистрироваться
                       </button>
                       <Link className="col-span-2 text-blue-600" to="/login">
@@ -255,7 +233,7 @@ export default function RegisterPage() {
                       type="text"
                       id="confirmationCode"
                       required
-                      className="peer w-full p-4 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all"
+                      className="peer input-styles"
                       placeholder=" "
                     />
                     <label

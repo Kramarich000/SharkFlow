@@ -18,7 +18,7 @@ export default async function confirmCodeHandler(values) {
     return false;
   } catch (error) {
     if (error.response) {
-      console.log(error.response);
+      // console.log(error.response);
       if (error.response.status === 400) {
         const data = error.response.data;
 

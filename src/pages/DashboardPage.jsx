@@ -1,187 +1,205 @@
 import { useState, useEffect, useMemo } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import { useAuthStore } from '@store/authStore';
 import useBoardStore from '@store/boardStore';
-import CreateBoardModal from '@components/dashboard-components/CreateBoardModal';
+import { SimpleCheckbox } from '@components/main-components/SimpleСheckBox';
+
+import SearchBar from '@components/dashboard-components/SearchBar';
+import FilterForm from '@components/dashboard-components/FilterForm';
+import BoardCard from '@components/dashboard-components/BoardCard';
+import PaginationControl from '@components/dashboard-components/PaginationControl';
+
 import CreateTaskModal from '@components/dashboard-components/CreateTaskModal';
 import BoardDetailsModal from '@components/dashboard-components/BoardDetailsModal';
 import DeleteBoardModal from '@components/dashboard-components/DeleteBoardModal';
-import { GrPowerCycle } from 'react-icons/gr';
-import { AiOutlineClockCircle } from 'react-icons/ai';
-import { FaEye } from 'react-icons/fa';
-import { FaArrowLeft } from 'react-icons/fa';
+import CreateBoardModal from '@components/dashboard-components/CreateBoardModal';
+
+import {
+  filterByTitle,
+  filterByCreatedDateRange,
+  filterByRecentDays,
+  filterByFavorites,
+} from '@utils/filters/boardFilters';
+
+import {
+  sortByTitleDesc,
+  sortByCreatedAsc,
+  sortByCreatedDesc,
+  sortByUpdatedAsc,
+  sortByTitleAsc,
+  sortByUpdatedDesc,
+  sortByTaskCountAsc,
+  sortByTaskCountDesc,
+} from '@utils/filters/boardSorts';
+import Loader from '@components/main-components/Loader';
 
 export default function DashboardPage() {
-  const token = useAuthStore((state) => state.accessToken);
-
-  const { boards, handleBoardSelect, getBoards, setIsCreateBoardModalOpen } =
-    useBoardStore();
-  const [searchTerm, setSearchTerm] = useState('');
+  const {
+    boards,
+    handleBoardSelect,
+    getBoards,
+    setIsCreateBoardModalOpen,
+    updateBoard,
+    isLoaded,
+  } = useBoardStore();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const [recentDays, setRecentDays] = useState(0);
+  const [onlyFav, setOnlyFav] = useState(false);
+  const [sortBy, setSortBy] = useState('');
+  const [sortOrder, setSortOrder] = useState('');
 
   useEffect(() => {
-    if (token) {
-      getBoards(token);
+    if (!isLoaded) {
+      getBoards();
     }
-  }, [token, getBoards]);
+  }, [getBoards, isLoaded]);
 
-  const filteredBoards = useMemo(() => {
-    return boards.filter((board) =>
-      board.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  const processed = useMemo(() => {
+    let list = filterByTitle(boards, searchTerm);
+    list = filterByCreatedDateRange(list, dateFrom, dateTo);
+    list = filterByRecentDays(list, recentDays);
+    list = filterByFavorites(list, onlyFav);
+
+    switch (sortBy) {
+      case 'title':
+        list =
+          sortOrder === 'asc' ? sortByTitleAsc(list) : sortByTitleDesc(list);
+        break;
+      case 'createdAt':
+        list =
+          sortOrder === 'asc'
+            ? sortByCreatedAsc(list)
+            : sortByCreatedDesc(list);
+        break;
+      case 'updatedAt':
+        list =
+          sortOrder === 'asc'
+            ? sortByUpdatedAsc(list)
+            : sortByUpdatedDesc(list);
+        break;
+      case 'taskCount':
+        list =
+          sortOrder === 'asc'
+            ? sortByTaskCountAsc(list)
+            : sortByTaskCountDesc(list);
+        break;
+    }
+
+    return [...list].sort(
+      (a, b) => (b.isPinned ? 1 : 0) - (a.isPinned ? 1 : 0),
     );
-  }, [boards, searchTerm]);
+  }, [
+    boards,
+    searchTerm,
+    dateFrom,
+    dateTo,
+    recentDays,
+    onlyFav,
+    sortBy,
+    sortOrder,
+  ]);
 
-  const totalPages = Math.ceil(filteredBoards.length / pageSize) || 1;
-
+  useEffect(
+    () => setCurrentPage(1),
+    [searchTerm, dateFrom, dateTo, recentDays, onlyFav],
+  );
+  const totalPages = Math.max(1, Math.ceil(processed.length / pageSize));
   useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm]);
+    if (currentPage > totalPages) setCurrentPage(totalPages);
+  }, [currentPage, totalPages]);
 
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    }
-  }, [totalPages, currentPage]);
-
-  const currentBoards = filteredBoards.slice(
+  const currentBoards = processed.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize,
   );
 
+  const handleTogglePin = async (board) => {
+    try {
+      updateBoard({
+        uuid: board.uuid,
+        isPinned: !board.isPinned,
+      });
+    } catch (e) {
+      console.error('Не удалось закрепить доску', e);
+    }
+  };
+
+  const handleToggleFav = async (board) => {
+    try {
+      updateBoard({
+        uuid: board.uuid,
+        isFavorite: !board.isFavorite,
+      });
+    } catch (e) {
+      console.error('Не удалось добавить доску в избранное', e);
+    }
+  };
+
+  if (!isLoaded) {
+    return <Loader />;
+  }
+
   return (
-    <div className="flex flex-col h-full">
-      <h2 className="mb-2 text-3xl font-semibold">Мои доски</h2>
-      <div className="relative mb-4 flex gap-4">
-        <input
-          type="text"
-          name="search"
-          placeholder=" "
-          required
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="peer w-full p-2 placeholder:!text-gray-900 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[0px] focus:rounded-[8px] transition-all"
+    <div className="flex flex-col h-full p-6">
+      <h2 className="mb-4 text-3xl font-semibold">Мои доски</h2>
+
+      <div className="mb-6 flex flex-col gap-8">
+        <SearchBar value={searchTerm} onChange={setSearchTerm} />
+
+        <FilterForm
+          dateFrom={dateFrom}
+          onChangeDateFrom={setDateFrom}
+          dateTo={dateTo}
+          onChangeDateTo={setDateTo}
+          recentDays={recentDays}
+          onChangeRecentDays={setRecentDays}
+          onChangeOnlyFav={setOnlyFav}
+          sortBy={sortBy}
+          onChangeSortBy={setSortBy}
+          sortOrder={sortOrder}
+          onChangeSortOrder={setSortOrder}
         />
-        <label
-          htmlFor="search"
-          className="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2  transition-all duration-200
-                      peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base
-                      peer-focus:top-0 peer-focus:text-sm bg-[#c7c7c7] px-1
-                      peer-valid:top-0 peer-valid:text-sm"
-        >
-          Поиск досок...
-        </label>
+      </div>
+      <div className="flex items-center mb-4">
+        <div className="p-4">
+          <SimpleCheckbox
+            id="onlyFav"
+            label="Избранные"
+            checked={onlyFav}
+            onChange={setOnlyFav}
+          />
+        </div>
         <button
-          key="create-board"
-          className="bg-white hover:bg-[#e6e5e5] !transition-colors rounded-3xl w-40"
+          className="ml-auto bg-white hover:bg-gray-200 rounded-3xl px-6 py-2 flex items-center gap-2"
           onClick={() => setIsCreateBoardModalOpen(true)}
         >
-          <p className="flex justify-between items-center text-left">
-            Создать
-            <FaPlus size={25} color="rgba(0,0,0,.5)" />
-          </p>
+          <FaPlus size={20} /> Создать
         </button>
       </div>
-
-      <div className="w-full mx-auto grid sm:grid-cols-2 gap-4 flex-wrap mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 overflow-auto">
         {currentBoards.map((board) => (
-          <div
-            key={`${board.uuid}-${board.createdAt}`}
-            className="relative overflow-auto !border-0 !border-b-8 max-h-[269px] bg-white !transition-all box-content duration-200 p-4 min-w-[300px]"
-            style={{
-              borderBottomColor: `#${board.color}`,
-            }}
-          >
-            <div className="min-h-40 flex items-center justify-center">
-              <h2 className="text-3xl overflow-ellipsis overflow-x-hidden max-w-sm">
-                {board.title}
-              </h2>
-            </div>
-            <button
-              title="Открыть доску"
-              className="!p-2 absolute right-4 top-4"
-              onClick={() => handleBoardSelect(board)}
-            >
-              <FaEye size={25} />
-            </button>{' '}
-            <div className="flex flex-col items-end">
-              <div className="flex items-center justify-center gap-2">
-                <p>
-                  {' '}
-                  Создано:{' '}
-                  {new Date(board.updatedAt).toLocaleString('ru-RU', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </p>
-                <AiOutlineClockCircle
-                  size={20}
-                  className="inline"
-                  title="Дата создания"
-                />
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <p>
-                  Обновлено:{' '}
-                  {new Date(board.createdAt).toLocaleString('ru-RU', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </p>{' '}
-                <GrPowerCycle
-                  size={20}
-                  className="inline"
-                  title="Дата последнего обновления"
-                />
-              </div>
-            </div>
-          </div>
+          <BoardCard
+            key={`${board.uuid}`}
+            board={board}
+            onOpen={handleBoardSelect}
+            onTogglePin={handleTogglePin}
+            onToggleFav={handleToggleFav}
+          />
         ))}
       </div>
 
-      <div className="flex flex-col justify-center items-center gap-4 mt-auto">
-        <div className="flex justify-center items-center gap-4 mt-auto">
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-          >
-            <FaArrowLeft />
-          </button>
-          <span>
-            Страница {currentPage} из {totalPages}
-          </span>
+      <PaginationControl
+        page={currentPage}
+        totalPages={totalPages}
+        pageSize={pageSize}
+        onPageChange={setCurrentPage}
+        onPageSizeChange={setPageSize}
+      />
 
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-          >
-            <FaArrowLeft className="rotate-180" />
-          </button>
-        </div>
-        <p>Кол-во досок на странице:</p>
-        <div className="flex gap-8 items-center justify-center">
-          {[10, 20, 30, 50, 100].map((size) => (
-            <button
-              key={size}
-              className={`!text-white !transition-colors hover:!bg-[#111111] !rounded-full px-4 py-2 ${
-                pageSize === size ? '!bg-[#111111]' : '!bg-gray-400'
-              }`}
-              onClick={() => setPageSize(size)}
-            >
-              {size}
-            </button>
-          ))}
-        </div>
-      </div>
       <CreateBoardModal />
       <CreateTaskModal />
       <BoardDetailsModal />

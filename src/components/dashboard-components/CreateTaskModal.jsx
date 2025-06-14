@@ -9,10 +9,8 @@ import { FaCheck } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
 import useTaskStore from '@store/taskStore';
 import useBoardStore from '@store/boardStore';
-import { useAuthStore } from '@store/authStore';
 
 export default function CreateTaskModal() {
-  const token = useAuthStore((state) => state.accessToken);
   const { selectedBoard } = useBoardStore();
   const {
     taskState,
@@ -23,7 +21,7 @@ export default function CreateTaskModal() {
   } = useTaskStore();
 
   const handleCreateTask = async () => {
-    const newTask = await createTask(token, selectedBoard.uuid);
+    const newTask = await createTask(selectedBoard.uuid);
     if (newTask) {
       setIsCreateTaskModalOpen(false);
     }

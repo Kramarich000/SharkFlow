@@ -1,4 +1,5 @@
 import { useAuthStore } from '@store/authStore';
+import { showToast } from '@utils/toast';
 import axios from 'axios';
 import { useActionData } from 'react-router-dom';
 
@@ -27,11 +28,31 @@ const processQueue = (error, token = null) => {
 };
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('RESPONSE:', response.config.url, response);
+    }
+    return response;
+  },
   async (error) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('API ERROR:', error);
+    }
     const originalRequest = error.config;
+    if (!error.response) {
+      showToast(
+        'Сервер не отвечает. Проверьте подключение к интернету',
+        'info',
+      );
+      return Promise.reject({
+        message: 'Сервер недоступен. Проверьте интернет.',
+      });
+    }
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      (error.response?.status === 401 || error.response?.status === 403) &&
+      !originalRequest._retry
+    ) {
       if (isRefresh) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -58,6 +79,7 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (error) {
         useActionData.getState().clearAccessToken();
+        showToast('Сессия истекла. Пожалуйста, войдите снова', 'info');
         processQueue(error, null);
         return Promise.reject(error);
       } finally {
@@ -71,6 +93,9 @@ api.interceptors.response.use(
 
 api.interceptors.request.use(
   (config) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('REQUEST:', config.method?.toUpperCase(), config.url, config);
+    }
     const token = useAuthStore.getState().accessToken;
 
     const isAuthRoute = ['/login', '/register', '/refresh', '/public'].some(

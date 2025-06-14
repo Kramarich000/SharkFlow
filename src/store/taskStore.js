@@ -10,14 +10,13 @@ const useTaskStore = create((set, get) => ({
   },
   isCreateTaskModalOpen: false,
 
-  // Setters
   setTaskState: (newState) =>
     set((state) => ({
       taskState: { ...state.taskState, ...newState },
     })),
   setIsCreateTaskModalOpen: (isOpen) => set({ isCreateTaskModalOpen: isOpen }),
 
-  createTask: async (token, boardId) => {
+  createTask: async (boardId) => {
     const { taskState } = get();
 
     if (!taskState.title.trim()) {
@@ -26,13 +25,7 @@ const useTaskStore = create((set, get) => ({
     }
 
     try {
-      const response = await api.post(
-        `/todo/createTask/${boardId}`,
-        taskState,
-        {
-          // headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const response = await api.post(`/todo/createTask/${boardId}`, taskState);
 
       if (response.status === 200) {
         showToast('Задача успешно создана', 'success');

@@ -41,7 +41,7 @@ export const ColorSelector = ({
     <div className={`inline-block relative ${wrapperClassName}`}>
       <button
         ref={buttonRef}
-        className="w-10 h-10 !border-2 rounded-full !border-black"
+        className="w-10 h-10 !border-2 rounded-full !border-[#111111]"
         onClick={() => setShowPicker((prev) => !prev)}
         title="Выбрать цвет"
       />

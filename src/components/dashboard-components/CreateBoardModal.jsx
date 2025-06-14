@@ -9,10 +9,8 @@ import { FaCheck } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
 import { ColorSelector } from '@components/dashboard-components/ColorSelector';
 import useBoardStore from '@store/boardStore';
-import { useAuthStore } from '@store/authStore';
 
 export default function CreateBoardModal() {
-  const token = useAuthStore((state) => state.accessToken);
   const {
     title,
     color,
@@ -24,19 +22,18 @@ export default function CreateBoardModal() {
   } = useBoardStore();
 
   const handleCreateBoard = async () => {
-    await createBoard(token);
+    await createBoard();
   };
 
   return (
     <Transition appear show={isCreateBoardModalOpen} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-50"
+        className="relative z-9999"
         onClose={() => setIsCreateBoardModalOpen(false)}
       >
-        <div className="fixed inset-0 bg-transparent bg-opacity-25" />
         <div className="fixed inset-0">
-          <div className="flex min-h-full items-end justify-center p-4 pb-0">
+          <div className="flex h-full items-end justify-center p-4 pb-0">
             <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
@@ -44,7 +41,7 @@ export default function CreateBoardModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-6xl h-[30vh] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="w-full border-2 max-w-6xl h-[280px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
                 <div className="flex items-center justify-between">
                   <input
                     autoFocus

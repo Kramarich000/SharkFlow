@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { produce } from 'immer';
 import { getBoards } from '@api/http/boards/getBoards';
 import { createBoard } from '@api/http/boards/createBoard';
 import { updateBoard } from '@api/http/boards/updateBoard';
@@ -16,7 +17,11 @@ const useBoardStore = create((set, get) => ({
   color: '#000',
   newTitle: '',
   newColor: '',
+  newIsPinned: false,
+  newIsFavorite: false,
 
+  setNewIsPinned: (newIsPinned) => set({ newIsPinned }),
+  setNewIsFavorite: (newIsFavorite) => set({ newIsFavorite }),
   setBoards: (boards) => set({ boards }),
   setSelectedBoard: (board) => set({ selectedBoard: board }),
   setIsOpen: (isOpen) => set({ isOpen }),
@@ -30,69 +35,95 @@ const useBoardStore = create((set, get) => ({
   setNewTitle: (newTitle) => set({ newTitle }),
   setNewColor: (newColor) => set({ newColor }),
 
-  getBoards: async (token) => {
-    const boards = await getBoards(token);
+  getBoards: async () => {
+    const boards = await getBoards();
     if (boards) {
       set({ boards, isLoaded: true });
     }
   },
 
-  createBoard: async (token) => {
+  createBoard: async () => {
     const { title, color } = get();
-    const newBoard = await createBoard(token, { title, color });
+    const newBoard = await createBoard({ title, color });
+
     if (newBoard) {
-      set((state) => ({
-        boards: [...state.boards, newBoard],
-        title: '',
-        color: '#000000',
-        isCreateBoardModalOpen: false,
-      }));
+      set((state) => {
+        const boards = [...state.boards];
+        const tNew = new Date(newBoard.updatedAt);
+
+        let left = 0,
+          right = boards.length;
+        while (left < right) {
+          const mid = (left + right) >>> 1;
+          const tMid = new Date(boards[mid].updatedAt);
+          if (tMid < tNew) right = mid;
+          else left = mid + 1;
+        }
+        boards.splice(left, 0, newBoard);
+
+        return {
+          boards,
+          title: '',
+          color: '#000000',
+          isCreateBoardModalOpen: false,
+        };
+      });
+
       get().handleBoardSelect(newBoard);
       return true;
     }
+
     return false;
   },
 
-  updateBoard: async (token) => {
-    const { selectedBoard, newTitle, newColor } = get();
-    const hasTitleChanged = selectedBoard?.title !== newTitle;
-    const hasColorChanged = selectedBoard?.color !== newColor;
+  updateBoard: async ({ uuid, title, color, isPinned, isFavorite }) => {
+    if (!uuid) return false;
 
-    if (!hasTitleChanged && !hasColorChanged) {
+    const updatedFields = {};
+    if (title !== undefined) updatedFields.title = title;
+    if (color !== undefined) updatedFields.color = color;
+    if (isPinned !== undefined) updatedFields.isPinned = isPinned;
+    if (isFavorite !== undefined) updatedFields.isFavorite = isFavorite;
+    if (Object.keys(updatedFields).length === 0) {
       set({ isEditing: false });
       return false;
     }
 
-    const updatedData = await updateBoard(token, selectedBoard?.uuid, {
-      title: newTitle,
-      color: newColor,
-    });
+    const updatedData = await updateBoard(uuid, updatedFields);
+    // console.log(updatedData);
 
     if (updatedData) {
-      const updatedBoard = { ...selectedBoard, ...updatedData };
-      set((state) => ({
-        boards: state.boards.map((b) =>
-          b.uuid === updatedBoard.uuid ? updatedBoard : b,
-        ),
-        selectedBoard: updatedBoard,
-        newTitle: updatedBoard.title,
-        newColor: updatedBoard.color,
-        isEditing: false,
-      }));
+      set((state) =>
+        produce(state, (draft) => {
+          const board = draft.boards.find((b) => b.uuid === uuid);
+          if (!board) return;
+
+          Object.assign(board, updatedData);
+
+          if (draft.selectedBoard?.uuid === uuid) {
+            draft.selectedBoard = { ...board };
+            draft.newTitle = board.title;
+            draft.newColor = board.color;
+            draft.newIsPinned = board.isPinned;
+            draft.newIsFavorite = board.isFavorite;
+          }
+
+          draft.isEditing = false;
+        }),
+      );
       return true;
-    } else {
-      set({ isEditing: false });
-      return false;
     }
+    set({ isEditing: false });
+    return false;
   },
 
-  deleteBoard: async (token) => {
+  deleteBoard: async () => {
     const { selectedBoard } = get();
     if (!selectedBoard?.uuid) {
       return false;
     }
 
-    const deleted = await deleteBoard(token, selectedBoard.uuid);
+    const deleted = await deleteBoard(selectedBoard.uuid);
     if (deleted) {
       set((state) => {
         const updatedBoards = state.boards.filter(
@@ -101,8 +132,8 @@ const useBoardStore = create((set, get) => ({
         return {
           boards: updatedBoards,
           isDeleteBoardModalOpen: false,
-          selectedBoard: null, 
-          isOpen: false, 
+          selectedBoard: null,
+          isOpen: false,
         };
       });
       return true;
@@ -115,6 +146,8 @@ const useBoardStore = create((set, get) => ({
       selectedBoard: board,
       newTitle: board.title,
       newColor: board.color,
+      newIsPinned: board.isPinned ?? false,
+      newIsFavorite: board.isFavorite ?? false,
       isOpen: true,
       isEditing: false,
     });

@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import {
   Dialog,
   DialogPanel,
@@ -12,16 +12,16 @@ import { ColorSelector } from '@components/dashboard-components/ColorSelector';
 import { IoMdSettings } from 'react-icons/io';
 import useBoardStore from '@store/boardStore';
 import useTaskStore from '@store/taskStore';
-import { useAuthStore } from '@store/authStore';
 
 export default function BoardDetailsModal() {
-  const token = useAuthStore((state) => state.accessToken);
   const {
     selectedBoard,
     isOpen,
     isEditing,
     newTitle,
     newColor,
+    newIsPinned,
+    newIsFavorite,
     setNewTitle,
     setNewColor,
     setIsOpen,
@@ -33,8 +33,28 @@ export default function BoardDetailsModal() {
   const { setIsCreateTaskModalOpen } = useTaskStore();
 
   const saveUpdateBoard = () => {
-    updateBoard(token);
+    if (!selectedBoard) return;
+
+    const updatedFields = {};
+    if (newTitle !== selectedBoard.title) {
+      updatedFields.title = newTitle;
+    }
+    const cleanNewColor = newColor.startsWith('#')
+      ? newColor.slice(1)
+      : newColor;
+    if (cleanNewColor !== selectedBoard.color) {
+      updatedFields.color = cleanNewColor;
+    }
+    if (newIsPinned !== selectedBoard.isPinned) {
+      updatedFields.isPinned = newIsPinned;
+    }
+    if (newIsFavorite !== selectedBoard.isFavorite) {
+      updatedFields.isFavorite = newIsFavorite;
+    }
+
+    updateBoard({ uuid: selectedBoard.uuid, ...updatedFields });
   };
+
   const saveDeleteBoard = () => {
     setIsDeleteBoardModalOpen(true);
   };
@@ -46,10 +66,8 @@ export default function BoardDetailsModal() {
         className="relative z-50"
         onClose={() => setIsOpen(false)}
       >
-        <div className="fixed inset-0 bg-transparent bg-opacity-25" />
-
         <div className="fixed inset-0">
-          <div className="flex min-h-full items-end justify-center p-4 pb-0">
+          <div className="flex h-full items-end justify-center p-4 pb-0">
             <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
@@ -58,8 +76,12 @@ export default function BoardDetailsModal() {
               leaveTo="translate-y-full"
             >
               <DialogPanel
-                className="w-full max-w-6xl h-[90vh] border-4 border-b-0 bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all"
-                style={{ borderColor: `#${selectedBoard?.color}` }}
+                className="w-full h-[90%] max-w-6xl border-4 border-b-0 bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all"
+                style={{
+                  borderColor: selectedBoard?.color.startsWith('#')
+                    ? selectedBoard?.color
+                    : `#${selectedBoard?.color}`,
+                }}
               >
                 <div
                   className="relative flex items-center justify-center gap-2 px-[80px]"
@@ -99,13 +121,6 @@ export default function BoardDetailsModal() {
                       >
                         <IoCheckmark size={40} />
                       </button>
-                      {/* <button
-                        className="!p-2"
-                        onClick={() => setisEditing(false)}
-                        title="Отмена"
-                      >
-                        <IoCloseOutline size={40} />
-                      </button> */}
                     </>
                   ) : (
                     <>

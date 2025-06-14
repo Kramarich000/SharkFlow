@@ -17,7 +17,7 @@ export default async function uploadingUserDataHandle() {
     }
   } catch (error) {
     if (error.response) {
-      console.log(error);
+      // console.log(error);
 
       if (error.response.status === 401) {
         showToast(error.response.data.error, 'error');

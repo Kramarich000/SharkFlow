@@ -4,6 +4,14 @@
   @apply !transition-colors bg-[#1A1A1A] hover:bg-gray-600 w-full text-white py-3 px-6 rounded-4xl mt-2;
 }
 
+.label-styles {
+  @apply absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1 peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888]
+}
+
+.input-styles {
+  @apply w-full p-4 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all
+}
+
 #root {
   margin: 0 auto;
   width: 100%;

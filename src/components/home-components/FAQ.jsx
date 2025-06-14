@@ -24,7 +24,7 @@ export default function FAQ() {
                 transition={{ delay: 0.1 * item.id }}
                 viewport={{ once: true }}
               >
-                <DisclosureButton className="w-full flex-col sm:flex-row text-center sm:text-center flex justify-between !px-2 items-center py-4 text-lg font-medium !border-b-black !rounded-none focus:outline-none hover:text-[#808080] !transition">
+                <DisclosureButton className="w-full flex-col sm:flex-row text-center sm:text-center flex justify-between !px-2 items-center py-4 text-lg font-medium !border-b-[#111111] !rounded-none focus:outline-none hover:text-[#808080] !transition">
                   <p className="mb-3 sm:mb-0">{item.question}</p>
                   <FaArrowDown
                     className={`transition-transform ${

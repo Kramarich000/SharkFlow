@@ -1,7 +1,7 @@
 import api from '@api/http/http';
 import { showToast } from '@utils/toast';
 
-export async function createBoard(token, { title, color }) {
+export async function createBoard({ title, color }) {
   if (!title.trim()) {
     showToast('Название не может быть пустым', 'error');
     return null;
@@ -12,16 +12,10 @@ export async function createBoard(token, { title, color }) {
   }
 
   try {
-    const response = await api.post(
-      '/todo/createBoard',
-      { title, color },
-    //   {
-    //     headers: { Authorization: `Bearer ${token}` },
-    //   },
-    );
-
+    const response = await api.post('/todo/createBoard', { title, color });
+    // console.log(response);
     if (response.data && response.data.title && response.data.color) {
-      showToast('Доска успешно создана', 'success');
+      showToast('Доска создана', 'success');
       return response.data;
     } else {
       showToast('Ошибка при создании доски', 'error');

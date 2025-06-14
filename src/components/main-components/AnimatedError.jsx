@@ -15,7 +15,7 @@ const AnimatedError = ({ msg, centered = false, variant = 'default' }) => {
     : isForgotPassword
       ? 'left-[30%] -translate-x-1/2'
       : centered
-        ? 'left-[25%] -translate-x-1/2'
+        ? 'left-[50%] -translate-x-1/2'
         : 'left-4';
 
   return (

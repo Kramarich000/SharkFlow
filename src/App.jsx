@@ -17,15 +17,11 @@ import BackToTop from '@components/main-components/BackToTop';
 
 function App() {
   const blockedPublicPaths = ['/login', '/register'];
-  const { isAuthLoading } = useAuthTokenRefresh();
+  useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
   useSocket(accessToken);
 
   const { isMobile } = useResponsive();
-
-  // if (isAuthLoading) {
-  //   return <Loader />;
-  // }
 
   return (
     <Router>
@@ -33,7 +29,6 @@ function App() {
       <Suspense fallback={<Loader />}>
         <Header />
         <main className="p-5 w-full max-w-[1280px] mx-auto grow">
-          {/* <div className="">{notify}</div> */}
           <Routes>
             {routes.map((route) => (
               <Route

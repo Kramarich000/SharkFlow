@@ -18,11 +18,15 @@ export function useSocket(accessToken) {
     const socket = connectSocket(accessToken);
 
     setupSocketListeners(socket, {
-      onConnect: () => showToast('Соединение установлено!', 'info'),
-      // onError: () =>
-      //   showToast('Ошибка при попытке установить соединение!', 'error'),
+      onConnect: () =>
+        // showToast('Соединение установлено!', 'info')
+        console.log('Соединение установлено!'),
+      onError: () => console.log('Ошибка при попытке установить соединение!'),
+      // showToast('Ошибка при попытке установить соединение!', 'error'),
       onNotify: (data) => setNotify(data.message),
-      onDisconnect: () => showToast('Соединение разорвано', 'warning'),
+      onDisconnect: () =>
+        // showToast('Соединение разорвано', 'warning'),
+        console.log('Соединение разорвано'),
     });
 
     return () => disconnectSocket();

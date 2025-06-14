@@ -3,23 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoMdClose } from 'react-icons/io';
 import { useState } from 'react';
+import { navLinks } from '@data/navLinks';
 import { useAuthStore } from '@store/authStore';
 
 export default function Header() {
   const token = useAuthStore((state) => state.accessToken);
-  const [isOpen, setIsOpen] = useState(false);
 
-  const navLinks = token
-    ? [
-        { path: '/', label: 'Главная' },
-        { path: '/dashboard', label: 'Мои доски' },
-        { path: '/settings', label: 'Настройки' },
-      ]
-    : [
-        { path: '/', label: 'Главная' },
-        { path: '/register', label: 'Регистрация' },
-        { path: '/login', label: 'Вход' },
-      ];
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="bg-[#111111] text-white py-4 px-5 w-full shadow-md">
@@ -45,7 +35,7 @@ export default function Header() {
           animate={{ opacity: 1, transform: 'translateY(0px)' }}
           transition={{ duration: 0.3 }}
         >
-          {navLinks.map((link) => (
+          {navLinks(token).map((link) => (
             <Link
               key={link.path}
               to={link.path}
@@ -76,7 +66,7 @@ export default function Header() {
             transition={{ duration: 0.2 }}
             className="sm:hidden bg-[#111111] z-50 left-0 absolute w-full py-4 rounded-md shadow-md flex flex-col gap-3 text-lg"
           >
-            {navLinks.map((link) => (
+            {navLinks(token).map((link) => (
               <Link
                 key={link.path}
                 to={link.path}

@@ -54,8 +54,7 @@ export default function FilterForm({
               value={dateFrom}
               onChange={(dates) => onChangeDateFrom(dates[0] ?? null)}
               options={optsFrom}
-              className="w-full text-center cursor-pointer p-2 placeholder:!text-gray-900 outline-0
-                   !border-0 !border-b-1 border-transparent border-b-[#111111]"
+              className="calendar-styles"
               placeholder="Дата с"
             />
           </div>
@@ -66,15 +65,14 @@ export default function FilterForm({
               value={dateTo}
               onChange={(dates) => onChangeDateTo(dates[0] ?? null)}
               options={optsTo}
-              className="w-full text-center cursor-pointer p-2 placeholder:!text-gray-900 outline-0 
-                    !border-0 !border-b-1 border-transparent border-b-[#111111]"
+              className="calendar-styles"
               placeholder="Дата по"
             />
           </div>
           <Listbox value={recentDays} onChange={onChangeRecentDays}>
             {({ open }) => (
               <div className="relative w-full">
-                <ListboxButton className="!border-0 w-full !p-2 !font-normal  !border-b !rounded-none !border-[#111111]">
+                <ListboxButton className="secondary-btn">
                   {recentDaysOptions.find((o) => o.id === recentDays)?.name ||
                     'Выберите период'}
                 </ListboxButton>
@@ -88,12 +86,12 @@ export default function FilterForm({
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-50"
                 >
-                  <ListboxOptions className="absolute mt-1 outline-0 w-full bg-[#111111] z-50 rounded-3xl">
+                  <ListboxOptions className="options-styles">
                     {recentDaysOptions.map((opt) => (
                       <ListboxOption
                         key={opt.id}
                         value={opt.id}
-                        className="cursor-pointer select-none text-white hover:bg-gray-700 rounded-3xl p-4 !transition-colors"
+                        className="option-styles"
                       >
                         {opt.name}
                       </ListboxOption>
@@ -106,7 +104,7 @@ export default function FilterForm({
           <Listbox value={sortBy} onChange={onChangeSortBy}>
             {({ open }) => (
               <div className="relative w-full">
-                <ListboxButton className="!border-0 w-full !font-normal !border-b-1 !p-2 !rounded-none !border-[#111111]">
+                <ListboxButton className="secondary-btn">
                   {sortOptions.find((o) => o.id === sortBy)?.name ||
                     'Выберите тип'}
                 </ListboxButton>
@@ -120,12 +118,12 @@ export default function FilterForm({
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-50"
                 >
-                  <ListboxOptions className="bg-[#111111] w-full outline-0 z-50 rounded-3xl mt-1 absolute">
+                  <ListboxOptions className="options-styles">
                     {sortOptions.map((opt) => (
                       <ListboxOption
                         key={opt.id}
                         value={opt.id}
-                        className="cursor-pointer select-none text-white hover:bg-gray-700 rounded-3xl p-4 !transition-colors"
+                        className="option-styles"
                       >
                         {opt.name}
                       </ListboxOption>
@@ -138,7 +136,7 @@ export default function FilterForm({
           <Listbox value={sortOrder} onChange={onChangeSortOrder}>
             {({ open }) => (
               <div className="relative w-full">
-                <ListboxButton className="!border-0 w-full  !font-normal !border-b-1 !p-2 !rounded-none !border-[#111111]">
+                <ListboxButton className="secondary-btn">
                   {sortOrder === 'asc'
                     ? 'По возрастанию'
                     : sortOrder === 'desc'
@@ -155,12 +153,12 @@ export default function FilterForm({
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-50"
                 >
-                  <ListboxOptions className="bg-[#111111] w-full outline-0 z-50 mt-1 rounded-3xl absolute">
+                  <ListboxOptions className="options-styles">
                     {['asc', 'desc'].map((o) => (
                       <ListboxOption
                         key={o}
                         value={o}
-                        className="cursor-pointer select-none text-white hover:bg-gray-700 rounded-3xl p-4 !transition-colors"
+                        className="option-styles"
                       >
                         {o === 'asc' ? 'По возрастанию' : 'По убыванию'}
                       </ListboxOption>

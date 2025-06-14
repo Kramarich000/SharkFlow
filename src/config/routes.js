@@ -8,8 +8,6 @@ const DashboardPage = lazy(() => import('@pages/DashboardPage'));
 
 const SettingsPage = lazy(() => import('@pages/SettingsPage'));
 
-const TaskListPage = lazy(() => import('@pages/TaskListPage'));
-
 const HomePage = lazy(() => import('@pages/HomePage'));
 
 const TermsPage = lazy(() => import('@pages/TermsPage'));
@@ -50,14 +48,6 @@ const routes = [
     title: 'Настройки',
     description: 'Регистрация',
     url: `${baseURL}/settings`,
-    private: true,
-  },
-  {
-    path: '/task',
-    component: TaskListPage,
-    title: 'Список',
-    description: 'Регистрация',
-    url: `${baseURL}/task`,
     private: true,
   },
   {

@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { useShallow } from 'zustand/shallow';
 import {
   Dialog,
   DialogPanel,
@@ -19,7 +20,17 @@ export default function CreateBoardModal() {
     createBoard,
     isCreateBoardModalOpen,
     setIsCreateBoardModalOpen,
-  } = useBoardStore();
+  } = useBoardStore(
+    useShallow((state) => ({
+      title: state.title,
+      color: state.color,
+      setTitle: state.setTitle,
+      setColor: state.setColor,
+      createBoard: state.createBoard,
+      isCreateBoardModalOpen: state.isCreateBoardModalOpen,
+      setIsCreateBoardModalOpen: state.setIsCreateBoardModalOpen,
+    })),
+  );
 
   const handleCreateBoard = async () => {
     await createBoard();

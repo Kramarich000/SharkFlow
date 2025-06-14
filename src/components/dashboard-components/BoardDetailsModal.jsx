@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import {
   Dialog,
   DialogPanel,
@@ -28,7 +29,23 @@ export default function BoardDetailsModal() {
     setisEditing,
     updateBoard,
     setIsDeleteBoardModalOpen,
-  } = useBoardStore();
+  } = useBoardStore(
+    useShallow((state) => ({
+      selectedBoard: state.selectedBoard,
+      isOpen: state.isOpen,
+      isEditing: state.isEditing,
+      newTitle: state.newTitle,
+      newColor: state.newColor,
+      newIsPinned: state.newIsPinned,
+      newIsFavorite: state.newIsFavorite,
+      setNewTitle: state.setNewTitle,
+      setNewColor: state.setNewColor,
+      setIsOpen: state.setIsOpen,
+      setisEditing: state.setisEditing,
+      updateBoard: state.updateBoard,
+      setIsDeleteBoardModalOpen: state.setIsDeleteBoardModalOpen,
+    })),
+  );
 
   const { setIsCreateTaskModalOpen } = useTaskStore();
 

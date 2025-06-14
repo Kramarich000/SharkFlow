@@ -6,7 +6,7 @@ export default function Features() {
       <h2 className="text-3xl mb-8">Ключевые особенности</h2>
       <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <motion.li
-          className="bg-[#111111] text-white rounded-4xl p-4"
+          className="li-styles"
           initial={{ transform: 'translateY(100px)', opacity: 0 }}
           whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
           transition={{ delay: 0.25, duration: 0.5 }}
@@ -19,7 +19,7 @@ export default function Features() {
           </p>
         </motion.li>
         <motion.li
-          className="bg-[#111111] text-white rounded-4xl p-4"
+          className="li-styles"
           initial={{ transform: 'translateY(100px)', opacity: 0 }}
           whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
@@ -32,7 +32,7 @@ export default function Features() {
           </p>
         </motion.li>
         <motion.li
-          className="bg-[#111111] text-white rounded-4xl p-4"
+          className="li-styles"
           initial={{ transform: 'translateY(100px)', opacity: 0 }}
           whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
           transition={{ delay: 0.75, duration: 0.5 }}
@@ -45,7 +45,7 @@ export default function Features() {
           </p>
         </motion.li>
         <motion.li
-          className="bg-[#111111] text-white rounded-4xl p-4"
+          className="li-styles"
           initial={{ transform: 'translateY(100px)', opacity: 0 }}
           whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
           transition={{ delay: 1, duration: 0.5 }}

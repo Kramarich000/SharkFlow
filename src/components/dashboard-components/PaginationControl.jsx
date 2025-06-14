@@ -16,7 +16,7 @@ export default function PaginationControl({
         <button
           disabled={page === 1}
           onClick={() => onPageChange(page - 1)}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          className="tertiary-btn"
         >
           <FaArrowLeft />
         </button>
@@ -26,7 +26,7 @@ export default function PaginationControl({
         <button
           disabled={page === totalPages}
           onClick={() => onPageChange(page + 1)}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          className="tertiary-btn"
         >
           <FaArrowLeft className="rotate-180" />
         </button>

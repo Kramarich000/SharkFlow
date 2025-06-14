@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { useShallow } from 'zustand/shallow';
 import {
   Dialog,
   DialogPanel,
@@ -12,13 +13,22 @@ import useBoardStore from '@store/boardStore';
 
 export default function CreateTaskModal() {
   const { selectedBoard } = useBoardStore();
+
   const {
     taskState,
     setTaskState,
     isCreateTaskModalOpen,
     setIsCreateTaskModalOpen,
     createTask,
-  } = useTaskStore();
+  } = useTaskStore(
+    useShallow((state) => ({
+      taskState: state.taskState,
+      setTaskState: state.setTaskState,
+      isCreateTaskModalOpen: state.isCreateTaskModalOpen,
+      setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
+      createTask: state.createTask,
+    })),
+  );
 
   const handleCreateTask = async () => {
     const newTask = await createTask(selectedBoard.uuid);

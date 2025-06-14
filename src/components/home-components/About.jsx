@@ -3,7 +3,7 @@ import team from '@data/team';
 
 export default function About() {
   return (
-    <section className="flex text-[#111111] flex-col  items-center justify-center py-12 mx-auto">
+    <section className="flex text-[#111111] flex-col items-center justify-center py-12 mx-auto">
       <h2 className="text-2xl sm:text-3xl mb-8">О нас</h2>
       <div className="w-full">
         <div className="grid sm:grid-cols-2 gap-4">
@@ -22,7 +22,7 @@ export default function About() {
                     src={item.avatar}
                     alt={item.name}
                     loading="lazy"
-                    className="rounded-full mx-auto mb-2.5 object-cover transition-opacity duration-500 "
+                    className="rounded-full mx-auto mb-2.5 object-cover transition-opacity duration-500"
                   />
                 </div>
                 <h4 className="font-semibold mt-2">{item.name}</h4>

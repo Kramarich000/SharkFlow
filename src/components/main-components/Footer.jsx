@@ -1,31 +1,11 @@
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { navLinks } from '@data/navLinks';
+import { legalLinks } from '@data/legalLinks';
 import { useAuthStore } from '@store/authStore';
 
 export default function Footer() {
   const token = useAuthStore((state) => state.accessToken);
-
-  const navLinks = token
-    ? [
-        { path: '/', label: 'Главная' },
-        { path: '/dashboard', label: 'Мои доски' },
-        { path: '/settings', label: 'Настройки' },
-      ]
-    : [
-        { path: '/', label: 'Главная' },
-        { path: '/register', label: 'Регистрация' },
-        { path: '/login', label: 'Вход' },
-      ];
-
-  const legalLinks = [
-    { path: '/privacy', label: 'Политика конфиденциальности' },
-    { path: '/terms', label: 'Условия пользования' },
-    {
-      path: 'https://github.com/Kramarich000/TaskFlow',
-      label: 'GitHub',
-      external: true,
-    },
-  ];
 
   return (
     <footer className="bg-[#111111] flex-col sm:flex-row items-center flex text-white py-6 px-5 text-base w-full mt-6">
@@ -51,11 +31,11 @@ export default function Footer() {
         >
           <ul className="flex flex-wrap gap-4 items-center justify-center sm:justify-between text-lg">
             <AnimatePresence>
-              {navLinks.map((link) => (
+              {navLinks(token).map((link) => (
                 <motion.li
                   key={link.path}
                   initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, transform: 'translateY(0px)' }}
                   exit={{ opacity: 0, y: -10 }}
                 >
                   <Link to={link.path} className="hover:text-gray-300">
@@ -75,8 +55,8 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, transform: 'translateY(10px)' }}
+                whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
                 transition={{ duration: 0.3 }}
                 viewport={{ once: true }}
               >
@@ -85,8 +65,8 @@ export default function Footer() {
             ) : (
               <motion.div
                 key={label}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, transform: 'translateY(10px)' }}
+                whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
                 transition={{ duration: 0.3 }}
                 viewport={{ once: true }}
               >

@@ -1,4 +1,6 @@
 import { Fragment, useState } from 'react';
+import { useShallow } from 'zustand/shallow';
+
 import {
   Dialog,
   DialogPanel,
@@ -14,7 +16,14 @@ export default function DeleteBoardModal() {
     selectedBoard,
     isDeleteBoardModalOpen,
     setIsDeleteBoardModalOpen,
-  } = useBoardStore();
+  } = useBoardStore(
+    useShallow((state) => ({
+      deleteBoard: state.deleteBoard,
+      selectedBoard: state.selectedBoard,
+      isDeleteBoardModalOpen: state.isDeleteBoardModalOpen,
+      setIsDeleteBoardModalOpen: state.setIsDeleteBoardModalOpen,
+    })),
+  );
 
   const [inputValue, setInputValue] = useState('');
 

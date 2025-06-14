@@ -1,4 +1,4 @@
-export function dateFormatter({ date }) {
+export function dateFormatter(date) {
   return new Date(date).toLocaleString('ru-RU', {
     day: 'numeric',
     month: 'long',

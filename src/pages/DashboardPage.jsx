@@ -2,16 +2,26 @@ import { useState, useEffect, useMemo } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import useBoardStore from '@store/boardStore';
 import { SimpleCheckbox } from '@components/main-components/SimpleСheckBox';
+import { useShallow } from 'zustand/react/shallow';
 
 import SearchBar from '@components/dashboard-components/SearchBar';
 import FilterForm from '@components/dashboard-components/FilterForm';
 import BoardCard from '@components/dashboard-components/BoardCard';
 import PaginationControl from '@components/dashboard-components/PaginationControl';
 
-import CreateTaskModal from '@components/dashboard-components/CreateTaskModal';
-import BoardDetailsModal from '@components/dashboard-components/BoardDetailsModal';
-import DeleteBoardModal from '@components/dashboard-components/DeleteBoardModal';
-import CreateBoardModal from '@components/dashboard-components/CreateBoardModal';
+import Loader from '@components/main-components/Loader';
+const CreateBoardModal = lazy(
+  () => import('@components/dashboard-components/CreateBoardModal'),
+);
+const CreateTaskModal = lazy(
+  () => import('@components/dashboard-components/CreateTaskModal'),
+);
+const BoardDetailsModal = lazy(
+  () => import('@components/dashboard-components/BoardDetailsModal'),
+);
+const DeleteBoardModal = lazy(
+  () => import('@components/dashboard-components/DeleteBoardModal'),
+);
 
 import {
   filterByTitle,
@@ -30,7 +40,6 @@ import {
   sortByTaskCountAsc,
   sortByTaskCountDesc,
 } from '@utils/filters/boardSorts';
-import Loader from '@components/main-components/Loader';
 
 export default function DashboardPage() {
   const {
@@ -40,50 +49,63 @@ export default function DashboardPage() {
     setIsCreateBoardModalOpen,
     updateBoard,
     isLoaded,
-  } = useBoardStore();
+  } = useBoardStore(
+    useShallow((state) => ({
+      boards: state.boards,
+      handleBoardSelect: state.handleBoardSelect,
+      getBoards: state.getBoards,
+      setIsCreateBoardModalOpen: state.setIsCreateBoardModalOpen,
+      updateBoard: state.updateBoard,
+      isLoaded: state.isLoaded,
+    })),
+  );
+
+  // Вместо 8 useState под фильтры/сортировку — один объект
+  const [params, setParams] = useState({
+    searchTerm: '',
+    dateFrom: '',
+    dateTo: '',
+    recentDays: 0,
+    onlyFav: false,
+    sortBy: '',
+    sortOrder: '',
+  });
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [dateFrom, setDateFrom] = useState('');
-  const [dateTo, setDateTo] = useState('');
-  const [recentDays, setRecentDays] = useState(0);
-  const [onlyFav, setOnlyFav] = useState(false);
-  const [sortBy, setSortBy] = useState('');
-  const [sortOrder, setSortOrder] = useState('');
 
   useEffect(() => {
-    if (!isLoaded) {
-      getBoards();
-    }
+    if (!isLoaded) getBoards();
   }, [getBoards, isLoaded]);
 
   const processed = useMemo(() => {
-    let list = filterByTitle(boards, searchTerm);
-    list = filterByCreatedDateRange(list, dateFrom, dateTo);
-    list = filterByRecentDays(list, recentDays);
-    list = filterByFavorites(list, onlyFav);
+    let list = filterByTitle(boards, params.searchTerm);
+    list = filterByCreatedDateRange(list, params.dateFrom, params.dateTo);
+    list = filterByRecentDays(list, params.recentDays);
+    list = filterByFavorites(list, params.onlyFav);
 
-    switch (sortBy) {
+    switch (params.sortBy) {
       case 'title':
         list =
-          sortOrder === 'asc' ? sortByTitleAsc(list) : sortByTitleDesc(list);
+          params.sortOrder === 'asc'
+            ? sortByTitleAsc(list)
+            : sortByTitleDesc(list);
         break;
       case 'createdAt':
         list =
-          sortOrder === 'asc'
+          params.sortOrder === 'asc'
             ? sortByCreatedAsc(list)
             : sortByCreatedDesc(list);
         break;
       case 'updatedAt':
         list =
-          sortOrder === 'asc'
+          params.sortOrder === 'asc'
             ? sortByUpdatedAsc(list)
             : sortByUpdatedDesc(list);
         break;
       case 'taskCount':
         list =
-          sortOrder === 'asc'
+          params.sortOrder === 'asc'
             ? sortByTaskCountAsc(list)
             : sortByTaskCountDesc(list);
         break;
@@ -94,19 +116,27 @@ export default function DashboardPage() {
     );
   }, [
     boards,
-    searchTerm,
-    dateFrom,
-    dateTo,
-    recentDays,
-    onlyFav,
-    sortBy,
-    sortOrder,
+    params.searchTerm,
+    params.dateFrom,
+    params.dateTo,
+    params.recentDays,
+    params.onlyFav,
+    params.sortBy,
+    params.sortOrder,
   ]);
 
+  // Сброс страницы при изменении фильтров
   useEffect(
     () => setCurrentPage(1),
-    [searchTerm, dateFrom, dateTo, recentDays, onlyFav],
+    [
+      params.searchTerm,
+      params.dateFrom,
+      params.dateTo,
+      params.recentDays,
+      params.onlyFav,
+    ],
   );
+
   const totalPages = Math.max(1, Math.ceil(processed.length / pageSize));
   useEffect(() => {
     if (currentPage > totalPages) setCurrentPage(totalPages);
@@ -119,10 +149,7 @@ export default function DashboardPage() {
 
   const handleTogglePin = async (board) => {
     try {
-      updateBoard({
-        uuid: board.uuid,
-        isPinned: !board.isPinned,
-      });
+      await updateBoard({ uuid: board.uuid, isPinned: !board.isPinned });
     } catch (e) {
       console.error('Не удалось закрепить доску', e);
     }
@@ -130,49 +157,51 @@ export default function DashboardPage() {
 
   const handleToggleFav = async (board) => {
     try {
-      updateBoard({
-        uuid: board.uuid,
-        isFavorite: !board.isFavorite,
-      });
+      await updateBoard({ uuid: board.uuid, isFavorite: !board.isFavorite });
     } catch (e) {
       console.error('Не удалось добавить доску в избранное', e);
     }
   };
 
-  if (!isLoaded) {
-    return <Loader />;
-  }
+  if (!isLoaded) return <Loader />;
 
   return (
     <div className="flex flex-col h-full p-6">
       <h2 className="mb-4 text-3xl font-semibold">Мои доски</h2>
 
       <div className="mb-6 flex flex-col gap-8">
-        <SearchBar value={searchTerm} onChange={setSearchTerm} />
+        <SearchBar
+          value={params.searchTerm}
+          onChange={(v) => setParams((p) => ({ ...p, searchTerm: v }))}
+        />
 
         <FilterForm
-          dateFrom={dateFrom}
-          onChangeDateFrom={setDateFrom}
-          dateTo={dateTo}
-          onChangeDateTo={setDateTo}
-          recentDays={recentDays}
-          onChangeRecentDays={setRecentDays}
-          onChangeOnlyFav={setOnlyFav}
-          sortBy={sortBy}
-          onChangeSortBy={setSortBy}
-          sortOrder={sortOrder}
-          onChangeSortOrder={setSortOrder}
+          dateFrom={params.dateFrom}
+          onChangeDateFrom={(v) => setParams((p) => ({ ...p, dateFrom: v }))}
+          dateTo={params.dateTo}
+          onChangeDateTo={(v) => setParams((p) => ({ ...p, dateTo: v }))}
+          recentDays={params.recentDays}
+          onChangeRecentDays={(v) =>
+            setParams((p) => ({ ...p, recentDays: v }))
+          }
+          onChangeOnlyFav={(v) => setParams((p) => ({ ...p, onlyFav: v }))}
+          sortBy={params.sortBy}
+          onChangeSortBy={(v) => setParams((p) => ({ ...p, sortBy: v }))}
+          sortOrder={params.sortOrder}
+          onChangeSortOrder={(v) => setParams((p) => ({ ...p, sortOrder: v }))}
         />
       </div>
+
       <div className="flex items-center mb-4">
         <div className="p-4">
           <SimpleCheckbox
             id="onlyFav"
             label="Избранные"
-            checked={onlyFav}
-            onChange={setOnlyFav}
+            checked={params.onlyFav}
+            onChange={(v) => setParams((p) => ({ ...p, onlyFav: v }))}
           />
         </div>
+
         <button
           className="ml-auto bg-white hover:bg-gray-200 rounded-3xl px-6 py-2 flex items-center gap-2"
           onClick={() => setIsCreateBoardModalOpen(true)}
@@ -180,10 +209,11 @@ export default function DashboardPage() {
           <FaPlus size={20} /> Создать
         </button>
       </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 overflow-auto">
         {currentBoards.map((board) => (
           <BoardCard
-            key={`${board.uuid}`}
+            key={board.uuid}
             board={board}
             onOpen={handleBoardSelect}
             onTogglePin={handleTogglePin}
@@ -200,10 +230,12 @@ export default function DashboardPage() {
         onPageSizeChange={setPageSize}
       />
 
-      <CreateBoardModal />
-      <CreateTaskModal />
-      <BoardDetailsModal />
-      <DeleteBoardModal />
+      <Suspense fallback={<Loader />}>
+        <CreateBoardModal />
+        <CreateTaskModal />
+        <BoardDetailsModal />
+        <DeleteBoardModal />
+      </Suspense>
     </div>
   );
 }

@@ -94,13 +94,13 @@ export default function RegisterFirstStep() {
                       handleChange(e);
                     }}
                     onBlur={handleBlur}
-                    className="input-styles"
+                    className="peer input-styles !pr-8"
                   />
                   <label htmlFor="password" className="label-styles">
                     Введите пароль
                   </label>
                   <div
-                    className="absolute right-1 bottom-2 !p-2 cursor-pointer"
+                    className="absolute right-1 bottom-2.5 !p-2 cursor-pointer"
                     onClick={togglePasswordVisible}
                   >
                     {!passwordVisible ? (
@@ -131,13 +131,13 @@ export default function RegisterFirstStep() {
                   </ErrorMessage>
                 </div>
 
-                <div className="text-sm col-span-2">
+                <div className="text-[12px] sm:text-sm col-span-2">
                   <FormikCheckbox
                     name="acceptedPolicies"
                     id="acceptedPolicies"
                     label={
                       <>
-                        Я согласен(-на) с{' '}
+                        Я согласен с{' '}
                         <Link
                           target="_blank"
                           rel="noopener noreferrer"

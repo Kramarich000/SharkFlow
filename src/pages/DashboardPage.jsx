@@ -1,8 +1,10 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import useBoardStore from '@store/boardStore';
 import { SimpleCheckbox } from '@components/main-components/SimpleСheckBox';
 import { useShallow } from 'zustand/react/shallow';
+import { motion } from 'framer-motion';
+import { AiOutlineSync } from 'react-icons/ai';
 
 import SearchBar from '@components/dashboard-components/SearchBar';
 import FilterForm from '@components/dashboard-components/FilterForm';
@@ -59,8 +61,7 @@ export default function DashboardPage() {
       isLoaded: state.isLoaded,
     })),
   );
-
-  // Вместо 8 useState под фильтры/сортировку — один объект
+  const [loading, setLoading] = useState(true);
   const [params, setParams] = useState({
     searchTerm: '',
     dateFrom: '',
@@ -75,7 +76,10 @@ export default function DashboardPage() {
   const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
-    if (!isLoaded) getBoards();
+    if (!isLoaded) {
+      setLoading(false);
+      getBoards();
+    }
   }, [getBoards, isLoaded]);
 
   const processed = useMemo(() => {
@@ -125,7 +129,6 @@ export default function DashboardPage() {
     params.sortOrder,
   ]);
 
-  // Сброс страницы при изменении фильтров
   useEffect(
     () => setCurrentPage(1),
     [
@@ -163,79 +166,90 @@ export default function DashboardPage() {
     }
   };
 
-  if (!isLoaded) return <Loader />;
-
   return (
-    <div className="flex flex-col h-full p-6">
-      <h2 className="mb-4 text-3xl font-semibold">Мои доски</h2>
-
-      <div className="mb-6 flex flex-col gap-8">
-        <SearchBar
-          value={params.searchTerm}
-          onChange={(v) => setParams((p) => ({ ...p, searchTerm: v }))}
-        />
-
-        <FilterForm
-          dateFrom={params.dateFrom}
-          onChangeDateFrom={(v) => setParams((p) => ({ ...p, dateFrom: v }))}
-          dateTo={params.dateTo}
-          onChangeDateTo={(v) => setParams((p) => ({ ...p, dateTo: v }))}
-          recentDays={params.recentDays}
-          onChangeRecentDays={(v) =>
-            setParams((p) => ({ ...p, recentDays: v }))
-          }
-          onChangeOnlyFav={(v) => setParams((p) => ({ ...p, onlyFav: v }))}
-          sortBy={params.sortBy}
-          onChangeSortBy={(v) => setParams((p) => ({ ...p, sortBy: v }))}
-          sortOrder={params.sortOrder}
-          onChangeSortOrder={(v) => setParams((p) => ({ ...p, sortOrder: v }))}
-        />
-      </div>
-
-      <div className="flex items-center mb-4">
-        <div className="p-4">
-          <SimpleCheckbox
-            id="onlyFav"
-            label="Избранные"
-            checked={params.onlyFav}
-            onChange={(v) => setParams((p) => ({ ...p, onlyFav: v }))}
-          />
+    <>
+      {loading ? (
+        <div className="flex items-center h-full w-full justify-center gap-4">
+          <AiOutlineSync className="text-5xl animate-spin" />
+          <p className="text-4xl animate-pulse">Загрузка ваших досок</p>
         </div>
+      ) : (
+        <div className="flex flex-col h-full p-6">
+          <h2 className="mb-4 text-3xl font-semibold">Мои доски</h2>
 
-        <button
-          className="ml-auto bg-white hover:bg-gray-200 rounded-3xl px-6 py-2 flex items-center gap-2"
-          onClick={() => setIsCreateBoardModalOpen(true)}
-        >
-          <FaPlus size={20} /> Создать
-        </button>
-      </div>
+          <div className="mb-6 flex flex-col gap-8">
+            <SearchBar
+              value={params.searchTerm}
+              onChange={(v) => setParams((p) => ({ ...p, searchTerm: v }))}
+            />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 overflow-auto">
-        {currentBoards.map((board) => (
-          <BoardCard
-            key={board.uuid}
-            board={board}
-            onOpen={handleBoardSelect}
-            onTogglePin={handleTogglePin}
-            onToggleFav={handleToggleFav}
+            <FilterForm
+              dateFrom={params.dateFrom}
+              onChangeDateFrom={(v) =>
+                setParams((p) => ({ ...p, dateFrom: v }))
+              }
+              dateTo={params.dateTo}
+              onChangeDateTo={(v) => setParams((p) => ({ ...p, dateTo: v }))}
+              recentDays={params.recentDays}
+              onChangeRecentDays={(v) =>
+                setParams((p) => ({ ...p, recentDays: v }))
+              }
+              onChangeOnlyFav={(v) => setParams((p) => ({ ...p, onlyFav: v }))}
+              sortBy={params.sortBy}
+              onChangeSortBy={(v) => setParams((p) => ({ ...p, sortBy: v }))}
+              sortOrder={params.sortOrder}
+              onChangeSortOrder={(v) =>
+                setParams((p) => ({ ...p, sortOrder: v }))
+              }
+            />
+          </div>
+
+          <div className="flex items-center mb-4">
+            <div className="p-4">
+              <SimpleCheckbox
+                id="onlyFav"
+                label="Избранные"
+                checked={params.onlyFav}
+                onChange={(v) => setParams((p) => ({ ...p, onlyFav: v }))}
+              />
+            </div>
+
+            <button
+              className="ml-auto bg-white hover:bg-gray-200 rounded-3xl px-6 py-2 flex items-center gap-2"
+              onClick={() => setIsCreateBoardModalOpen(true)}
+            >
+              <FaPlus size={20} /> Создать
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 overflow-auto">
+            {currentBoards.map((board) => (
+              <BoardCard
+                key={board.uuid}
+                board={board}
+                onOpen={handleBoardSelect}
+                onTogglePin={handleTogglePin}
+                onToggleFav={handleToggleFav}
+              />
+            ))}
+          </div>
+
+          <PaginationControl
+            page={currentPage}
+            totalPages={totalPages}
+            pageSize={pageSize}
+            onPageChange={setCurrentPage}
+            onPageSizeChange={setPageSize}
           />
-        ))}
-      </div>
 
-      <PaginationControl
-        page={currentPage}
-        totalPages={totalPages}
-        pageSize={pageSize}
-        onPageChange={setCurrentPage}
-        onPageSizeChange={setPageSize}
-      />
-
-      <Suspense fallback={<Loader />}>
-        <CreateBoardModal />
-        <CreateTaskModal />
-        <BoardDetailsModal />
-        <DeleteBoardModal />
-      </Suspense>
-    </div>
+          <Suspense fallback={null}>
+            <CreateBoardModal />
+            <CreateTaskModal />
+            <BoardDetailsModal />
+            <DeleteBoardModal />
+          </Suspense>
+        </div>
+      )}
+    </>
   );
 }

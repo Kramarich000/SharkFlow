@@ -19,7 +19,7 @@ function App() {
   const blockedPublicPaths = ['/login', '/register'];
   useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
-  useSocket(accessToken);
+  // useSocket(accessToken);
 
   const { isMobile } = useResponsive();
 

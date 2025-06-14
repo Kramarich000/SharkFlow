@@ -20,7 +20,7 @@ export function FormikCheckbox({ label, id, ...props }) {
           setChecked(!checked);
         }
       }}
-      className={`flex items-center gap-2 cursor-pointer outline-none`}
+      className={`flex items-center gap-1 sm:gap-2 cursor-pointer outline-none`}
     >
       <div
         className={`w-5 h-5 flex items-center justify-center rounded border transition ${

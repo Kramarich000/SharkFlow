@@ -3,10 +3,11 @@ import { showToast } from '@utils/toast/toast';
 
 export async function deleteBoard(uuid) {
   try {
-    const response = await api.post(`/todo/deleteBoard/${uuid}`, {});
+    const response = await api.delete(`/todo/deleteBoard/${uuid}`, {});
     // console.log(response);
     if (response.status === 200) {
-      showToast('Доска удалена', 'success');
+      console.log(response);
+      showToast(`${response.data.message}`, 'success');
       return response.data;
     } else {
       showToast('Ошибка при удалении доски', 'error');

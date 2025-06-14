@@ -77,10 +77,15 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!isLoaded) {
-      setLoading(false);
       getBoards();
     }
-  }, [getBoards]);
+  }, [isLoaded, getBoards]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      setLoading(false);
+    }
+  }, [isLoaded]);
 
   const processed = useMemo(() => {
     let list = filterByTitle(boards, params.searchTerm);

@@ -171,7 +171,7 @@ api.interceptors.response.use(
           return api(originalRequest);
         } else {
           useAuthStore.getState().clearAccessToken();
-          showToast('Сессия истекла. Пожалуйста, войдите снова', 'info');
+          // showToast('Сессия истекла. Пожалуйста, войдите снова', 'info');
           processQueue(error, null);
           return Promise.reject(error);
         }

@@ -6,7 +6,7 @@ export async function deleteBoard(uuid) {
     const response = await api.delete(`/todo/deleteBoard/${uuid}`, {});
     // console.log(response);
     if (response.status === 200) {
-      console.log(response);
+      // console.log(response);
       showToast(`${response.data.message}`, 'success');
       return response.data;
     } else {

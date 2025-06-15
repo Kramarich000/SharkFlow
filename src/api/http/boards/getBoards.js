@@ -5,7 +5,7 @@ export async function getBoards() {
   try {
     const response = await api.get('/todo/getBoards', {});
     if (response.status === 200) {
-      console.log(response.data.boards);
+      // console.log(response.data.boards);
       return response.data.boards;
     } else {
       showToast('Ошибка при загрузке досок', 'error');

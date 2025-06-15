@@ -152,17 +152,22 @@ api.interceptors.response.use(
     ) {
       originalRequest._retry = true;
       if (isRefresh) {
-        return new Promise((res, rej) => failedQueue.push({ res, rej })).then(
-          (token) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            return api(originalRequest);
-          },
-        );
+        return new Promise((resolve, reject) =>
+          failedQueue.push({ resolve, reject }),
+        ).then((token) => {
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          return api(originalRequest);
+        });
       }
       isRefresh = true;
       try {
         const refreshResp = await refreshClient.post('/refresh');
-        if (refreshResp.status === 200 && refreshResp.data.accessToken) {
+        if (
+          refreshResp &&
+          refreshResp.status === 200 &&
+          refreshResp.data &&
+          refreshResp.data.accessToken
+        ) {
           const newToken = refreshResp.data.accessToken;
           useAuthStore.getState().setAccessToken(newToken);
           api.defaults.headers.common.Authorization = `Bearer ${newToken}`;
@@ -171,7 +176,7 @@ api.interceptors.response.use(
           return api(originalRequest);
         } else {
           useAuthStore.getState().clearAccessToken();
-          // showToast('Сессия истекла. Пожалуйста, войдите снова', 'info');
+          showToast('Сессия истекла. Пожалуйста, войдите снова', 'info');
           processQueue(error, null);
           return Promise.reject(error);
         }
@@ -206,6 +211,33 @@ api.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error),
+);
+
+api.interceptors.response.use(
+  (res) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log(
+        '%cRESPONSE:',
+        'color: green; font-weight: bold;',
+        res.status,
+        res.config.url,
+        res,
+      );
+    }
+    return res;
+  },
+  (error) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.error(
+        '%cRESPONSE ERROR:',
+        'color: red; font-weight: bold;',
+        error?.response?.status,
+        error?.config?.url,
+        error,
+      );
+    }
+    return Promise.reject(error);
+  },
 );
 
 export default api;

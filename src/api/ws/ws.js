@@ -26,17 +26,17 @@ export const setupSocketListeners = (
   { onNotify, onError, onConnect, onDisconnect },
 ) => {
   socket.on('connect', () => {
-    console.log('[SOCKET] Connected with id:', socket.id);
+    // console.log('[SOCKET] Connected with id:', socket.id);
     onConnect?.();
   });
 
   socket.on('connect_error', (err) => {
-    console.error('[SOCKET] Connection error:', err.message);
+    // console.error('[SOCKET] Connection error:', err.message);
     onError?.(err);
   });
 
   socket.on('notification', (data) => {
-    console.log('[SOCKET] Notification:', data);
+    // console.log('[SOCKET] Notification:', data);
     onNotify?.(data);
   });
 

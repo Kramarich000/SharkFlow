@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import routes from './config/routes';
@@ -14,11 +14,18 @@ import { useAuthTokenRefresh } from '@hooks/useAuthTokenRefresh';
 import { useSocket } from '@hooks/useSocket';
 import { useAuthStore } from '@store/authStore';
 import BackToTop from '@components/main-components/BackToTop';
+import uploadingUserDataHandle from '@api/http/user/uploadingUserDataHandle';
 
 function App() {
   const blockedPublicPaths = ['/login', '/register'];
   useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
+
+  useEffect(() => {
+    if (accessToken) {
+      uploadingUserDataHandle();
+    }
+  }, [accessToken]);
   // useSocket(accessToken);
 
   const { isMobile } = useResponsive();

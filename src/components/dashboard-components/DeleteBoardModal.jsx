@@ -44,6 +44,7 @@ export default function DeleteBoardModal() {
       }
     } else {
       setLoad(false);
+      showToast('Название доски неверно', 'error');
     }
   };
 

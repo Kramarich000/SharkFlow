@@ -20,10 +20,10 @@ const useBoardStore = create((set, get) => ({
   newIsPinned: false,
   newIsFavorite: false,
 
-  setNewIsPinned: (newIsPinned) => set({ newIsPinned }),
-  setNewIsFavorite: (newIsFavorite) => set({ newIsFavorite }),
-  setBoards: (boards) => set({ boards }),
-  setSelectedBoard: (board) => set({ selectedBoard: board }),
+  // setNewIsPinned: (newIsPinned) => set({ newIsPinned }),
+  // setNewIsFavorite: (newIsFavorite) => set({ newIsFavorite }),
+  // setBoards: (boards) => set({ boards }),
+  // setSelectedBoard: (board) => set({ selectedBoard: board }),
   setIsOpen: (isOpen) => set({ isOpen }),
   setIsCreateBoardModalOpen: (isOpen) =>
     set({ isCreateBoardModalOpen: isOpen }),
@@ -104,8 +104,6 @@ const useBoardStore = create((set, get) => ({
           draft.newIsPinned = b.isPinned;
           draft.newIsFavorite = b.isFavorite;
         }
-
-        draft.isEditing = false;
       }),
     );
   },
@@ -119,7 +117,6 @@ const useBoardStore = create((set, get) => ({
     if (isPinned !== undefined) updatedFields.isPinned = isPinned;
     if (isFavorite !== undefined) updatedFields.isFavorite = isFavorite;
     if (Object.keys(updatedFields).length === 0) {
-      set({ isEditing: false });
       return false;
     }
 
@@ -129,6 +126,7 @@ const useBoardStore = create((set, get) => ({
     get().applyBoardUpdate({ uuid, ...updatedFields });
 
     const updatedData = await get().updateBoardInApi(uuid, updatedFields);
+    set({ isEditing: false });
 
     if (updatedData) {
       get().applyBoardUpdate(updatedData);

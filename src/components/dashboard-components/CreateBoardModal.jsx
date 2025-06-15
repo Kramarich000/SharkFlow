@@ -63,7 +63,7 @@ export default function CreateBoardModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-6xl h-[280px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="w-full border-2 max-w-6xl h-[180px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
                 <div className="flex items-center justify-between">
                   <input
                     autoFocus
@@ -80,7 +80,7 @@ export default function CreateBoardModal() {
                   />
                   <ColorSelector
                     wrapperClassName="relative"
-                    pickerClassName="top-[-22px] left-[-270px]"
+                    pickerClassName="!top-[60px] !left-[-300px]"
                     color={color}
                     setColor={setColor}
                     disabled={load}

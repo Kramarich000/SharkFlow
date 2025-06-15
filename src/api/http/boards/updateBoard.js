@@ -24,7 +24,7 @@ export async function updateBoard(uuid, updatedFields) {
       `/todo/updateBoard/${uuid}`,
       updatedFields,
     );
-
+    console.log(response);
     if (response.status === 200 && response.data?.data) {
       const board = response.data.data;
 

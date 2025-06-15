@@ -31,6 +31,11 @@ export async function createBoard({ title, color }) {
       return false;
     }
 
+    if (error.response && error.response.status === 409) {
+      showToast(error.response.data.error, 'error');
+      return false;
+    }
+
     console.error('Ошибка при создании доски:', error);
     showToast('Серверная ошибка', 'error');
     return null;

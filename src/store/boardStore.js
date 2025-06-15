@@ -76,6 +76,40 @@ const useBoardStore = create((set, get) => ({
     return false;
   },
 
+  updateBoardInApi: async (uuid, updatedFields) => {
+    if (!uuid || Object.keys(updatedFields).length === 0) return null;
+    try {
+      return await updateBoard(uuid, updatedFields);
+    } catch (err) {
+      console.error('API update error:', err);
+      return null;
+    }
+  },
+
+  applyBoardUpdate: (updatedData) => {
+    set((state) =>
+      produce(state, (draft) => {
+        const board = draft.boards.find((b) => b.uuid === updatedData.uuid);
+        if (!board) return;
+        if (!updatedData.updatedAt) {
+          updatedData.updatedAt = new Date().toISOString();
+        }
+        Object.assign(board, updatedData);
+
+        if (draft.selectedBoard?.uuid === updatedData.uuid) {
+          const b = board;
+          draft.selectedBoard = { ...b };
+          draft.newTitle = b.title;
+          draft.newColor = b.color;
+          draft.newIsPinned = b.isPinned;
+          draft.newIsFavorite = b.isFavorite;
+        }
+
+        draft.isEditing = false;
+      }),
+    );
+  },
+
   updateBoard: async ({ uuid, title, color, isPinned, isFavorite }) => {
     if (!uuid) return false;
 
@@ -89,31 +123,21 @@ const useBoardStore = create((set, get) => ({
       return false;
     }
 
-    const updatedData = await updateBoard(uuid, updatedFields);
-    // console.log(updatedData);
+    const prev = get().boards.find((b) => b.uuid === uuid);
+    const prevSnapshot = prev ? { ...prev } : null;
+
+    get().applyBoardUpdate({ uuid, ...updatedFields });
+
+    const updatedData = await get().updateBoardInApi(uuid, updatedFields);
 
     if (updatedData) {
-      set((state) =>
-        produce(state, (draft) => {
-          const board = draft.boards.find((b) => b.uuid === uuid);
-          if (!board) return;
-
-          Object.assign(board, updatedData);
-
-          if (draft.selectedBoard?.uuid === uuid) {
-            draft.selectedBoard = { ...board };
-            draft.newTitle = board.title;
-            draft.newColor = board.color;
-            draft.newIsPinned = board.isPinned;
-            draft.newIsFavorite = board.isFavorite;
-          }
-
-          draft.isEditing = false;
-        }),
-      );
+      get().applyBoardUpdate(updatedData);
       return true;
     }
-    set({ isEditing: false });
+
+    if (prevSnapshot) {
+      get().applyBoardUpdate(prevSnapshot);
+    }
     return false;
   },
 

@@ -9,7 +9,7 @@ export default async function uploadingUserDataHandle() {
       },
     });
     if (response.status === 200) {
-      showToast(response.data.message, 'success');
+      showToast(`С возвращением ${response.data.login}!`);
       return true;
     } else {
       showToast('Что-то пошло не так', 'error');
@@ -17,8 +17,6 @@ export default async function uploadingUserDataHandle() {
     }
   } catch (error) {
     if (error.response) {
-      // console.log(error);
-
       if (error.response.status === 401) {
         showToast(error.response.data.error, 'error');
       } else if (error.response.status === 500) {

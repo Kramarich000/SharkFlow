@@ -155,17 +155,17 @@ export default function DashboardPage() {
     currentPage * pageSize,
   );
 
-  const handleTogglePin = (board) => {
+  const handleTogglePin = async (board) => {
     try {
-      updateBoard({ uuid: board.uuid, isPinned: !board.isPinned });
+      await updateBoard({ uuid: board.uuid, isPinned: !board.isPinned });
     } catch (e) {
       console.error('Не удалось закрепить доску', e);
     }
   };
 
-  const handleToggleFav = (board) => {
+  const handleToggleFav = async (board) => {
     try {
-      updateBoard({ uuid: board.uuid, isFavorite: !board.isFavorite });
+      await updateBoard({ uuid: board.uuid, isFavorite: !board.isFavorite });
     } catch (e) {
       console.error('Не удалось добавить доску в избранное', e);
     }

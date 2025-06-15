@@ -32,7 +32,7 @@ export async function createBoard({ title, color }) {
     }
 
     console.error('Ошибка при создании доски:', error);
-    // showToast('Серверная ошибка', 'error');
+    showToast('Серверная ошибка', 'error');
     return null;
   }
 }

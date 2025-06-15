@@ -16,7 +16,7 @@ export default function RegisterSecondStep() {
       <Formik
         initialValues={{ confirmationCode: '' }}
         onSubmit={async (values, actions) => {
-          const success = confirmCodeHandler(values);
+          const success = await confirmCodeHandler(values);
           if (success) {
             setStep(3);
           } else {

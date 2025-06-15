@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { LuEye } from 'react-icons/lu';
 import { LuEyeClosed } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
-import { FormikCheckbox } from '@components/main-components/FormikCheckbox';
+import { FormikCheckbox } from '@components/main-components/checkbox/FormikCheckbox';
 import { useRegisterStore } from '@store/registerStore';
 import { useRef, useState } from 'react';
 import { AiOutlineSync } from 'react-icons/ai';

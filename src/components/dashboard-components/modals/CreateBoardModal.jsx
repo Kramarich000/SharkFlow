@@ -94,10 +94,7 @@ export default function CreateBoardModal() {
                     aria-busy={load}
                   >
                     {load ? (
-                      <AiOutlineSync
-                        size={26}
-                        className="animate-spin duration-75"
-                      />
+                      <AiOutlineSync size={26} className="animate-spin" />
                     ) : (
                       <FaCheck size={26} />
                     )}

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import useBoardStore from '@store/boardStore';
-import { SimpleCheckbox } from '@components/main-components/SimpleСheckBox';
+import { SimpleCheckbox } from '@components/main-components/checkbox/SimpleСheckBox';
 import { useShallow } from 'zustand/react/shallow';
 import { motion } from 'framer-motion';
 import { AiOutlineSync } from 'react-icons/ai';
@@ -13,16 +13,16 @@ import PaginationControl from '@components/dashboard-components/PaginationContro
 
 import Loader from '@components/main-components/Loader';
 const CreateBoardModal = lazy(
-  () => import('@components/dashboard-components/CreateBoardModal'),
+  () => import('@components/dashboard-components/modals/CreateBoardModal'),
 );
 const CreateTaskModal = lazy(
-  () => import('@components/dashboard-components/CreateTaskModal'),
+  () => import('@components/dashboard-components/modals/CreateTaskModal'),
 );
 const BoardDetailsModal = lazy(
-  () => import('@components/dashboard-components/BoardDetailsModal'),
+  () => import('@components/dashboard-components/modals/BoardDetailsModal'),
 );
 const DeleteBoardModal = lazy(
-  () => import('@components/dashboard-components/DeleteBoardModal'),
+  () => import('@components/dashboard-components/modals/DeleteBoardModal'),
 );
 
 import {
@@ -223,7 +223,7 @@ export default function DashboardPage() {
               className="ml-auto bg-white hover:bg-gray-200 rounded-3xl px-6 py-2 flex items-center gap-2"
               onClick={() => setIsCreateBoardModalOpen(true)}
             >
-              <FaPlus size={20} /> Создать
+              <FaPlus size={20} /> Создать доску
             </button>
           </div>
 

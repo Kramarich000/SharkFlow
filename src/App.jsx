@@ -6,8 +6,8 @@ import Page from './components/main-components/Page';
 import Loader from './components/main-components/Loader';
 import { ToastContainer } from 'react-toastify';
 import { useResponsive } from './hooks/useResponsive';
-import PrivateRoute from './components/main-components/PrivateRoute';
-import { PublicRoute } from '@components/main-components/PublicRoute';
+import PrivateRoute from './components/main-components/nav/PrivateRoute';
+import { PublicRoute } from '@components/main-components/nav/PublicRoute';
 import Header from './components/main-components/Header';
 import Footer from './components/main-components/Footer';
 import { useAuthTokenRefresh } from '@hooks/useAuthTokenRefresh';
@@ -15,6 +15,7 @@ import { useSocket } from '@hooks/useSocket';
 import { useAuthStore } from '@store/authStore';
 import BackToTop from '@components/main-components/BackToTop';
 import uploadingUserDataHandle from '@api/http/user/uploadingUserDataHandle';
+import LogoutUserModal from '@components/main-components/LogoutUserModal';
 
 function App() {
   const blockedPublicPaths = ['/login', '/register'];
@@ -48,13 +49,15 @@ function App() {
                 element={
                   <>
                     {route.private ? (
-                      <PrivateRoute>
-                        <Page
-                          component={route.component}
-                          title={route.title}
-                          description={route.description}
-                        />
-                      </PrivateRoute>
+                      <>
+                        <PrivateRoute>
+                          <Page
+                            component={route.component}
+                            title={route.title}
+                            description={route.description}
+                          />
+                        </PrivateRoute>
+                      </>
                     ) : blockedPublicPaths.includes(route.path) ? (
                       <PublicRoute>
                         <Page
@@ -86,6 +89,7 @@ function App() {
           limit={isMobile ? 1 : 10}
         />
       </Suspense>
+      <LogoutUserModal />
     </Router>
   );
 }

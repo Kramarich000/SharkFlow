@@ -95,10 +95,7 @@ export default function DeleteBoardModal() {
                     disabled={load}
                   >
                     {load ? (
-                      <AiOutlineSync
-                        size={25}
-                        className="animate-spin duration-75"
-                      />
+                      <AiOutlineSync size={25} className="animate-spin" />
                     ) : (
                       'Удалить'
                     )}

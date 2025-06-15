@@ -5,10 +5,13 @@ import { IoMdClose } from 'react-icons/io';
 import { useState } from 'react';
 import { navLinks } from '@data/navLinks';
 import { useAuthStore } from '@store/authStore';
+import useModalsStore from '@store/modalsStore';
 
 export default function Header() {
   const token = useAuthStore((state) => state.accessToken);
-
+  const setIsLogoutUserModalOpen = useModalsStore(
+    (state) => state.setIsLogoutUserModalOpen,
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -30,7 +33,7 @@ export default function Header() {
 
         <motion.nav
           key="desktop-nav"
-          className="hidden sm:flex space-x-6 text-lg"
+          className="hidden items-center sm:flex space-x-6 text-lg"
           initial={{ opacity: 0, transform: 'translateY(10px)' }}
           animate={{ opacity: 1, transform: 'translateY(0px)' }}
           transition={{ duration: 0.3 }}
@@ -45,7 +48,12 @@ export default function Header() {
             </Link>
           ))}
         </motion.nav>
-
+        <button
+          onClick={() => setIsLogoutUserModalOpen(true)}
+          className={`!w-fit !p-3 !text-[18px] hover:!text-[#808080] !transition-colors ${!token ? 'hidden pointer-events-none select-none' : null}`}
+        >
+          Выход
+        </button>
         <button
           className="sm:hidden z-50"
           onClick={() => setIsOpen((prev) => !prev)}
@@ -70,7 +78,6 @@ export default function Header() {
               <Link
                 key={link.path}
                 to={link.path}
-                className="hover:text-gray-300 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}

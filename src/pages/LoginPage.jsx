@@ -3,7 +3,7 @@ import { loginSchema } from '@validators/loginSchema';
 import AnimatedError from '@components/main-components/AnimatedError';
 import loginHandler from '@api/http/login/loginHandler';
 import uploadingUserDataHandle from '@api/http/user/uploadingUserDataHandle';
-import { FormikCheckbox } from '@components/main-components/FormikCheckbox';
+import { FormikCheckbox } from '@components/main-components/checkbox/FormikCheckbox';
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LuEye } from 'react-icons/lu';
@@ -16,6 +16,7 @@ export default function LoginPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
 
   return (
     <div className="h-full flex-col flex items-center justify-center">
@@ -135,10 +136,15 @@ export default function LoginPage() {
                       </div>
 
                       <button
-                        className="primary-btn sm:col-span-2"
+                        className={`primary-btn sm:col-span-2 items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : null}`}
                         type="submit"
+                        disabled={load}
                       >
-                        Войти
+                        {load ? (
+                          <AiOutlineSync className="animate-spin" />
+                        ) : (
+                          <>Войти</>
+                        )}
                       </button>
                       <Link className="text-blue-600" to="/register">
                         Нет аккаунта?

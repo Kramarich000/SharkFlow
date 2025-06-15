@@ -9,6 +9,7 @@ import {
 } from '@headlessui/react';
 import useBoardStore from '@store/boardStore';
 import { showToast } from '@utils/toast/toast';
+import { AiOutlineSync } from 'react-icons/ai';
 
 export default function DeleteBoardModal() {
   const {
@@ -26,15 +27,25 @@ export default function DeleteBoardModal() {
   );
 
   const [inputValue, setInputValue] = useState('');
+  const [load, setLoad] = useState(false);
 
   const handleDeleteBoard = async () => {
+    if (load || !selectedBoard) return;
+    setLoad(true);
     if (inputValue.trim() === selectedBoard?.title.trim()) {
-      const result = await deleteBoard();
-      if (result) {
-        setInputValue('');
+      try {
+        const result = await deleteBoard();
+        if (result) {
+          setInputValue('');
+        }
+      } catch (error) {
+        console.log('Ошибка при удалении доски', error);
+      } finally {
+        setLoad(false);
       }
     } else {
       showToast('Название доски неверно!', 'error');
+      setLoad(false);
     }
   };
 
@@ -46,7 +57,6 @@ export default function DeleteBoardModal() {
   return (
     <Transition appear show={isDeleteBoardModalOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={handleClose}>
-        <div className="fixed inset-0 bg-transparent bg-opacity-25" />
         <div className="fixed inset-0">
           <div className="flex min-h-full items-end justify-center p-4 pb-0">
             <TransitionChild
@@ -78,12 +88,21 @@ export default function DeleteBoardModal() {
                     }}
                     className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
                     placeholder="Введите название доски для удаления"
+                    disabled={load}
                   />
                   <button
                     className="primary-btn !bg-red-700 hover:!bg-red-800 !w-fit"
                     onClick={handleDeleteBoard}
+                    disabled={load}
                   >
-                    Удалить
+                    {load ? (
+                      <AiOutlineSync
+                        size={25}
+                        className="animate-spin duration-75"
+                      />
+                    ) : (
+                      'Удалить'
+                    )}
                   </button>
                 </div>
               </DialogPanel>

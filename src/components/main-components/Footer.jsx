@@ -34,9 +34,9 @@ export default function Footer() {
               {navLinks(token).map((link) => (
                 <motion.li
                   key={link.path}
-                  initial={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0, transform: 'translateY(-10px)' }}
                   animate={{ opacity: 1, transform: 'translateY(0px)' }}
-                  exit={{ opacity: 0, y: -10 }}
+                  exit={{ opacity: 0, transform: 'translateY(-10px)' }}
                 >
                   <Link to={link.path} className="hover:text-gray-300">
                     {link.label}

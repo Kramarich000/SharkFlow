@@ -1,14 +1,26 @@
-import { HexColorPicker } from 'react-colorful';
 import { useState, useRef, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const normalizeColor = (color) => (color.startsWith('#') ? color : `#${color}`);
+const presetColors = [
+  '#FF0000',
+  '#00FF00',
+  '#0000FF',
+  '#FF00FF',
+  '#00FFFF',
+  '#000000',
+  '#808080',
+  '#FFA500',
+  '#800080',
+  '#FFFF00',
+  '#008000',
+];
 
 export const ColorSelector = ({
   color,
   setColor,
   wrapperClassName = '',
   pickerClassName = '',
+  disabled = false,
 }) => {
   const [showPicker, setShowPicker] = useState(false);
   const pickerRef = useRef(null);
@@ -25,39 +37,55 @@ export const ColorSelector = ({
         setShowPicker(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   useEffect(() => {
-    const normalized = normalizeColor(color);
     if (buttonRef.current) {
-      buttonRef.current.style.setProperty('background-color', normalized);
+      buttonRef.current.style.setProperty(
+        'background-color',
+        color.startsWith('#') ? color : `#${color}`,
+      );
     }
   }, [color]);
 
   return (
-    <div className={`inline-block relative ${wrapperClassName}`}>
-      <button
+    <div className={`relative ${wrapperClassName}`}>
+      <motion.button
         ref={buttonRef}
-        className="w-10 h-10 !border-2 rounded-full !border-[#111111]"
-        onClick={() => setShowPicker((prev) => !prev)}
+        className="w-10 relative h-10 border-2 rounded-full border-[#111111]"
+        onHoverStart={() => setShowPicker(true)}
+        // onHoverEnd={() => setShowPicker(false)}
         title="Выбрать цвет"
+        disabled={disabled}
       />
       <AnimatePresence>
         {showPicker && (
           <motion.div
+            initial={{ opacity: 0, transform: 'translateY(-10px)' }}
+            animate={{ opacity: 1, transform: 'translateY(0px)' }}
+            exit={{ opacity: 0, transform: 'translateY(-10px)' }}
             ref={pickerRef}
-            initial={{ opacity: 0, transform: 'translateX(50px)' }}
-            animate={{ opacity: 1, transform: 'translateX(0px)' }}
-            exit={{ opacity: 0, transform: 'translateX(50px)' }}
-            className={`absolute z-50 p-4 bg-white rounded-md shadow-xl ${pickerClassName}`}
+            className={`absolute flex p-4 z-50 bg-white left-[0px] rounded-md shadow-xl gap-2 ${pickerClassName}`}
           >
-            <p className="text-center text-xl select-none mb-2">
-              Выберите цвет
-            </p>
-            <HexColorPicker color={color} onChange={setColor} />
+            {presetColors.map((preset) => (
+              <button
+                key={preset}
+                style={{ backgroundColor: preset }}
+                className={`w-8 h-8 rounded-full border-2 ${
+                  preset.toLowerCase() === color.toLowerCase()
+                    ? 'border-black'
+                    : 'border-transparent'
+                }`}
+                onClick={() => {
+                  setColor(preset);
+                  setShowPicker(false);
+                }}
+                title={preset}
+                disabled={disabled}
+              />
+            ))}
           </motion.div>
         )}
       </AnimatePresence>

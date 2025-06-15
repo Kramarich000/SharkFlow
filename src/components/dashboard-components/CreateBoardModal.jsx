@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 import {
   Dialog,
@@ -10,6 +10,7 @@ import { FaCheck } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
 import { ColorSelector } from '@components/dashboard-components/ColorSelector';
 import useBoardStore from '@store/boardStore';
+import { AiOutlineSync } from 'react-icons/ai';
 
 export default function CreateBoardModal() {
   const {
@@ -32,8 +33,18 @@ export default function CreateBoardModal() {
     })),
   );
 
+  const [load, setLoad] = useState(false);
+
   const handleCreateBoard = async () => {
-    await createBoard();
+    if (load) return;
+    setLoad(true);
+    try {
+      await createBoard();
+    } catch (err) {
+      console.error('Ошибка при создании доски:', err);
+    } finally {
+      setLoad(false);
+    }
   };
 
   return (
@@ -59,23 +70,37 @@ export default function CreateBoardModal() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter') handleCreateBoard();
+                      if (e.key === 'Enter') {
+                        handleCreateBoard();
+                      }
                     }}
                     className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
                     placeholder="Введите название доски"
+                    disabled={load}
                   />
                   <ColorSelector
                     wrapperClassName="relative"
                     pickerClassName="top-[-22px] left-[-270px]"
                     color={color}
                     setColor={setColor}
+                    disabled={load}
                   />
                   <button
                     className="!p-2 mx-20"
                     onClick={handleCreateBoard}
                     title="Сохранить"
+                    disabled={load}
+                    aria-disabled={load}
+                    aria-busy={load}
                   >
-                    <FaCheck size={26} />
+                    {load ? (
+                      <AiOutlineSync
+                        size={26}
+                        className="animate-spin duration-75"
+                      />
+                    ) : (
+                      <FaCheck size={26} />
+                    )}
                   </button>
                 </div>
                 <div className="mt-6">

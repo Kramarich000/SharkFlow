@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import {
   Dialog,
@@ -13,6 +13,7 @@ import { ColorSelector } from '@components/dashboard-components/ColorSelector';
 import { IoMdSettings } from 'react-icons/io';
 import useBoardStore from '@store/boardStore';
 import useTaskStore from '@store/taskStore';
+import { AiOutlineSync } from 'react-icons/ai';
 
 export default function BoardDetailsModal() {
   const {
@@ -48,9 +49,11 @@ export default function BoardDetailsModal() {
   );
 
   const { setIsCreateTaskModalOpen } = useTaskStore();
+  const [load, setLoad] = useState(false);
 
-  const saveUpdateBoard = () => {
-    if (!selectedBoard) return;
+  const saveUpdateBoard = async () => {
+    if (!selectedBoard || load) return;
+    setLoad(true);
 
     const updatedFields = {};
     if (newTitle !== selectedBoard.title) {
@@ -69,7 +72,13 @@ export default function BoardDetailsModal() {
       updatedFields.isFavorite = newIsFavorite;
     }
 
-    updateBoard({ uuid: selectedBoard.uuid, ...updatedFields });
+    try {
+      await updateBoard({ uuid: selectedBoard.uuid, ...updatedFields });
+    } catch (err) {
+      console.error('Ошибка при обновлении доски:', err);
+    } finally {
+      setLoad(false);
+    }
   };
 
   const saveDeleteBoard = () => {
@@ -109,7 +118,11 @@ export default function BoardDetailsModal() {
                 >
                   {isEditing ? (
                     <>
-                      <button className="!p-2 group" onClick={saveDeleteBoard}>
+                      <button
+                        className="!p-2 group"
+                        onClick={saveDeleteBoard}
+                        disabled={load}
+                      >
                         <FaTrash
                           size={40}
                           className="group-hover:text-red-500 transition-colors"
@@ -120,6 +133,7 @@ export default function BoardDetailsModal() {
                         pickerClassName="top-[50px]"
                         color={newColor}
                         setColor={setNewColor}
+                        disabled={load}
                       />
                       <input
                         value={newTitle}
@@ -130,13 +144,22 @@ export default function BoardDetailsModal() {
                         }}
                         autoFocus
                         className="text-center max-w-xl text-4xl border-b-2 border-[#111111] focus:outline-none w-full"
+                        disabled={load}
                       />
                       <button
                         className="!p-1.5"
                         onClick={saveUpdateBoard}
                         title="Сохранить"
+                        disabled={load}
                       >
-                        <IoCheckmark size={40} />
+                        {load ? (
+                          <AiOutlineSync
+                            size={40}
+                            className="animate-spin duration-75"
+                          />
+                        ) : (
+                          <IoCheckmark size={40} />
+                        )}
                       </button>
                     </>
                   ) : (
@@ -150,6 +173,7 @@ export default function BoardDetailsModal() {
                       <button
                         onClick={() => setisEditing(true)}
                         title="Редактировать"
+                        disabled={load}
                       >
                         <IoMdSettings size={40} />
                       </button>
@@ -201,6 +225,7 @@ export default function BoardDetailsModal() {
                     key="create-task"
                     className="bg-white hover:bg-[#e6e5e5] !transition-colors rounded-3xl relative col-span-2"
                     onClick={() => setIsCreateTaskModalOpen(true)}
+                    disabled={load}
                   >
                     <FaPlus size={40} color="rgba(0,0,0,.3)" />
                   </button>
@@ -209,6 +234,7 @@ export default function BoardDetailsModal() {
                   type="button"
                   className="inline-flex !transition-transform absolute right-0 justify-center px-4 py-2 text-sm top-[5px]"
                   onClick={() => setIsOpen(false)}
+                  disabled={load}
                 >
                   <IoCloseOutline size={40} />
                 </button>

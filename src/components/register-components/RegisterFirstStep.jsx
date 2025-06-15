@@ -8,12 +8,14 @@ import { LuEyeClosed } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
 import { FormikCheckbox } from '@components/main-components/FormikCheckbox';
 import { useRegisterStore } from '@store/registerStore';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { AiOutlineSync } from 'react-icons/ai';
 
 export default function RegisterFirstStep() {
   const { setStep, passwordVisible, togglePasswordVisible } =
     useRegisterStore();
   const formikRef = useRef(null);
+  const [load, setLoad] = useState(false);
 
   return (
     <motion.div
@@ -22,6 +24,14 @@ export default function RegisterFirstStep() {
       animate={{ opacity: 1, transform: 'translateX(0)' }}
       exit={{ opacity: 0, transform: 'translateX(-50px)' }}
     >
+      <motion.h2
+        initial={{ opacity: 0, transform: 'translateX(50px)' }}
+        animate={{ opacity: 1, transform: 'translateX(0)' }}
+        exit={{ opacity: 0, transform: 'translateX(-50px)' }}
+        className="text-7xl"
+      >
+        Шаг 1/3
+      </motion.h2>
       <Formik
         innerRef={formikRef}
         validationSchema={registerSchema}
@@ -33,18 +43,21 @@ export default function RegisterFirstStep() {
           acceptedPolicies: '',
         }}
         onSubmit={async (values, actions) => {
+          setLoad(true);
           const success = await registerHandler(values);
           if (success) {
             setStep(2);
+            setLoad(false);
           } else {
             actions.setSubmitting(false);
+            setLoad(false);
           }
         }}
       >
         {({ handleChange, handleBlur }) => {
           return (
             <>
-              <Form className="sm:grid flex flex-col gap-4 bg-[#fff] border-b-4 border-[#111111] p-8 rounded-2xl">
+              <Form className="sm:grid mt-12 flex flex-col gap-4 bg-[#fff] border-b-4 border-[#111111] p-8 rounded-2xl">
                 <h2 className="col-span-2 text-3xl">Регистрация</h2>
 
                 <div className="relative">
@@ -56,6 +69,7 @@ export default function RegisterFirstStep() {
                     placeholder=" "
                     required
                     className="peer input-styles"
+                    disabled={load}
                   />
                   <label htmlFor="login" className="label-styles">
                     Введите логин
@@ -73,6 +87,7 @@ export default function RegisterFirstStep() {
                     placeholder=" "
                     required
                     className="peer input-styles"
+                    disabled={load}
                   />
                   <label htmlFor="email" className="label-styles">
                     Введите почту
@@ -95,6 +110,7 @@ export default function RegisterFirstStep() {
                     }}
                     onBlur={handleBlur}
                     className="peer input-styles !pr-8"
+                    disabled={load}
                   />
                   <label htmlFor="password" className="label-styles">
                     Введите пароль
@@ -121,6 +137,7 @@ export default function RegisterFirstStep() {
                     autoComplete="new-password"
                     placeholder=" "
                     required
+                    disabled={load}
                     className="peer input-styles"
                   />
                   <label htmlFor="confirmPassword" className="label-styles">
@@ -135,6 +152,7 @@ export default function RegisterFirstStep() {
                   <FormikCheckbox
                     name="acceptedPolicies"
                     id="acceptedPolicies"
+                    className={`${load ? 'pointer-events-none' : null}`}
                     label={
                       <>
                         Я согласен с{' '}
@@ -163,8 +181,16 @@ export default function RegisterFirstStep() {
                   </ErrorMessage>
                 </div>
 
-                <button className="primary-btn col-span-2" type="submit">
-                  Зарегистрироваться
+                <button
+                  className={`primary-btn flex items-center justify-center col-span-2 ${load ? '!bg-gray-600' : null}`}
+                  type="submit"
+                  disabled={load}
+                >
+                  {load ? (
+                    <AiOutlineSync className="animate-spin" size={24} />
+                  ) : (
+                    <>Зарегистрироваться</>
+                  )}
                 </button>
                 <Link className="col-span-2 text-blue-600" to="/login">
                   Уже есть аккаунт?

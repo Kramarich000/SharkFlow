@@ -1,5 +1,5 @@
 import api from '@api/http/http';
-import { showToast } from '@utils/toast/toast';
+import { showToast } from '@utils/toast/showToast';
 
 export default async function confirmCodeHandler(values) {
   const payload = {
@@ -7,36 +7,20 @@ export default async function confirmCodeHandler(values) {
   };
 
   try {
-    const response = await api.post('/verify', payload, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await api.post('/verify', payload, {});
     if (response.status === 201) {
-      showToast('Вы успешно зарегистрировались!', 'success');
+      showToast(response.data.message, 'success');
       return true;
+    } else {
+      showToast(response.data.error, 'error');
     }
-    showToast('Что-то пошло не так', 'error');
     return false;
   } catch (error) {
     if (error.response) {
-      // console.log(error.response);
-      if (error.response.status === 400) {
-        const data = error.response.data;
-
-        if (data.errors && Array.isArray(data.errors)) {
-          data.errors.forEach((msg) => showToast(msg, 'error'));
-        } else if (data.error) {
-          if (typeof data.error === 'string') {
-            showToast(data.error, 'error');
-          } else if (typeof data.error === 'object') {
-            Object.values(data.error).forEach((msg) => showToast(msg, 'error'));
-          } else {
-            showToast('Ошибка валидации', 'error');
-          }
-        } else {
-          showToast('Ошибка валидации', 'error');
-        }
+      if (error.response.status === 400 && error.response.data.error) {
+        showToast(error.response.data.error, 'error');
       } else {
-        showToast('Ошибка сети или сервера. Попробуйте позже.', 'error');
+        showToast(error.response.data.error, 'error');
       }
     }
     return false;

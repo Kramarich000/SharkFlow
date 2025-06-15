@@ -119,7 +119,7 @@ export default function BoardDetailsModal() {
                   {isEditing ? (
                     <>
                       <button
-                        className="!p-2 group"
+                        className={`${load ? '!p-2' : '!p-2 group'}`}
                         onClick={saveDeleteBoard}
                         disabled={load}
                       >
@@ -129,7 +129,7 @@ export default function BoardDetailsModal() {
                         />
                       </button>
                       <ColorSelector
-                        wrapperClassName="absolute z-50"
+                        wrapperClassName={`absolute z-50 ${load ? 'pointer-events-none' : null}`}
                         pickerClassName="top-[50px]"
                         color={newColor}
                         setColor={setNewColor}

@@ -1,9 +1,9 @@
 import { toast, Slide } from 'react-toastify';
 
-export const showToast = (message, type = 'success') => {
+export const showToast = (message, type = 'success', autoClose = 3500) => {
   toast(message, {
     type,
-    autoClose: 3500,
+    autoClose: autoClose,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,

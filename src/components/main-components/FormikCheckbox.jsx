@@ -1,7 +1,7 @@
 import { useField } from 'formik';
 import { IoMdCheckmark } from 'react-icons/io';
 
-export function FormikCheckbox({ label, id, ...props }) {
+export function FormikCheckbox({ label, className = '', id, ...props }) {
   const [field, meta, helpers] = useField({ ...props, type: 'checkbox' });
 
   const checked = field.value;
@@ -20,7 +20,7 @@ export function FormikCheckbox({ label, id, ...props }) {
           setChecked(!checked);
         }
       }}
-      className={`flex items-center gap-1 sm:gap-2 cursor-pointer outline-none`}
+      className={`flex items-center gap-1 sm:gap-2 cursor-pointer outline-none ${className}`}
     >
       <div
         className={`w-5 h-5 flex items-center justify-center rounded border transition ${

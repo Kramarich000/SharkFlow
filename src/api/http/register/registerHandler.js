@@ -1,5 +1,5 @@
 import api from '@api/http/http';
-import { showToast } from '@utils/toast/toast';
+import { showToast } from '@utils/toast/showToast';
 
 export default async function registerHandler(values) {
   const payload = {
@@ -13,15 +13,13 @@ export default async function registerHandler(values) {
   };
 
   try {
-    const response = await api.post('/register', payload, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await api.post('/register', payload, {});
 
     if (response.status === 200) {
-      showToast('Успех!', 'success');
+      showToast(response.data.message, 'success');
       return true;
     } else {
-      showToast('Что-то пошло не так', 'error');
+      showToast(response.data.error, 'error');
       return false;
     }
   } catch (error) {
@@ -32,7 +30,7 @@ export default async function registerHandler(values) {
         showToast(error.response.data.error, 'error');
       }
     } else {
-      showToast('Ошибка сети или сервера. Попробуйте позже.', 'error');
+      showToast(error.response.data.error, 'error');
     }
     return false;
   }

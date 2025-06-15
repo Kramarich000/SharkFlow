@@ -81,7 +81,6 @@ const useBoardStore = create((set, get) => ({
     try {
       return await updateBoard(uuid, updatedFields);
     } catch (err) {
-      console.error('API update error:', err);
       return null;
     }
   },

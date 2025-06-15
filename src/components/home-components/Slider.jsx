@@ -1,8 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import 'swiper/css/scrollbar';
 import { lazy, Suspense } from 'react';
-import { Scrollbar, Autoplay } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import { motion } from 'framer-motion';
 import Loader from '@components/main-components/Loader';
 const ReviewCard = lazy(() => import('./Reviewers'));
@@ -20,11 +19,10 @@ export default function Slider() {
         viewport={{ once: true }}
       >
         <Swiper
-          scrollbar={{ hide: false }}
           autoplay={{ delay: 5000 }}
           loop={true}
           spaceBetween={20}
-          modules={[Scrollbar, Autoplay]}
+          modules={[Autoplay]}
           slidesPerView={1}
           breakpoints={{
             700: { slidesPerView: 2 },

@@ -1,5 +1,5 @@
 import api from '@api/http/http';
-import { showToast } from '@utils/toast/toast';
+import { showToast } from '@utils/toast/showToast';
 const GREETED_USER_KEY = 'greetedUser';
 export default async function uploadingUserDataHandle() {
   try {
@@ -17,7 +17,7 @@ export default async function uploadingUserDataHandle() {
       }
       return true;
     } else {
-      showToast('Что-то пошло не так', 'error');
+      showToast(response.data.error, 'error');
       return false;
     }
   } catch (error) {
@@ -25,10 +25,10 @@ export default async function uploadingUserDataHandle() {
       if (error.response.status === 401) {
         showToast(error.response.data.error, 'error');
       } else if (error.response.status === 500) {
-        showToast(`Ошибка: ${error.response.data.error}`, 'error');
+        showToast(error.response.data.error, 'error');
       }
     } else {
-      showToast('Ошибка сети или сервера. Попробуйте позже.', 'error');
+      showToast(error.response.data.error, 'error');
     }
     return false;
   }

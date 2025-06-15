@@ -8,7 +8,7 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 import useBoardStore from '@store/boardStore';
-import { showToast } from '@utils/toast/toast';
+import { showToast } from '@utils/toast/showToast';
 import { AiOutlineSync } from 'react-icons/ai';
 
 export default function DeleteBoardModal() {
@@ -39,12 +39,10 @@ export default function DeleteBoardModal() {
           setInputValue('');
         }
       } catch (error) {
-        console.log('Ошибка при удалении доски', error);
       } finally {
         setLoad(false);
       }
     } else {
-      showToast('Название доски неверно!', 'error');
       setLoad(false);
     }
   };

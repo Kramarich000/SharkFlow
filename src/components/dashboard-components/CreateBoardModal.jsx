@@ -79,7 +79,7 @@ export default function CreateBoardModal() {
                     disabled={load}
                   />
                   <ColorSelector
-                    wrapperClassName="relative"
+                    wrapperClassName={`relative ${load ? 'pointer-events-none' : null}`}
                     pickerClassName="!top-[60px] !left-[-300px]"
                     color={color}
                     setColor={setColor}

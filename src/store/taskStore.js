@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import api from '@api/http/http';
-import { showToast } from '@utils/toast/toast';
+import { showToast } from '@utils/toast/showToast';
 
 const useTaskStore = create((set, get) => ({
   taskState: {
@@ -20,7 +20,6 @@ const useTaskStore = create((set, get) => ({
     const { taskState } = get();
 
     if (!taskState.title.trim()) {
-      showToast('Название задачи не может быть пустым', 'error');
       return null;
     }
 
@@ -28,7 +27,6 @@ const useTaskStore = create((set, get) => ({
       const response = await api.post(`/todo/createTask/${boardId}`, taskState);
 
       if (response.status === 200) {
-        showToast('Задача успешно создана', 'success');
         set({
           taskState: {
             title: '',
@@ -39,10 +37,7 @@ const useTaskStore = create((set, get) => ({
         });
         return response.data;
       }
-    } catch (error) {
-      console.error('Ошибка при создании задачи:', error);
-      showToast('Ошибка при создании задачи', 'error');
-    }
+    } catch (error) {}
     return null;
   },
 

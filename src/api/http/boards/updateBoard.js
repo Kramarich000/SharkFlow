@@ -1,21 +1,18 @@
 import api from '@api/http/http';
-import { showToast } from '@utils/toast/toast';
+import { showToast } from '@utils/toast/showToast';
 
 export async function updateBoard(uuid, updatedFields) {
   if (!updatedFields) updatedFields = {};
-  // console.log(uuid);
   if (!uuid) {
     showToast('Ошибка: доска не выбрана', 'error');
     return null;
   }
 
-  // console.log('updateFields:', updatedFields);
-
   if (
     'title' in updatedFields &&
     (!updatedFields.title || !updatedFields.title.trim())
   ) {
-    showToast('Название доски не может быть пустым!', 'error');
+    showToast('Название доски не может быть пустым', 'error');
     return null;
   }
 
@@ -24,40 +21,17 @@ export async function updateBoard(uuid, updatedFields) {
       `/todo/updateBoard/${uuid}`,
       updatedFields,
     );
-    // console.log(response);
-    if (response.status === 200 && response.data?.data) {
-      const board = response.data.data;
-
-      // if ('title' in board) {
-      //   showToast('Название доски изменено', 'success');
-      // }
-
-      // if ('color' in board) {
-      //   showToast('Цвет доски обновлен', 'success');
-      // }
-
-      // if ('isPinned' in board) {
-      //   showToast(
-      //     board.isPinned ? 'Доска закреплена' : 'Доска откреплена',
-      //     'success',
-      //   );
-      // }
-
-      // if ('isFavorite' in board) {
-      //   showToast(
-      //     board.isFavorite
-      //       ? 'Доска добавлена в избранное'
-      //       : 'Доска убрана из избранного',
-      //     'success',
-      //   );
-      // }
+    if (response.status === 200 && response.data.updated) {
+      const board = response.data.updated;
+      if (response.data.updated.title || response.data.updated.color) {
+        showToast(response.data.message, 'success');
+      }
       return board;
     } else {
-      showToast('Ошибка при обновлении доски', 'error');
+      showToast(response.data.error, 'error');
       return null;
     }
   } catch (error) {
-    console.error('Ошибка при обновлении доски:', error);
     if (error.response && error.response.status === 429) {
       showToast(
         error.response.data.error || 'Слишком много запросов, попробуйте позже',
@@ -65,7 +39,7 @@ export async function updateBoard(uuid, updatedFields) {
       );
       return false;
     }
-    showToast('Ошибка при обновлении доски', 'error');
+    showToast(error.response.data.error, 'error');
     return null;
   }
 }

@@ -40,10 +40,7 @@
 //     }
 //     const originalRequest = error.config;
 //     if (!error.response) {
-//       showToast(
-//         'Сервер не отвечает. Проверьте подключение к интернету',
-//         'info',
-//       );
+//
 //       return Promise.reject({
 //         message: 'Сервер недоступен. Проверьте интернет.',
 //       });
@@ -79,7 +76,6 @@
 //         return api(originalRequest);
 //       } catch (error) {
 //         useActionData.getState().clearAccessToken();
-//         showToast('Сессия истекла. Пожалуйста, войдите снова', 'info');
 //         processQueue(error, null);
 //         return Promise.reject(error);
 //       } finally {
@@ -114,7 +110,7 @@
 // export default api;
 
 import { useAuthStore } from '@store/authStore';
-import { showToast } from '@utils/toast/toast';
+import { showToast } from '@utils/toast/showToast';
 import axios from 'axios';
 
 export const baseURL =
@@ -216,13 +212,11 @@ api.interceptors.response.use(
           return api(originalRequest);
         } else {
           useAuthStore.getState().clearAccessToken();
-          showToast('Сессия истекла. Пожалуйста, войдите снова', 'info');
           processQueue(error, null);
           return Promise.reject(error);
         }
       } catch (e) {
         useAuthStore.getState().clearAccessToken();
-        showToast('Сессия истекла. Пожалуйста, войдите снова', 'info');
         processQueue(e, null);
         return Promise.reject(e);
       } finally {

@@ -1,5 +1,5 @@
 import api from '@api/http/http';
-import { showToast } from '@utils/toast/toast';
+import { showToast } from '@utils/toast/showToast';
 
 export async function createBoard({ title, color }) {
   if (!title.trim()) {
@@ -7,22 +7,27 @@ export async function createBoard({ title, color }) {
     return null;
   }
   if (!color.trim()) {
-    showToast('Выберите цвет!', 'error');
+    showToast('Выберите цвет', 'error');
     return null;
   }
 
   try {
     const response = await api.post('/todo/createBoard', { title, color });
-    if (response.data && response.data.title && response.data.color) {
-      showToast('Доска создана', 'success');
-      return response.data;
+    if (
+      response.data &&
+      response.data.board.title &&
+      response.data.board.color
+    ) {
+      showToast(
+        `Доска ${response.data.board.title} успешно создана`,
+        'success',
+      );
+      return response.data.board;
     } else {
-      showToast('Ошибка при создании доски', 'error');
+      showToast(response.data.error, 'error');
       return null;
     }
   } catch (error) {
-    console.error('Ошибка при создании доски:', error);
-
     if (error.response && error.response.status === 429) {
       showToast(
         error.response.data.error || 'Слишком много запросов, попробуйте позже',
@@ -36,8 +41,7 @@ export async function createBoard({ title, color }) {
       return false;
     }
 
-    console.error('Ошибка при создании доски:', error);
-    showToast('Серверная ошибка', 'error');
+    showToast(error.response.data.error, 'error');
     return null;
   }
 }

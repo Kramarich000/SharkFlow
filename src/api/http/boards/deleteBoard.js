@@ -1,20 +1,17 @@
 import api from '@api/http/http';
-import { showToast } from '@utils/toast/toast';
+import { showToast } from '@utils/toast/showToast';
 
 export async function deleteBoard(uuid) {
   try {
-    const response = await api.delete(`/todo/deleteBoard/${uuid}`, {});
-    // console.log(response);
+    const response = await api.delete(`/todo/deleteBoard/${uuid}`);
     if (response.status === 200) {
-      // console.log(response);
-      showToast(`${response.data.message}`, 'success');
+      showToast(response.data.message, 'success');
       return response.data;
     } else {
-      showToast('Ошибка при удалении доски', 'error');
+      showToast(response.data.error, 'error');
       return null;
     }
   } catch (error) {
-    console.error('Ошибка при удалении доски:', error);
     if (error.response && error.response.status === 429) {
       showToast(
         error.response.data.error || 'Слишком много запросов, попробуйте позже',
@@ -22,7 +19,7 @@ export async function deleteBoard(uuid) {
       );
       return false;
     }
-    showToast('Серверная ошибка', 'error');
+    showToast(error.response.data.error, 'error');
     return null;
   }
 }

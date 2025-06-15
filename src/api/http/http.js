@@ -142,9 +142,49 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
+api.interceptors.request.use(
+  (config) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('REQUEST:', config.method?.toUpperCase(), config.url, config);
+    }
+    const token = useAuthStore.getState().accessToken;
+
+    const isAuthRoute = ['/login', '/register', '/refresh', '/public'].some(
+      (path) => config.url?.includes(path),
+    );
+
+    if (token && !isAuthRoute) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
 api.interceptors.response.use(
-  (res) => res,
+  (res) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log(
+        '%cRESPONSE:',
+        'color: green; font-weight: bold;',
+        res.status,
+        res.config.url,
+        res,
+      );
+    }
+    return res;
+  },
   async (error) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.error(
+        '%cRESPONSE ERROR:',
+        'color: red; font-weight: bold;',
+        error?.response?.status,
+        error?.config?.url,
+        error,
+      );
+    }
     const originalRequest = error.config;
     if (
       (error.response?.status === 401 || error.response?.status === 403) &&
@@ -188,53 +228,6 @@ api.interceptors.response.use(
       } finally {
         isRefresh = false;
       }
-    }
-    return Promise.reject(error);
-  },
-);
-
-api.interceptors.request.use(
-  (config) => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('REQUEST:', config.method?.toUpperCase(), config.url, config);
-    }
-    const token = useAuthStore.getState().accessToken;
-
-    const isAuthRoute = ['/login', '/register', '/refresh', '/public'].some(
-      (path) => config.url?.includes(path),
-    );
-
-    if (token && !isAuthRoute) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
-
-api.interceptors.response.use(
-  (res) => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(
-        '%cRESPONSE:',
-        'color: green; font-weight: bold;',
-        res.status,
-        res.config.url,
-        res,
-      );
-    }
-    return res;
-  },
-  (error) => {
-    if (process.env.NODE_ENV === 'development') {
-      console.error(
-        '%cRESPONSE ERROR:',
-        'color: red; font-weight: bold;',
-        error?.response?.status,
-        error?.config?.url,
-        error,
-      );
     }
     return Promise.reject(error);
   },

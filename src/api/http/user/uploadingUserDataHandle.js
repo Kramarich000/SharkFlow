@@ -1,6 +1,6 @@
 import api from '@api/http/http';
 import { showToast } from '@utils/toast/toast';
-
+const GREETED_USER_KEY = 'greetedUser';
 export default async function uploadingUserDataHandle() {
   try {
     const response = await api.post('/user', {
@@ -9,7 +9,12 @@ export default async function uploadingUserDataHandle() {
       },
     });
     if (response.status === 200) {
-      showToast(`С возвращением ${response.data.login}!`);
+      const greetedUser = sessionStorage.getItem(GREETED_USER_KEY);
+
+      if (!greetedUser) {
+        showToast(`С возвращением ${response.data.login}!`);
+        sessionStorage.setItem(GREETED_USER_KEY, 'true');
+      }
       return true;
     } else {
       showToast('Что-то пошло не так', 'error');

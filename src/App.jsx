@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import routes from './config/routes';
@@ -21,10 +21,14 @@ function App() {
   useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
 
+  const greeted = useRef(false);
+
   useEffect(() => {
-    if (accessToken) {
-      uploadingUserDataHandle();
-    }
+    if (!accessToken || greeted.current) return;
+
+    uploadingUserDataHandle().then((success) => {
+      if (success) greeted.current = true;
+    });
   }, [accessToken]);
   // useSocket(accessToken);
 

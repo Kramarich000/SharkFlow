@@ -28,29 +28,29 @@ export async function updateBoard(uuid, updatedFields) {
     if (response.status === 200 && response.data?.data) {
       const board = response.data.data;
 
-      if ('title' in board) {
-        showToast('Название доски изменено', 'success');
-      }
+      // if ('title' in board) {
+      //   showToast('Название доски изменено', 'success');
+      // }
 
-      if ('color' in board) {
-        showToast('Цвет доски обновлен', 'success');
-      }
+      // if ('color' in board) {
+      //   showToast('Цвет доски обновлен', 'success');
+      // }
 
-      if ('isPinned' in board) {
-        showToast(
-          board.isPinned ? 'Доска закреплена' : 'Доска откреплена',
-          'success',
-        );
-      }
+      // if ('isPinned' in board) {
+      //   showToast(
+      //     board.isPinned ? 'Доска закреплена' : 'Доска откреплена',
+      //     'success',
+      //   );
+      // }
 
-      if ('isFavorite' in board) {
-        showToast(
-          board.isFavorite
-            ? 'Доска добавлена в избранное'
-            : 'Доска убрана из избранного',
-          'success',
-        );
-      }
+      // if ('isFavorite' in board) {
+      //   showToast(
+      //     board.isFavorite
+      //       ? 'Доска добавлена в избранное'
+      //       : 'Доска убрана из избранного',
+      //     'success',
+      //   );
+      // }
       return board;
     } else {
       showToast('Ошибка при обновлении доски', 'error');

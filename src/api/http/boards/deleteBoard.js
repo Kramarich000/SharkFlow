@@ -15,6 +15,13 @@ export async function deleteBoard(uuid) {
     }
   } catch (error) {
     console.error('Ошибка при удалении доски:', error);
+    if (error.response && error.response.status === 429) {
+      showToast(
+        error.response.data.error || 'Слишком много запросов, попробуйте позже',
+        'error',
+      );
+      return false;
+    }
     showToast('Серверная ошибка', 'error');
     return null;
   }

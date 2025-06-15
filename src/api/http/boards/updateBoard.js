@@ -58,6 +58,13 @@ export async function updateBoard(uuid, updatedFields) {
     }
   } catch (error) {
     console.error('Ошибка при обновлении доски:', error);
+    if (error.response && error.response.status === 429) {
+      showToast(
+        error.response.data.error || 'Слишком много запросов, попробуйте позже',
+        'error',
+      );
+      return false;
+    }
     showToast('Ошибка при обновлении доски', 'error');
     return null;
   }

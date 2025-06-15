@@ -13,6 +13,13 @@ export async function getBoards() {
     }
   } catch (error) {
     console.error('Ошибка при загрузке досок', error);
+    if (error.response && error.response.status === 429) {
+      showToast(
+        error.response.data.error || 'Слишком много запросов, попробуйте позже',
+        'error',
+      );
+      return false;
+    }
     showToast('Ошибка при загрузке досок', 'error');
     return null;
   }

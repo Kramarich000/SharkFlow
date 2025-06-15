@@ -13,7 +13,6 @@ export async function createBoard({ title, color }) {
 
   try {
     const response = await api.post('/todo/createBoard', { title, color });
-    // console.log(response);
     if (response.data && response.data.title && response.data.color) {
       showToast('Доска создана', 'success');
       return response.data;
@@ -23,7 +22,17 @@ export async function createBoard({ title, color }) {
     }
   } catch (error) {
     console.error('Ошибка при создании доски:', error);
-    showToast('Серверная ошибка', 'error');
+
+    if (error.response && error.response.status === 429) {
+      showToast(
+        error.response.data.error || 'Слишком много запросов, попробуйте позже',
+        'error',
+      );
+      return false;
+    }
+
+    console.error('Ошибка при создании доски:', error);
+    // showToast('Серверная ошибка', 'error');
     return null;
   }
 }

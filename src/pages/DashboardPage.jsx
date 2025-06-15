@@ -155,7 +155,7 @@ export default function DashboardPage() {
     currentPage * pageSize,
   );
 
-  const handleTogglePin = async (board) => {
+  const handleTogglePin = (board) => {
     try {
       updateBoard({ uuid: board.uuid, isPinned: !board.isPinned });
     } catch (e) {
@@ -163,7 +163,7 @@ export default function DashboardPage() {
     }
   };
 
-  const handleToggleFav = async (board) => {
+  const handleToggleFav = (board) => {
     try {
       updateBoard({ uuid: board.uuid, isFavorite: !board.isFavorite });
     } catch (e) {

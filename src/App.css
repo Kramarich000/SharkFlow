@@ -35,13 +35,3 @@
 .li-styles {
   @apply bg-[#111111] text-white rounded-4xl p-4;
 }
-
-#root {
-  margin: 0 auto;
-  width: 100%;
-  height: 100%;
-  // min-height: 100vh;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-}

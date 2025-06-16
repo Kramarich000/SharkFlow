@@ -1,7 +1,7 @@
 import api from '@api/http/http';
 import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
 
-export default async function registerHandler(values) {
+export default async function register(values) {
   const payload = {
     user: {
       login: values.login,

@@ -11,7 +11,7 @@ const RegisterThirdStep = lazy(
   () => import('@components/register-components/RegisterThirdStep'),
 );
 export default function RegisterPage() {
-  const { step } = useRegisterStore();
+  const { step, setStep } = useRegisterStore();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +20,7 @@ export default function RegisterPage() {
     if (step === 3) {
       timer = setTimeout(() => {
         navigate('/login');
+        setStep(1);
       }, 4000);
     }
 

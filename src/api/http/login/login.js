@@ -2,7 +2,7 @@ import api from '@api/http/http';
 import { useAuthStore } from '@store/authStore';
 import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
 
-export default async function loginHandler(values) {
+export default async function login(values) {
   const payload = {
     user: {
       email: values.email,

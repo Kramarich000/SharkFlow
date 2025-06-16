@@ -1,11 +1,11 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import AnimatedError from '@components/main-components/AnimatedError';
-import confirmCodeHandler from '@api/http/user/confirmCodeHandler';
+import confirmCodeHandler from '@api/http/user/confirmCode';
 import { motion } from 'framer-motion';
 import { useRegisterStore } from '@store/registerStore';
 import { useState } from 'react';
 import { AiOutlineSync } from 'react-icons/ai';
-import { emailConfirmSchema } from '@validators/emailConfirmSchema';
+import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 
 export default function RegisterSecondStep() {
   const { setStep } = useRegisterStore();
@@ -28,7 +28,7 @@ export default function RegisterSecondStep() {
       </motion.h2>
 
       <Formik
-        validationSchema={emailConfirmSchema}
+        validationSchema={confirmCodeSchema}
         initialValues={{ confirmationCode: '' }}
         onSubmit={async (values, actions) => {
           setLoad(true);

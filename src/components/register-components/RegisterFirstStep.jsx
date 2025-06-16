@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { registerSchema } from '@validators/registerSchema';
 import AnimatedError from '@components/main-components/AnimatedError';
-import registerHandler from '@api/http/register/registerHandler';
+import registerHandler from '@api/http/register/register';
 import { motion } from 'framer-motion';
 import { LuEye } from 'react-icons/lu';
 import { LuEyeClosed } from 'react-icons/lu';

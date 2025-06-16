@@ -14,8 +14,8 @@ import { useAuthTokenRefresh } from '@hooks/useAuthTokenRefresh';
 import { useSocket } from '@hooks/useSocket';
 import { useAuthStore } from '@store/authStore';
 import BackToTop from '@components/main-components/BackToTop';
-import uploadingUserDataHandle from '@api/http/user/uploadingUserDataHandle';
-import LogoutUserModal from '@components/main-components/LogoutUserModal';
+import uploadingUserDataHandle from '@api/http/user/uploadingUserData';
+import LogoutUserModal from '@components/main-components/user/LogoutUserModal';
 import { blockedPublicPaths } from '@config/blockedPublicPaths';
 
 function App() {

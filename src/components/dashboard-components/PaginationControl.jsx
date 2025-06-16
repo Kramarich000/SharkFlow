@@ -11,7 +11,7 @@ export default function PaginationControl({
   const sizes = [10, 20, 30, 50, 100];
 
   return (
-    <div className="flex flex-col items-center gap-4 mt-auto">
+    <div className="flex flex-col items-center gap-4 mt-auto ">
       <div className="flex items-center gap-4">
         <button
           disabled={page === 1}
@@ -32,7 +32,7 @@ export default function PaginationControl({
         </button>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap justify-center">
         {sizes.map((size) => (
           <button
             key={size}

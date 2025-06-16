@@ -20,6 +20,8 @@ import {
   recentDaysOptions,
   sortOptions,
 } from '@data/filterAndSortData';
+import { FaArrowDown, FaTrash } from 'react-icons/fa';
+import { GiBroom } from 'react-icons/gi';
 
 export default function FilterForm({
   dateFrom,
@@ -43,10 +45,14 @@ export default function FilterForm({
     onChangeSortOrder(DEFAULT_SORT_ORDER);
   };
 
+  const toggleSortOrder = () => {
+    onChangeSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
   return (
     <form>
       <div className="flex flex-col w-full gap-10 items-center">
-        <div className="grid grid-cols-5 gap-10 w-full">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-10 w-full justify-items-center">
           <div className="relative w-full">
             <Flatpickr
               id="dateFrom"
@@ -132,7 +138,7 @@ export default function FilterForm({
               </div>
             )}
           </Listbox>
-          <Listbox value={sortOrder} onChange={onChangeSortOrder}>
+          {/* <Listbox value={sortOrder} onChange={onChangeSortOrder}>
             {({ open }) => (
               <div className="relative w-full">
                 <ListboxButton className="secondary-btn">
@@ -166,17 +172,34 @@ export default function FilterForm({
                 </Transition>
               </div>
             )}
-          </Listbox>
+          </Listbox> */}
+          <div className="col-span-2 lg:col-span-1 flex gap-40 lg:gap-10 items-center">
+            <div className="relative flex items-center justify-center">
+              <button
+                type="button"
+                className="secondary-btn !border-0 group"
+                onClick={toggleSortOrder}
+              >
+                <FaArrowDown
+                  size={26}
+                  className={`group-hover:text-[#808080] text-black !transition-all ${sortOrder === 'asc' ? 'rotate-0' : 'rotate-180'}`}
+                />
+              </button>
+            </div>
+            <div className="flex !w-fit items-center justify-end gap-100">
+              <button
+                type="button"
+                onClick={handleResetFilters}
+                className="primary-btn group !bg-transparent !p-0 !m-0"
+              >
+                <GiBroom
+                  size={26}
+                  className="group-hover:text-[#808080] text-black !transition-all"
+                />
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="mt-4 flex items-center justify-end gap-100">
-        <button
-          type="button"
-          onClick={handleResetFilters}
-          className="primary-btn !p-2 !m-0"
-        >
-          Очистить
-        </button>
       </div>
     </form>
   );

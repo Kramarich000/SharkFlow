@@ -209,7 +209,7 @@ export default function DashboardPage() {
             />
           </div>
 
-          <div className="flex items-center mb-4">
+          <div className="flex flex-wrap justify-center items-center mb-4">
             <div className="p-4">
               <SimpleCheckbox
                 id="onlyFav"
@@ -220,14 +220,14 @@ export default function DashboardPage() {
             </div>
 
             <button
-              className="ml-auto bg-white hover:bg-gray-200 rounded-3xl px-6 py-2 flex items-center gap-2"
+              className="ml-0 sm:ml-auto bg-white hover:bg-gray-200 rounded-3xl px-6 py-2 flex items-center gap-2"
               onClick={() => setIsCreateBoardModalOpen(true)}
             >
               <FaPlus size={20} /> Создать доску
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 overflow-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
             {currentBoards.map((board) => (
               <BoardCard
                 key={board.uuid}

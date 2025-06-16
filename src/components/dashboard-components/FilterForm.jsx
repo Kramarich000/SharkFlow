@@ -74,7 +74,7 @@ export default function FilterForm({
               <div className="relative w-full">
                 <ListboxButton className="secondary-btn">
                   {recentDaysOptions.find((o) => o.id === recentDays)?.name ||
-                    'Выберите период'}
+                    'Период'}
                 </ListboxButton>
                 <Transition
                   as={Fragment}
@@ -105,8 +105,7 @@ export default function FilterForm({
             {({ open }) => (
               <div className="relative w-full">
                 <ListboxButton className="secondary-btn">
-                  {sortOptions.find((o) => o.id === sortBy)?.name ||
-                    'Выберите тип'}
+                  {sortOptions.find((o) => o.id === sortBy)?.name || 'Тип'}
                 </ListboxButton>
                 <Transition
                   as={Fragment}
@@ -141,7 +140,7 @@ export default function FilterForm({
                     ? 'По возрастанию'
                     : sortOrder === 'desc'
                       ? 'По убыванию'
-                      : 'Выберите направление'}
+                      : 'Направление'}
                 </ListboxButton>
                 <Transition
                   as={Fragment}

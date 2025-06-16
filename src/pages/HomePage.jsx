@@ -39,7 +39,6 @@ export default function HomePage() {
         <Contacts />
         <Separator />
         <Partners />
-        <Separator />
       </Suspense>
     </>
   );

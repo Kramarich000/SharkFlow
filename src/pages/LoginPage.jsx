@@ -19,7 +19,7 @@ export default function LoginPage() {
   const [load, setLoad] = useState(false);
 
   return (
-    <div className="h-full flex-col flex items-center justify-center">
+    <div className="h-full flex-col flex items-center justify-center py-15">
       <AnimatePresence mode="wait">
         {loading ? (
           <>

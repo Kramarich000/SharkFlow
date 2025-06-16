@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoMdClose } from 'react-icons/io';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { navLinks } from '@data/navLinks';
 import { useAuthStore } from '@store/authStore';
 import useModalsStore from '@store/modalsStore';
@@ -14,14 +14,28 @@ export default function Header() {
   );
   const [isOpen, setIsOpen] = useState(false);
 
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <header className="bg-[#111111] text-white py-4 px-5 w-full shadow-md">
       <div className="max-w-[1240px] mx-auto flex justify-between items-center">
         <Link to="/" className="group">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="50"
-            height="50"
+            width="75"
+            height="75"
             viewBox="0 -123.34 220.2 123.34"
           >
             <path
@@ -33,7 +47,7 @@ export default function Header() {
 
         <motion.nav
           key="desktop-nav"
-          className="hidden items-center sm:flex space-x-6 text-lg"
+          className="hidden items-center sm:flex gap-4 text-[24px]"
           initial={{ opacity: 0, transform: 'translateY(10px)' }}
           animate={{ opacity: 1, transform: 'translateY(0px)' }}
           transition={{ duration: 0.3 }}
@@ -47,13 +61,14 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <button
+            onClick={() => setIsLogoutUserModalOpen(true)}
+            className={`!w-fit !p-3 !text-[24px] hover:!text-[#808080] !transition-colors ${!token ? 'hidden pointer-events-none select-none' : null}`}
+          >
+            Выход
+          </button>
         </motion.nav>
-        <button
-          onClick={() => setIsLogoutUserModalOpen(true)}
-          className={`!w-fit !p-3 !text-[18px] hover:!text-[#808080] !transition-colors ${!token ? 'hidden pointer-events-none select-none' : null}`}
-        >
-          Выход
-        </button>
+
         <button
           className="sm:hidden z-50"
           onClick={() => setIsOpen((prev) => !prev)}
@@ -64,26 +79,35 @@ export default function Header() {
         </button>
       </div>
 
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isOpen && (
-          <motion.nav
-            key="mobile-nav"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="sm:hidden bg-[#111111] z-50 left-0 absolute w-full py-4 rounded-md shadow-md flex flex-col gap-3 text-lg"
-          >
-            {navLinks(token).map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setIsOpen(false)}
+          <>
+            <motion.nav
+              key="mobile-nav"
+              ref={navRef}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="sm:hidden bg-[#111111] z-50 left-0 absolute w-full py-4 rounded-md shadow-md flex flex-col gap-3 text-lg items-center"
+            >
+              {navLinks(token).map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <button
+                onClick={() => setIsLogoutUserModalOpen(true)}
+                className={`block sm:hidden !w-fit !p-3 !text-[18px] hover:!text-[#808080] !transition-colors ${!token ? 'hidden pointer-events-none select-none' : null}`}
               >
-                {link.label}
-              </Link>
-            ))}
-          </motion.nav>
+                Выход
+              </button>
+            </motion.nav>
+          </>
         )}
       </AnimatePresence>
     </header>

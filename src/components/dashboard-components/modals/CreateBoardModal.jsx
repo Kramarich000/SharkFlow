@@ -77,6 +77,7 @@ export default function CreateBoardModal() {
                     className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
                     placeholder="Введите название доски"
                     disabled={load}
+                    maxLength={64}
                   />
                   <ColorSelector
                     wrapperClassName={`relative ${load ? 'pointer-events-none' : null}`}

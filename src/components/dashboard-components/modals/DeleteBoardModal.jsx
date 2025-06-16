@@ -88,9 +88,12 @@ export default function DeleteBoardModal() {
                     className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
                     placeholder="Введите название доски для удаления"
                     disabled={load}
+                    maxLength={64}
                   />
                   <button
-                    className="primary-btn !bg-red-700 hover:!bg-red-800 !w-fit"
+                    className={`primary-btn !bg-red-700 hover:!bg-red-800 flex justify-center items-center !w-[115px] ${
+                      load ? '!w-[115px] !h-[50px]' : null
+                    }`}
                     onClick={handleDeleteBoard}
                     disabled={load}
                   >

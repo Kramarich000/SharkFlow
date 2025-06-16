@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useRegisterStore } from '@store/registerStore';
 import { useState } from 'react';
 import { AiOutlineSync } from 'react-icons/ai';
+import { emailConfirmSchema } from '@validators/emailConfirmSchema';
 
 export default function RegisterSecondStep() {
   const { setStep } = useRegisterStore();
@@ -27,6 +28,7 @@ export default function RegisterSecondStep() {
       </motion.h2>
 
       <Formik
+        validationSchema={emailConfirmSchema}
         initialValues={{ confirmationCode: '' }}
         onSubmit={async (values, actions) => {
           setLoad(true);
@@ -56,12 +58,16 @@ export default function RegisterSecondStep() {
               <label htmlFor="confirmationCode" className="label-styles">
                 Введите код подтверждения
               </label>
-              <ErrorMessage name="login">
+              <ErrorMessage name="confirmationCode">
                 {(msg) => <AnimatedError msg={msg} variant="register" />}
               </ErrorMessage>
               <ErrorMessage name="confirmationCode" component={AnimatedError} />
             </div>
-            <button className="primary-btn" type="submit" disabled={load}>
+            <button
+              className="primary-btn flex items-center justify-center"
+              type="submit"
+              disabled={load}
+            >
               {load ? (
                 <AiOutlineSync className="animate-spin" size={24} />
               ) : (

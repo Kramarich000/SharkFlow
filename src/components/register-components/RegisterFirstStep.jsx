@@ -14,7 +14,6 @@ import { AiOutlineSync } from 'react-icons/ai';
 export default function RegisterFirstStep() {
   const { setStep, passwordVisible, togglePasswordVisible } =
     useRegisterStore();
-  const formikRef = useRef(null);
   const [load, setLoad] = useState(false);
 
   return (
@@ -33,7 +32,6 @@ export default function RegisterFirstStep() {
         Шаг 1/3
       </motion.h2>
       <Formik
-        innerRef={formikRef}
         validationSchema={registerSchema}
         initialValues={{
           login: '',

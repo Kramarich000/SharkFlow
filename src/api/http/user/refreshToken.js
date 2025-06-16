@@ -1,6 +1,6 @@
 import api from '@api/http/http';
 import { showToast } from '@utils/toast/showToast';
-const SESSION_EXEPIRED_KEY = 'sessionExpired';
+const SESSION_EXPIRED_KEY = 'sessionExpired';
 export default async function refreshToken(setAccessToken) {
   try {
     const response = await api.post('/refresh');
@@ -9,11 +9,11 @@ export default async function refreshToken(setAccessToken) {
     api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
   } catch (error) {
     const message = error.response.data.message ?? 'Ошибка обновления токена';
-    const sessionExpired = sessionStorage.getItem(SESSION_EXEPIRED_KEY);
+    const sessionExpired = sessionStorage.getItem(SESSION_EXPIRED_KEY);
 
     if (!sessionExpired) {
       showToast(message, 'info');
-      sessionStorage.setItem(SESSION_EXEPIRED_KEY, 'true');
+      sessionStorage.setItem(SESSION_EXPIRED_KEY, 'true');
     }
     setAccessToken(null);
   }

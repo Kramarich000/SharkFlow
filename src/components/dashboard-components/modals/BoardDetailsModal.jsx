@@ -145,6 +145,7 @@ export default function BoardDetailsModal() {
                         autoFocus
                         className="text-center max-w-xl text-4xl border-b-2 border-[#111111] focus:outline-none w-full"
                         disabled={load}
+                        maxLength={64}
                       />
                       <button
                         className="!p-1.5"

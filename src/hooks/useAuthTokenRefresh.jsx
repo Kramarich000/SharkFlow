@@ -8,8 +8,11 @@ export function useAuthTokenRefresh() {
 
   useEffect(() => {
     const refresh = async () => {
-      await refreshToken(setAccessToken);
-      setIsAuthLoading(false);
+      try {
+        await refreshToken(setAccessToken);
+      } finally {
+        setIsAuthLoading(false);
+      }
     };
 
     refresh();

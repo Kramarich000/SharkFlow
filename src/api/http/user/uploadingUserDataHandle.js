@@ -12,7 +12,7 @@ export default async function uploadingUserDataHandle() {
       const greetedUser = sessionStorage.getItem(GREETED_USER_KEY);
 
       if (!greetedUser) {
-        showToast(`С возвращением ${response.data.login}!`);
+        showToast(`Добро пожаловать ${response.data.login}!`);
         sessionStorage.setItem(GREETED_USER_KEY, 'true');
       }
       return true;

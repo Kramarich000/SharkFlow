@@ -19,7 +19,7 @@ import LogoutUserModal from '@components/main-components/LogoutUserModal';
 
 function App() {
   const blockedPublicPaths = ['/login', '/register'];
-  useAuthTokenRefresh();
+  const { isAuthLoading } = useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
 
   const greeted = useRef(false);
@@ -34,6 +34,10 @@ function App() {
   // useSocket(accessToken);
 
   const { isMobile } = useResponsive();
+
+  if (isAuthLoading) {
+    return <Loader />;
+  }
 
   return (
     <Router>

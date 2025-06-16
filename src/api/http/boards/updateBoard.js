@@ -1,8 +1,8 @@
 import api from '@api/http/http';
+import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
 import { showToast } from '@utils/toast/showToast';
 
-export async function updateBoard(uuid, updatedFields) {
-  if (!updatedFields) updatedFields = {};
+export async function updateBoard(uuid, updatedFields = {}) {
   if (!uuid) {
     showToast('Ошибка: доска не выбрана', 'error');
     return null;
@@ -16,30 +16,12 @@ export async function updateBoard(uuid, updatedFields) {
     return null;
   }
 
-  try {
-    const response = await api.patch(
-      `/todo/updateBoard/${uuid}`,
-      updatedFields,
-    );
-    if (response.status === 200 && response.data.updated) {
-      const board = response.data.updated;
-      if (response.data.updated.title || response.data.updated.color) {
-        showToast(response.data.message, 'success');
-      }
-      return board;
-    } else {
-      showToast(response.data.error, 'error');
-      return null;
-    }
-  } catch (error) {
-    if (error.response && error.response.status === 429) {
-      showToast(
-        error.response.data.error || 'Слишком много запросов, попробуйте позже',
-        'error',
-      );
-      return false;
-    }
-    showToast(error.response.data.error, 'error');
-    return null;
-  }
+  return await apiResponsesHandler(
+    () => api.patch(`/todo/updateBoard/${uuid}`, updatedFields),
+    {
+      onSuccess: (data) => {
+        return data.updated || null;
+      },
+    },
+  );
 }

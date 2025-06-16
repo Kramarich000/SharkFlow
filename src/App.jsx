@@ -16,9 +16,9 @@ import { useAuthStore } from '@store/authStore';
 import BackToTop from '@components/main-components/BackToTop';
 import uploadingUserDataHandle from '@api/http/user/uploadingUserDataHandle';
 import LogoutUserModal from '@components/main-components/LogoutUserModal';
+import { blockedPublicPaths } from '@config/blockedPublicPaths';
 
 function App() {
-  const blockedPublicPaths = ['/login', '/register'];
   const { isAuthLoading } = useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
 

@@ -54,7 +54,7 @@ function App() {
   return (
     <Router>
       {/* <ErrorBoundary FallbackComponent={FallbackComponent}></ErrorBoundary> */}
-      <Suspense fallback={<Loader />}>
+      <>
         <Header />
         <main className="p-5 w-full max-w-[1280px] mx-auto grow">
           <Routes>
@@ -97,7 +97,7 @@ function App() {
           <BackToTop />
         </main>
         <Footer />
-      </Suspense>
+      </>
       <Suspense fallback={<Loader />}>
         <ToastContainer
           toastClassName={`mx-auto mt-4 max-w-[90vw]`}

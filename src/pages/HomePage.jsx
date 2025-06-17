@@ -18,26 +18,43 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-
       <Suspense fallback={<Loader />}>
         <HowItWorks />
         <Separator />
+      </Suspense>
+      <Suspense fallback={<Loader />}>
         <Features />
         <Separator />
+      </Suspense>
+      <Suspense fallback={<Loader />}>
         <section>Тут будут скрины приложения</section>
         <Separator />
+      </Suspense>
+      <Suspense fallback={<Loader />}>
         <Slider />
         <Separator />
+      </Suspense>
+      <Suspense fallback={<Loader />}>
         <Advantages />
         <Separator />
+      </Suspense>
+      <Suspense fallback={<Loader />}>
         <Security />
         <Separator />
+      </Suspense>
+      <Suspense fallback={<Loader />}>
         <About />
         <Separator />
+      </Suspense>
+      <Suspense fallback={<Loader />}>
         <FAQ />
         <Separator />
+      </Suspense>
+      <Suspense fallback={<Loader />}>
         <Contacts />
         <Separator />
+      </Suspense>
+      <Suspense fallback={<Loader />}>
         <Partners />
       </Suspense>
     </>

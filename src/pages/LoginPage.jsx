@@ -2,7 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { loginSchema } from '@validators/loginSchema';
 import AnimatedError from '@components/main-components/AnimatedError';
 import loginHandler from '@api/http/login/login';
-import uploadingUserDataHandle from '@api/http/user/uploadingUserData';
+import uploadingUserData from '@api/http/user/uploadingUserData';
 import { FormikCheckbox } from '@components/main-components/checkbox/FormikCheckbox';
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -57,7 +57,7 @@ export default function LoginPage() {
                 try {
                   const successfullyLogged = await loginHandler(values);
                   if (successfullyLogged) {
-                    await uploadingUserDataHandle();
+                    await uploadingUserData();
                     navigate('/dashboard');
                   }
                 } finally {
@@ -109,7 +109,7 @@ export default function LoginPage() {
                           Введите пароль
                         </label>
                         <div
-                          className="absolute right-1 bottom-2 !p-2 cursor-pointer"
+                          className="absolute right-1 bottom-2.5 !p-2 cursor-pointer"
                           onClick={() => {
                             setPasswordVisible(!passwordVisible);
                           }}

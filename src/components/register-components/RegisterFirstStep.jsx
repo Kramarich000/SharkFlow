@@ -81,6 +81,7 @@ export default function RegisterFirstStep() {
                   <Field
                     type="email"
                     name="email"
+                    id="email"
                     autoComplete="email"
                     placeholder=" "
                     required
@@ -100,6 +101,7 @@ export default function RegisterFirstStep() {
                   <Field
                     type={!passwordVisible ? 'password' : 'text'}
                     name="password"
+                    id="password"
                     autoComplete="new-password"
                     placeholder=" "
                     required
@@ -132,6 +134,7 @@ export default function RegisterFirstStep() {
                   <Field
                     type={!passwordVisible ? 'password' : 'text'}
                     name="confirmPassword"
+                    id="confirmPassword"
                     autoComplete="new-password"
                     placeholder=" "
                     required

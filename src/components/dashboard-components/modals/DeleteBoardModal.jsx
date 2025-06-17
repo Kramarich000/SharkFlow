@@ -65,7 +65,7 @@ export default function DeleteBoardModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-xl h-full transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="w-full border-2 max-w-3xl h-full transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
                 <div className="flex flex-col items-center justify-between gap-10">
                   <h2 className="text-3xl">
                     Вы уверены? Это действие необратимо!

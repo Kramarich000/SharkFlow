@@ -23,10 +23,10 @@ export default function DeleteUserModal() {
     confirmationCode: '',
   });
 
-  const isDeleteUserModalOpen = useModalsStore(
+  const isUpdateUserModalOpen = useModalsStore(
     (state) => state.isDeleteUserModalOpen,
   );
-  const setIsDeleteUserModalOpen = useModalsStore(
+  const setIsUpdateUserModalOpen = useModalsStore(
     (state) => state.setIsDeleteUserModalOpen,
   );
 

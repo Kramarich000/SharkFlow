@@ -14,11 +14,13 @@ import { useAuthTokenRefresh } from '@hooks/useAuthTokenRefresh';
 import { useSocket } from '@hooks/useSocket';
 import { useAuthStore } from '@store/authStore';
 import BackToTop from '@components/main-components/BackToTop';
-import uploadingUserDataHandle from '@api/http/user/uploadingUserData';
+import uploadingUserData from '@api/http/user/uploadingUserData';
 import LogoutUserModal from '@components/main-components/user/LogoutUserModal';
 import { blockedPublicPaths } from '@config/blockedPublicPaths';
+import useUserStore from '@store/userStore';
 
 function App() {
+  const { setUser } = useUserStore.getState();
   const { isAuthLoading } = useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
 
@@ -27,10 +29,20 @@ function App() {
   useEffect(() => {
     if (!accessToken || greeted.current) return;
 
-    uploadingUserDataHandle().then((success) => {
-      if (success) greeted.current = true;
-    });
+    const fetchData = async () => {
+      try {
+        const data = await uploadingUserData();
+        greeted.current = true;
+        console.log('ivan', data);
+        setUser({ login: data.login, email: data.email });
+      } catch (error) {
+        console.error('Ошибка при получении данных:', error);
+      }
+    };
+
+    fetchData();
   }, [accessToken]);
+
   // useSocket(accessToken);
 
   const { isMobile } = useResponsive();

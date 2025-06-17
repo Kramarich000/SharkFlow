@@ -1,12 +1,12 @@
 import api from '@api/http/http';
 import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
 
-export default async function confirmCode(values) {
+export async function resetPasswordRequest(values) {
   const payload = {
-    confirmationCode: values.confirmationCode,
+    email: values.email,
   };
 
   return await apiResponsesHandler(() =>
-    api.post('/register/verify', payload, {}),
+    api.post('/api/auth/reset-password/verify', payload, {}),
   );
 }

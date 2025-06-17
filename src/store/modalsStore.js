@@ -6,6 +6,9 @@ const useModalsStore = create((set) => ({
 
   isDeleteUserModalOpen: false,
   setIsDeleteUserModalOpen: (value) => set({ isDeleteUserModalOpen: value }),
+
+  isUpdateUserModalOpen: false,
+  setIsUpdateUserModalOpen: (value) => set({ isUpdateUserModalOpen: value }),
 }));
 
 export default useModalsStore;

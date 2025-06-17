@@ -8,7 +8,7 @@ import {
 } from '@headlessui/react';
 import useModalsStore from '@store/modalsStore';
 import { AiOutlineSync } from 'react-icons/ai';
-import logoutUser from '@api/http/user/logoutUser';
+import { logoutUser } from '@api/http/auth/logout/logoutUser';
 
 export default function LogoutUserModal() {
   const [load, setLoad] = useState(false);

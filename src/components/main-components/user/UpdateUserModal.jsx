@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import {
   Dialog,
@@ -7,44 +7,52 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 import useModalsStore from '@store/modalsStore';
+import useBoardStore from '@store/boardStore';
 import { AiOutlineSync } from 'react-icons/ai';
-import deleteUser from '@api/http/user/deleteUser';
-import userVerify from '@api/http/auth/userVerify';
+import { updateUser } from '@api/http/user/updateUser';
+import { userVerify } from '@api/http/user/userSendCode';
 import { emailSchema } from '@validators/emailSchema';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { motion, AnimatePresence } from 'framer-motion';
+import { showToast } from '@utils/toast/showToast';
 
-export default function DeleteUserModal() {
+export default function UpdateUserModal() {
   const [load, setLoad] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [step, setStep] = useState(1);
   const [inputValue, setInputValue] = useState('');
+
   const [confirmationCode, setConfirmationCode] = useState({
     confirmationCode: '',
   });
 
+  const [newLogin, setNewLogin] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+
+  useEffect(() => {
+    if (step === 3) {
+      showToast(
+        'Пожалуйста, убедитесь, что вы указали правильную почту. В случае ошибки вы можете потерять доступ к аккаунту. Навсегда',
+        'warning',
+        10000,
+      );
+    }
+  }, [step]);
+
   const isUpdateUserModalOpen = useModalsStore(
-    (state) => state.isDeleteUserModalOpen,
-  );
-  const setIsUpdateUserModalOpen = useModalsStore(
-    (state) => state.setIsDeleteUserModalOpen,
+    (state) => state.isUpdateUserModalOpen,
   );
 
-  const sendEmailHandler = async (email) => {
-    try {
-      await emailSchema.validate(email);
-    } catch (validationError) {
-      return;
-    }
+  const setIsUpdateUserModalOpen = useModalsStore(
+    (state) => state.setIsUpdateUserModalOpen,
+  );
+
+  const sendEmailHandler = async () => {
     setLoad(true);
     try {
-      try {
-        const success = await userVerify(email);
-        if (success) {
-          setStep(3);
-        }
-      } catch (error) {
-        console.error('Ошибка отправки кода:', error);
+      const success = await userVerify();
+      if (success) {
+        setStep(3);
       }
     } catch (error) {
       console.error('Ошибка отправки кода:', error);
@@ -53,21 +61,35 @@ export default function DeleteUserModal() {
     }
   };
 
-  const deleteUserHandler = async (confirmationCode) => {
-    await confirmCodeSchema.validate(confirmationCode);
+  const finallyConfirmHandler = () => {};
+
+  const updateUserHandler = async () => {
+    const code = confirmationCode.confirmationCode;
+
+    try {
+      await confirmCodeSchema.validate({ confirmationCode: code });
+      if (newEmail) {
+        await emailSchema.validate(newEmail);
+      }
+    } catch (err) {
+      return;
+    }
     setLoad(true);
     try {
-      await deleteUser(confirmationCode.confirmationCode);
-      setConfirmationCode({ confirmationCode: '' });
+      await updateUser(code, {
+        ...(newLogin ? { login: newLogin } : {}),
+        ...(newEmail ? { email: newEmail } : {}),
+      });
+      setIsUpdateUserModalOpen(false);
     } catch (error) {
-      console.error('Ошибка при удалении аккаунта:', error);
+      console.error('Ошибка при обновлении данных пользователя:', error);
     } finally {
       setLoad(false);
     }
   };
 
   return (
-    <Transition appear show={isDeleteUserModalOpen} as={Fragment}>
+    <Transition appear show={isUpdateUserModalOpen} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-50"
@@ -83,7 +105,7 @@ export default function DeleteUserModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-2xl h-[270px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="w-full border-2 max-w-6xl h-[270px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
                 <AnimatePresence mode="wait">
                   {step === 1 && (
                     <motion.div
@@ -95,8 +117,7 @@ export default function DeleteUserModal() {
                       className="flex flex-col gap-6 h-full justify-evenly"
                     >
                       <h2 className="text-center text-3xl mb-4">
-                        Вы уверены что хотите удалить аккаунт? Это действие
-                        необратимо!
+                        Вы уверены что хотите обновить данные аккаунта?
                       </h2>
                       <div className="flex items-center justify-between gap-6">
                         <button
@@ -106,7 +127,7 @@ export default function DeleteUserModal() {
                             setInputValue('');
                             setConfirmationCode({ confirmationCode: '' });
                             setStep(1);
-                            setIsDeleteUserModalOpen(false);
+                            setIsUpdateUserModalOpen(false);
                           }}
                         >
                           Нет
@@ -135,7 +156,7 @@ export default function DeleteUserModal() {
                       className="flex flex-col gap-6 h-full justify-evenly"
                     >
                       <h2 className="text-center text-3xl mb-4">
-                        Введите почту для удаления аккаунта:
+                        Введите почту для обновления данных аккаунта:
                       </h2>
                       <div className="relative">
                         <input
@@ -162,7 +183,7 @@ export default function DeleteUserModal() {
                             setInputValue('');
                             setConfirmationCode({ confirmationCode: '' });
                             setStep(1);
-                            setIsDeleteUserModalOpen(false);
+                            setIsUpdateUserModalOpen(false);
                           }}
                         >
                           Отмена
@@ -181,37 +202,78 @@ export default function DeleteUserModal() {
                       </div>
                     </motion.div>
                   )}
+
                   {step === 3 && (
-                    <motion.div
-                      key={step}
-                      initial={{ opacity: 0, transform: 'translateX(50px)' }}
-                      animate={{ opacity: 1, transform: 'translateX(0px)' }}
-                      exit={{ opacity: 0, transform: 'translateX(-50px)' }}
-                      transition={{ duration: 0.3, ease: 'easeInOut' }}
-                      className="flex flex-col gap-6 h-full justify-evenly"
-                    >
-                      {' '}
-                      <h2 className="text-center text-3xl mb-4">
-                        Введите код:
-                      </h2>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          required
-                          className="peer input-styles"
-                          value={confirmationCode.confirmationCode}
-                          onChange={(e) =>
-                            setConfirmationCode({
-                              confirmationCode: e.target.value,
-                            })
-                          }
-                          disabled={load}
-                          placeholder=" "
-                        />
-                        <label className="label-styles">
-                          Введите код подтверждения
-                        </label>
-                      </div>
+                    <div className="flex flex-col justify-between h-full ">
+                      <motion.div
+                        key={step}
+                        initial={{ opacity: 0, transform: 'translateX(50px)' }}
+                        animate={{ opacity: 1, transform: 'translateX(0px)' }}
+                        exit={{ opacity: 0, transform: 'translateX(-50px)' }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        className="flex gap-6 h-full justify-evenly"
+                      >
+                        <div className="">
+                          <h2 className="text-center text-3xl mb-4">
+                            Введите код:
+                          </h2>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              required
+                              className="peer input-styles"
+                              value={confirmationCode.confirmationCode}
+                              onChange={(e) =>
+                                setConfirmationCode({
+                                  confirmationCode: e.target.value,
+                                })
+                              }
+                              disabled={load}
+                              placeholder=" "
+                            />
+                            <label className="label-styles">
+                              Введите код подтверждения
+                            </label>
+                          </div>
+                        </div>
+                        <p className="text-3xl">затем</p>
+                        <div className="">
+                          <h2 className="text-center text-3xl mb-4">
+                            Введите новые данные:
+                          </h2>
+                          <div className="flex items-center justify-center gap-2">
+                            <div className="relative">
+                              <input
+                                type="text"
+                                required
+                                className="peer input-styles"
+                                value={newLogin}
+                                onChange={(e) => setNewLogin(e.target.value)}
+                                disabled={load}
+                                placeholder=" "
+                              />
+                              <label className="label-styles">
+                                Введите новый логин
+                              </label>
+                            </div>
+                            <p className="text-center text-2xl">и/или</p>
+                            <div className="relative">
+                              <input
+                                type="text"
+                                required
+                                className="peer input-styles"
+                                value={newEmail}
+                                onChange={(e) => setNewEmail(e.target.value)}
+                                disabled={load}
+                                placeholder=" "
+                              />
+                              <label className="label-styles">
+                                Введите новую почту
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
                       <div className="flex gap-6">
                         <button
                           className={`primary-btn ${load ? 'pointer-events-none' : ''}`}
@@ -220,14 +282,20 @@ export default function DeleteUserModal() {
                             setInputValue('');
                             setConfirmationCode({ confirmationCode: '' });
                             setStep(1);
-                            setIsDeleteUserModalOpen(false);
+                            setIsUpdateUserModalOpen(false);
                           }}
                         >
                           Отмена
-                        </button>{' '}
+                        </button>
                         <button
-                          className={`primary-btn items-center !bg-red-700 hover:!bg-red-800 justify-center flex ${load ? 'pointer-events-none' : ''}`}
-                          onClick={() => deleteUserHandler(confirmationCode)}
+                          className={`primary-btn items-center justify-center flex ${load ? 'pointer-events-none' : ''}`}
+                          onClick={() =>
+                            updateUserHandler(
+                              confirmationCode,
+                              newLogin,
+                              newEmail,
+                            )
+                          }
                           disabled={load}
                         >
                           {load ? (
@@ -236,11 +304,11 @@ export default function DeleteUserModal() {
                               size={24}
                             />
                           ) : (
-                            <>Подтвердить удаление</>
+                            <>Подтвердить обновление</>
                           )}
                         </button>
                       </div>
-                    </motion.div>
+                    </div>
                   )}
                 </AnimatePresence>
               </DialogPanel>

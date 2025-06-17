@@ -17,7 +17,7 @@ export async function updateBoard(uuid, updatedFields = {}) {
   }
 
   return await apiResponsesHandler(
-    () => api.patch(`/todo/updateBoard/${uuid}`, updatedFields),
+    () => api.patch(`/api/todo/boards/${uuid}`, updatedFields),
     {
       onSuccess: (data) => {
         return data.updated || null;

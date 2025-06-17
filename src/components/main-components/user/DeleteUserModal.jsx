@@ -8,11 +8,11 @@ import {
 } from '@headlessui/react';
 import useModalsStore from '@store/modalsStore';
 import { AiOutlineSync } from 'react-icons/ai';
-import deleteUser from '@api/http/user/deleteUser';
-import userVerify from '@api/http/auth/userVerify';
+import { deleteUser } from '@api/http/user/deleteUser';
 import { emailSchema } from '@validators/emailSchema';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { motion, AnimatePresence } from 'framer-motion';
+import { userVerify } from '@api/http/user/userSendCode';
 
 export default function DeleteUserModal() {
   const [load, setLoad] = useState(false);
@@ -30,21 +30,12 @@ export default function DeleteUserModal() {
     (state) => state.setIsDeleteUserModalOpen,
   );
 
-  const sendEmailHandler = async (email) => {
-    try {
-      await emailSchema.validate(email);
-    } catch (validationError) {
-      return;
-    }
+  const sendEmailHandler = async () => {
     setLoad(true);
     try {
-      try {
-        const success = await userVerify(email);
-        if (success) {
-          setStep(3);
-        }
-      } catch (error) {
-        console.error('Ошибка отправки кода:', error);
+      const success = await userVerify();
+      if (success) {
+        setStep(3);
       }
     } catch (error) {
       console.error('Ошибка отправки кода:', error);
@@ -58,7 +49,6 @@ export default function DeleteUserModal() {
     setLoad(true);
     try {
       await deleteUser(confirmationCode.confirmationCode);
-      setConfirmationCode({ confirmationCode: '' });
     } catch (error) {
       console.error('Ошибка при удалении аккаунта:', error);
     } finally {

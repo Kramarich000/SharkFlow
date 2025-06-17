@@ -1,8 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { loginSchema } from '@validators/loginSchema';
 import AnimatedError from '@components/main-components/AnimatedError';
-import loginHandler from '@api/http/login/login';
-import uploadingUserData from '@api/http/user/uploadingUserData';
+import { login } from '@api/http/auth/login/login';
+import { getUser } from '@api/http/user/getUser';
 import { FormikCheckbox } from '@components/main-components/checkbox/FormikCheckbox';
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -55,9 +55,9 @@ export default function LoginPage() {
               onSubmit={async (values) => {
                 setLoading(true);
                 try {
-                  const successfullyLogged = await loginHandler(values);
+                  const successfullyLogged = await login(values);
                   if (successfullyLogged) {
-                    await uploadingUserData();
+                    await getUser();
                     navigate('/dashboard');
                   }
                 } finally {

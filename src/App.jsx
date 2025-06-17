@@ -14,7 +14,7 @@ import { useAuthTokenRefresh } from '@hooks/useAuthTokenRefresh';
 import { useSocket } from '@hooks/useSocket';
 import { useAuthStore } from '@store/authStore';
 import BackToTop from '@components/main-components/BackToTop';
-import uploadingUserData from '@api/http/user/uploadingUserData';
+import { getUser } from '@api/http/user/getUser';
 import LogoutUserModal from '@components/main-components/user/LogoutUserModal';
 import { blockedPublicPaths } from '@config/blockedPublicPaths';
 import useUserStore from '@store/userStore';
@@ -31,7 +31,7 @@ function App() {
 
     const fetchData = async () => {
       try {
-        const data = await uploadingUserData();
+        const data = await getUser();
         greeted.current = true;
         console.log('ivan', data);
         setUser({ login: data.login, email: data.email });

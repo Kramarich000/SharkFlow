@@ -13,7 +13,7 @@ export async function createBoard({ title, color }) {
   }
 
   return await apiResponsesHandler(
-    () => api.post('/todo/createBoard', { title, color }),
+    () => api.post('/api/todo/boards', { title, color }),
     {
       successMessage: `Доска ${title} успешно создана`,
       onSuccess: (data) => data.board,

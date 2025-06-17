@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@store/authStore';
-import refreshToken from '@api/http/auth/refreshToken';
+import { refreshToken } from '@api/http/auth/refresh/refreshToken';
 
 export function useAuthTokenRefresh() {
   const setAccessToken = useAuthStore((state) => state.setAccessToken);

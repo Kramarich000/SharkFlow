@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import AnimatedError from '@components/main-components/AnimatedError';
-import confirmCodeHandler from '@api/http/auth/confirmCode';
+import { confirmCode } from '@api/http/user/createUser';
 import { motion } from 'framer-motion';
 import { useRegisterStore } from '@store/registerStore';
 import { useState } from 'react';
@@ -32,7 +32,7 @@ export default function RegisterSecondStep() {
         initialValues={{ confirmationCode: '' }}
         onSubmit={async (values, actions) => {
           setLoad(true);
-          const success = await confirmCodeHandler(values);
+          const success = await confirmCode(values);
           if (success) {
             setStep(3);
             setLoad(false);

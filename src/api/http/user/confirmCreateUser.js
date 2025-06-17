@@ -1,7 +1,7 @@
 import api from '@api/http/http';
 import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
 
-export default async function register(values) {
+export async function register(values) {
   const payload = {
     user: {
       login: values.login,
@@ -12,5 +12,7 @@ export default async function register(values) {
     },
   };
 
-  return await apiResponsesHandler(() => api.post('/register', payload, {}));
+  return await apiResponsesHandler(() =>
+    api.post('/api/users/confirm', payload, {}),
+  );
 }

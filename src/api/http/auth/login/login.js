@@ -2,7 +2,7 @@ import api from '@api/http/http';
 import { useAuthStore } from '@store/authStore';
 import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
 
-export default async function login(values) {
+export async function login(values) {
   const payload = {
     user: {
       email: values.email,
@@ -12,7 +12,7 @@ export default async function login(values) {
   };
 
   const result = await apiResponsesHandler(
-    () => api.post('/login', payload, {}),
+    () => api.post('/api/auth/login', payload, {}),
     {
       onSuccess: (data) => {
         if (data.accessToken) {

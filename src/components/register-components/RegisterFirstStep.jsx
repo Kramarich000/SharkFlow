@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { registerSchema } from '@validators/registerSchema';
 import AnimatedError from '@components/main-components/AnimatedError';
-import registerHandler from '@api/http/register/register';
+import { register } from '@api/http/user/confirmCreateUser';
 import { motion } from 'framer-motion';
 import { LuEye } from 'react-icons/lu';
 import { LuEyeClosed } from 'react-icons/lu';
@@ -42,7 +42,7 @@ export default function RegisterFirstStep() {
         }}
         onSubmit={async (values, actions) => {
           setLoad(true);
-          const success = await registerHandler(values);
+          const success = await register(values);
           if (success) {
             setStep(2);
             setLoad(false);

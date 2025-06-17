@@ -1,8 +1,8 @@
 import useModalsStore from '@store/modalsStore';
 import DeleteUserModal from '@components/main-components/user/DeleteUserModal';
-// import UpdateUserModal from '@components/main-components/user/UpdateUserModal';
+import UpdateUserModal from '@components/main-components/user/UpdateUserModal';
 import { useState, useEffect } from 'react';
-import uploadingUserData from '@api/http/user/uploadingUserData';
+import { getUser } from '@api/http/user/getUser';
 import useUserStore from '@store/userStore';
 import { AiOutlineSync } from 'react-icons/ai';
 
@@ -10,6 +10,10 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const setIsDeleteUserModalOpen = useModalsStore(
     (state) => state.setIsDeleteUserModalOpen,
+  );
+
+  const setIsUpdateUserModalOpen = useModalsStore(
+    (state) => state.setIsUpdateUserModalOpen,
   );
 
   const user = useUserStore((state) => state.user);
@@ -36,7 +40,7 @@ export default function SettingsPage() {
           <div className="">
             <button
               className="primary-btn mb-4"
-              // onClick={() => setIsUpdateUserModalOpen(true)}
+              onClick={() => setIsUpdateUserModalOpen(true)}
             >
               Изменить данные
             </button>
@@ -48,7 +52,7 @@ export default function SettingsPage() {
             </button>
           </div>
           <DeleteUserModal />
-          {/* <UpdateUserModal /> */}
+          <UpdateUserModal />
         </div>
       )}
     </>

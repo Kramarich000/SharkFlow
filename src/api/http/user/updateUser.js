@@ -1,26 +1,39 @@
 import api from '@api/http/http';
 import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
 import { showToast } from '@utils/toast/showToast';
+import useUserStore from '@store/userStore';
 
-export async function updateBoard(uuid, updatedFields = {}) {
-  if (!uuid) {
-    showToast('Ошибка: доска не выбрана', 'error');
+export async function updateUser(confirmationCode, updatedFields = {}) {
+  if (
+    'login' in updatedFields &&
+    (!updatedFields.login || !updatedFields.login.trim())
+  ) {
+    showToast('Логин не может быть пустым', 'error');
     return null;
   }
 
   if (
-    'title' in updatedFields &&
-    (!updatedFields.title || !updatedFields.title.trim())
+    'email' in updatedFields &&
+    (!updatedFields.email || !updatedFields.email.trim())
   ) {
-    showToast('Название доски не может быть пустым', 'error');
+    showToast('Почта не может быть пустой', 'error');
     return null;
   }
 
+  console.log(updatedFields);
+
   return await apiResponsesHandler(
-    () => api.patch('/user/update', updatedFields),
+    () => api.patch('/api/users/update', { confirmationCode, updatedFields }),
     {
       onSuccess: (data) => {
-        return data.updated || null;
+        const { user } = data;
+
+        if (user) {
+          useUserStore.getState().setUser(user);
+          showToast('Данные успешно обновлены', 'success');
+        }
+
+        return user || null;
       },
     },
   );

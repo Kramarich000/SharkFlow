@@ -24,7 +24,7 @@ const useTaskStore = create((set, get) => ({
     }
 
     try {
-      const response = await api.post(`/todo/createTask/${boardId}`, taskState);
+      const response = await api.post(`/todo/tasks/${boardId}`, taskState);
 
       if (response.status === 200) {
         set({

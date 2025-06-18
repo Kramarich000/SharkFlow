@@ -14,7 +14,7 @@ import { useAuthTokenRefresh } from '@hooks/useAuthTokenRefresh';
 import { useSocket } from '@hooks/useSocket';
 import { useAuthStore } from '@store/authStore';
 import BackToTop from '@components/main-components/BackToTop';
-import { getUser } from '@api/http/user/getUser';
+import { getUser } from '@api/http/user/get/getUser';
 import LogoutUserModal from '@components/main-components/user/LogoutUserModal';
 import { blockedPublicPaths } from '@config/blockedPublicPaths';
 import useUserStore from '@store/userStore';

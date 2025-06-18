@@ -2,7 +2,7 @@ import useModalsStore from '@store/modalsStore';
 import DeleteUserModal from '@components/main-components/user/DeleteUserModal';
 import UpdateUserModal from '@components/main-components/user/UpdateUserModal';
 import { useState, useEffect } from 'react';
-import { getUser } from '@api/http/user/getUser';
+import { getUser } from '@api/http/user/get/getUser';
 import useUserStore from '@store/userStore';
 import { AiOutlineSync } from 'react-icons/ai';
 
@@ -25,7 +25,7 @@ export default function SettingsPage() {
   }, [user]);
 
   return (
-    <>
+    <div className="p-30 px-70  h-full">
       {loading ? (
         <div className="flex items-center h-full w-full justify-center gap-4">
           <AiOutlineSync className="text-5xl animate-spin" />
@@ -55,6 +55,6 @@ export default function SettingsPage() {
           <UpdateUserModal />
         </div>
       )}
-    </>
+    </div>
   );
 }

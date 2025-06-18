@@ -9,19 +9,18 @@ import {
 import useModalsStore from '@store/modalsStore';
 import useBoardStore from '@store/boardStore';
 import { AiOutlineSync } from 'react-icons/ai';
-import { updateUser } from '@api/http/user/updateUser';
-import { userVerify } from '@api/http/user/userSendCode';
+import { updateUser } from '@api/http/user/update/updateUser';
+import { confirmUpdate } from '@api/http/user/update/updateUserConfirm';
 import { emailSchema } from '@validators/emailSchema';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { motion, AnimatePresence } from 'framer-motion';
 import { showToast } from '@utils/toast/showToast';
+import useUserStore from '@store/userStore';
+import { use } from 'react';
 
 export default function UpdateUserModal() {
   const [load, setLoad] = useState(false);
-  const [isConfirmed, setIsConfirmed] = useState(false);
   const [step, setStep] = useState(1);
-  const [inputValue, setInputValue] = useState('');
-
   const [confirmationCode, setConfirmationCode] = useState({
     confirmationCode: '',
   });
@@ -29,8 +28,20 @@ export default function UpdateUserModal() {
   const [newLogin, setNewLogin] = useState('');
   const [newEmail, setNewEmail] = useState('');
 
+  const [originalLogin, setOriginalLogin] = useState('');
+  const [originalEmail, setOriginalEmail] = useState('');
+
+  const user = useUserStore((state) => state.user);
+
   useEffect(() => {
-    if (step === 3) {
+    setNewLogin(user.login);
+    setNewEmail(user.email);
+    setOriginalLogin(user.login || '');
+    setOriginalEmail(user.email || '');
+  }, [user]);
+
+  useEffect(() => {
+    if (step === 2) {
       showToast(
         'Пожалуйста, убедитесь, что вы указали правильную почту. В случае ошибки вы можете потерять доступ к аккаунту. Навсегда',
         'warning',
@@ -50,9 +61,9 @@ export default function UpdateUserModal() {
   const sendEmailHandler = async () => {
     setLoad(true);
     try {
-      const success = await userVerify();
+      const success = await confirmUpdate();
       if (success) {
-        setStep(3);
+        setStep(2);
       }
     } catch (error) {
       console.error('Ошибка отправки кода:', error);
@@ -61,11 +72,12 @@ export default function UpdateUserModal() {
     }
   };
 
-  const finallyConfirmHandler = () => {};
-
   const updateUserHandler = async () => {
     const code = confirmationCode.confirmationCode;
-
+    if (newLogin === originalLogin && newEmail === originalEmail) {
+      showToast('Нет изменений для сохранения', 'info');
+      return;
+    }
     try {
       await confirmCodeSchema.validate({ confirmationCode: code });
       if (newEmail) {
@@ -105,7 +117,7 @@ export default function UpdateUserModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-6xl h-[270px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="w-full border-2 overflow-auto max-w-6xl max-h-[270px] transform relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
                 <AnimatePresence mode="wait">
                   {step === 1 && (
                     <motion.div
@@ -119,12 +131,11 @@ export default function UpdateUserModal() {
                       <h2 className="text-center text-3xl mb-4">
                         Вы уверены что хотите обновить данные аккаунта?
                       </h2>
-                      <div className="flex items-center justify-between gap-6">
+                      <div className="flex items-center justify-center gap-6">
                         <button
-                          className={`primary-btn ${load ? 'pointer-events-none' : ''}`}
+                          className={`primary-btn !w-fit ${load ? 'pointer-events-none' : ''}`}
                           disabled={load}
                           onClick={() => {
-                            setInputValue('');
                             setConfirmationCode({ confirmationCode: '' });
                             setStep(1);
                             setIsUpdateUserModalOpen(false);
@@ -133,8 +144,10 @@ export default function UpdateUserModal() {
                           Нет
                         </button>
                         <button
-                          className={`primary-btn items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : ''}`}
-                          onClick={() => setStep(2)}
+                          className={`primary-btn !w-fit items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : ''}`}
+                          onClick={() => {
+                            sendEmailHandler();
+                          }}
                           disabled={load}
                         >
                           {load ? (
@@ -147,63 +160,6 @@ export default function UpdateUserModal() {
                     </motion.div>
                   )}
                   {step === 2 && (
-                    <motion.div
-                      key={step}
-                      initial={{ opacity: 0, transform: 'translateX(50px)' }}
-                      animate={{ opacity: 1, transform: 'translateX(0px)' }}
-                      exit={{ opacity: 0, transform: 'translateX(-50px)' }}
-                      transition={{ duration: 0.3, ease: 'easeInOut' }}
-                      className="flex flex-col gap-6 h-full justify-evenly"
-                    >
-                      <h2 className="text-center text-3xl mb-4">
-                        Введите почту для обновления данных аккаунта:
-                      </h2>
-                      <div className="relative">
-                        <input
-                          type="email"
-                          className="peer input-styles w-full p-2 border rounded mb-4"
-                          value={inputValue}
-                          onChange={(e) => setInputValue(e.target.value)}
-                          disabled={load}
-                          required
-                          id="email"
-                          name="email"
-                          autoComplete="email"
-                          placeholder=" "
-                        />
-                        <label htmlFor="email" className="label-styles">
-                          Введите почту
-                        </label>
-                      </div>
-                      <div className="flex gap-6">
-                        <button
-                          className={`primary-btn ${load ? 'pointer-events-none' : ''}`}
-                          disabled={load}
-                          onClick={() => {
-                            setInputValue('');
-                            setConfirmationCode({ confirmationCode: '' });
-                            setStep(1);
-                            setIsUpdateUserModalOpen(false);
-                          }}
-                        >
-                          Отмена
-                        </button>
-                        <button
-                          className={`primary-btn items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : ''}`}
-                          onClick={() => sendEmailHandler(inputValue)}
-                          disabled={load}
-                        >
-                          {load ? (
-                            <AiOutlineSync className="animate-spin" size={24} />
-                          ) : (
-                            <>Отправить код</>
-                          )}
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {step === 3 && (
                     <div className="flex flex-col justify-between h-full ">
                       <motion.div
                         key={step}
@@ -211,7 +167,7 @@ export default function UpdateUserModal() {
                         animate={{ opacity: 1, transform: 'translateX(0px)' }}
                         exit={{ opacity: 0, transform: 'translateX(-50px)' }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className="flex gap-6 h-full justify-evenly"
+                        className="flex flex-col items-center gap-6 h-full justify-evenly mb-4"
                       >
                         <div className="">
                           <h2 className="text-center text-3xl mb-4">
@@ -274,12 +230,11 @@ export default function UpdateUserModal() {
                           </div>
                         </div>
                       </motion.div>
-                      <div className="flex gap-6">
+                      <div className="flex items-center justify-center gap-6">
                         <button
-                          className={`primary-btn ${load ? 'pointer-events-none' : ''}`}
+                          className={`primary-btn !w-[255px] ${load ? 'pointer-events-none' : ''}`}
                           disabled={load}
                           onClick={() => {
-                            setInputValue('');
                             setConfirmationCode({ confirmationCode: '' });
                             setStep(1);
                             setIsUpdateUserModalOpen(false);
@@ -288,14 +243,8 @@ export default function UpdateUserModal() {
                           Отмена
                         </button>
                         <button
-                          className={`primary-btn items-center justify-center flex ${load ? 'pointer-events-none' : ''}`}
-                          onClick={() =>
-                            updateUserHandler(
-                              confirmationCode,
-                              newLogin,
-                              newEmail,
-                            )
-                          }
+                          className={`primary-btn !w-[255px] items-center justify-center flex ${load ? 'pointer-events-none' : ''}`}
+                          onClick={() => updateUserHandler()}
                           disabled={load}
                         >
                           {load ? (

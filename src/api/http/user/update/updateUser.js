@@ -4,6 +4,11 @@ import { showToast } from '@utils/toast/showToast';
 import useUserStore from '@store/userStore';
 
 export async function updateUser(confirmationCode, updatedFields = {}) {
+  if (!updatedFields || Object.keys(updatedFields).length === 0) {
+    showToast('Нет данных для обновления', 'error');
+    return null;
+  }
+
   if (
     'login' in updatedFields &&
     (!updatedFields.login || !updatedFields.login.trim())
@@ -23,7 +28,7 @@ export async function updateUser(confirmationCode, updatedFields = {}) {
   console.log(updatedFields);
 
   return await apiResponsesHandler(
-    () => api.patch('/api/users/update', { confirmationCode, updatedFields }),
+    () => api.patch('/api/users', { confirmationCode, updatedFields }),
     {
       onSuccess: (data) => {
         const { user } = data;

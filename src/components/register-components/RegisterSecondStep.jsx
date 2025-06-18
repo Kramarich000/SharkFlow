@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import AnimatedError from '@components/main-components/AnimatedError';
-import { confirmCode } from '@api/http/user/createUser';
+import { confirmCode } from '@api/http/user/create/createUser';
 import { motion } from 'framer-motion';
 import { useRegisterStore } from '@store/registerStore';
 import { useState } from 'react';

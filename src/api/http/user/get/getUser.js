@@ -8,7 +8,7 @@ export async function getUser() {
 
   await apiResponsesHandler(() => api.get('/api/users'), {
     onSuccess: (data) => {
-      if (sessionStorage.getItem(GREETED_USER_KEY)) {
+      if (!sessionStorage.getItem(GREETED_USER_KEY)) {
         showToast(`Добро пожаловать ${data.login}!`);
         sessionStorage.setItem(GREETED_USER_KEY, 'true');
       }

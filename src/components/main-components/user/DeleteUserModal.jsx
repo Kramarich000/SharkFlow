@@ -8,17 +8,15 @@ import {
 } from '@headlessui/react';
 import useModalsStore from '@store/modalsStore';
 import { AiOutlineSync } from 'react-icons/ai';
-import { deleteUser } from '@api/http/user/deleteUser';
+import { deleteUser } from '@api/http/user/delete/deleteUser';
 import { emailSchema } from '@validators/emailSchema';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { motion, AnimatePresence } from 'framer-motion';
-import { userVerify } from '@api/http/user/userSendCode';
+import { userVerify } from '@api/http/user/delete/deleteUserConfirm';
 
 export default function DeleteUserModal() {
   const [load, setLoad] = useState(false);
-  const [isConfirmed, setIsConfirmed] = useState(false);
   const [step, setStep] = useState(1);
-  const [inputValue, setInputValue] = useState('');
   const [confirmationCode, setConfirmationCode] = useState({
     confirmationCode: '',
   });
@@ -35,7 +33,7 @@ export default function DeleteUserModal() {
     try {
       const success = await userVerify();
       if (success) {
-        setStep(3);
+        setStep(2);
       }
     } catch (error) {
       console.error('Ошибка отправки кода:', error);
@@ -85,15 +83,14 @@ export default function DeleteUserModal() {
                       className="flex flex-col gap-6 h-full justify-evenly"
                     >
                       <h2 className="text-center text-3xl mb-4">
-                        Вы уверены что хотите удалить аккаунт? Это действие
-                        необратимо!
+                        Вы уверены что хотите удалить аккаунт? Это действие{' '}
+                        <span className="text-red-700">необратимо</span>
                       </h2>
-                      <div className="flex items-center justify-between gap-6">
+                      <div className="flex items-center justify-center gap-6">
                         <button
-                          className={`primary-btn ${load ? 'pointer-events-none' : ''}`}
+                          className={`primary-btn !w-fit ${load ? 'pointer-events-none' : ''}`}
                           disabled={load}
                           onClick={() => {
-                            setInputValue('');
                             setConfirmationCode({ confirmationCode: '' });
                             setStep(1);
                             setIsDeleteUserModalOpen(false);
@@ -102,8 +99,10 @@ export default function DeleteUserModal() {
                           Нет
                         </button>
                         <button
-                          className={`primary-btn items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : ''}`}
-                          onClick={() => setStep(2)}
+                          className={`primary-btn !w-fit items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : ''}`}
+                          onClick={() => {
+                            sendEmailHandler();
+                          }}
                           disabled={load}
                         >
                           {load ? (
@@ -116,62 +115,6 @@ export default function DeleteUserModal() {
                     </motion.div>
                   )}
                   {step === 2 && (
-                    <motion.div
-                      key={step}
-                      initial={{ opacity: 0, transform: 'translateX(50px)' }}
-                      animate={{ opacity: 1, transform: 'translateX(0px)' }}
-                      exit={{ opacity: 0, transform: 'translateX(-50px)' }}
-                      transition={{ duration: 0.3, ease: 'easeInOut' }}
-                      className="flex flex-col gap-6 h-full justify-evenly"
-                    >
-                      <h2 className="text-center text-3xl mb-4">
-                        Введите почту для удаления аккаунта:
-                      </h2>
-                      <div className="relative">
-                        <input
-                          type="email"
-                          className="peer input-styles w-full p-2 border rounded mb-4"
-                          value={inputValue}
-                          onChange={(e) => setInputValue(e.target.value)}
-                          disabled={load}
-                          required
-                          id="email"
-                          name="email"
-                          autoComplete="email"
-                          placeholder=" "
-                        />
-                        <label htmlFor="email" className="label-styles">
-                          Введите почту
-                        </label>
-                      </div>
-                      <div className="flex gap-6">
-                        <button
-                          className={`primary-btn ${load ? 'pointer-events-none' : ''}`}
-                          disabled={load}
-                          onClick={() => {
-                            setInputValue('');
-                            setConfirmationCode({ confirmationCode: '' });
-                            setStep(1);
-                            setIsDeleteUserModalOpen(false);
-                          }}
-                        >
-                          Отмена
-                        </button>
-                        <button
-                          className={`primary-btn items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : ''}`}
-                          onClick={() => sendEmailHandler(inputValue)}
-                          disabled={load}
-                        >
-                          {load ? (
-                            <AiOutlineSync className="animate-spin" size={24} />
-                          ) : (
-                            <>Отправить код</>
-                          )}
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
-                  {step === 3 && (
                     <motion.div
                       key={step}
                       initial={{ opacity: 0, transform: 'translateX(50px)' }}
@@ -202,12 +145,11 @@ export default function DeleteUserModal() {
                           Введите код подтверждения
                         </label>
                       </div>
-                      <div className="flex gap-6">
+                      <div className="flex gap-6 items-center justify-center">
                         <button
-                          className={`primary-btn ${load ? 'pointer-events-none' : ''}`}
+                          className={`primary-btn !w-[235px] ${load ? 'pointer-events-none' : ''}`}
                           disabled={load}
                           onClick={() => {
-                            setInputValue('');
                             setConfirmationCode({ confirmationCode: '' });
                             setStep(1);
                             setIsDeleteUserModalOpen(false);
@@ -216,7 +158,7 @@ export default function DeleteUserModal() {
                           Отмена
                         </button>{' '}
                         <button
-                          className={`primary-btn items-center !bg-red-700 hover:!bg-red-800 justify-center flex ${load ? 'pointer-events-none' : ''}`}
+                          className={`primary-btn !w-[235px] items-center !bg-red-700 hover:!bg-red-800 justify-center flex ${load ? 'pointer-events-none' : ''}`}
                           onClick={() => deleteUserHandler(confirmationCode)}
                           disabled={load}
                         >

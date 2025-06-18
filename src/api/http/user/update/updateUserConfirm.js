@@ -1,12 +1,8 @@
 import api from '@api/http/http';
 import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
 
-export async function resetPasswordRequest(values) {
-  const payload = {
-    email: values.email,
-  };
-
+export async function confirmUpdate() {
   return await apiResponsesHandler(() =>
-    api.post('/api/auth/reset-password/verify', payload, {}),
+    api.post('/api/users/confirm-update', {}, {}),
   );
 }

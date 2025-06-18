@@ -13,6 +13,6 @@ export async function register(values) {
   };
 
   return await apiResponsesHandler(() =>
-    api.post('/api/users/confirm', payload, {}),
+    api.post('/api/users/confirm-registration', payload, {}),
   );
 }

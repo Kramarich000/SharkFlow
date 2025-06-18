@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { registerSchema } from '@validators/registerSchema';
 import AnimatedError from '@components/main-components/AnimatedError';
-import { register } from '@api/http/user/create/createUserConfirm';
+import { register } from '@api/http/users/create/createUserConfirm';
 import { motion } from 'framer-motion';
 import { LuEye } from 'react-icons/lu';
 import { LuEyeClosed } from 'react-icons/lu';
@@ -27,7 +27,7 @@ export default function RegisterFirstStep() {
         initial={{ opacity: 0, transform: 'translateX(50px)' }}
         animate={{ opacity: 1, transform: 'translateX(0)' }}
         exit={{ opacity: 0, transform: 'translateX(-50px)' }}
-        className="text-7xl"
+        className="text-3xl sm:text-7xl"
       >
         Шаг 1/3
       </motion.h2>
@@ -55,7 +55,7 @@ export default function RegisterFirstStep() {
         {({ handleChange, handleBlur }) => {
           return (
             <>
-              <Form className="sm:grid mt-12 flex flex-col gap-4 bg-[#fff] border-b-4 border-[#111111] p-8 rounded-2xl">
+              <Form className="sm:grid mt-4 sm:mt-12 flex flex-col gap-4 bg-[#fff] border-b-4 border-[#111111] p-8 rounded-2xl">
                 <h2 className="col-span-2 text-3xl">Регистрация</h2>
 
                 <div className="relative">
@@ -156,14 +156,14 @@ export default function RegisterFirstStep() {
                     className={`${load ? 'pointer-events-none' : null}`}
                     label={
                       <>
-                        Я согласен с{' '}
+                        Я принимаю{' '}
                         <Link
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-600"
                           to="/privacy"
                         >
-                          политикой конфиденциальности
+                          политику конфиденциальности
                         </Link>{' '}
                         и{' '}
                         <Link
@@ -172,7 +172,7 @@ export default function RegisterFirstStep() {
                           className="text-blue-600"
                           to="/terms"
                         >
-                          условиями пользования
+                          условия пользования
                         </Link>
                       </>
                     }

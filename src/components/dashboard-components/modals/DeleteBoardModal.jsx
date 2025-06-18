@@ -66,16 +66,20 @@ export default function DeleteBoardModal() {
               leaveTo="translate-y-full"
             >
               <DialogPanel className="w-full border-2 max-w-3xl h-full transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
-                <div className="flex flex-col items-center justify-between gap-10">
-                  <h2 className="text-3xl">
-                    Вы уверены? Это действие необратимо!
+                <h2 className="text-3xl text-center mb-8">Удаление доски</h2>
+                <div className="flex flex-col items-center justify-between gap-4 sm:gap-10">
+                  <h2 className="text-2xl text-center">
+                    Вы уверены? Это действие{' '}
+                    <span className="text-red-700">необратимо</span>
                   </h2>
-                  <p className="text-xl text-center">
+                  <p className="text-xl w-full flex flex-col gap-4 text-center break-words whitespace-normal">
                     Введите название доски ниже для удаления:
-                    <b className="max-w-3xl block overflow-x-auto">
-                      "{selectedBoard?.title}"
+                    <br />
+                    <b className="max-w-3xl break-words whitespace-normal block">
+                      '{selectedBoard?.title}'
                     </b>
                   </p>
+
                   <input
                     autoFocus
                     value={inputValue}
@@ -85,14 +89,14 @@ export default function DeleteBoardModal() {
                         handleDeleteBoard();
                       }
                     }}
-                    className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
+                    className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-[16px] !border-b-1 !pb-2 lg:!pb-0 lg:!border-b-0 !text-center sm:!text-left sm:!text-2xl"
                     placeholder="Введите название доски для удаления"
                     disabled={load}
                     maxLength={64}
                   />
                   <button
-                    className={`primary-btn !bg-red-700 hover:!bg-red-800 flex justify-center items-center !w-[115px] ${
-                      load ? '!w-[115px] !h-[50px]' : null
+                    className={`primary-btn !bg-red-700 hover:!bg-red-800 flex justify-center items-center ${
+                      load ? '!h-[50px]' : null
                     }`}
                     onClick={handleDeleteBoard}
                     disabled={load}

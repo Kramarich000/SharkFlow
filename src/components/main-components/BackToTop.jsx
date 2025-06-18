@@ -23,7 +23,7 @@ export default function BackToTop() {
           exit={{ opacity: 0, transform: 'translateY(20px)' }}
           transition={{ duration: 0.3 }}
           onClick={scrollUp}
-          className="fixed flex items-center justify-center bottom-8 right-8 w-14 h-12 rounded-full bg-[#1A1A1A] hover:bg-gray-600 text-white shadow-lg z-9999 !transition-colors"
+          className="fixed flex items-center justify-center bottom-8 right-8 w-14 h-12 rounded-full bg-[#1A1A1A] hover:bg-gray-600 text-white shadow-lg z-50 !transition-colors"
           aria-label="Наверх"
         >
           <FaArrowUp />

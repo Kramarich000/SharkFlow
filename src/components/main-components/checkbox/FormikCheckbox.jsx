@@ -20,16 +20,19 @@ export function FormikCheckbox({ label, className = '', id, ...props }) {
           setChecked(!checked);
         }
       }}
-      className={`flex items-center gap-1 sm:gap-2 cursor-pointer outline-none ${className}`}
+      className={`flex items-center justify-center gap-2 cursor-pointer outline-none`}
     >
       <div
-        className={`w-5 h-5 flex items-center justify-center rounded border transition ${
+        className={`w-5 h-5 absolute sm:relative left-6 flex items-center justify-center rounded border transition ${className} ${
           checked ? 'bg-[#111111]' : 'bg-white'
         }`}
       >
         {checked && <IoMdCheckmark color="white" />}
       </div>
-      <label htmlFor={id} className="select-none cursor-pointer">
+      <label
+        htmlFor={id}
+        className="select-none cursor-pointer text-[12px] sm:text-[14px] ml-6 text-left sm:text-center"
+      >
         {label}
       </label>
     </div>

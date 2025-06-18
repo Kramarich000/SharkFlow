@@ -52,7 +52,10 @@ export default function CreateBoardModal() {
       <Dialog
         as="div"
         className="relative z-9999"
-        onClose={() => setIsCreateBoardModalOpen(false)}
+        onClose={() => {
+          setIsCreateBoardModalOpen(false);
+          setColor('transparent');
+        }}
       >
         <div className="fixed inset-0">
           <div className="flex h-full items-end justify-center p-4 pb-0">
@@ -63,8 +66,9 @@ export default function CreateBoardModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-6xl h-[180px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
-                <div className="flex items-center justify-between">
+              <DialogPanel className="w-full border-2 max-w-2xl sm:h-[450px] md:h-[400px] lg:h-[280px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+                <h2 className="text-[31px] text-center mb-4">Создание доски</h2>
+                <div className="flex flex-col gap-3 items-center justify-center">
                   <input
                     autoFocus
                     value={title}
@@ -74,20 +78,21 @@ export default function CreateBoardModal() {
                         handleCreateBoard();
                       }
                     }}
-                    className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
+                    className="text-center border-b-1 text-xl sm:text-2xl md:border-b-0 sm:min-w-[305px] focus-within:outline-0 w-full p-1 pb-2 pr-4 focus:outline-0"
                     placeholder="Введите название доски"
                     disabled={load}
                     maxLength={64}
                   />
                   <ColorSelector
-                    wrapperClassName={`relative ${load ? 'pointer-events-none' : null}`}
-                    pickerClassName="!top-[60px] !left-[-300px]"
+                    wrapperClassName={`relative ${load ? 'pointer-events-none' : ''}`}
+                    pickerClassName="!w-full !relative lg:!absolute !flex-row !flex-wrap"
                     color={color}
                     setColor={setColor}
                     disabled={load}
                   />
+
                   <button
-                    className="!p-2 mx-20"
+                    className="primary-btn !p-2 hidden lg:block"
                     onClick={handleCreateBoard}
                     title="Сохранить"
                     disabled={load}
@@ -97,18 +102,47 @@ export default function CreateBoardModal() {
                     {load ? (
                       <AiOutlineSync size={26} className="animate-spin" />
                     ) : (
-                      <FaCheck size={26} />
+                      'Создать'
                     )}
                   </button>
-                </div>
-                <div className="mt-6">
-                  <button
-                    type="button"
-                    className="inline-flex !transition-transform absolute top-0 right-0 justify-center px-4 py-2 text-sm"
-                    onClick={() => setIsCreateBoardModalOpen(false)}
-                  >
-                    <IoClose size={40} />
-                  </button>
+                  <div className="flex flex-col gap-2 w-full lg:hidden">
+                    <button
+                      className="block primary-btn lg:hidden"
+                      onClick={handleCreateBoard}
+                      title="Сохранить"
+                      disabled={load}
+                      aria-disabled={load}
+                      aria-busy={load}
+                    >
+                      {load ? (
+                        <AiOutlineSync size={26} className="animate-spin" />
+                      ) : (
+                        <>Создать</>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className=" primary-btn !block lg:!hidden"
+                      onClick={() => {
+                        setIsCreateBoardModalOpen(false);
+                        setColor('transparent');
+                      }}
+                    >
+                      Закрыть
+                    </button>
+                  </div>
+                  <div className="mt-6 hidden lg:inline-flex">
+                    <button
+                      type="button"
+                      className="!transition-transform absolute top-0 right-0 justify-center px-4 py-2 text-sm"
+                      onClick={() => {
+                        setIsCreateBoardModalOpen(false);
+                        setColor('transparent');
+                      }}
+                    >
+                      <IoClose size={40} />
+                    </button>
+                  </div>
                 </div>
               </DialogPanel>
             </TransitionChild>

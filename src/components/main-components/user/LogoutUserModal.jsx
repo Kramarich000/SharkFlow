@@ -56,7 +56,7 @@ export default function LogoutUserModal() {
                 <h2 className="text-center text-3xl mb-4">
                   Вы уверены что хотите выйти?
                 </h2>
-                <div className="flex items-center justify-between gap-6">
+                <div className="flex items-center flex-col sm:flex-row justify-between gap-6">
                   <button
                     className={`primary-btn items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : null}`}
                     onClick={() => logoutUserHandler()}

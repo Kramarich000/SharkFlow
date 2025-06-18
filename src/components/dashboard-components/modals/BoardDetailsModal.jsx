@@ -102,15 +102,36 @@ export default function BoardDetailsModal() {
               leaveTo="translate-y-full"
             >
               <DialogPanel
-                className="w-full h-[90%] max-w-6xl border-4 border-b-0 bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all"
+                className="w-full h-[90%] max-w-6xl border-4 border-b-0 z-9999 bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all"
                 style={{
                   borderColor: selectedBoard?.color.startsWith('#')
                     ? selectedBoard?.color
                     : `#${selectedBoard?.color}`,
                 }}
               >
+                {isEditing ? (
+                  <input
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') saveUpdateBoard();
+                      if (e.key === 'Escape') setisEditing(false);
+                    }}
+                    autoFocus
+                    className="text-center text-4xl overflow-y-hidden border-b-1 mb-4 pb-2 border-[#111111] focus:outline-none w-full"
+                    disabled={load}
+                    maxLength={64}
+                  />
+                ) : (
+                  <DialogTitle
+                    onClick={() => setisEditing(true)}
+                    className="text-center mb-4 text-4xl whitespace-nowrap overflow-x-hidden overflow-y-hidden overflow-ellipsis pb-2 border-b-1 border-transparent"
+                  >
+                    {selectedBoard?.title}
+                  </DialogTitle>
+                )}
                 <div
-                  className="relative flex items-center justify-center gap-2 px-[80px]"
+                  className={`relative flex items-center gap-2 ${isEditing ? 'justify-between' : 'justify-between'}`}
                   // onKeyDown={(e) => {
                   //   if (e.key === 'Enter') saveUpdateBoard();
                   //   if (e.key === 'Escape') setisEditing(false);
@@ -119,7 +140,7 @@ export default function BoardDetailsModal() {
                   {isEditing ? (
                     <>
                       <button
-                        className={`${load ? '!p-2' : '!p-2 group'}`}
+                        className={` !p-0 sm:!p-2 ${load ? '' : 'group'}`}
                         onClick={saveDeleteBoard}
                         disabled={load}
                       >
@@ -128,27 +149,17 @@ export default function BoardDetailsModal() {
                           className="group-hover:text-red-500 transition-colors"
                         />
                       </button>
-                      <ColorSelector
-                        wrapperClassName={`absolute z-50 ${load ? 'pointer-events-none' : null}`}
-                        pickerClassName="top-[50px]"
-                        color={newColor}
-                        setColor={setNewColor}
-                        disabled={load}
-                      />
-                      <input
-                        value={newTitle}
-                        onChange={(e) => setNewTitle(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') saveUpdateBoard();
-                          if (e.key === 'Escape') setisEditing(false);
-                        }}
-                        autoFocus
-                        className="text-center max-w-xl text-4xl border-b-2 border-[#111111] focus:outline-none w-full"
-                        disabled={load}
-                        maxLength={64}
-                      />
+                      <div className="flex w-full items-center flex-col gap-4">
+                        <ColorSelector
+                          wrapperClassName={`absolute z-50 !w-full !p-0 ${load ? 'pointer-events-none' : null}`}
+                          pickerClassName="!top-[50px] !p-2 !w-full !left-0 flex-wrap overflow-y-auto max-h-[500px] !absolute"
+                          color={newColor}
+                          setColor={setNewColor}
+                          disabled={load}
+                        />
+                      </div>
                       <button
-                        className="!p-1.5"
+                        className="!p-0 sm:!p-2"
                         onClick={saveUpdateBoard}
                         title="Сохранить"
                         disabled={load}
@@ -165,23 +176,30 @@ export default function BoardDetailsModal() {
                     </>
                   ) : (
                     <>
-                      <DialogTitle
-                        onClick={() => setisEditing(true)}
-                        className="text-center max-w-xl text-4xl whitespace-nowrap overflow-x-hidden overflow-y-hidden overflow-ellipsis border-b-2 border-transparent"
+                      <button
+                        key="create-task"
+                        className="bg-white hover:bg-[#e6e5e5] !transition-colors rounded-3xl !p-0 !py-2"
+                        onClick={() => setIsCreateTaskModalOpen(true)}
+                        disabled={load}
                       >
-                        {selectedBoard?.title}
-                      </DialogTitle>
+                        <div className="flex gap-4 items-center justify-center">
+                          <p className="text-4xl font-normal">Создать</p>{' '}
+                          <FaPlus size={30} color="rgba(0,0,0,.3)" />
+                        </div>
+                      </button>
+
                       <button
                         onClick={() => setisEditing(true)}
                         title="Редактировать"
                         disabled={load}
+                        className="!p-0 !py-2"
                       >
                         <IoMdSettings size={40} />
                       </button>
                     </>
                   )}
                 </div>
-                <div className="mt-4 pb-20 text-center grid justify-items-center max-h-full grid-cols-2 gap-[40px] overflow-y-auto">
+                <div className="mt-4 text-center grid justify-items-center max-h-full grid-cols-2 gap-[40px] overflow-y-auto">
                   {selectedBoard?.tasks?.length ? (
                     selectedBoard.tasks.map((task) => (
                       <div
@@ -218,26 +236,118 @@ export default function BoardDetailsModal() {
                       </div>
                     ))
                   ) : (
-                    <p className="text-gray-700 text-center col-span-2">
-                      Задачи отсутствуют
+                    <p className="text-gray-700 lg:text-left col-span-2 pb-60">
+                      Задачи отсутствуют Lorem ipsum dolor, sit amet consectetur
+                      adipisicing elit. Exercitationem perspiciatis expedita
+                      omnis, itaque commodi recusandae dolorem. Nihil, earum
+                      placeat! Asperiores quod nam provident, voluptas doloribus
+                      fugit. Aspernatur aperiam perferendis ex. Lorem ipsum
+                      dolor, sit amet consectetur adipisicing elit.
+                      Exercitationem perspiciatis expedita omnis, itaque commodi
+                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
+                      nam provident, voluptas doloribus fugit. Aspernatur
+                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
+                      consectetur adipisicing elit. Exercitationem perspiciatis
+                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
+                      earum placeat! Asperiores quod nam provident, voluptas
+                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
+                      ipsum dolor, sit amet consectetur adipisicing elit.
+                      Exercitationem perspiciatis expedita omnis, itaque commodi
+                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
+                      nam provident, voluptas doloribus fugit. Aspernatur
+                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
+                      consectetur adipisicing elit. Exercitationem perspiciatis
+                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
+                      earum placeat! Asperiores quod nam provident, voluptas
+                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
+                      ipsum dolor, sit amet consectetur adipisicing elit.
+                      Exercitationem perspiciatis expedita omnis, itaque commodi
+                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
+                      nam provident, voluptas doloribus fugit. Aspernatur
+                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
+                      consectetur adipisicing elit. Exercitationem perspiciatis
+                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
+                      earum placeat! Asperiores quod nam provident, voluptas
+                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
+                      ipsum dolor, sit amet consectetur adipisicing elit.
+                      Exercitationem perspiciatis expedita omnis, itaque commodi
+                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
+                      nam provident, voluptas doloribus fugit. Aspernatur
+                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
+                      consectetur adipisicing elit. Exercitationem perspiciatis
+                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
+                      earum placeat! Asperiores quod nam provident, voluptas
+                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
+                      ipsum dolor, sit amet consectetur adipisicing elit.
+                      Exercitationem perspiciatis expedita omnis, itaque commodi
+                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
+                      nam provident, voluptas doloribus fugit. Aspernatur
+                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
+                      consectetur adipisicing elit. Exercitationem perspiciatis
+                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
+                      earum placeat! Asperiores quod nam provident, voluptas
+                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
+                      ipsum dolor, sit amet consectetur adipisicing elit.
+                      Exercitationem perspiciatis expedita omnis, itaque commodi
+                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
+                      nam provident, voluptas doloribus fugit. Aspernatur
+                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
+                      consectetur adipisicing elit. Exercitationem perspiciatis
+                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
+                      earum placeat! Asperiores quod nam provident, voluptas
+                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
+                      ipsum dolor, sit amet consectetur adipisicing elit.
+                      Exercitationem perspiciatis expedita omnis, itaque commodi
+                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
+                      nam provident, voluptas doloribus fugit. Aspernatur
+                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
+                      consectetur adipisicing elit. Exercitationem perspiciatis
+                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
+                      earum placeat! Asperiores quod nam provident, voluptas
+                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
+                      ipsum dolor, sit amet consectetur adipisicing elit.
+                      Exercitationem perspiciatis expedita omnis, itaque commodi
+                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
+                      nam provident, voluptas doloribus fugit. Aspernatur
+                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
+                      consectetur adipisicing elit. Exercitationem perspiciatis
+                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
+                      earum placeat! Asperiores quod nam provident, voluptas
+                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
+                      ipsum dolor, sit amet consectetur adipisicing elit.
+                      Exercitationem perspiciatis expedita omnis, itaque commodi
+                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
+                      nam provident, voluptas doloribus fugit. Aspernatur
+                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
+                      consectetur adipisicing elit. Exercitationem perspiciatis
+                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
+                      earum placeat! Asperiores quod nam provident, voluptas
+                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
+                      ipsum dolor, sit amet consectetur adipisicing elit.
+                      Exercitationem perspiciatis expedita omnis, itaque commodi
+                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
+                      nam provident, voluptas doloribus fugit. Aspernatur
+                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
+                      consectetur adipisicing elit. Exercitationem perspiciatis
+                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
+                      earum placeat! Asperiores quod nam provident, voluptas
+                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
+                      ipsum dolor, sit amet consectetur adipisicing elit.
+                      Exercitationem perspiciatis expedita omnis, itaque commodi
+                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
+                      nam provident, voluptas doloribus fugit. Aspernatur
+                      aperiam perferendis ex.
                     </p>
                   )}
-                  <button
-                    key="create-task"
-                    className="bg-white hover:bg-[#e6e5e5] !transition-colors rounded-3xl relative col-span-2"
-                    onClick={() => setIsCreateTaskModalOpen(true)}
-                    disabled={load}
-                  >
-                    <FaPlus size={40} color="rgba(0,0,0,.3)" />
-                  </button>
                 </div>
+
                 <button
                   type="button"
-                  className="inline-flex !transition-transform absolute right-0 justify-center px-4 py-2 text-sm top-[5px]"
+                  className="primary-btn sticky bottom-0"
                   onClick={() => setIsOpen(false)}
                   disabled={load}
                 >
-                  <IoCloseOutline size={40} />
+                  Закрыть
                 </button>
               </DialogPanel>
             </TransitionChild>

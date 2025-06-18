@@ -2,7 +2,7 @@ import useModalsStore from '@store/modalsStore';
 import DeleteUserModal from '@components/main-components/user/DeleteUserModal';
 import UpdateUserModal from '@components/main-components/user/UpdateUserModal';
 import { useState, useEffect } from 'react';
-import { getUser } from '@api/http/user/get/getUser';
+import { getUser } from '@api/http/users/get/getUser';
 import useUserStore from '@store/userStore';
 import { AiOutlineSync } from 'react-icons/ai';
 import { motion } from 'framer-motion';
@@ -26,7 +26,7 @@ export default function SettingsPage() {
   }, [user]);
 
   return (
-    <div className="p-4 sm:p-10 lg:p-30 lg:px-50 h-full">
+    <div className="p-0 sm:p-10 lg:p-30 lg:px-50 h-full">
       {loading ? (
         <div className="h-full flex-col flex items-center justify-center">
           <motion.div

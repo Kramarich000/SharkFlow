@@ -14,7 +14,7 @@ const useBoardStore = create((set, get) => ({
   isDeleteBoardModalOpen: false,
   isEditing: false,
   title: '',
-  color: '#000',
+  color: 'transparent',
   newTitle: '',
   newColor: '',
   newIsPinned: false,

@@ -14,8 +14,10 @@ export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
           : `#${board.color}`,
       }}
     >
-      <div className="min-h-40 flex items-center justify-center">
-        <h2 className="text-3xl overflow-ellipsis overflow-x-hidden max-w-sm">
+      <div className="min-h-40 pt-8 flex items-center justify-center">
+        <h2 className="text-3xl truncate sm:hidden max-w-sm">{board.title}</h2>
+
+        <h2 className="text-3xl break-words hidden sm:block max-w-sm whitespace-normal">
           {board.title}
         </h2>
       </div>
@@ -25,7 +27,7 @@ export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
         className="!p-2 absolute right-4 top-2.5 xl:opacity-0 group-hover:opacity-100 !transition-all"
         onClick={() => onOpen(board)}
       >
-        <FaEye size={25} />
+        <FaEye size={27} />
       </button>
 
       <button
@@ -35,21 +37,21 @@ export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
         onClick={() => onTogglePin(board)}
       >
         <FaThumbtack
-          size={20}
+          size={27}
           className={board.isPinned ? 'rotate-0' : 'rotate-45 opacity-30'}
         />
       </button>
 
       <button
         title={!board.isFavorite ? 'В избранное' : 'Убрать из избранного'}
-        className={`!p-2 absolute left-12 top-3.5 !transition-all hover:text-amber-400
+        className={`!p-2 absolute left-15 top-3.5 !transition-all hover:text-amber-400
                xl:opacity-0 group-hover:opacity-100 ${board.isFavorite ? 'text-amber-400 opacity-100' : null}`}
         onClick={() => onToggleFav(board)}
       >
-        <FaStar size={20} className={board.isFavorite ? null : 'opacity-30'} />
+        <FaStar size={27} className={board.isFavorite ? null : 'opacity-30'} />
       </button>
 
-      <div className="flex flex-col mt-4">
+      <div className="flex flex-col mt-4 items-center w-full md:items-start">
         <div className="flex items-center gap-2">
           <AiOutlineClockCircle size={20} title="Дата создания" />
           <p>{dateFormatter(board.createdAt)}</p>

@@ -3,16 +3,17 @@ import { useShallow } from 'zustand/shallow';
 import {
   Dialog,
   DialogPanel,
+  DialogTitle,
   Transition,
   TransitionChild,
 } from '@headlessui/react';
 import useModalsStore from '@store/modalsStore';
 import { AiOutlineSync } from 'react-icons/ai';
-import { deleteUser } from '@api/http/user/delete/deleteUser';
+import { deleteUser } from '@api/http/users/delete/deleteUser';
 import { emailSchema } from '@validators/emailSchema';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { motion, AnimatePresence } from 'framer-motion';
-import { userVerify } from '@api/http/user/delete/deleteUserConfirm';
+import { userVerify } from '@api/http/users/delete/deleteUserConfirm';
 
 export default function DeleteUserModal() {
   const [load, setLoad] = useState(false);
@@ -71,7 +72,8 @@ export default function DeleteUserModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-2xl h-[270px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="w-full border-2 max-w-2xl h-[500px] md:h-[400px] overflow-hidden transform relative rounded-2xl rounded-b-none bg-white p-4 md:p-6 text-left align-middle shadow-xl !transition-all">
+                <h2 className="text-3xl text-center">Удаление аккаунта</h2>
                 <AnimatePresence mode="wait">
                   {step === 1 && (
                     <motion.div
@@ -80,15 +82,15 @@ export default function DeleteUserModal() {
                       animate={{ opacity: 1, transform: 'translateX(0px)' }}
                       exit={{ opacity: 0, transform: 'translateX(-50px)' }}
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
-                      className="flex flex-col gap-6 h-full justify-evenly"
+                      className="flex flex-col gap-6 justify-center h-full"
                     >
-                      <h2 className="text-center text-3xl mb-4">
+                      <h2 className="text-center text-2xl md:text-3xl mb-4">
                         Вы уверены что хотите удалить аккаунт? Это действие{' '}
                         <span className="text-red-700">необратимо</span>
                       </h2>
-                      <div className="flex items-center justify-center gap-6">
+                      <div className="flex flex-col md:flex-row items-center w-full justify-center gap-2">
                         <button
-                          className={`primary-btn !w-fit ${load ? 'pointer-events-none' : ''}`}
+                          className={`primary-btn ${load ? 'pointer-events-none' : ''}`}
                           disabled={load}
                           onClick={() => {
                             setConfirmationCode({ confirmationCode: '' });
@@ -99,7 +101,7 @@ export default function DeleteUserModal() {
                           Нет
                         </button>
                         <button
-                          className={`primary-btn !w-fit items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : ''}`}
+                          className={`primary-btn order-[-1] md:order-1 items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : ''}`}
                           onClick={() => {
                             sendEmailHandler();
                           }}
@@ -108,7 +110,7 @@ export default function DeleteUserModal() {
                           {load ? (
                             <AiOutlineSync className="animate-spin" size={24} />
                           ) : (
-                            <>Да</>
+                            <>Да, отправить код на почту</>
                           )}
                         </button>
                       </div>
@@ -121,9 +123,8 @@ export default function DeleteUserModal() {
                       animate={{ opacity: 1, transform: 'translateX(0px)' }}
                       exit={{ opacity: 0, transform: 'translateX(-50px)' }}
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
-                      className="flex flex-col gap-6 h-full justify-evenly"
+                      className="flex flex-col gap-6 h-full justify-center"
                     >
-                      {' '}
                       <h2 className="text-center text-3xl mb-4">
                         Введите код:
                       </h2>
@@ -145,9 +146,9 @@ export default function DeleteUserModal() {
                           Введите код подтверждения
                         </label>
                       </div>
-                      <div className="flex gap-6 items-center justify-center">
+                      <div className="flex gap-2 flex-col md:flex-rowflex-col md:flex-row items-center justify-center">
                         <button
-                          className={`primary-btn !w-[235px] ${load ? 'pointer-events-none' : ''}`}
+                          className={`primary-btn ${load ? 'pointer-events-none' : ''}`}
                           disabled={load}
                           onClick={() => {
                             setConfirmationCode({ confirmationCode: '' });
@@ -156,9 +157,9 @@ export default function DeleteUserModal() {
                           }}
                         >
                           Отмена
-                        </button>{' '}
+                        </button>
                         <button
-                          className={`primary-btn !w-[235px] items-center !bg-red-700 hover:!bg-red-800 justify-center flex ${load ? 'pointer-events-none' : ''}`}
+                          className={`primary-btn order-[-1] md:order-1 items-center !bg-red-700 hover:!bg-red-800 justify-center flex ${load ? 'pointer-events-none' : ''}`}
                           onClick={() => deleteUserHandler(confirmationCode)}
                           disabled={load}
                         >

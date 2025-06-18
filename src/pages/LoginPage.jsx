@@ -2,7 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { loginSchema } from '@validators/loginSchema';
 import AnimatedError from '@components/main-components/AnimatedError';
 import { login } from '@api/http/auth/login/loginUser';
-import { getUser } from '@api/http/user/get/getUser';
+import { getUser } from '@api/http/users/get/getUser';
 import { FormikCheckbox } from '@components/main-components/checkbox/FormikCheckbox';
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -129,11 +129,12 @@ export default function LoginPage() {
                         </ErrorMessage>
                       </div>
 
-                      <div className="flex col-span-2 justify-center items-center text-sm">
+                      <div className="col-span-2 text-sm">
                         <FormikCheckbox
                           name="rememberMe"
                           id="rememberMe"
                           label="Запомнить меня"
+                          className="relative"
                         />
                       </div>
 

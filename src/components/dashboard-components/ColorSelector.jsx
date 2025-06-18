@@ -51,15 +51,21 @@ export const ColorSelector = ({
   }, [color]);
 
   return (
-    <div className={`relative ${wrapperClassName}`}>
+    <div className={`relative !w-full ${wrapperClassName}`}>
       <motion.button
         ref={buttonRef}
-        className="w-10 relative h-10 border-2 rounded-full border-[#111111]"
-        onHoverStart={() => setShowPicker(true)}
-        // onHoverEnd={() => setShowPicker(false)}
+        className="w-full flex items-center justify-center relative h-10 !border-2 rounded-full !border-[#111111] !p-0"
+        onClick={() => setShowPicker(true)}
         title="Выбрать цвет"
         disabled={disabled}
-      />
+      >
+        {color === 'transparent' ? (
+          <>
+            <p className="hidden lg:block">Нажмите, чтобы выбрать цвет</p>
+            <p className="block lg:hidden">Выберите цвет</p>
+          </>
+        ) : null}
+      </motion.button>
       <AnimatePresence>
         {showPicker && (
           <motion.div
@@ -67,13 +73,13 @@ export const ColorSelector = ({
             animate={{ opacity: 1, transform: 'translateY(0px)' }}
             exit={{ opacity: 0, transform: 'translateY(-10px)' }}
             ref={pickerRef}
-            className={`absolute flex p-4 z-50 bg-white left-[0px] rounded-md shadow-xl gap-2 ${pickerClassName}`}
+            className={`absolute hidden lg:flex items-center justify-center p-4 z-50 bg-white left-[0px] rounded-md shadow-xl gap-2 ${pickerClassName}`}
           >
             {presetColors.map((preset) => (
               <button
                 key={preset}
                 style={{ backgroundColor: preset }}
-                className={`w-8 h-8 rounded-full border-2 ${
+                className={`sm:!w-[41px] sm:!h-[41px] !rounded-full border-2 ${
                   preset.toLowerCase() === color.toLowerCase()
                     ? 'border-black'
                     : 'border-transparent'
@@ -89,6 +95,28 @@ export const ColorSelector = ({
           </motion.div>
         )}
       </AnimatePresence>
+      <div
+        ref={pickerRef}
+        className={`absolute flex lg:hidden items-center justify-center p-4 z-50 bg-white left-[0px] rounded-xl shadow-xl gap-2 ${pickerClassName}`}
+      >
+        {presetColors.map((preset) => (
+          <button
+            key={preset}
+            style={{ backgroundColor: preset }}
+            className={`!w-[41px] !h-[41px] !rounded-full ${
+              preset.toLowerCase() === color.toLowerCase()
+                ? 'border-black'
+                : 'border-transparent'
+            }`}
+            onClick={() => {
+              setColor(preset);
+              setShowPicker(false);
+            }}
+            title={preset}
+            disabled={disabled}
+          />
+        ))}
+      </div>
     </div>
   );
 };

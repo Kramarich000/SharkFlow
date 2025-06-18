@@ -190,7 +190,7 @@ export default function DashboardPage() {
           <p className="text-4xl mt-4 animate-pulse">Загрузка ваших досок</p>
         </div>
       ) : (
-        <div className="flex flex-col h-full p-6">
+        <div className="flex flex-col h-full p-0 sm:p-6">
           <h2 className="mb-4 text-3xl font-semibold">Мои доски</h2>
 
           <div className="mb-6 flex flex-col gap-8">

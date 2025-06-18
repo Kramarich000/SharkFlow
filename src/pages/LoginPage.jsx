@@ -53,15 +53,17 @@ export default function LoginPage() {
                 rememberMe: false,
               }}
               onSubmit={async (values) => {
-                setLoading(true);
+                setLoad(true);
                 try {
                   const successfullyLogged = await login(values);
                   if (successfullyLogged) {
                     await getUser();
                     navigate('/dashboard');
+                    setLoading(true);
                   }
                 } finally {
                   setLoading(false);
+                  setLoad(false);
                 }
               }}
             >
@@ -141,7 +143,7 @@ export default function LoginPage() {
                         disabled={load}
                       >
                         {load ? (
-                          <AiOutlineSync className="animate-spin" />
+                          <AiOutlineSync size={24} className="animate-spin" />
                         ) : (
                           <>Войти</>
                         )}

@@ -40,15 +40,15 @@ export default function UpdateUserModal() {
     setOriginalEmail(user.email || '');
   }, [user]);
 
-  useEffect(() => {
-    if (step === 2) {
-      showToast(
-        'Пожалуйста, убедитесь, что вы указали правильную почту. В случае ошибки вы можете потерять доступ к аккаунту. Навсегда',
-        'warning',
-        10000,
-      );
-    }
-  }, [step]);
+  // useEffect(() => {
+  //   if (step === 2) {
+  //     showToast(
+  //       'Пожалуйста, убедитесь, что вы указали правильную почту. В случае ошибки вы можете потерять доступ к аккаунту. Навсегда',
+  //       'warning',
+  //       10000,
+  //     );
+  //   }
+  // }, [step]);
 
   const isUpdateUserModalOpen = useModalsStore(
     (state) => state.isUpdateUserModalOpen,
@@ -213,7 +213,7 @@ export default function UpdateUserModal() {
                               </label>
                             </div>
                             <p className="text-center text-2xl">и/или</p>
-                            <div className="relative">
+                            {/* <div className="relative">
                               <input
                                 type="text"
                                 required
@@ -226,7 +226,7 @@ export default function UpdateUserModal() {
                               <label className="label-styles">
                                 Введите новую почту
                               </label>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </motion.div>

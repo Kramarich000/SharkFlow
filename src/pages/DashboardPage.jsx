@@ -174,9 +174,20 @@ export default function DashboardPage() {
   return (
     <>
       {loading ? (
-        <div className="flex items-center h-full w-full justify-center gap-4">
-          <AiOutlineSync className="text-5xl animate-spin" />
-          <p className="text-4xl animate-pulse">Загрузка ваших досок</p>
+        <div className="h-full flex-col flex items-center justify-center">
+          <motion.div
+            key="loader"
+            animate={{ rotate: 360 }}
+            transition={{
+              repeat: Infinity,
+              duration: 1.2,
+              ease: 'linear',
+            }}
+            className="text-7xl flex gap-8 text-center"
+          >
+            <AiOutlineSync />
+          </motion.div>
+          <p className="text-4xl mt-4 animate-pulse">Загрузка ваших досок</p>
         </div>
       ) : (
         <div className="flex flex-col h-full p-6">

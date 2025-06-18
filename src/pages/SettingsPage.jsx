@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { getUser } from '@api/http/user/get/getUser';
 import useUserStore from '@store/userStore';
 import { AiOutlineSync } from 'react-icons/ai';
+import { motion } from 'framer-motion';
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
@@ -25,17 +26,28 @@ export default function SettingsPage() {
   }, [user]);
 
   return (
-    <div className="p-30 px-70  h-full">
+    <div className="p-4 sm:p-10 lg:p-30 lg:px-50 h-full">
       {loading ? (
-        <div className="flex items-center h-full w-full justify-center gap-4">
-          <AiOutlineSync className="text-5xl animate-spin" />
-          <p className="text-4xl animate-pulse">Загрузка вашего аккаунта</p>
+        <div className="h-full flex-col flex items-center justify-center">
+          <motion.div
+            key="loader"
+            animate={{ rotate: 360 }}
+            transition={{
+              repeat: Infinity,
+              duration: 1.2,
+              ease: 'linear',
+            }}
+            className="text-7xl flex gap-8 text-center"
+          >
+            <AiOutlineSync />
+          </motion.div>
+          <p className="text-4xl mt-4 animate-pulse">Загрузка ваших данных</p>
         </div>
       ) : (
         <div className="flex gap-8 items-center justify-center flex-col p-4 bg-white rounded-3xl h-full">
           <div className="">
-            <p className="text-2xl">Логин: {user?.login}</p>
-            <p className="text-2xl">Почта: {user?.email}</p>
+            <p className="text-xl sm:text-2xl">Логин: {user?.login}</p>
+            <p className="text-xl sm:text-2xl">Почта: {user?.email}</p>
           </div>
           <div className="">
             <button

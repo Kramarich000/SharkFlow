@@ -15,7 +15,7 @@ export async function createBoard({ title, color }) {
   return await apiResponsesHandler(
     () => api.post('/api/boards', { title, color }),
     {
-      successMessage: `Доска ${title} успешно создана`,
+      successMessage: `Доска "${title}" успешно создана`,
       onSuccess: (data) => data.board,
     },
   );

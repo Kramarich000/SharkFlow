@@ -62,6 +62,7 @@ export default function Header() {
             </Link>
           ))}
           <button
+            title="Выйти из аккаунта"
             onClick={() => setIsLogoutUserModalOpen(true)}
             className={`!w-fit !p-3 !text-[24px] hover:!text-[#808080] !transition-colors ${!token ? 'hidden pointer-events-none select-none' : null}`}
           >
@@ -74,6 +75,7 @@ export default function Header() {
           onClick={() => setIsOpen((prev) => !prev)}
           aria-label={isOpen ? 'Закрыть меню' : 'Открыть меню'}
           aria-expanded={isOpen}
+          title={isOpen ? 'Закрыть меню' : 'Открыть меню'}
         >
           {isOpen ? <IoMdClose size={28} /> : <GiHamburgerMenu size={28} />}
         </button>
@@ -102,6 +104,7 @@ export default function Header() {
               ))}
               <button
                 onClick={() => setIsLogoutUserModalOpen(true)}
+                title="Выйти из аккаунта"
                 className={`block sm:hidden !w-fit !p-3 !text-[18px] hover:!text-[#808080] !transition-colors ${!token ? 'hidden pointer-events-none select-none' : null}`}
               >
                 Выход

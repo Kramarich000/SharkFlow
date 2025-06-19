@@ -10,19 +10,20 @@ import {
 import useBoardStore from '@store/boardStore';
 import { showToast } from '@utils/toast/showToast';
 import { AiOutlineSync } from 'react-icons/ai';
+import useModalsStore from '@store/modalsStore';
 
 export default function DeleteBoardModal() {
-  const {
-    deleteBoard,
-    selectedBoard,
-    isDeleteBoardModalOpen,
-    setIsDeleteBoardModalOpen,
-  } = useBoardStore(
+  const { deleteBoard, selectedBoard } = useBoardStore(
     useShallow((state) => ({
       deleteBoard: state.deleteBoard,
       selectedBoard: state.selectedBoard,
+    })),
+  );
+  const { isDeleteBoardModalOpen, setIsDeleteBoardModalOpen, setIsDetailsBoardModalOpen } = useModalsStore(
+    useShallow((state) => ({
       isDeleteBoardModalOpen: state.isDeleteBoardModalOpen,
       setIsDeleteBoardModalOpen: state.setIsDeleteBoardModalOpen,
+      setIsDetailsBoardModalOpen: state.setIsDetailsBoardModalOpen,
     })),
   );
 
@@ -37,6 +38,8 @@ export default function DeleteBoardModal() {
         const result = await deleteBoard();
         if (result) {
           setInputValue('');
+          setIsDeleteBoardModalOpen(false);
+          setIsDetailsBoardModalOpen(false);
         }
       } catch (error) {
       } finally {
@@ -100,6 +103,7 @@ export default function DeleteBoardModal() {
                     }`}
                     onClick={handleDeleteBoard}
                     disabled={load}
+                    title="Удалить доску"
                   >
                     {load ? (
                       <AiOutlineSync size={25} className="animate-spin" />

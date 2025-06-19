@@ -96,6 +96,7 @@ export default function CreateTaskModal() {
                 <div className="mt-6">
                   <button
                     type="button"
+                    title="Закрыть"
                     className="inline-flex !transition-transform absolute top-0 right-0 justify-center px-4 py-2 text-sm"
                     onClick={() => setIsCreateTaskModalOpen(false)}
                   >

@@ -102,7 +102,7 @@ function App() {
         <ToastContainer
           toastClassName={`mx-auto mt-4 max-w-[90vw]`}
           // newestOnTop
-          limit={isMobile ? 1 : 10}
+          limit={isMobile ? 2 : 10}
         />
       </Suspense>
       <LogoutUserModal />

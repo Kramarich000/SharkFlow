@@ -10,6 +10,7 @@ import { FaCheck } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
 import { ColorSelector } from '@components/dashboard-components/ColorSelector';
 import useBoardStore from '@store/boardStore';
+import useModalsStore from '@store/modalsStore';
 import { AiOutlineSync } from 'react-icons/ai';
 
 export default function CreateBoardModal() {
@@ -19,8 +20,7 @@ export default function CreateBoardModal() {
     setTitle,
     setColor,
     createBoard,
-    isCreateBoardModalOpen,
-    setIsCreateBoardModalOpen,
+    isCreateBoardModalOp,
   } = useBoardStore(
     useShallow((state) => ({
       title: state.title,
@@ -28,6 +28,11 @@ export default function CreateBoardModal() {
       setTitle: state.setTitle,
       setColor: state.setColor,
       createBoard: state.createBoard,
+    })),
+  );
+
+  const { isCreateBoardModalOpen, setIsCreateBoardModalOpen } = useModalsStore(
+    useShallow((state) => ({
       isCreateBoardModalOpen: state.isCreateBoardModalOpen,
       setIsCreateBoardModalOpen: state.setIsCreateBoardModalOpen,
     })),
@@ -39,7 +44,10 @@ export default function CreateBoardModal() {
     if (load) return;
     setLoad(true);
     try {
-      await createBoard();
+      const success = await createBoard();
+      if (success) {
+        setIsCreateBoardModalOpen(false);
+      }
     } catch (err) {
       console.error('Ошибка при создании доски:', err);
     } finally {
@@ -92,7 +100,7 @@ export default function CreateBoardModal() {
                   />
 
                   <button
-                    className="primary-btn !p-2 hidden lg:block"
+                    className="primary-btn !p-2 hidden lg:flex items-center justify-center"
                     onClick={handleCreateBoard}
                     title="Сохранить"
                     disabled={load}
@@ -100,7 +108,7 @@ export default function CreateBoardModal() {
                     aria-busy={load}
                   >
                     {load ? (
-                      <AiOutlineSync size={26} className="animate-spin" />
+                      <AiOutlineSync size={24} className="animate-spin" />
                     ) : (
                       'Создать'
                     )}
@@ -122,6 +130,7 @@ export default function CreateBoardModal() {
                     </button>
                     <button
                       type="button"
+                      title="Закрыть"
                       className=" primary-btn !block lg:!hidden"
                       onClick={() => {
                         setIsCreateBoardModalOpen(false);
@@ -134,6 +143,7 @@ export default function CreateBoardModal() {
                   <div className="mt-6 hidden lg:inline-flex">
                     <button
                       type="button"
+                      title="Закрыть"
                       className="!transition-transform absolute top-0 right-0 justify-center px-4 py-2 text-sm"
                       onClick={() => {
                         setIsCreateBoardModalOpen(false);

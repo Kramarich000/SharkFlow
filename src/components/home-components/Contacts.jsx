@@ -97,7 +97,7 @@ export default function Contacts() {
           required
           aria-label="Вопрос"
         />
-        <button type="submit" className="primary-btn">
+        <button title="Отправить" type="submit" className="primary-btn">
           Отправить
         </button>
       </motion.form>

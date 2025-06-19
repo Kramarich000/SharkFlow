@@ -14,11 +14,11 @@ import { IoMdSettings } from 'react-icons/io';
 import useBoardStore from '@store/boardStore';
 import useTaskStore from '@store/taskStore';
 import { AiOutlineSync } from 'react-icons/ai';
+import useModalsStore from '@store/modalsStore';
 
 export default function BoardDetailsModal() {
   const {
     selectedBoard,
-    isOpen,
     isEditing,
     newTitle,
     newColor,
@@ -26,14 +26,11 @@ export default function BoardDetailsModal() {
     newIsFavorite,
     setNewTitle,
     setNewColor,
-    setIsOpen,
     setisEditing,
     updateBoard,
-    setIsDeleteBoardModalOpen,
   } = useBoardStore(
     useShallow((state) => ({
       selectedBoard: state.selectedBoard,
-      isOpen: state.isOpen,
       isEditing: state.isEditing,
       newTitle: state.newTitle,
       newColor: state.newColor,
@@ -41,10 +38,15 @@ export default function BoardDetailsModal() {
       newIsFavorite: state.newIsFavorite,
       setNewTitle: state.setNewTitle,
       setNewColor: state.setNewColor,
-      setIsOpen: state.setIsOpen,
       setisEditing: state.setisEditing,
       updateBoard: state.updateBoard,
+    })),
+  );
+  const { setIsDeleteBoardModalOpen, isDetailsBoardModalOpen, setIsDetailsBoardModalOpen } = useModalsStore(
+    useShallow((state) => ({
       setIsDeleteBoardModalOpen: state.setIsDeleteBoardModalOpen,
+      isDetailsBoardModalOpen: state.isDetailsBoardModalOpen,
+      setIsDetailsBoardModalOpen: state.setIsDetailsBoardModalOpen,
     })),
   );
 
@@ -86,11 +88,11 @@ export default function BoardDetailsModal() {
   };
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
+    <Transition appear show={isDetailsBoardModalOpen} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-50"
-        onClose={() => setIsOpen(false)}
+        onClose={() => setIsDetailsBoardModalOpen(false)}
       >
         <div className="fixed inset-0">
           <div className="flex h-full items-end justify-center p-4 pb-0">
@@ -102,7 +104,7 @@ export default function BoardDetailsModal() {
               leaveTo="translate-y-full"
             >
               <DialogPanel
-                className="w-full h-[90%] max-w-6xl border-4 border-b-0 z-9999 bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all"
+                className="w-full h-[90%] border-4 border-b-0 z-9999 bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all"
                 style={{
                   borderColor: selectedBoard?.color.startsWith('#')
                     ? selectedBoard?.color
@@ -140,9 +142,10 @@ export default function BoardDetailsModal() {
                   {isEditing ? (
                     <>
                       <button
-                        className={` !p-0 sm:!p-2 ${load ? '' : 'group'}`}
+                        className={`!p-2 ${load ? '' : 'group'}`}
                         onClick={saveDeleteBoard}
                         disabled={load}
+                        title="Удалить доску"
                       >
                         <FaTrash
                           size={40}
@@ -159,10 +162,15 @@ export default function BoardDetailsModal() {
                         />
                       </div>
                       <button
-                        className="!p-0 sm:!p-2"
+                        className="!p-2"
                         onClick={saveUpdateBoard}
                         title="Сохранить"
                         disabled={load}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            saveUpdateBoard();
+                          }
+                        }}
                       >
                         {load ? (
                           <AiOutlineSync
@@ -178,13 +186,16 @@ export default function BoardDetailsModal() {
                     <>
                       <button
                         key="create-task"
-                        className="bg-white hover:bg-[#e6e5e5] !transition-colors rounded-3xl !p-0 !py-2"
+                        className="primary-btn !p-2 !w-fit !m-0"
                         onClick={() => setIsCreateTaskModalOpen(true)}
                         disabled={load}
+                        title="Создать задачу"
                       >
                         <div className="flex gap-4 items-center justify-center">
-                          <p className="text-4xl font-normal">Создать</p>{' '}
-                          <FaPlus size={30} color="rgba(0,0,0,.3)" />
+                          <p className="sm:text-xl font-normal">
+                            Создать задачу
+                          </p>{' '}
+                          <FaPlus size={30} color="rgb(255, 255, 255)" />
                         </div>
                       </button>
 
@@ -344,8 +355,9 @@ export default function BoardDetailsModal() {
                 <button
                   type="button"
                   className="primary-btn sticky bottom-0"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => setIsDetailsBoardModalOpen(false)}
                   disabled={load}
+                  title="Закрыть доску"
                 >
                   Закрыть
                 </button>

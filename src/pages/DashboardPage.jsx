@@ -42,30 +42,28 @@ import {
   sortByTaskCountAsc,
   sortByTaskCountDesc,
 } from '@utils/filters/boardSorts';
+import useModalsStore from '@store/modalsStore';
 
 export default function DashboardPage() {
-  const {
-    boards,
-    handleBoardSelect,
-    getBoards,
-    setIsCreateBoardModalOpen,
-    updateBoard,
-    isLoaded,
-  } = useBoardStore(
+  const { boards, handleBoardSelect, getBoards, updateBoard, isLoaded } =
+    useBoardStore(
+      useShallow((state) => ({
+        boards: state.boards,
+        handleBoardSelect: state.handleBoardSelect,
+        getBoards: state.getBoards,
+        updateBoard: state.updateBoard,
+        isLoaded: state.isLoaded,
+      })),
+    );
+  const { setIsCreateBoardModalOpen } = useModalsStore(
     useShallow((state) => ({
-      boards: state.boards,
-      handleBoardSelect: state.handleBoardSelect,
-      getBoards: state.getBoards,
       setIsCreateBoardModalOpen: state.setIsCreateBoardModalOpen,
-      updateBoard: state.updateBoard,
-      isLoaded: state.isLoaded,
     })),
   );
   const [loading, setLoading] = useState(true);
   const [params, setParams] = useState({
     searchTerm: '',
-    dateFrom: '',
-    dateTo: '',
+    dateRange: [null, null],
     recentDays: 0,
     onlyFav: false,
     sortBy: '',
@@ -89,7 +87,11 @@ export default function DashboardPage() {
 
   const processed = useMemo(() => {
     let list = filterByTitle(boards, params.searchTerm);
-    list = filterByCreatedDateRange(list, params.dateFrom, params.dateTo);
+    list = filterByCreatedDateRange(
+      list,
+      params.dateRange[0],
+      params.dateRange[1],
+    );
     list = filterByRecentDays(list, params.recentDays);
     list = filterByFavorites(list, params.onlyFav);
 
@@ -126,8 +128,7 @@ export default function DashboardPage() {
   }, [
     boards,
     params.searchTerm,
-    params.dateFrom,
-    params.dateTo,
+    params.dateRange,
     params.recentDays,
     params.onlyFav,
     params.sortBy,
@@ -136,13 +137,7 @@ export default function DashboardPage() {
 
   useEffect(
     () => setCurrentPage(1),
-    [
-      params.searchTerm,
-      params.dateFrom,
-      params.dateTo,
-      params.recentDays,
-      params.onlyFav,
-    ],
+    [params.searchTerm, params.dateRange, params.recentDays, params.onlyFav],
   );
 
   const totalPages = Math.max(1, Math.ceil(processed.length / pageSize));
@@ -200,12 +195,10 @@ export default function DashboardPage() {
             />
 
             <FilterForm
-              dateFrom={params.dateFrom}
-              onChangeDateFrom={(v) =>
-                setParams((p) => ({ ...p, dateFrom: v }))
+              dateRange={params.dateRange}
+              onChangeDateRange={(range) =>
+                setParams((p) => ({ ...p, dateRange: range }))
               }
-              dateTo={params.dateTo}
-              onChangeDateTo={(v) => setParams((p) => ({ ...p, dateTo: v }))}
               recentDays={params.recentDays}
               onChangeRecentDays={(v) =>
                 setParams((p) => ({ ...p, recentDays: v }))
@@ -231,10 +224,10 @@ export default function DashboardPage() {
             </div>
 
             <button
-              className="ml-0 sm:ml-auto bg-white hover:bg-gray-200 rounded-3xl px-6 py-2 flex items-center gap-2"
+              className="ml-0 sm:ml-auto bg-white hover:bg-gray-200 !transition-colors rounded-3xl px-6 py-2 flex items-center gap-2"
               onClick={() => setIsCreateBoardModalOpen(true)}
             >
-              <FaPlus size={20} /> Создать доску
+              Создать доску <FaPlus size={20} />
             </button>
           </div>
 

@@ -16,10 +16,10 @@ const ErrorPage = ({ errorTitle, errorMessage, errorHint, errorIcon }) => {
       {errorIcon && <div className="mb-4 text-6xl">{errorIcon}</div>}
       <h1 className="text-3xl sm:text-6xl font-bold">{errorTitle}</h1>
       <p className="text-lg sm:text-xl">{errorMessage}</p>
-      <button className="primary-btn" onClick={goHome}>
+      <button className="primary-btn" title="На главную" onClick={goHome}>
         На главную
       </button>
-      <button className="primary-btn" onClick={goBack}>
+      <button className="primary-btn" title="Назад" onClick={goBack}>
         Назад
       </button>
       {errorHint && <p className="mt-8 text-gray-500">{errorHint}</p>}

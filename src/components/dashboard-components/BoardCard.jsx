@@ -3,11 +3,19 @@ import { AiOutlineClockCircle } from 'react-icons/ai';
 import { GrPowerCycle } from 'react-icons/gr';
 import { FaStar } from 'react-icons/fa';
 import { dateFormatter } from '@utils/date/dateFormatter';
+import useModalsStore from '@store/modalsStore';
+import { useShallow } from 'zustand/shallow';
+
 export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
+  const { setIsDetailsBoardModalOpen } = useModalsStore(
+    useShallow((state) => ({
+      setIsDetailsBoardModalOpen: state.setIsDetailsBoardModalOpen,
+    })),
+  );
+
   return (
     <div
-      className="relative overflow-auto rounded-3xl rounded-b-none border-b-8 box-content max-h-[269px]
-             bg-white p-4 group"
+      className="relative overflow-auto rounded-3xl lg:hover:translate-y-[-20px] lg:shadow-2xl !transition-transform border-b-8 box-content max-h-[269px] bg-white p-4 group"
       style={{
         borderBottomColor: board.color.startsWith('#')
           ? board.color
@@ -24,15 +32,18 @@ export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
 
       <button
         title="Открыть доску"
-        className="!p-2 absolute right-4 top-2.5 xl:opacity-0 group-hover:opacity-100 !transition-all"
-        onClick={() => onOpen(board)}
+        className="!p-2 absolute right-4 top-2.5 xl:opacity-0 group-hover:opacity-100 hover:scale-120 !transition-all"
+        onClick={() => {
+          onOpen(board);
+          setIsDetailsBoardModalOpen(true);
+        }}
       >
         <FaEye size={27} />
       </button>
 
       <button
         title={board.isPinned ? 'Открепить доску' : 'Закрепить доску'}
-        className={`!p-2 absolute left-4 top-4 text-gray-700 hover:text-[#111111] !transition-all
+        className={`!p-2 absolute left-4 top-4 text-gray-700 hover:scale-120 hover:text-[#111111] !transition-all
                xl:opacity-0 group-hover:opacity-100 ${board.isPinned ? 'opacity-100' : null}`}
         onClick={() => onTogglePin(board)}
       >
@@ -44,7 +55,7 @@ export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
 
       <button
         title={!board.isFavorite ? 'В избранное' : 'Убрать из избранного'}
-        className={`!p-2 absolute left-15 top-3.5 !transition-all hover:text-amber-400
+        className={`!p-2 absolute left-15 top-3.5 hover:scale-120 !transition-all hover:text-amber-400
                xl:opacity-0 group-hover:opacity-100 ${board.isFavorite ? 'text-amber-400 opacity-100' : null}`}
         onClick={() => onToggleFav(board)}
       >

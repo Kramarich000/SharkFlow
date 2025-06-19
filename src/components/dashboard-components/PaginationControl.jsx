@@ -17,6 +17,7 @@ export default function PaginationControl({
           disabled={page === 1}
           onClick={() => onPageChange(page - 1)}
           className="tertiary-btn"
+          title="Назад"
         >
           <FaArrowLeft />
         </button>
@@ -27,6 +28,7 @@ export default function PaginationControl({
           disabled={page === totalPages}
           onClick={() => onPageChange(page + 1)}
           className="tertiary-btn"
+          title="Вперед"
         >
           <FaArrowLeft className="rotate-180" />
         </button>
@@ -40,6 +42,7 @@ export default function PaginationControl({
                         !transition-colors hover:bg-gray-800
                         ${pageSize === size ? 'bg-gray-900' : 'bg-gray-400'}`}
             onClick={() => onPageSizeChange(size)}
+            title={`Количество досок на странице: ${size}`}
           >
             {size}
           </button>

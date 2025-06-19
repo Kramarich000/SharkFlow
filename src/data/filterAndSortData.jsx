@@ -2,14 +2,20 @@ import { Russian } from 'flatpickr/dist/l10n/ru.js';
 
 const baseOpts = {
   locale: Russian,
+  mode: 'range',
   dateFormat: 'Y-m-d',
   altInput: true,
   altFormat: 'j F Y',
   allowInput: false,
+  closeOnSelect: false,
+  disableMobile: true,
+  clickOpens: true,
 };
 
-export const optsFrom = { ...baseOpts };
-export const optsTo = { ...baseOpts };
+export const optsRange = {
+  ...baseOpts,
+};
+
 export const recentDaysOptions = [
   { id: 999999, name: 'За все время' },
   { id: 1, name: '1 день' },
@@ -26,8 +32,7 @@ export const sortOptions = [
   { id: 'taskCount', name: 'Число задач' },
 ];
 
-export const DEFAULT_DATE_FROM = null;
-export const DEFAULT_DATE_TO = null;
+export const DEFAULT_DATE_RANGE = [null, null];
 export const DEFAULT_RECENT_DAYS = null;
 export const DEFAULT_SORT_BY = null;
 export const DEFAULT_SORT_ORDER = null;

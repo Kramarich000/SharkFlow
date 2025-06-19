@@ -9,9 +9,6 @@ const useBoardStore = create((set, get) => ({
   boards: [],
   selectedBoard: null,
   isLoaded: false,
-  isOpen: false,
-  isCreateBoardModalOpen: false,
-  isDeleteBoardModalOpen: false,
   isEditing: false,
   title: '',
   color: 'transparent',
@@ -20,15 +17,6 @@ const useBoardStore = create((set, get) => ({
   newIsPinned: false,
   newIsFavorite: false,
 
-  // setNewIsPinned: (newIsPinned) => set({ newIsPinned }),
-  // setNewIsFavorite: (newIsFavorite) => set({ newIsFavorite }),
-  // setBoards: (boards) => set({ boards }),
-  // setSelectedBoard: (board) => set({ selectedBoard: board }),
-  setIsOpen: (isOpen) => set({ isOpen }),
-  setIsCreateBoardModalOpen: (isOpen) =>
-    set({ isCreateBoardModalOpen: isOpen }),
-  setIsDeleteBoardModalOpen: (isOpen) =>
-    set({ isDeleteBoardModalOpen: isOpen }),
   setisEditing: (isEditing) => set({ isEditing }),
   setTitle: (title) => set({ title }),
   setColor: (color) => set({ color }),
@@ -65,10 +53,8 @@ const useBoardStore = create((set, get) => ({
           boards,
           title: '',
           color: '#000000',
-          isCreateBoardModalOpen: false,
         };
       });
-
       get().handleBoardSelect(newBoard);
       return true;
     }
@@ -152,9 +138,7 @@ const useBoardStore = create((set, get) => ({
         );
         return {
           boards: updatedBoards,
-          isDeleteBoardModalOpen: false,
           selectedBoard: null,
-          isOpen: false,
         };
       });
       return true;
@@ -169,7 +153,6 @@ const useBoardStore = create((set, get) => ({
       newColor: board.color,
       newIsPinned: board.isPinned ?? false,
       newIsFavorite: board.isFavorite ?? false,
-      isOpen: true,
       isEditing: false,
     });
   },
@@ -179,9 +162,6 @@ const useBoardStore = create((set, get) => ({
       boards: [],
       selectedBoard: null,
       isLoaded: false,
-      isOpen: false,
-      isCreateBoardModalOpen: false,
-      isDeleteBoardModalOpen: false,
       isEditing: false,
       title: '',
       color: '#808080',

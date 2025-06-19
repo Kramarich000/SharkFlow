@@ -9,6 +9,25 @@ const useModalsStore = create((set) => ({
 
   isUpdateUserModalOpen: false,
   setIsUpdateUserModalOpen: (value) => set({ isUpdateUserModalOpen: value }),
+
+  isCreateBoardModalOpen: false,
+  setIsCreateBoardModalOpen: (value) => set({ isCreateBoardModalOpen: value }),
+
+  isDeleteBoardModalOpen: false,
+  setIsDeleteBoardModalOpen: (value) => set({ isDeleteBoardModalOpen: value }),
+
+  isDetailsBoardModalOpen: false,
+  setIsDetailsBoardModalOpen: (value) => set({ isDetailsBoardModalOpen: value }),
+
+  resetModals: () =>
+    set({
+      isLogoutUserModalOpen: false,
+      isDeleteUserModalOpen: false,
+      isUpdateUserModalOpen: false,
+      isCreateBoardModalOpen: false,
+      isDeleteBoardModalOpen: false,
+      isDetailsBoardModalOpen: false,
+    }),
 }));
 
 export default useModalsStore;

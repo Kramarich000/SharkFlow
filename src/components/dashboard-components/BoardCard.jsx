@@ -5,11 +5,20 @@ import { FaStar } from 'react-icons/fa';
 import { dateFormatter } from '@utils/date/dateFormatter';
 import useModalsStore from '@store/modalsStore';
 import { useShallow } from 'zustand/shallow';
+import useTaskStore from '@store/taskStore';
+import { useEffect } from 'react';
 
 export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
   const { setIsDetailsBoardModalOpen } = useModalsStore(
     useShallow((state) => ({
       setIsDetailsBoardModalOpen: state.setIsDetailsBoardModalOpen,
+    })),
+  );
+
+  const { getTasks, setSelectedBoard } = useTaskStore(
+    useShallow((state) => ({
+      getTasks: state.getTasks,
+      setSelectedBoard: state.setSelectedBoard,
     })),
   );
 
@@ -34,6 +43,8 @@ export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
         title="Открыть доску"
         className="!p-2 absolute right-4 top-2.5 xl:opacity-0 group-hover:opacity-100 hover:scale-120 !transition-all"
         onClick={() => {
+          setSelectedBoard(board.uuid);
+          getTasks(board.uuid);
           onOpen(board);
           setIsDetailsBoardModalOpen(true);
         }}

@@ -4,11 +4,11 @@ import { showToast } from '@utils/toast/showToast';
 
 export async function createBoard({ title, color }) {
   if (!title.trim()) {
-    showToast('Название не может быть пустым', 'error');
+    showToast('Название доски не может быть пустым', 'error');
     return null;
   }
   if (!color.trim() || color.trim() === 'transparent') {
-    showToast('Выберите цвет', 'error');
+    showToast('Выберите цвет доски', 'error');
     return null;
   }
 

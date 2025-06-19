@@ -12,9 +12,10 @@ import { IoCloseOutline, IoCheckmark } from 'react-icons/io5';
 import { ColorSelector } from '@components/dashboard-components/ColorSelector';
 import { IoMdSettings } from 'react-icons/io';
 import useBoardStore from '@store/boardStore';
-import useTaskStore from '@store/taskStore';
 import { AiOutlineSync } from 'react-icons/ai';
 import useModalsStore from '@store/modalsStore';
+import useTaskStore from '@store/taskStore';
+import TaskCard from '@components/task-components/TaskCard';
 
 export default function BoardDetailsModal() {
   const {
@@ -42,7 +43,11 @@ export default function BoardDetailsModal() {
       updateBoard: state.updateBoard,
     })),
   );
-  const { setIsDeleteBoardModalOpen, isDetailsBoardModalOpen, setIsDetailsBoardModalOpen } = useModalsStore(
+  const {
+    setIsDeleteBoardModalOpen,
+    isDetailsBoardModalOpen,
+    setIsDetailsBoardModalOpen,
+  } = useModalsStore(
     useShallow((state) => ({
       setIsDeleteBoardModalOpen: state.setIsDeleteBoardModalOpen,
       isDetailsBoardModalOpen: state.isDetailsBoardModalOpen,
@@ -50,7 +55,14 @@ export default function BoardDetailsModal() {
     })),
   );
 
-  const { setIsCreateTaskModalOpen } = useTaskStore();
+  const { tasks } = useTaskStore(
+    useShallow((state) => ({
+      tasks: state.tasks,
+    })),
+  );
+
+  const { setIsCreateTaskModalOpen } = useModalsStore();
+
   const [load, setLoad] = useState(false);
 
   const saveUpdateBoard = async () => {
@@ -104,7 +116,7 @@ export default function BoardDetailsModal() {
               leaveTo="translate-y-full"
             >
               <DialogPanel
-                className="w-full h-[90%] border-4 border-b-0 z-9999 bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all"
+                className="w-full h-[90%] border-4 border-b-0 z-9998 flex flex-col bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all"
                 style={{
                   borderColor: selectedBoard?.color.startsWith('#')
                     ? selectedBoard?.color
@@ -210,151 +222,20 @@ export default function BoardDetailsModal() {
                     </>
                   )}
                 </div>
-                <div className="mt-4 text-center grid justify-items-center max-h-full grid-cols-2 gap-[40px] overflow-y-auto">
-                  {selectedBoard?.tasks?.length ? (
-                    selectedBoard.tasks.map((task) => (
-                      <div
-                        key={task.uuid}
-                        className="border-2 relative w-full rounded-3xl py-2 flex flex-col gap-2 px-6"
-                      >
-                        <p className="text-sm text-left">
-                          <span
-                            className={`${
-                              task.completed
-                                ? 'text-green-600 bg-green-100'
-                                : 'text-red-600 bg-red-00'
-                            } rounded-2xl px-1.5`}
-                          >
-                            {task.completed ? 'Выполнено' : 'В процессе'}
-                          </span>
-                        </p>
-                        <p className="font-semibold">{task.title}</p>
-
-                        <div className="text-sm text-left text-gray-900 list-decimal list-inside">
-                          {Array.isArray(task.description) ? (
-                            task.description.map((line, index) => (
-                              <p key={index}>{line}</p>
-                            ))
-                          ) : typeof task.description === 'string' &&
-                            task.description.trim() ? (
-                            task.description
-                              .split('\n')
-                              .map((line, index) => <p key={index}>{line}</p>)
-                          ) : (
-                            <p className="text-center">Без описания</p>
-                          )}
-                        </div>
-                      </div>
+                <div className="mt-4 text-center grid justify-items-center grid-cols-2 gap-[40px] overflow-y-auto">
+                  {tasks.length ? (
+                    tasks.map((task) => (
+                      <TaskCard key={task.uuid} task={task} />
                     ))
                   ) : (
                     <p className="text-gray-700 lg:text-left col-span-2 pb-60">
-                      Задачи отсутствуют Lorem ipsum dolor, sit amet consectetur
-                      adipisicing elit. Exercitationem perspiciatis expedita
-                      omnis, itaque commodi recusandae dolorem. Nihil, earum
-                      placeat! Asperiores quod nam provident, voluptas doloribus
-                      fugit. Aspernatur aperiam perferendis ex. Lorem ipsum
-                      dolor, sit amet consectetur adipisicing elit.
-                      Exercitationem perspiciatis expedita omnis, itaque commodi
-                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
-                      nam provident, voluptas doloribus fugit. Aspernatur
-                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
-                      consectetur adipisicing elit. Exercitationem perspiciatis
-                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
-                      earum placeat! Asperiores quod nam provident, voluptas
-                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
-                      ipsum dolor, sit amet consectetur adipisicing elit.
-                      Exercitationem perspiciatis expedita omnis, itaque commodi
-                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
-                      nam provident, voluptas doloribus fugit. Aspernatur
-                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
-                      consectetur adipisicing elit. Exercitationem perspiciatis
-                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
-                      earum placeat! Asperiores quod nam provident, voluptas
-                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
-                      ipsum dolor, sit amet consectetur adipisicing elit.
-                      Exercitationem perspiciatis expedita omnis, itaque commodi
-                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
-                      nam provident, voluptas doloribus fugit. Aspernatur
-                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
-                      consectetur adipisicing elit. Exercitationem perspiciatis
-                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
-                      earum placeat! Asperiores quod nam provident, voluptas
-                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
-                      ipsum dolor, sit amet consectetur adipisicing elit.
-                      Exercitationem perspiciatis expedita omnis, itaque commodi
-                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
-                      nam provident, voluptas doloribus fugit. Aspernatur
-                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
-                      consectetur adipisicing elit. Exercitationem perspiciatis
-                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
-                      earum placeat! Asperiores quod nam provident, voluptas
-                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
-                      ipsum dolor, sit amet consectetur adipisicing elit.
-                      Exercitationem perspiciatis expedita omnis, itaque commodi
-                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
-                      nam provident, voluptas doloribus fugit. Aspernatur
-                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
-                      consectetur adipisicing elit. Exercitationem perspiciatis
-                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
-                      earum placeat! Asperiores quod nam provident, voluptas
-                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
-                      ipsum dolor, sit amet consectetur adipisicing elit.
-                      Exercitationem perspiciatis expedita omnis, itaque commodi
-                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
-                      nam provident, voluptas doloribus fugit. Aspernatur
-                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
-                      consectetur adipisicing elit. Exercitationem perspiciatis
-                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
-                      earum placeat! Asperiores quod nam provident, voluptas
-                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
-                      ipsum dolor, sit amet consectetur adipisicing elit.
-                      Exercitationem perspiciatis expedita omnis, itaque commodi
-                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
-                      nam provident, voluptas doloribus fugit. Aspernatur
-                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
-                      consectetur adipisicing elit. Exercitationem perspiciatis
-                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
-                      earum placeat! Asperiores quod nam provident, voluptas
-                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
-                      ipsum dolor, sit amet consectetur adipisicing elit.
-                      Exercitationem perspiciatis expedita omnis, itaque commodi
-                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
-                      nam provident, voluptas doloribus fugit. Aspernatur
-                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
-                      consectetur adipisicing elit. Exercitationem perspiciatis
-                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
-                      earum placeat! Asperiores quod nam provident, voluptas
-                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
-                      ipsum dolor, sit amet consectetur adipisicing elit.
-                      Exercitationem perspiciatis expedita omnis, itaque commodi
-                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
-                      nam provident, voluptas doloribus fugit. Aspernatur
-                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
-                      consectetur adipisicing elit. Exercitationem perspiciatis
-                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
-                      earum placeat! Asperiores quod nam provident, voluptas
-                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
-                      ipsum dolor, sit amet consectetur adipisicing elit.
-                      Exercitationem perspiciatis expedita omnis, itaque commodi
-                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
-                      nam provident, voluptas doloribus fugit. Aspernatur
-                      aperiam perferendis ex. Lorem ipsum dolor, sit amet
-                      consectetur adipisicing elit. Exercitationem perspiciatis
-                      expedita omnis, itaque commodi recusandae dolorem. Nihil,
-                      earum placeat! Asperiores quod nam provident, voluptas
-                      doloribus fugit. Aspernatur aperiam perferendis ex. Lorem
-                      ipsum dolor, sit amet consectetur adipisicing elit.
-                      Exercitationem perspiciatis expedita omnis, itaque commodi
-                      recusandae dolorem. Nihil, earum placeat! Asperiores quod
-                      nam provident, voluptas doloribus fugit. Aspernatur
-                      aperiam perferendis ex.
+                      Задачи отсутствуют
                     </p>
                   )}
                 </div>
-
                 <button
                   type="button"
-                  className="primary-btn sticky bottom-0"
+                  className="primary-btn !mt-auto left-0 bottom-2"
                   onClick={() => setIsDetailsBoardModalOpen(false)}
                   disabled={load}
                   title="Закрыть доску"

@@ -17,7 +17,11 @@ const useModalsStore = create((set) => ({
   setIsDeleteBoardModalOpen: (value) => set({ isDeleteBoardModalOpen: value }),
 
   isDetailsBoardModalOpen: false,
-  setIsDetailsBoardModalOpen: (value) => set({ isDetailsBoardModalOpen: value }),
+  setIsDetailsBoardModalOpen: (value) =>
+    set({ isDetailsBoardModalOpen: value }),
+
+  isCreateTaskModalOpen: false,
+  setIsCreateTaskModalOpen: (value) => set({ isCreateTaskModalOpen: value }),
 
   resetModals: () =>
     set({
@@ -27,6 +31,7 @@ const useModalsStore = create((set) => ({
       isCreateBoardModalOpen: false,
       isDeleteBoardModalOpen: false,
       isDetailsBoardModalOpen: false,
+      isCreateTaskModalOpen: false,
     }),
 }));
 

@@ -1,38 +1,92 @@
 import { Fragment } from 'react';
 import { useShallow } from 'zustand/shallow';
-import {
-  Dialog,
-  DialogPanel,
-  Transition,
-  TransitionChild,
-} from '@headlessui/react';
+
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/dark.css';
 import { FaCheck } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
 import useTaskStore from '@store/taskStore';
 import useBoardStore from '@store/boardStore';
+import useModalsStore from '@store/modalsStore';
+import { baseOpts } from '@data/filterAndSortData';
+import { FaCalendarAlt } from 'react-icons/fa';
+import { priorityOptions, statusOptions } from '@data/taskOptions';
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+  Transition,
+  Dialog,
+  DialogPanel,
+  TransitionChild,
+} from '@headlessui/react';
 
 export default function CreateTaskModal() {
   const { selectedBoard } = useBoardStore();
-
   const {
-    taskState,
-    setTaskState,
-    isCreateTaskModalOpen,
-    setIsCreateTaskModalOpen,
+    title,
+    newTitle,
+    dueDate,
+    newDueDate,
+    description,
+    newDescription,
+    priority,
+    newPriority,
+    status,
+    newStatus,
+    setTitle,
+    setNewTitle,
+    setDueDate,
+    setNewDueDate,
+    setDescription,
+    setNewDescription,
+    setPriority,
+    setNewPriority,
+    setStatus,
+    setNewStatus,
     createTask,
   } = useTaskStore(
     useShallow((state) => ({
-      taskState: state.taskState,
-      setTaskState: state.setTaskState,
+      title: state.title,
+      newTitle: state.newTitle,
+      dueDate: state.dueDate,
+      newDueDate: state.newDueDate,
+      description: state.description,
+      newDescription: state.newDescription,
+      priority: state.priority,
+      newPriority: state.newPriority,
+      status: state.status,
+      newStatus: state.newStatus,
+      setTitle: state.setTitle,
+      setNewTitle: state.setNewTitle,
+      setDueDate: state.setDueDate,
+      setNewDueDate: state.setNewDueDate,
+      setDescription: state.setDescription,
+      setNewDescription: state.setNewDescription,
+      setPriority: state.setPriority,
+      setNewPriority: state.setNewPriority,
+      setStatus: state.setStatus,
+      setNewStatus: state.setNewStatus,
+      createTask: state.createTask,
+    })),
+  );
+
+  const { isCreateTaskModalOpen, setIsCreateTaskModalOpen } = useModalsStore(
+    useShallow((state) => ({
       isCreateTaskModalOpen: state.isCreateTaskModalOpen,
       setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
-      createTask: state.createTask,
     })),
   );
 
   const handleCreateTask = async () => {
     const newTask = await createTask(selectedBoard.uuid);
     if (newTask) {
+      setTitle('');
+      setDescription(null);
+      setPriority(null);
+      setStatus('PENDING');
+      setDueDate(null);
       setIsCreateTaskModalOpen(false);
     }
   };
@@ -44,7 +98,6 @@ export default function CreateTaskModal() {
         className="relative z-50"
         onClose={() => setIsCreateTaskModalOpen(false)}
       >
-        <div className="fixed inset-0 bg-transparent bg-opacity-25" />
         <div className="fixed inset-0">
           <div className="flex min-h-full items-end justify-center p-4 pb-0">
             <TransitionChild
@@ -54,13 +107,17 @@ export default function CreateTaskModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-6xl h-[50vh] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="w-full border-2 max-w-6xl h-[600px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+                <h2 className="text-[31px] text-center mb-4">
+                  Создание задачи
+                </h2>
+
                 <div className="flex items-center justify-between">
                   <div className="w-full">
                     <input
                       autoFocus
-                      value={taskState.title}
-                      onChange={(e) => setTaskState({ title: e.target.value })}
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') handleCreateTask();
                       }}
@@ -68,27 +125,98 @@ export default function CreateTaskModal() {
                       placeholder="Введите название задачи"
                     />
                     <textarea
-                      value={taskState.description}
-                      onChange={(e) =>
-                        setTaskState({ description: e.target.value })
-                      }
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
                       className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-lg mt-4 resize-none"
                       placeholder="Введите описание задачи"
                       rows={4}
                     />
-                    <input
-                      type="datetime-local"
-                      value={taskState.deadline}
-                      onChange={(e) =>
-                        setTaskState({ deadline: e.target.value })
-                      }
-                      className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-lg mt-4"
-                    />
+                    <Listbox value={priority} onChange={setPriority}>
+                      {({ open }) => (
+                        <div className="relative w-full mt-4">
+                          <ListboxButton className="secondary-btn w-full">
+                            {priorityOptions.find(
+                              (opt) => opt.value === priority,
+                            )?.label || 'Выберите приоритет'}
+                          </ListboxButton>
+                          <Transition
+                            as={Fragment}
+                            show={open}
+                            enter="transition ease-out duration-200"
+                            enterFrom="opacity-0 scale-50"
+                            enterTo="opacity-100 scale-100"
+                            leave="transition ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-50"
+                          >
+                            <ListboxOptions className="options-styles">
+                              {priorityOptions.map((opt) => (
+                                <ListboxOption
+                                  key={opt.value}
+                                  value={opt.value}
+                                  className="option-styles"
+                                >
+                                  {opt.label}
+                                </ListboxOption>
+                              ))}
+                            </ListboxOptions>
+                          </Transition>
+                        </div>
+                      )}
+                    </Listbox>
+
+                    <Listbox value={status} onChange={setStatus}>
+                      {({ open }) => (
+                        <div className="relative w-full mt-4">
+                          <ListboxButton className="secondary-btn w-full">
+                            {statusOptions.find((opt) => opt.value === status)
+                              ?.label || 'Выберите статус'}
+                          </ListboxButton>
+                          <Transition
+                            as={Fragment}
+                            show={open}
+                            enter="transition ease-out duration-200"
+                            enterFrom="opacity-0 scale-50"
+                            enterTo="opacity-100 scale-100"
+                            leave="transition ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-50"
+                          >
+                            <ListboxOptions className="options-styles">
+                              {statusOptions.map((opt) => (
+                                <ListboxOption
+                                  key={opt.value}
+                                  value={opt.value}
+                                  className="option-styles"
+                                >
+                                  {opt.label}
+                                </ListboxOption>
+                              ))}
+                            </ListboxOptions>
+                          </Transition>
+                        </div>
+                      )}
+                    </Listbox>
+
+                    <div className="relative w-full col-span-2">
+                      <Flatpickr
+                        id="date"
+                        name="date"
+                        onChange={(selectedDates) => {
+                          setDueDate(selectedDates[0]);
+                        }}
+                        value={dueDate}
+                        options={{ baseOpts }}
+                        className="calendar-styles"
+                        placeholder="Дата окончания"
+                      />
+                      <FaCalendarAlt className="absolute right-2 bottom-3.5 pointer-events-none" />
+                    </div>
                   </div>
                   <button
                     className="!p-2 mr-20"
                     onClick={handleCreateTask}
-                    title="Сохранить"
+                    title="Создать задачу"
                   >
                     <FaCheck size={26} />
                   </button>

@@ -1,8 +1,7 @@
 import { Russian } from 'flatpickr/dist/l10n/ru.js';
 
-const baseOpts = {
+export const baseOpts = {
   locale: Russian,
-  mode: 'range',
   dateFormat: 'Y-m-d',
   altInput: true,
   altFormat: 'j F Y',
@@ -12,9 +11,7 @@ const baseOpts = {
   clickOpens: true,
 };
 
-export const optsRange = {
-  ...baseOpts,
-};
+export const optsRange = { mode: 'range', ...baseOpts };
 
 export const recentDaysOptions = [
   { id: 999999, name: 'За все время' },

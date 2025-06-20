@@ -5,10 +5,11 @@ import {
   statusCardStyles,
 } from '@data/taskOptions';
 import { FaEye } from 'react-icons/fa';
+import { HiOutlineBars3 } from 'react-icons/hi2';
 import useModalsStore from '@store/modalsStore';
 import useTaskStore from '@store/taskStore';
 
-export default function TaskCard({ task }) {
+export default function TaskCard({ task, isDragging, dragHandleProps }) {
   const { setIsDetailsTaskModalOpen } = useModalsStore();
   const handleTaskSelect = useTaskStore((state) => state.handleTaskSelect);
   // console.log(task);
@@ -20,6 +21,9 @@ export default function TaskCard({ task }) {
       className={`w-full relative !h-fit text-center flex flex-col justify-around p-4 border-l-8 rounded-xl transition ${statusClass}`}
     >
       <div className="flex !items-start justify-between">
+        <button {...dragHandleProps} className="!p-1" title="Перетащить задачу">
+          <HiOutlineBars3 size={27} />
+        </button>
         <h3
           title={task.title}
           className="text-xl text-left truncate sm:whitespace-normal sm:break-words font-semibold line-clamp-1 sm:line-clamp-2 min-h-[56px]"
@@ -31,7 +35,7 @@ export default function TaskCard({ task }) {
             handleTaskSelect(task);
             setIsDetailsTaskModalOpen(true);
           }}
-          className="top-1 !p-0 right-1"
+          className="!p-1"
         >
           <FaEye size={27} />
         </button>

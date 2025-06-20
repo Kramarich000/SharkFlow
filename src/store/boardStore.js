@@ -9,19 +9,6 @@ const useBoardStore = create((set, get) => ({
   boards: [],
   selectedBoard: null,
   isLoaded: false,
-  isEditing: false,
-  title: '',
-  color: 'transparent',
-  newTitle: '',
-  newColor: '',
-  newIsPinned: false,
-  newIsFavorite: false,
-
-  setisEditing: (isEditing) => set({ isEditing }),
-  setTitle: (title) => set({ title }),
-  setColor: (color) => set({ color }),
-  setNewTitle: (newTitle) => set({ newTitle }),
-  setNewColor: (newColor) => set({ newColor }),
 
   getBoards: async () => {
     const boards = await getBoards();
@@ -30,31 +17,24 @@ const useBoardStore = create((set, get) => ({
     }
   },
 
-  createBoard: async () => {
-    const { title, color } = get();
+  createBoard: async ({ title, color }) => {
     const newBoard = await createBoard({ title, color });
 
     if (newBoard) {
-      set((state) => {
-        const boards = [...state.boards];
-        const tNew = new Date(newBoard.updatedAt);
-
-        let left = 0,
-          right = boards.length;
-        while (left < right) {
-          const mid = (left + right) >>> 1;
-          const tMid = new Date(boards[mid].updatedAt);
-          if (tMid < tNew) right = mid;
-          else left = mid + 1;
-        }
-        boards.splice(left, 0, newBoard);
-
-        return {
-          boards,
-          title: '',
-          color: '#000000',
-        };
-      });
+      set(
+        produce((state) => {
+          const tNew = new Date(newBoard.updatedAt);
+          let left = 0,
+            right = state.boards.length;
+          while (left < right) {
+            const mid = (left + right) >>> 1;
+            const tMid = new Date(state.boards[mid].updatedAt);
+            if (tMid < tNew) right = mid;
+            else left = mid + 1;
+          }
+          state.boards.splice(left, 0, newBoard);
+        }),
+      );
       get().handleBoardSelect(newBoard);
       return true;
     }
@@ -67,27 +47,23 @@ const useBoardStore = create((set, get) => ({
     try {
       return await updateBoard(uuid, updatedFields);
     } catch (err) {
+      console.error('Failed to update board in API:', err);
       return null;
     }
   },
 
   applyBoardUpdate: (updatedData) => {
-    set((state) =>
-      produce(state, (draft) => {
-        const board = draft.boards.find((b) => b.uuid === updatedData.uuid);
+    set(
+      produce((state) => {
+        const board = state.boards.find((b) => b.uuid === updatedData.uuid);
         if (!board) return;
         if (!updatedData.updatedAt) {
           updatedData.updatedAt = new Date().toISOString();
         }
         Object.assign(board, updatedData);
 
-        if (draft.selectedBoard?.uuid === updatedData.uuid) {
-          const b = board;
-          draft.selectedBoard = { ...b };
-          draft.newTitle = b.title;
-          draft.newColor = b.color;
-          draft.newIsPinned = b.isPinned;
-          draft.newIsFavorite = b.isFavorite;
+        if (state.selectedBoard?.uuid === updatedData.uuid) {
+          state.selectedBoard = { ...board };
         }
       }),
     );
@@ -111,7 +87,6 @@ const useBoardStore = create((set, get) => ({
     get().applyBoardUpdate({ uuid, ...updatedFields });
 
     const updatedData = await get().updateBoardInApi(uuid, updatedFields);
-    set({ isEditing: false });
 
     if (updatedData) {
       get().applyBoardUpdate(updatedData);
@@ -149,11 +124,6 @@ const useBoardStore = create((set, get) => ({
   handleBoardSelect: (board) => {
     set({
       selectedBoard: board,
-      newTitle: board.title,
-      newColor: board.color,
-      newIsPinned: board.isPinned ?? false,
-      newIsFavorite: board.isFavorite ?? false,
-      isEditing: false,
     });
   },
 
@@ -162,11 +132,6 @@ const useBoardStore = create((set, get) => ({
       boards: [],
       selectedBoard: null,
       isLoaded: false,
-      isEditing: false,
-      title: '',
-      color: '#808080',
-      newTitle: '',
-      newColor: '',
     }),
 }));
 

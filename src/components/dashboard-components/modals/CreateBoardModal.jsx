@@ -14,19 +14,10 @@ import useModalsStore from '@store/modalsStore';
 import { AiOutlineSync } from 'react-icons/ai';
 
 export default function CreateBoardModal() {
-  const {
-    title,
-    color,
-    setTitle,
-    setColor,
-    createBoard,
-    isCreateBoardModalOp,
-  } = useBoardStore(
+  const [title, setTitle] = useState('');
+  const [color, setColor] = useState('transparent');
+  const { createBoard } = useBoardStore(
     useShallow((state) => ({
-      title: state.title,
-      color: state.color,
-      setTitle: state.setTitle,
-      setColor: state.setColor,
       createBoard: state.createBoard,
     })),
   );
@@ -44,9 +35,11 @@ export default function CreateBoardModal() {
     if (load) return;
     setLoad(true);
     try {
-      const success = await createBoard();
+      const success = await createBoard({ title, color });
       if (success) {
         setIsCreateBoardModalOpen(false);
+        setTitle('');
+        setColor('transparent');
       }
     } catch (err) {
       console.error('Ошибка при создании доски:', err);

@@ -1,5 +1,5 @@
-import { Fragment, useState } from 'react';
-import { useShallow } from 'zustand/react/shallow';
+import { Fragment, useState, useEffect } from 'react';
+import { useShallow } from 'zustand/shallow';
 import {
   Dialog,
   DialogPanel,
@@ -16,28 +16,9 @@ import TaskSortControl from '@components/dashboard-components/board-details/Task
 import { useTaskSorter } from '@hooks/useTaskSorter';
 
 export default function BoardDetailsModal() {
-  const {
-    selectedBoard,
-    isEditing,
-    newTitle,
-    newColor,
-    newIsPinned,
-    newIsFavorite,
-    setNewTitle,
-    setNewColor,
-    setisEditing,
-    updateBoard,
-  } = useBoardStore(
+  const { selectedBoard, updateBoard } = useBoardStore(
     useShallow((state) => ({
       selectedBoard: state.selectedBoard,
-      isEditing: state.isEditing,
-      newTitle: state.newTitle,
-      newColor: state.newColor,
-      newIsPinned: state.newIsPinned,
-      newIsFavorite: state.newIsFavorite,
-      setNewTitle: state.setNewTitle,
-      setNewColor: state.setNewColor,
-      setisEditing: state.setisEditing,
       updateBoard: state.updateBoard,
     })),
   );
@@ -60,6 +41,22 @@ export default function BoardDetailsModal() {
 
   const boardUuid = selectedBoard?.uuid;
   const isLoading = useTaskStore((state) => state.loadingBoards[boardUuid]);
+
+  const [isEditing, setisEditing] = useState(false);
+  const [newTitle, setNewTitle] = useState('');
+  const [newColor, setNewColor] = useState('');
+  const [newIsPinned, setNewIsPinned] = useState(false);
+  const [newIsFavorite, setNewIsFavorite] = useState(false);
+
+  useEffect(() => {
+    if (selectedBoard) {
+      setNewTitle(selectedBoard.title);
+      setNewColor(selectedBoard.color);
+      setNewIsPinned(selectedBoard.isPinned ?? false);
+      setNewIsFavorite(selectedBoard.isFavorite ?? false);
+      setisEditing(false);
+    }
+  }, [selectedBoard]);
 
   const [load, setLoad] = useState(false);
 
@@ -98,6 +95,7 @@ export default function BoardDetailsModal() {
 
     try {
       await updateBoard({ uuid: selectedBoard.uuid, ...updatedFields });
+      setisEditing(false);
     } catch (err) {
       console.error('Ошибка при обновлении доски:', err);
     } finally {

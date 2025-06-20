@@ -91,6 +91,9 @@ export default function CreateTaskModal() {
     }
   };
 
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+
   return (
     <Transition appear show={isCreateTaskModalOpen} as={Fragment}>
       <Dialog
@@ -107,30 +110,30 @@ export default function CreateTaskModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-6xl h-[600px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="w-full border-2 max-w-6xl h-full transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
                 <h2 className="text-[31px] text-center mb-4">
                   Создание задачи
                 </h2>
 
-                <div className="flex items-center justify-between">
-                  <div className="w-full">
-                    <input
-                      autoFocus
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleCreateTask();
-                      }}
-                      className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
-                      placeholder="Введите название задачи"
-                    />
-                    <textarea
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-lg mt-4 resize-none"
-                      placeholder="Введите описание задачи"
-                      rows={4}
-                    />
+                <div className="w-full flex flex-col  gap-8">
+                  <input
+                    autoFocus
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleCreateTask();
+                    }}
+                    className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
+                    placeholder="Введите название задачи"
+                  />
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-lg mt-4 resize-none"
+                    placeholder="Введите описание задачи"
+                    rows={4}
+                  />
+                  <div className="grid gap-4 w-full h-full grid-cols-1 sm:grid-cols-2 justify-items-center md:grid-cols-3">
                     <Listbox value={priority} onChange={setPriority}>
                       {({ open }) => (
                         <div className="relative w-full mt-4">
@@ -149,7 +152,7 @@ export default function CreateTaskModal() {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-50"
                           >
-                            <ListboxOptions className="options-styles">
+                            <ListboxOptions className="options-styles !top-[-180px] !text-center">
                               {priorityOptions.map((opt) => (
                                 <ListboxOption
                                   key={opt.value}
@@ -182,7 +185,7 @@ export default function CreateTaskModal() {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-50"
                           >
-                            <ListboxOptions className="options-styles">
+                            <ListboxOptions className="options-styles !top-[-235px] !text-center">
                               {statusOptions.map((opt) => (
                                 <ListboxOption
                                   key={opt.value}
@@ -198,7 +201,7 @@ export default function CreateTaskModal() {
                       )}
                     </Listbox>
 
-                    <div className="relative w-full col-span-2">
+                    <div className="relative sm:col-span-2 md:col-span-1 w-full mt-4">
                       <Flatpickr
                         id="date"
                         name="date"
@@ -206,31 +209,29 @@ export default function CreateTaskModal() {
                           setDueDate(selectedDates[0]);
                         }}
                         value={dueDate}
-                        options={{ baseOpts }}
-                        className="calendar-styles"
+                        options={{ ...baseOpts, minDate: todayStart }}
+                        className="calendar-styles !text-center"
                         placeholder="Дата окончания"
                       />
                       <FaCalendarAlt className="absolute right-2 bottom-3.5 pointer-events-none" />
                     </div>
                   </div>
                   <button
-                    className="!p-2 mr-20"
+                    className="primary-btn !m-0 !p-2 !mt-auto"
                     onClick={handleCreateTask}
                     title="Создать задачу"
                   >
-                    <FaCheck size={26} />
+                    Создать
                   </button>
                 </div>
-                <div className="mt-6">
-                  <button
-                    type="button"
-                    title="Закрыть"
-                    className="inline-flex !transition-transform absolute top-0 right-0 justify-center px-4 py-2 text-sm"
-                    onClick={() => setIsCreateTaskModalOpen(false)}
-                  >
-                    <IoClose size={40} />
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  title="Закрыть"
+                  className="inline-flex !transition-transform absolute top-0 right-0 justify-center px-4 py-2 text-sm"
+                  onClick={() => setIsCreateTaskModalOpen(false)}
+                >
+                  <IoClose size={40} />
+                </button>
               </DialogPanel>
             </TransitionChild>
           </div>

@@ -16,6 +16,7 @@ import { AiOutlineSync } from 'react-icons/ai';
 import useModalsStore from '@store/modalsStore';
 import useTaskStore from '@store/taskStore';
 import TaskCard from '@components/task-components/TaskCard';
+import { motion } from 'framer-motion';
 
 export default function BoardDetailsModal() {
   const {
@@ -55,13 +56,13 @@ export default function BoardDetailsModal() {
     })),
   );
 
-  const { tasks } = useTaskStore(
-    useShallow((state) => ({
-      tasks: state.tasks,
-    })),
-  );
+  const { getCurrentBoardTasks } = useTaskStore();
+  const tasks = getCurrentBoardTasks();
 
   const { setIsCreateTaskModalOpen } = useModalsStore();
+
+  const boardUuid = selectedBoard?.uuid;
+  const isLoading = useTaskStore((state) => state.loadingBoards[boardUuid]);
 
   const [load, setLoad] = useState(false);
 
@@ -116,7 +117,7 @@ export default function BoardDetailsModal() {
               leaveTo="translate-y-full"
             >
               <DialogPanel
-                className="w-full h-[90%] border-4 border-b-0 z-9998 flex flex-col bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all"
+                className="w-full h-[90%] border-4 border-b-0 z-9998 flex flex-col bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-3 sm:p-6 text-left align-middle shadow-xl !transition-all"
                 style={{
                   borderColor: selectedBoard?.color.startsWith('#')
                     ? selectedBoard?.color
@@ -139,7 +140,7 @@ export default function BoardDetailsModal() {
                 ) : (
                   <DialogTitle
                     onClick={() => setisEditing(true)}
-                    className="text-center mb-4 text-4xl whitespace-nowrap overflow-x-hidden overflow-y-hidden overflow-ellipsis pb-2 border-b-1 border-transparent"
+                    className="text-center mb-0 sm:mb-4 text-4xl overflow-hidden overflow-ellipsis whitespace-nowrap pb-2 border-b-1 border-transparent"
                   >
                     {selectedBoard?.title}
                   </DialogTitle>
@@ -198,7 +199,7 @@ export default function BoardDetailsModal() {
                     <>
                       <button
                         key="create-task"
-                        className="primary-btn !p-2 !w-fit !m-0"
+                        className="primary-btn !p-1 sm:!p-2 !w-fit !m-0"
                         onClick={() => setIsCreateTaskModalOpen(true)}
                         disabled={load}
                         title="Создать задачу"
@@ -222,20 +223,40 @@ export default function BoardDetailsModal() {
                     </>
                   )}
                 </div>
-                <div className="mt-4 text-center grid justify-items-center grid-cols-2 gap-[40px] overflow-y-auto">
-                  {tasks.length ? (
-                    tasks.map((task) => (
-                      <TaskCard key={task.uuid} task={task} />
-                    ))
-                  ) : (
-                    <p className="text-gray-700 lg:text-left col-span-2 pb-60">
-                      Задачи отсутствуют
+                {!isLoading ? (
+                  <div className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center grid justify-items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[40px] overflow-y-auto">
+                    {tasks.length ? (
+                      tasks.map((task) => (
+                        <TaskCard key={task.uuid} task={task} />
+                      ))
+                    ) : (
+                      <p className="text-gray-700 col-span-3">
+                        Задачи отсутствуют
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="h-full mt-4 mb-4 flex-col flex items-center justify-center">
+                    <motion.div
+                      key="loader"
+                      animate={{ rotate: 360 }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 1.2,
+                        ease: 'linear',
+                      }}
+                      className="text-7xl flex gap-8 text-center"
+                    >
+                      <AiOutlineSync />
+                    </motion.div>
+                    <p className="text-4xl mt-4 animate-pulse text-center">
+                      Загрузка ваших задач
                     </p>
-                  )}
-                </div>
+                  </div>
+                )}
                 <button
                   type="button"
-                  className="primary-btn !mt-auto left-0 bottom-2"
+                  className="primary-btn !mt-auto !p-1 sm:!p-4"
                   onClick={() => setIsDetailsBoardModalOpen(false)}
                   disabled={load}
                   title="Закрыть доску"

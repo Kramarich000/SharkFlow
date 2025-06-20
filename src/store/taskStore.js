@@ -1,14 +1,16 @@
 import { create } from 'zustand';
 import { produce } from 'immer';
-import { getTasks } from '@api/http/tasks/getTasks';
-import { createTask } from '@api/http/tasks/createTask';
-import { updateTask } from '@api/http/tasks/updateTask';
-import { deleteTask } from '@api/http/tasks/deleteTask';
+import { getTasks as apiGetTasks } from '@api/http/tasks/getTasks';
+import { createTask as apiCreateTask } from '@api/http/tasks/createTask';
+import { updateTask as apiUpdateTask } from '@api/http/tasks/updateTask';
+import { deleteTask as apiDeleteTask } from '@api/http/tasks/deleteTask';
 
 const useTaskStore = create((set, get) => ({
-  tasks: [],
+  tasksByBoard: {},
   loadedBoards: {},
+  loadingBoards: {},
   selectedTask: null,
+  selectedBoardUuid: null,
   isLoaded: false,
   isEditing: false,
   title: '',
@@ -33,37 +35,57 @@ const useTaskStore = create((set, get) => ({
   setStatus: (status) => set({ status }),
   setNewStatus: (newStatus) => set({ newStatus }),
 
-  // getTasks: async (boardUuid) => {
-  //   const tasks = await getTasks(boardUuid);
-  //   if (tasks) {
-  //     set({ tasks, isLoaded: true });
-  //   }
-  // },
-
-  setSelectedBoard: (uuid) => {
-    set({ selectedBoardUuid: uuid });
-  },
+  setSelectedBoard: (uuid) => set({ selectedBoardUuid: uuid }),
 
   getTasks: async (boardUuid) => {
-    const { loadedBoards } = get();
+    const { loadedBoards, loadingBoards } = get();
 
-    if (loadedBoards[boardUuid]) return;
+    if (loadedBoards[boardUuid] || loadingBoards[boardUuid]) return;
 
-    const tasks = await getTasks(boardUuid);
-    if (tasks) {
+    set((state) => ({
+      loadingBoards: {
+        ...state.loadingBoards,
+        [boardUuid]: true,
+      },
+    }));
+
+    try {
+      const tasks = await apiGetTasks(boardUuid);
+      if (tasks) {
+        set((state) => ({
+          tasksByBoard: {
+            ...state.tasksByBoard,
+            [boardUuid]: tasks,
+          },
+          loadedBoards: {
+            ...state.loadedBoards,
+            [boardUuid]: true,
+          },
+        }));
+      }
+    } finally {
       set((state) => ({
-        tasks,
-        loadedBoards: {
-          ...state.loadedBoards,
-          [boardUuid]: true,
+        loadingBoards: {
+          ...state.loadingBoards,
+          [boardUuid]: false,
         },
       }));
     }
   },
+  getCurrentBoardTasks: () => {
+    const { selectedBoardUuid, tasksByBoard } = get();
+    return tasksByBoard[selectedBoardUuid] || [];
+  },
+
+  isBoardLoading: (boardUuid) => {
+    const { loadingBoards } = get();
+    return !!loadingBoards[boardUuid];
+  },
 
   createTask: async (boardUuid) => {
-    const { title, dueDate, description, priority, status } = get();
-    const newTask = await createTask({
+    const { title, dueDate, description, priority, status, tasksByBoard } =
+      get();
+    const newTask = await apiCreateTask({
       boardUuid,
       title,
       dueDate,
@@ -74,9 +96,10 @@ const useTaskStore = create((set, get) => ({
 
     if (newTask) {
       set((state) => {
-        const tasks = [...state.tasks];
+        const tasks = state.tasksByBoard[boardUuid]
+          ? [...state.tasksByBoard[boardUuid]]
+          : [];
         const tNew = new Date(newTask.updatedAt);
-
         let left = 0,
           right = tasks.length;
         while (left < right) {
@@ -86,9 +109,11 @@ const useTaskStore = create((set, get) => ({
           else left = mid + 1;
         }
         tasks.splice(left, 0, newTask);
-
         return {
-          tasks,
+          tasksByBoard: {
+            ...state.tasksByBoard,
+            [boardUuid]: tasks,
+          },
           title: '',
           dueDate: '',
           description: '',
@@ -99,29 +124,29 @@ const useTaskStore = create((set, get) => ({
       get().handleTaskSelect(newTask);
       return true;
     }
-
     return false;
   },
 
-  updateTaskInApi: async (uuid, updatedFields) => {
+  updateTaskInApi: async (uuid, updatedFields, boardUuid) => {
     if (!uuid || Object.keys(updatedFields).length === 0) return null;
     try {
-      return await updateTask(uuid, updatedFields);
+      return await apiUpdateTask(uuid, updatedFields);
     } catch (err) {
       return null;
     }
   },
 
-  applyTaskUpdate: (updatedData) => {
+  applyTaskUpdate: (updatedData, boardUuid) => {
     set((state) =>
       produce(state, (draft) => {
-        const task = draft.tasks.find((b) => b.uuid === updatedData.uuid);
+        const boardId = boardUuid || state.selectedBoardUuid;
+        const tasks = draft.tasksByBoard[boardId] || [];
+        const task = tasks.find((b) => b.uuid === updatedData.uuid);
         if (!task) return;
         if (!updatedData.updatedAt) {
           updatedData.updatedAt = new Date().toISOString();
         }
         Object.assign(task, updatedData);
-
         if (draft.selectedTask?.uuid === updatedData.uuid) {
           const b = task;
           draft.selectedTask = { ...b };
@@ -135,9 +160,8 @@ const useTaskStore = create((set, get) => ({
     );
   },
 
-  updateTask: async ({ uuid, title, isPinned, isFavorite }) => {
+  updateTask: async ({ uuid, title, isPinned, isFavorite, boardUuid }) => {
     if (!uuid) return false;
-
     const updatedFields = {};
     if (title !== undefined) updatedFields.title = title;
     if (isPinned !== undefined) updatedFields.isPinned = isPinned;
@@ -145,40 +169,44 @@ const useTaskStore = create((set, get) => ({
     if (Object.keys(updatedFields).length === 0) {
       return false;
     }
-
-    const prev = get().tasks.find((b) => b.uuid === uuid);
+    const boardId = boardUuid || get().selectedBoardUuid;
+    const prev = (get().tasksByBoard[boardId] || []).find(
+      (b) => b.uuid === uuid,
+    );
     const prevSnapshot = prev ? { ...prev } : null;
-
-    get().applyTaskUpdate({ uuid, ...updatedFields });
-
-    const updatedData = await get().updateTaskInApi(uuid, updatedFields);
+    get().applyTaskUpdate({ uuid, ...updatedFields }, boardId);
+    const updatedData = await get().updateTaskInApi(
+      uuid,
+      updatedFields,
+      boardId,
+    );
     set({ isEditing: false });
-
     if (updatedData) {
-      get().applyTaskUpdate(updatedData);
+      get().applyTaskUpdate(updatedData, boardId);
       return true;
     }
-
     if (prevSnapshot) {
-      get().applyTaskUpdate(prevSnapshot);
+      get().applyTaskUpdate(prevSnapshot, boardId);
     }
     return false;
   },
 
   deleteTask: async () => {
-    const { selectedTask } = get();
-    if (!selectedTask?.uuid) {
+    const { selectedTask, selectedBoardUuid, tasksByBoard } = get();
+    if (!selectedTask?.uuid || !selectedBoardUuid) {
       return false;
     }
-
-    const deleted = await deleteTask(selectedTask.uuid);
+    const deleted = await apiDeleteTask(selectedTask.uuid);
     if (deleted) {
       set((state) => {
-        const updatedTasks = state.tasks.filter(
-          (task) => task.uuid !== selectedTask.uuid,
-        );
+        const updatedTasks = (
+          state.tasksByBoard[selectedBoardUuid] || []
+        ).filter((task) => task.uuid !== selectedTask.uuid);
         return {
-          tasks: updatedTasks,
+          tasksByBoard: {
+            ...state.tasksByBoard,
+            [selectedBoardUuid]: updatedTasks,
+          },
           selectedTask: null,
         };
       });
@@ -209,6 +237,9 @@ const useTaskStore = create((set, get) => ({
       setPriority: 'MEDIUM',
       setStatus: 'PENDING',
       setDueDate: null,
+      selectedBoardUuid: null,
+      tasksByBoard: {},
+      loadedBoards: {},
     }),
 }));
 

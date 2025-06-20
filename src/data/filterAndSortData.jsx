@@ -32,6 +32,7 @@ export const sortOptions = [
 export const taskSortOptions = [
   { id: 'manual', name: 'По порядку' },
   { id: 'createdAt', name: 'Дата создания' },
+  { id: 'updatedAt', name: 'Дата обновления' },
   { id: 'priority', name: 'Приоритет' },
   { id: 'status', name: 'Статус' },
   { id: 'dueDate', name: 'Дедлайн' },

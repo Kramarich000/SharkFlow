@@ -43,6 +43,7 @@ import {
   sortByTaskCountDesc,
 } from '@utils/filters/boardSorts';
 import useModalsStore from '@store/modalsStore';
+import TaskDetailsModal from '@components/dashboard-components/modals/TaskDetailsModal';
 
 export default function DashboardPage() {
   const { boards, handleBoardSelect, getBoards, updateBoard, isLoaded } =
@@ -254,7 +255,8 @@ export default function DashboardPage() {
           <Suspense fallback={null}>
             <CreateBoardModal />
             <CreateTaskModal />
-            <BoardDetailsModal />
+            <BoardDetailsModal />        
+            <TaskDetailsModal />
             <DeleteBoardModal />
           </Suspense>
         </div>

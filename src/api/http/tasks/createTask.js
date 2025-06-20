@@ -15,6 +15,10 @@ export async function createTask({
     return null;
   }
 
+  // if (title.length > 64) {
+  //   showToast('Название задачи не может быть более 64 символов', 'error');
+  //   return null;
+  // }
   // if (!dueDate) {
   //   showToast('Выберите дату окончания задачи', 'error');
   //   return null;

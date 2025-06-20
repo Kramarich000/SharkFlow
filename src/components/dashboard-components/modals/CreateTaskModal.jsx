@@ -26,48 +26,28 @@ export default function CreateTaskModal() {
   const { selectedBoard } = useBoardStore();
   const {
     title,
-    newTitle,
     dueDate,
-    newDueDate,
     description,
-    newDescription,
     priority,
-    newPriority,
     status,
-    newStatus,
     setTitle,
-    setNewTitle,
     setDueDate,
-    setNewDueDate,
     setDescription,
-    setNewDescription,
     setPriority,
-    setNewPriority,
     setStatus,
-    setNewStatus,
     createTask,
   } = useTaskStore(
     useShallow((state) => ({
       title: state.title,
-      newTitle: state.newTitle,
       dueDate: state.dueDate,
-      newDueDate: state.newDueDate,
       description: state.description,
-      newDescription: state.newDescription,
       priority: state.priority,
-      newPriority: state.newPriority,
       status: state.status,
-      newStatus: state.newStatus,
       setTitle: state.setTitle,
-      setNewTitle: state.setNewTitle,
       setDueDate: state.setDueDate,
-      setNewDueDate: state.setNewDueDate,
       setDescription: state.setDescription,
-      setNewDescription: state.setNewDescription,
       setPriority: state.setPriority,
-      setNewPriority: state.setNewPriority,
       setStatus: state.setStatus,
-      setNewStatus: state.setNewStatus,
       createTask: state.createTask,
     })),
   );
@@ -119,7 +99,7 @@ export default function CreateTaskModal() {
                   <div className="relative">
                     <input
                       autoFocus
-                      value={title}
+                      value={title ?? ''}
                       onChange={(e) => setTitle(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') handleCreateTask();
@@ -134,7 +114,7 @@ export default function CreateTaskModal() {
                   </div>
                   <div className="relative">
                     <textarea
-                      value={description}
+                      value={description ?? ''}
                       onChange={(e) => setDescription(e.target.value)}
                       className="peer input-styles resize-none"
                       placeholder=" "
@@ -220,7 +200,7 @@ export default function CreateTaskModal() {
                         onChange={(selectedDates) => {
                           setDueDate(selectedDates[0]);
                         }}
-                        value={dueDate}
+                        value={dueDate ? [dueDate] : []}
                         options={{ ...baseOpts, minDate: todayStart }}
                         className="calendar-styles !text-center"
                         placeholder="Дата окончания"

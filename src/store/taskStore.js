@@ -14,26 +14,16 @@ const useTaskStore = create((set, get) => ({
   isLoaded: false,
   isEditing: false,
   title: '',
-  newTitle: '',
   dueDate: '',
-  newDueDate: '',
   description: '',
-  newDescription: '',
   priority: '',
-  newPriority: '',
   status: '',
-  newStatus: '',
 
   setTitle: (title) => set({ title }),
-  setNewTitle: (newTitle) => set({ newTitle }),
   setDueDate: (dueDate) => set({ dueDate }),
-  setNewDueDate: (newDueDate) => set({ newDueDate }),
   setDescription: (description) => set({ description }),
-  setNewDescription: (newDescription) => set({ newDescription }),
   setPriority: (priority) => set({ priority }),
-  setNewPriority: (newPriority) => set({ newPriority }),
   setStatus: (status) => set({ status }),
-  setNewStatus: (newStatus) => set({ newStatus }),
 
   setSelectedBoard: (uuid) => set({ selectedBoardUuid: uuid }),
 
@@ -83,8 +73,7 @@ const useTaskStore = create((set, get) => ({
   },
 
   createTask: async (boardUuid) => {
-    const { title, dueDate, description, priority, status, tasksByBoard } =
-      get();
+    const { title, dueDate, description, priority, status } = get();
     const newTask = await apiCreateTask({
       boardUuid,
       title,
@@ -127,11 +116,11 @@ const useTaskStore = create((set, get) => ({
     return false;
   },
 
-  updateTaskInApi: async (uuid, updatedFields, boardUuid) => {
+  updateTaskInApi: async (uuid, updatedFields) => {
     if (!uuid || Object.keys(updatedFields).length === 0) return null;
     try {
       return await apiUpdateTask(uuid, updatedFields);
-    } catch (err) {
+    } catch {
       return null;
     }
   },
@@ -150,11 +139,11 @@ const useTaskStore = create((set, get) => ({
         if (draft.selectedTask?.uuid === updatedData.uuid) {
           const b = task;
           draft.selectedTask = { ...b };
-          draft.newTitle = b.title;
-          draft.newDueDate = b.dueDate;
-          draft.newDescription = b.description;
-          draft.newPriority = b.priority;
-          draft.newStatus = b.status;
+          draft.title = b.title;
+          draft.dueDate = b.dueDate;
+          draft.description = b.description;
+          draft.priority = b.priority;
+          draft.status = b.status;
         }
       }),
     );
@@ -178,7 +167,6 @@ const useTaskStore = create((set, get) => ({
     const updatedData = await get().updateTaskInApi(
       uuid,
       updatedFields,
-      boardId,
     );
     set({ isEditing: false });
     if (updatedData) {
@@ -192,7 +180,7 @@ const useTaskStore = create((set, get) => ({
   },
 
   deleteTask: async () => {
-    const { selectedTask, selectedBoardUuid, tasksByBoard } = get();
+    const { selectedTask, selectedBoardUuid } = get();
     if (!selectedTask?.uuid || !selectedBoardUuid) {
       return false;
     }
@@ -218,9 +206,6 @@ const useTaskStore = create((set, get) => ({
   handleTaskSelect: (task) => {
     set({
       selectedTask: task,
-      newTitle: task.title,
-      newIsPinned: task.isPinned ?? false,
-      newIsFavorite: task.isFavorite ?? false,
       isEditing: false,
     });
   },
@@ -231,12 +216,10 @@ const useTaskStore = create((set, get) => ({
       isLoaded: false,
       isEditing: false,
       title: '',
-      newTitle: '',
-      setTitle: '',
-      setDescription: '',
-      setPriority: 'MEDIUM',
-      setStatus: 'PENDING',
-      setDueDate: null,
+      dueDate: '',
+      description: '',
+      priority: '',
+      status: '',
       selectedBoardUuid: null,
       tasksByBoard: {},
       loadedBoards: {},

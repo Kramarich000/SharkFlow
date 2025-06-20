@@ -2,7 +2,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import TaskCard from '@components/task-components/TaskCard';
 
-export default function SortableTaskCard({ task }) {
+export default function SortableTaskCard({ task, isDragging: isDraggingFromParent }) {
   const {
     attributes,
     listeners,
@@ -19,11 +19,13 @@ export default function SortableTaskCard({ task }) {
     boxShadow: isDragging ? '0 8px 20px rgba(0,0,0,0.2)' : undefined,
     cursor: 'grab',
     width: '100%',
+    opacity: isDraggingFromParent ? 0.2 : 1,
+    pointerEvents: isDraggingFromParent ? 'none' : undefined,
   };
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <TaskCard task={task} />
+      <TaskCard task={task} isDragging={isDraggingFromParent} />
     </div>
   );
 }

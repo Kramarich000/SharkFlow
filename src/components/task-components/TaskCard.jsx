@@ -2,26 +2,44 @@ import {
   priorityOptions,
   statusOptions,
   priorityStyles,
+  statusCardStyles,
 } from '@data/taskOptions';
+import { FaEye } from 'react-icons/fa';
+import useModalsStore from '@store/modalsStore';
+import useTaskStore from '@store/taskStore';
 
 export default function TaskCard({ task }) {
+  const { setIsDetailsTaskModalOpen } = useModalsStore();
+  const handleTaskSelect = useTaskStore((state) => state.handleTaskSelect);
   // console.log(task);
   const priorityClass = priorityStyles[task.priority] || priorityStyles.DEFAULT;
+  const statusClass = statusCardStyles[task.status] || statusCardStyles.DEFAULT;
 
   return (
     <div
-      className={`w-full !h-fit text-center flex flex-col justify-around relative p-4 border-l-8 rounded-xl transition ${priorityClass}`}
+      className={`w-full relative !h-fit text-center flex flex-col justify-around p-4 border-l-8 rounded-xl transition ${statusClass}`}
     >
-      <h3
-        title={task.title}
-        className="text-xl truncate sm:whitespace-normal sm:break-words font-semibold line-clamp-1 sm:line-clamp-2 min-h-[56px]"
-      >
-        {task.title}
-      </h3>
+      <div className="flex !items-start justify-between">
+        <h3
+          title={task.title}
+          className="text-xl text-left truncate sm:whitespace-normal sm:break-words font-semibold line-clamp-1 sm:line-clamp-2 min-h-[56px]"
+        >
+          {task.title}
+        </h3>
+        <button
+          onClick={() => {
+            handleTaskSelect(task);
+            setIsDetailsTaskModalOpen(true);
+          }}
+          className="top-1 !p-0 right-1"
+        >
+          <FaEye size={27} />
+        </button>
+      </div>
       {task.description ? (
         <p
           title={task.description}
-          className="mt-1  truncate sm:whitespace-normal sm:break-words sm:line-clamp-3 min-h-[72px]"
+          className="mt-1 truncate sm:whitespace-normal sm:break-words sm:line-clamp-3 min-h-[72px]"
         >
           {task.description}
         </p>
@@ -48,11 +66,8 @@ export default function TaskCard({ task }) {
             })}
           </p>
         </div> */}
-        <div className="items-center flex justify-center gap-2">
-          <p
-            className={`rounded-xl ${priorityClass} p-1`}
-            title="Статус задачи"
-          >
+        <div className="items-center flex justify-center gap-2 flex-wrap">
+          <p className={`rounded-xl ${statusClass} p-1`} title="Статус задачи">
             Статус:{' '}
             {statusOptions.find((opt) => opt.value === task.status)?.label ||
               'Не задано'}
@@ -64,10 +79,7 @@ export default function TaskCard({ task }) {
             year: 'numeric',
           })}
         </p> */}
-          <p
-            className={`rounded-xl ${priorityClass} p-1`}
-            title="Дата окончания"
-          >
+          <p className={`rounded-xl ${statusClass} p-1`} title="Дата окончания">
             Дедлайн:{' '}
             {task.dueDate
               ? new Date(task.dueDate).toLocaleDateString('ru-RU', {
@@ -79,7 +91,7 @@ export default function TaskCard({ task }) {
           </p>
 
           <p
-            className={`rounded-xl ${priorityClass} p-1`}
+            className={`rounded-xl ${statusClass} p-1`}
             title="Приоритет задачи"
           >
             Приоритет:{' '}

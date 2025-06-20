@@ -1,0 +1,213 @@
+Date : 2025-06-21 01:29:27
+Directory : c:\TaskFlow\src
+Total : 136 files,  7086 codes, 110 comments, 660 blanks, all 7856 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JavaScript JSX |         91 |      5,668 |         55 |        399 |      6,122 |
+| JavaScript     |         42 |      1,191 |         49 |        213 |      1,453 |
+| PostCSS        |          2 |        219 |          6 |         48 |        273 |
+| XML            |          1 |          8 |          0 |          0 |          8 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                         | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                            |        136 |      7,086 |        110 |        660 |      7,856 |
+| . (Files)                                                                                    |          4 |        331 |          9 |         61 |        401 |
+| api                                                                                          |         23 |        428 |         49 |         89 |        566 |
+| api\http                                                                                     |         22 |        392 |         46 |         78 |        516 |
+| api\http (Files)                                                                             |          1 |        110 |          0 |         10 |        120 |
+| api\http\auth                                                                                |          6 |         52 |         30 |         19 |        101 |
+| api\http\auth\login                                                                          |          1 |         23 |          0 |          4 |         27 |
+| api\http\auth\logout                                                                         |          1 |          8 |          0 |          2 |         10 |
+| api\http\auth\refresh                                                                        |          1 |         21 |          0 |          4 |         25 |
+| api\http\auth\reset                                                                          |          3 |          0 |         30 |          9 |         39 |
+| api\http\boards                                                                              |          4 |         56 |          0 |         11 |         67 |
+| api\http\tasks                                                                               |          4 |         69 |         16 |         15 |        100 |
+| api\http\users                                                                               |          7 |        105 |          0 |         23 |        128 |
+| api\http\users\create                                                                        |          2 |         24 |          0 |          6 |         30 |
+| api\http\users\delete                                                                        |          2 |         19 |          0 |          4 |         23 |
+| api\http\users\get                                                                           |          1 |         17 |          0 |          3 |         20 |
+| api\http\users\update                                                                        |          2 |         45 |          0 |         10 |         55 |
+| api\ws                                                                                       |          1 |         36 |          3 |         11 |         50 |
+| assets                                                                                       |          1 |          8 |          0 |          0 |          8 |
+| components                                                                                   |         55 |      3,833 |         52 |        233 |      4,118 |
+| components\dashboard-components                                                              |         20 |      1,694 |          0 |         99 |      1,793 |
+| components\dashboard-components (Files)                                                      |          5 |        455 |          0 |         25 |        480 |
+| components\dashboard-components\board-details                                                |          4 |        273 |          0 |         10 |        283 |
+| components\dashboard-components\create-task-components                                       |          2 |         84 |          0 |          3 |         87 |
+| components\dashboard-components\dnd                                                          |          1 |         36 |          0 |          4 |         40 |
+| components\dashboard-components\modals                                                       |          5 |        756 |          0 |         51 |        807 |
+| components\dashboard-components\page-components                                              |          3 |         90 |          0 |          6 |         96 |
+| components\home-components                                                                   |         11 |        550 |          0 |         31 |        581 |
+| components\main-components                                                                   |         15 |        932 |         27 |         70 |      1,029 |
+| components\main-components (Files)                                                           |          8 |        340 |          0 |         33 |        373 |
+| components\main-components\checkbox                                                          |          2 |         67 |          0 |          6 |         73 |
+| components\main-components\route-auth                                                        |          2 |         20 |          0 |          8 |         28 |
+| components\main-components\user                                                              |          3 |        505 |         27 |         23 |        555 |
+| components\register-components                                                               |          3 |        301 |          0 |         16 |        317 |
+| components\task-components                                                                   |          6 |        356 |         25 |         17 |        398 |
+| components\task-components (Files)                                                           |          1 |         81 |         25 |          4 |        110 |
+| components\task-components\details                                                           |          5 |        275 |          0 |         13 |        288 |
+| config                                                                                       |          2 |         77 |          0 |         13 |         90 |
+| data                                                                                         |         13 |        651 |          0 |         30 |        681 |
+| hooks                                                                                        |          7 |        320 |          0 |         45 |        365 |
+| pages                                                                                        |         13 |        751 |          0 |         77 |        828 |
+| pages (Files)                                                                                |          8 |        686 |          0 |         63 |        749 |
+| pages\errors                                                                                 |          5 |         65 |          0 |         14 |         79 |
+| store                                                                                        |          6 |        415 |          0 |         64 |        479 |
+| utils                                                                                        |          6 |        156 |          0 |         25 |        181 |
+| utils\color                                                                                  |          1 |          3 |          0 |          1 |          4 |
+| utils\date                                                                                   |          1 |          9 |          0 |          1 |         10 |
+| utils\filters                                                                                |          2 |         63 |          0 |         10 |         73 |
+| utils\responsesHandler                                                                       |          1 |         66 |          0 |         11 |         77 |
+| utils\toast                                                                                  |          1 |         15 |          0 |          2 |         17 |
+| validators                                                                                   |          6 |        116 |          0 |         23 |        139 |
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                     | language       | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| c:\TaskFlow\src\App.css                                                                      | PostCSS        |         28 |          0 |         10 |         38 |
+| c:\TaskFlow\src\App.jsx                                                                      | JavaScript JSX |        100 |          3 |         11 |        114 |
+| c:\TaskFlow\src\api\http\auth\login\loginUser.js                                             | JavaScript     |         23 |          0 |          4 |         27 |
+| c:\TaskFlow\src\api\http\auth\logout\logoutUser.js                                           | JavaScript     |          8 |          0 |          2 |         10 |
+| c:\TaskFlow\src\api\http\auth\refresh\refreshToken.js                                        | JavaScript     |         21 |          0 |          4 |         25 |
+| c:\TaskFlow\src\api\http\auth\reset\resetPassword.js                                         | JavaScript     |          0 |         10 |          3 |         13 |
+| c:\TaskFlow\src\api\http\auth\reset\resetPasswordConfirm.js                                  | JavaScript     |          0 |         10 |          3 |         13 |
+| c:\TaskFlow\src\api\http\auth\reset\resetPasswordRequest.js                                  | JavaScript     |          0 |         10 |          3 |         13 |
+| c:\TaskFlow\src\api\http\boards\createBoard.js                                               | JavaScript     |         20 |          0 |          3 |         23 |
+| c:\TaskFlow\src\api\http\boards\deleteBoard.js                                               | JavaScript     |          5 |          0 |          2 |          7 |
+| c:\TaskFlow\src\api\http\boards\getBoards.js                                                 | JavaScript     |          7 |          0 |          2 |          9 |
+| c:\TaskFlow\src\api\http\boards\updateBoard.js                                               | JavaScript     |         24 |          0 |          4 |         28 |
+| c:\TaskFlow\src\api\http\http.js                                                             | JavaScript     |        110 |          0 |         10 |        120 |
+| c:\TaskFlow\src\api\http\tasks\createTask.js                                                 | JavaScript     |         30 |         16 |          7 |         53 |
+| c:\TaskFlow\src\api\http\tasks\deleteTask.js                                                 | JavaScript     |          5 |          0 |          2 |          7 |
+| c:\TaskFlow\src\api\http\tasks\getTasks.js                                                   | JavaScript     |         10 |          0 |          2 |         12 |
+| c:\TaskFlow\src\api\http\tasks\updateTask.js                                                 | JavaScript     |         24 |          0 |          4 |         28 |
+| c:\TaskFlow\src\api\http\users\create\createUser.js                                          | JavaScript     |          8 |          0 |          3 |         11 |
+| c:\TaskFlow\src\api\http\users\create\createUserConfirm.js                                   | JavaScript     |         16 |          0 |          3 |         19 |
+| c:\TaskFlow\src\api\http\users\delete\deleteUser.js                                          | JavaScript     |         12 |          0 |          2 |         14 |
+| c:\TaskFlow\src\api\http\users\delete\deleteUserConfirm.js                                   | JavaScript     |          7 |          0 |          2 |          9 |
+| c:\TaskFlow\src\api\http\users\get\getUser.js                                                | JavaScript     |         17 |          0 |          3 |         20 |
+| c:\TaskFlow\src\api\http\users\update\updateUser.js                                          | JavaScript     |         38 |          0 |          8 |         46 |
+| c:\TaskFlow\src\api\http\users\update\updateUserConfirm.js                                   | JavaScript     |          7 |          0 |          2 |          9 |
+| c:\TaskFlow\src\api\ws\ws.js                                                                 | JavaScript     |         36 |          3 |         11 |         50 |
+| c:\TaskFlow\src\assets\react.svg                                                             | XML            |          8 |          0 |          0 |          8 |
+| c:\TaskFlow\src\components\dashboard-components\BoardCard.jsx                                | JavaScript JSX |         80 |          0 |          9 |         89 |
+| c:\TaskFlow\src\components\dashboard-components\ColorSelector.jsx                            | JavaScript JSX |        117 |          0 |          6 |        123 |
+| c:\TaskFlow\src\components\dashboard-components\FilterForm.jsx                               | JavaScript JSX |        186 |          0 |          4 |        190 |
+| c:\TaskFlow\src\components\dashboard-components\PaginationControl.jsx                        | JavaScript JSX |         50 |          0 |          4 |         54 |
+| c:\TaskFlow\src\components\dashboard-components\SearchBar.jsx                                | JavaScript JSX |         22 |          0 |          2 |         24 |
+| c:\TaskFlow\src\components\dashboard-components\board-details\BoardHeader.jsx                | JavaScript JSX |        121 |          0 |          3 |        124 |
+| c:\TaskFlow\src\components\dashboard-components\board-details\BoardLoader.jsx                | JavaScript JSX |         16 |          0 |          2 |         18 |
+| c:\TaskFlow\src\components\dashboard-components\board-details\TaskList.jsx                   | JavaScript JSX |         72 |          0 |          3 |         75 |
+| c:\TaskFlow\src\components\dashboard-components\board-details\TaskSortControl.jsx            | JavaScript JSX |         64 |          0 |          2 |         66 |
+| c:\TaskFlow\src\components\dashboard-components\create-task-components\AttributeSelector.jsx | JavaScript JSX |         52 |          0 |          2 |         54 |
+| c:\TaskFlow\src\components\dashboard-components\create-task-components\TaskFormInputs.jsx    | JavaScript JSX |         32 |          0 |          1 |         33 |
+| c:\TaskFlow\src\components\dashboard-components\dnd\SortableTaskCard.jsx                     | JavaScript JSX |         36 |          0 |          4 |         40 |
+| c:\TaskFlow\src\components\dashboard-components\modals\BoardDetailsModal.jsx                 | JavaScript JSX |        175 |          0 |         13 |        188 |
+| c:\TaskFlow\src\components\dashboard-components\modals\CreateBoardModal.jsx                  | JavaScript JSX |        164 |          0 |          8 |        172 |
+| c:\TaskFlow\src\components\dashboard-components\modals\CreateTaskModal.jsx                   | JavaScript JSX |        225 |          0 |         10 |        235 |
+| c:\TaskFlow\src\components\dashboard-components\modals\DeleteBoardModal.jsx                  | JavaScript JSX |        115 |          0 |          8 |        123 |
+| c:\TaskFlow\src\components\dashboard-components\modals\TaskDetailsModal.jsx                  | JavaScript JSX |         77 |          0 |         12 |         89 |
+| c:\TaskFlow\src\components\dashboard-components\page-components\BoardGrid.jsx                | JavaScript JSX |         17 |          0 |          2 |         19 |
+| c:\TaskFlow\src\components\dashboard-components\page-components\DashboardHeader.jsx          | JavaScript JSX |         51 |          0 |          2 |         53 |
+| c:\TaskFlow\src\components\dashboard-components\page-components\DashboardLoader.jsx          | JavaScript JSX |         22 |          0 |          2 |         24 |
+| c:\TaskFlow\src\components\home-components\About.jsx                                         | JavaScript JSX |         37 |          0 |          2 |         39 |
+| c:\TaskFlow\src\components\home-components\Advantages.jsx                                    | JavaScript JSX |         36 |          0 |          2 |         38 |
+| c:\TaskFlow\src\components\home-components\Contacts.jsx                                      | JavaScript JSX |        102 |          0 |          5 |        107 |
+| c:\TaskFlow\src\components\home-components\FAQ.jsx                                           | JavaScript JSX |         52 |          0 |          5 |         57 |
+| c:\TaskFlow\src\components\home-components\Features.jsx                                      | JavaScript JSX |         62 |          0 |          2 |         64 |
+| c:\TaskFlow\src\components\home-components\Hero.jsx                                          | JavaScript JSX |         57 |          0 |          2 |         59 |
+| c:\TaskFlow\src\components\home-components\HowItWorks.jsx                                    | JavaScript JSX |         27 |          0 |          2 |         29 |
+| c:\TaskFlow\src\components\home-components\Partners.jsx                                      | JavaScript JSX |         46 |          0 |          1 |         47 |
+| c:\TaskFlow\src\components\home-components\Reviewers.jsx                                     | JavaScript JSX |         27 |          0 |          2 |         29 |
+| c:\TaskFlow\src\components\home-components\Security.jsx                                      | JavaScript JSX |         59 |          0 |          6 |         65 |
+| c:\TaskFlow\src\components\home-components\Slider.jsx                                        | JavaScript JSX |         45 |          0 |          2 |         47 |
+| c:\TaskFlow\src\components\main-components\AnimatedError.jsx                                 | JavaScript JSX |         39 |          0 |          4 |         43 |
+| c:\TaskFlow\src\components\main-components\BackToTop.jsx                                     | JavaScript JSX |         30 |          0 |          5 |         35 |
+| c:\TaskFlow\src\components\main-components\ErrorPage.jsx                                     | JavaScript JSX |         25 |          0 |          6 |         31 |
+| c:\TaskFlow\src\components\main-components\Footer.jsx                                        | JavaScript JSX |         83 |          0 |          3 |         86 |
+| c:\TaskFlow\src\components\main-components\Header.jsx                                        | JavaScript JSX |        111 |          0 |          8 |        119 |
+| c:\TaskFlow\src\components\main-components\Loader.jsx                                        | JavaScript JSX |         17 |          0 |          4 |         21 |
+| c:\TaskFlow\src\components\main-components\Page.jsx                                          | JavaScript JSX |         16 |          0 |          2 |         18 |
+| c:\TaskFlow\src\components\main-components\Separator.jsx                                     | JavaScript JSX |         19 |          0 |          1 |         20 |
+| c:\TaskFlow\src\components\main-components\checkbox\FormikCheckbox.jsx                       | JavaScript JSX |         37 |          0 |          4 |         41 |
+| c:\TaskFlow\src\components\main-components\checkbox\SimpleСheckBox.jsx                       | JavaScript JSX |         30 |          0 |          2 |         32 |
+| c:\TaskFlow\src\components\main-components\route-auth\PrivateRoute.jsx                       | JavaScript JSX |         10 |          0 |          4 |         14 |
+| c:\TaskFlow\src\components\main-components\route-auth\PublicRoute.jsx                        | JavaScript JSX |         10 |          0 |          4 |         14 |
+| c:\TaskFlow\src\components\main-components\user\DeleteUserModal.jsx                          | JavaScript JSX |        181 |          0 |          6 |        187 |
+| c:\TaskFlow\src\components\main-components\user\LogoutUserModal.jsx                          | JavaScript JSX |         83 |          0 |          4 |         87 |
+| c:\TaskFlow\src\components\main-components\user\UpdateUserModal.jsx                          | JavaScript JSX |        241 |         27 |         13 |        281 |
+| c:\TaskFlow\src\components\register-components\RegisterFirstStep.jsx                         | JavaScript JSX |        197 |          0 |         10 |        207 |
+| c:\TaskFlow\src\components\register-components\RegisterSecondStep.jsx                        | JavaScript JSX |         79 |          0 |          4 |         83 |
+| c:\TaskFlow\src\components\register-components\RegisterThirdStep.jsx                         | JavaScript JSX |         25 |          0 |          2 |         27 |
+| c:\TaskFlow\src\components\task-components\TaskCard.jsx                                      | JavaScript JSX |         81 |         25 |          4 |        110 |
+| c:\TaskFlow\src\components\task-components\details\TaskDeadline.jsx                          | JavaScript JSX |         55 |          0 |          4 |         59 |
+| c:\TaskFlow\src\components\task-components\details\TaskDescription.jsx                       | JavaScript JSX |         18 |          0 |          2 |         20 |
+| c:\TaskFlow\src\components\task-components\details\TaskDetailsHeader.jsx                     | JavaScript JSX |         82 |          0 |          2 |         84 |
+| c:\TaskFlow\src\components\task-components\details\TaskStatusSidebar.jsx                     | JavaScript JSX |         94 |          0 |          3 |         97 |
+| c:\TaskFlow\src\components\task-components\details\TaskTimestamps.jsx                        | JavaScript JSX |         26 |          0 |          2 |         28 |
+| c:\TaskFlow\src\config\blockedPublicPaths.jsx                                                | JavaScript JSX |          1 |          0 |          1 |          2 |
+| c:\TaskFlow\src\config\routes.js                                                             | JavaScript     |         76 |          0 |         12 |         88 |
+| c:\TaskFlow\src\data\advantages.jsx                                                          | JavaScript JSX |         52 |          0 |          2 |         54 |
+| c:\TaskFlow\src\data\faqs.jsx                                                                | JavaScript JSX |         64 |          0 |          1 |         65 |
+| c:\TaskFlow\src\data\filterAndSortData.jsx                                                   | JavaScript JSX |         39 |          0 |          7 |         46 |
+| c:\TaskFlow\src\data\legalLinks.jsx                                                          | JavaScript JSX |          9 |          0 |          1 |         10 |
+| c:\TaskFlow\src\data\logos.jsx                                                               | JavaScript JSX |        107 |          0 |          1 |        108 |
+| c:\TaskFlow\src\data\navLinks.jsx                                                            | JavaScript JSX |         12 |          0 |          1 |         13 |
+| c:\TaskFlow\src\data\privacy.jsx                                                             | JavaScript JSX |         67 |          0 |          1 |         68 |
+| c:\TaskFlow\src\data\reviewers.jsx                                                           | JavaScript JSX |         98 |          0 |          2 |        100 |
+| c:\TaskFlow\src\data\security.jsx                                                            | JavaScript JSX |         27 |          0 |          1 |         28 |
+| c:\TaskFlow\src\data\taskOptions.jsx                                                         | JavaScript JSX |         62 |          0 |          7 |         69 |
+| c:\TaskFlow\src\data\team.jsx                                                                | JavaScript JSX |         39 |          0 |          3 |         42 |
+| c:\TaskFlow\src\data\terms.jsx                                                               | JavaScript JSX |         53 |          0 |          2 |         55 |
+| c:\TaskFlow\src\data\work.jsx                                                                | JavaScript JSX |         22 |          0 |          1 |         23 |
+| c:\TaskFlow\src\hooks\useAuthTokenRefresh.jsx                                                | JavaScript JSX |         18 |          0 |          5 |         23 |
+| c:\TaskFlow\src\hooks\useBoardFilterAndPagination.jsx                                        | JavaScript JSX |        106 |          0 |         10 |        116 |
+| c:\TaskFlow\src\hooks\useLockScroll.jsx                                                      | JavaScript JSX |         21 |          0 |          3 |         24 |
+| c:\TaskFlow\src\hooks\useMediaQuery.jsx                                                      | JavaScript JSX |         33 |          0 |          8 |         41 |
+| c:\TaskFlow\src\hooks\useResponsive.jsx                                                      | JavaScript JSX |         17 |          0 |          5 |         22 |
+| c:\TaskFlow\src\hooks\useSocket.jsx                                                          | JavaScript JSX |         24 |          0 |          6 |         30 |
+| c:\TaskFlow\src\hooks\useTaskSorter.jsx                                                      | JavaScript JSX |        101 |          0 |          8 |        109 |
+| c:\TaskFlow\src\index.css                                                                    | PostCSS        |        191 |          6 |         38 |        235 |
+| c:\TaskFlow\src\main.jsx                                                                     | JavaScript JSX |         12 |          0 |          2 |         14 |
+| c:\TaskFlow\src\pages\DashboardPage.jsx                                                      | JavaScript JSX |        111 |          0 |         16 |        127 |
+| c:\TaskFlow\src\pages\HomePage.jsx                                                           | JavaScript JSX |         59 |          0 |          4 |         63 |
+| c:\TaskFlow\src\pages\LoginPage.jsx                                                          | JavaScript JSX |        161 |          0 |          8 |        169 |
+| c:\TaskFlow\src\pages\PrivacyPage.jsx                                                        | JavaScript JSX |         24 |          0 |          5 |         29 |
+| c:\TaskFlow\src\pages\RegisterPage.jsx                                                       | JavaScript JSX |         43 |          0 |          5 |         48 |
+| c:\TaskFlow\src\pages\ResetPasswordPage.jsx                                                  | JavaScript JSX |        197 |          0 |         13 |        210 |
+| c:\TaskFlow\src\pages\SettingsPage.jsx                                                       | JavaScript JSX |         67 |          0 |          6 |         73 |
+| c:\TaskFlow\src\pages\TermsPage.jsx                                                          | JavaScript JSX |         24 |          0 |          6 |         30 |
+| c:\TaskFlow\src\pages\errors\Error400.jsx                                                    | JavaScript JSX |         13 |          0 |          3 |         16 |
+| c:\TaskFlow\src\pages\errors\Error401.jsx                                                    | JavaScript JSX |         13 |          0 |          3 |         16 |
+| c:\TaskFlow\src\pages\errors\Error403.jsx                                                    | JavaScript JSX |         13 |          0 |          3 |         16 |
+| c:\TaskFlow\src\pages\errors\Error404.jsx                                                    | JavaScript JSX |         13 |          0 |          2 |         15 |
+| c:\TaskFlow\src\pages\errors\Error500.jsx                                                    | JavaScript JSX |         13 |          0 |          3 |         16 |
+| c:\TaskFlow\src\store\authStore.js                                                           | JavaScript     |          6 |          0 |          4 |         10 |
+| c:\TaskFlow\src\store\boardStore.js                                                          | JavaScript     |        150 |          0 |         24 |        174 |
+| c:\TaskFlow\src\store\modalsStore.js                                                         | JavaScript     |         32 |          0 |         11 |         43 |
+| c:\TaskFlow\src\store\registerStore.js                                                       | JavaScript     |          8 |          0 |          2 |         10 |
+| c:\TaskFlow\src\store\taskStore.js                                                           | JavaScript     |        212 |          0 |         18 |        230 |
+| c:\TaskFlow\src\store\userStore.js                                                           | JavaScript     |          7 |          0 |          5 |         12 |
+| c:\TaskFlow\src\utils\color\normalizeColor.js                                                | JavaScript     |          3 |          0 |          1 |          4 |
+| c:\TaskFlow\src\utils\date\dateFormatter.js                                                  | JavaScript     |          9 |          0 |          1 |         10 |
+| c:\TaskFlow\src\utils\filters\boardFilters.js                                                | JavaScript     |         27 |          0 |          5 |         32 |
+| c:\TaskFlow\src\utils\filters\boardSorts.js                                                  | JavaScript     |         36 |          0 |          5 |         41 |
+| c:\TaskFlow\src\utils\responsesHandler\apiResponsesHandler.js                                | JavaScript     |         66 |          0 |         11 |         77 |
+| c:\TaskFlow\src\utils\toast\showToast.js                                                     | JavaScript     |         15 |          0 |          2 |         17 |
+| c:\TaskFlow\src\validators\confirmCodeSchema.js                                              | JavaScript     |          6 |          0 |          2 |          8 |
+| c:\TaskFlow\src\validators\emailSchema.js                                                    | JavaScript     |          4 |          0 |          2 |          6 |
+| c:\TaskFlow\src\validators\loginSchema.js                                                    | JavaScript     |          7 |          0 |          3 |         10 |
+| c:\TaskFlow\src\validators\passwordResetSchema.js                                            | JavaScript     |         38 |          0 |          6 |         44 |
+| c:\TaskFlow\src\validators\registerSchema.js                                                 | JavaScript     |         49 |          0 |          8 |         57 |
+| c:\TaskFlow\src\validators\updateSchema.js                                                   | JavaScript     |         12 |          0 |          2 |         14 |
+| Total                                                                                        |                |      7,086 |        110 |        660 |      7,856 |
++----------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

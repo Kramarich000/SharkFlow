@@ -27,12 +27,12 @@ const TaskDeadline = ({ task }) => {
   let text = dateFormatter(task.dueDate);
   if (isOverdue) {
     badgeClass =
-      'bg-gradient-to-r from-red-200 to-red-400 border border-red-300 text-red-700';
+      'bg-gradient-to-r from-red-100 to-red-200 border border-red-300 text-red-700';
     icon = <FaExclamationTriangle className="text-red-700 text-lg" />;
     text = 'Просрочено! ' + dateFormatter(task.dueDate);
   } else if (diffDays < 2) {
     badgeClass =
-      'bg-gradient-to-r from-yellow-300 to-yellow-500 border border-yellow-400 text-yellow-900';
+      'bg-gradient-to-r from-yellow-100 to-yellow-200 border border-yellow-300 text-yellow-700';
     icon = <FaExclamationTriangle className="text-yellow-700 text-lg" />;
     text = 'Скоро! ' + dateFormatter(task.dueDate);
   }

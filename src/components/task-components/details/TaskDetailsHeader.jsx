@@ -66,7 +66,7 @@ const TaskDetailsHeader = ({ task }) => {
             <p className="text-gray-700">— Не задано —</p>
           )}
         </motion.span>
-        <p
+        <span
           className={`px-3 sm:px-5 py-1 inline-flex items-center gap-2 rounded-2xl font-semibold text-sm sm:text-base !shadow-none  ${
             priorityStyles[task.priority] || priorityStyles.DEFAULT
           }`}
@@ -75,7 +75,7 @@ const TaskDetailsHeader = ({ task }) => {
           <FaFlag className="inline-block opacity-70" size={16} />
           {priorityOptions.find((opt) => opt.value === task.priority)
             ?.label || <p className="text-gray-700">— Не задано —</p>}
-        </p>
+        </span>
       </div>
     </motion.div>
   );

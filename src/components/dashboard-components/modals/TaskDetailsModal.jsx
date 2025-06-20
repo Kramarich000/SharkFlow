@@ -51,9 +51,6 @@ export default function TaskDetailsModal() {
               leaveTo="translate-y-full"
             >
               <DialogPanel
-                // className={`px-3 sm:px-5 py-1 inline-flex items-center gap-2 rounded-2xl font-semibold text-sm sm:text-base shadow-lg bg-gradient-to-r from-white/80 to-white/40 border-2 border-white/60 ${
-                //   statusStyles[selectedTask.status] || statusStyles.DEFAULT
-                // }`}
                 className={`w-full xl:w-[75%] h-full z-9998 flex flex-col !bg-white !border-4 !border-l-0 !border-b-0 transform overflow-hidden relative rounded-2xl rounded-b-none p-0 text-left align-middle shadow-2xl !transition-all ${
                   statusCardStyles[selectedTask.status] ||
                   statusCardStyles.DEFAULT

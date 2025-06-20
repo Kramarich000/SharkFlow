@@ -29,6 +29,14 @@ export const sortOptions = [
   { id: 'taskCount', name: 'Число задач' },
 ];
 
+export const taskSortOptions = [
+  { id: 'manual', name: 'По порядку' },
+  { id: 'createdAt', name: 'Дата создания' },
+  { id: 'priority', name: 'Приоритет' },
+  { id: 'status', name: 'Статус' },
+  { id: 'dueDate', name: 'Дедлайн' },
+];
+
 export const DEFAULT_DATE_RANGE = [null, null];
 export const DEFAULT_RECENT_DAYS = null;
 export const DEFAULT_SORT_BY = null;

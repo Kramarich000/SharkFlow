@@ -72,8 +72,8 @@ export default function DeleteUserModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-2xl h-[500px] md:h-[400px] overflow-hidden transform relative rounded-2xl rounded-b-none bg-white p-4 md:p-6 text-left align-middle shadow-xl !transition-all">
-                <h2 className="text-3xl text-center">Удаление аккаунта</h2>
+              <DialogPanel className="w-full border-2 max-w-2xl overflow-hidden transform relative rounded-2xl rounded-b-none bg-white p-4 md:p-6 text-left align-middle shadow-xl !transition-all">
+                <h2 className="text-3xl text-center mb-8">Удаление аккаунта</h2>
                 <AnimatePresence mode="wait">
                   {step === 1 && (
                     <motion.div

@@ -5,7 +5,7 @@ import {
 } from '@data/taskOptions';
 
 export default function TaskCard({ task }) {
-  console.log(task);
+  // console.log(task);
   const priorityClass = priorityStyles[task.priority] || priorityStyles.DEFAULT;
 
   return (
@@ -27,11 +27,11 @@ export default function TaskCard({ task }) {
         </p>
       ) : (
         <p className="min-h-[72px] flex justify-center" title="Описание задачи">
-          Описание отсутствует
+          — без описания —
         </p>
       )}
-      <div className="flex mt-20 flex-col gap-2 justify-center">
-        <div className="items-center flex-wrap flex justify-center gap-2 sm:justify-between sm:gap-0">
+      <div className="flex mt-10 flex-col gap-2 justify-center">
+        {/* <div className="items-center flex-wrap flex justify-center gap-2 sm:justify-between sm:gap-0">
           <p className="rounded-xl" title="Дата создания">
             {new Date(task.createdAt).toLocaleDateString('ru-RU', {
               day: '2-digit',
@@ -47,9 +47,13 @@ export default function TaskCard({ task }) {
               year: 'numeric',
             })}
           </p>
-        </div>
-        <div className="items-center flex-wrap flex justify-center gap-2 sm:justify-between sm:gap-0">
-          <p className="rounded-xl" title="Статус задачи">
+        </div> */}
+        <div className="items-center flex justify-center gap-2">
+          <p
+            className={`rounded-xl ${priorityClass} p-1`}
+            title="Статус задачи"
+          >
+            Статус:{' '}
             {statusOptions.find((opt) => opt.value === task.status)?.label ||
               'Не задано'}
           </p>
@@ -60,16 +64,25 @@ export default function TaskCard({ task }) {
             year: 'numeric',
           })}
         </p> */}
-          {task.dueDate && (
-            <p className="rounded-xl" title="Дата окончания">
-              {new Date(task.dueDate).toLocaleDateString('ru-RU', {
-                day: '2-digit',
-                month: 'long',
-                year: 'numeric',
-              })}
-            </p>
-          )}
-          <p className="rounded-xl" title="Приоритет задачи">
+          <p
+            className={`rounded-xl ${priorityClass} p-1`}
+            title="Дата окончания"
+          >
+            Дедлайн:{' '}
+            {task.dueDate
+              ? new Date(task.dueDate).toLocaleDateString('ru-RU', {
+                  day: '2-digit',
+                  month: 'long',
+                  year: 'numeric',
+                })
+              : 'Не задано'}
+          </p>
+
+          <p
+            className={`rounded-xl ${priorityClass} p-1`}
+            title="Приоритет задачи"
+          >
+            Приоритет:{' '}
             {priorityOptions.find((opt) => opt.value === task.priority)
               ?.label || 'Не задано'}
           </p>

@@ -74,23 +74,30 @@ export default function CreateBoardModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-2xl sm:h-[450px] md:h-[400px] lg:h-[280px] transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="w-full border-2 max-w-2xl transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
                 <h2 className="text-[31px] text-center mb-4">Создание доски</h2>
                 <div className="flex flex-col gap-3 items-center justify-center">
-                  <input
-                    autoFocus
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        handleCreateBoard();
-                      }
-                    }}
-                    className="text-center border-b-1 text-xl sm:text-2xl md:border-b-0 sm:min-w-[305px] focus-within:outline-0 w-full p-1 pb-2 pr-4 focus:outline-0"
-                    placeholder="Введите название доски"
-                    disabled={load}
-                    maxLength={64}
-                  />
+                  <div className="relative w-full">
+                    <input
+                      autoFocus
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleCreateBoard();
+                        }
+                      }}
+                      className="peer input-styles w-full"
+                      placeholder=" "
+                      required
+                      disabled={load}
+                      maxLength={64}
+                    />
+                    <label className="label-styles">
+                      Введите название доски
+                    </label>
+                  </div>
+
                   <ColorSelector
                     wrapperClassName={`relative ${load ? 'pointer-events-none' : ''}`}
                     pickerClassName="!w-full !relative lg:!absolute !flex-row !flex-wrap"

@@ -116,23 +116,35 @@ export default function CreateTaskModal() {
                 </h2>
 
                 <div className="w-full flex flex-col  gap-8">
-                  <input
-                    autoFocus
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') handleCreateTask();
-                    }}
-                    className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-2xl"
-                    placeholder="Введите название задачи"
-                  />
-                  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-lg mt-4 resize-none"
-                    placeholder="Введите описание задачи"
-                    rows={4}
-                  />
+                  <div className="relative">
+                    <input
+                      autoFocus
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleCreateTask();
+                      }}
+                      className="peer input-styles"
+                      placeholder=" "
+                      required
+                    />
+                    <label className="label-styles">
+                      Введите название задачи
+                    </label>
+                  </div>
+                  <div className="relative">
+                    <textarea
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      className="peer input-styles resize-none"
+                      placeholder=" "
+                      required
+                      rows={4}
+                    />
+                    <label className="label-styles">
+                      Введите описание задачи
+                    </label>
+                  </div>
                   <div className="grid gap-4 w-full h-full grid-cols-1 sm:grid-cols-2 justify-items-center md:grid-cols-3">
                     <Listbox value={priority} onChange={setPriority}>
                       {({ open }) => (

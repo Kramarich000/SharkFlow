@@ -121,9 +121,11 @@ export default function UpdateUserModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 overflow-hidden max-w-4xl h-[440px] md:h-[350px] transform relative rounded-2xl  rounded-b-none bg-white p-4 md:p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="w-full border-2 overflow-hidden max-w-4xl transform relative rounded-2xl rounded-b-none bg-white p-4 md:p-6 text-left align-middle shadow-xl !transition-all">
                 <div className="max-w-[700px] mx-auto h-full">
-                  <h2 className="text-3xl text-center">Обновление данных</h2>{' '}
+                  <h2 className="text-3xl text-center mb-8">
+                    Обновление данных
+                  </h2>{' '}
                   <AnimatePresence mode="wait">
                     {step === 1 && (
                       <motion.div

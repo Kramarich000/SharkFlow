@@ -15,20 +15,20 @@ export async function createTask({
     return null;
   }
 
-  if (!dueDate) {
-    showToast('Выберите дату окончания задачи', 'error');
-    return null;
-  }
+  // if (!dueDate) {
+  //   showToast('Выберите дату окончания задачи', 'error');
+  //   return null;
+  // }
 
-  if (priority === null || priority === undefined) {
-    showToast('Выберите приоритет задачи', 'error');
-    return null;
-  }
+  // if (priority === null || priority === undefined) {
+  //   showToast('Выберите приоритет задачи', 'error');
+  //   return null;
+  // }
 
-  if (!status?.trim()) {
-    showToast('Выберите статус задачи', 'error');
-    return null;
-  }
+  // if (!status?.trim()) {
+  //   showToast('Выберите статус задачи', 'error');
+  //   return null;
+  // }
 
   const payload = {
     title: title,

@@ -1,4 +1,10 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect, useMemo } from 'react';
+import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+} from '@dnd-kit/sortable';
 import { useShallow } from 'zustand/react/shallow';
 import {
   Dialog,
@@ -6,6 +12,11 @@ import {
   DialogTitle,
   Transition,
   TransitionChild,
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+  Label,
 } from '@headlessui/react';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import { IoCloseOutline, IoCheckmark } from 'react-icons/io5';
@@ -16,7 +27,9 @@ import { AiOutlineSync } from 'react-icons/ai';
 import useModalsStore from '@store/modalsStore';
 import useTaskStore from '@store/taskStore';
 import TaskCard from '@components/task-components/TaskCard';
+import SortableTaskCard from '@components/dashboard-components/dnd/SortableTaskCard';
 import { motion } from 'framer-motion';
+import { taskSortOptions } from '@data/filterAndSortData';
 
 export default function BoardDetailsModal() {
   const {
@@ -66,6 +79,56 @@ export default function BoardDetailsModal() {
 
   const [load, setLoad] = useState(false);
 
+  const [orderedTasks, setOrderedTasks] = useState(tasks);
+  const [taskSort, setTaskSort] = useState('manual');
+
+  useEffect(() => {
+    setOrderedTasks(tasks);
+  }, [tasks]);
+
+  const sortedTasks = useMemo(() => {
+    switch (taskSort) {
+      case 'manual':
+        return [...orderedTasks];
+
+      case 'priority':
+        return [...orderedTasks].sort((a, b) =>
+          (a.priority ?? '').localeCompare(b.priority ?? ''),
+        );
+
+      case 'status':
+        return [...orderedTasks].sort((a, b) =>
+          (a.status ?? '').localeCompare(b.status ?? ''),
+        );
+
+      case 'dueDate':
+        return [...orderedTasks].sort(
+          (a, b) => new Date(a.dueDate ?? 0) - new Date(b.dueDate ?? 0),
+        );
+
+      case 'createdAt':
+      default:
+        return [...orderedTasks].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        );
+    }
+  }, [orderedTasks, taskSort]);
+
+  const [activeId, setActiveId] = useState(null);
+
+  const handleDragStart = ({ active }) => {
+    setActiveId(active.id);
+  };
+  const handleDragEnd = ({ active, over }) => {
+    setActiveId(null);
+    if (!over || active.id === over.id) return;
+    const oldIndex = orderedTasks.findIndex((t) => t.uuid === active.id);
+    const newIndex = orderedTasks.findIndex((t) => t.uuid === over.id);
+    setOrderedTasks(arrayMove(orderedTasks, oldIndex, newIndex));
+  };
+  const handleDragCancel = () => {
+    setActiveId(null);
+  };
   const saveUpdateBoard = async () => {
     if (!selectedBoard || load) return;
     setLoad(true);
@@ -146,7 +209,7 @@ export default function BoardDetailsModal() {
                   </DialogTitle>
                 )}
                 <div
-                  className={`relative flex items-center gap-2 ${isEditing ? 'justify-between' : 'justify-between'}`}
+                  className={`relative flex items-center gap-2 my-2 ${isEditing ? 'justify-between' : 'justify-between'}`}
                   // onKeyDown={(e) => {
                   //   if (e.key === 'Enter') saveUpdateBoard();
                   //   if (e.key === 'Escape') setisEditing(false);
@@ -224,17 +287,70 @@ export default function BoardDetailsModal() {
                   )}
                 </div>
                 {!isLoading ? (
-                  <div className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center grid justify-items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[40px] overflow-y-auto">
-                    {tasks.length ? (
-                      tasks.map((task) => (
-                        <TaskCard key={task.uuid} task={task} />
-                      ))
-                    ) : (
-                      <p className="text-gray-700 col-span-3">
-                        Задачи отсутствуют
-                      </p>
-                    )}
-                  </div>
+                  <>
+                    <Listbox value={taskSort} onChange={setTaskSort}>
+                      {({ open }) => (
+                        <div className="relative flex items-center justify-center gap-8 max-w-[400px] mt-4">
+                          <Label className="text-xl">Сортировка:</Label>
+                          <ListboxButton className="secondary-btn">
+                            {taskSortOptions.find((opt) => opt.id === taskSort)
+                              ?.name || 'Выберите сортировку'}
+                          </ListboxButton>
+                          <Transition
+                            as={Fragment}
+                            show={open}
+                            enter="transition ease-out duration-200"
+                            enterFrom="opacity-0 scale-50"
+                            enterTo="opacity-100 scale-100"
+                            leave="transition ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-50"
+                          >
+                            <ListboxOptions className="options-styles top-10 !text-center">
+                              {taskSortOptions.map((opt) => (
+                                <ListboxOption
+                                  key={opt.id}
+                                  value={opt.id}
+                                  className="option-styles"
+                                >
+                                  {opt.name}
+                                </ListboxOption>
+                              ))}
+                            </ListboxOptions>
+                          </Transition>
+                        </div>
+                      )}
+                    </Listbox>
+
+                    <DndContext
+                      collisionDetection={closestCenter}
+                      onDragStart={handleDragStart}
+                      onDragEnd={handleDragEnd}
+                      onDragCancel={handleDragCancel}
+                    >
+                      <SortableContext
+                        items={sortedTasks.map((t) => t.uuid)}
+                        strategy={rectSortingStrategy}
+                      >
+                        <div
+                          className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center
+                                grid justify-items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3
+                                gap-[40px] overflow-y-auto overflow-x-hidden"
+                        >
+                          {sortedTasks.length ? (
+                            sortedTasks.map((task) => (
+                              <SortableTaskCard key={task.uuid} task={task} />
+                            ))
+                          ) : (
+                            <p className="text-gray-700 col-span-3">
+                              Задачи отсутствуют
+                            </p>
+                          )}
+                        </div>
+                      </SortableContext>
+                      <DragOverlay />
+                    </DndContext>
+                  </>
                 ) : (
                   <div className="h-full mt-4 mb-4 flex-col flex items-center justify-center">
                     <motion.div

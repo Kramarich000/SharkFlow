@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useMemo } from 'react';
+import { Fragment, useState, useMemo, useEffect } from 'react';
 import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -79,56 +79,64 @@ export default function BoardDetailsModal() {
 
   const [load, setLoad] = useState(false);
 
-  const [orderedTasks, setOrderedTasks] = useState(tasks);
+  // Вспомогательная функция для восстановления порядка
+  function getOrderedTasksFromStorage(boardUuid, tasks) {
+    if (!boardUuid) return tasks;
+    const saved = localStorage.getItem(`board_order_${boardUuid}`);
+    if (!saved) return tasks;
+    try {
+      const order = JSON.parse(saved);
+      // Сохраняем только те задачи, которые есть сейчас
+      const taskMap = Object.fromEntries(tasks.map(t => [t.uuid, t]));
+      const ordered = order.map(uuid => taskMap[uuid]).filter(Boolean);
+      // Добавляем новые задачи в конец
+      const missing = tasks.filter(t => !order.includes(t.uuid));
+      return [...ordered, ...missing];
+    } catch {
+      return tasks;
+    }
+  }
+
+  // orderedTasks инициализация
+  const [orderedTasks, setOrderedTasks] = useState(() => getOrderedTasksFromStorage(selectedBoard?.uuid, tasks));
   const [taskSort, setTaskSort] = useState('manual');
 
-  useEffect(() => {
-    setOrderedTasks(tasks);
-  }, [tasks]);
-
   const sortedTasks = useMemo(() => {
+    if (taskSort === 'manual') return [...orderedTasks];
+    let arr = [...tasks];
     switch (taskSort) {
-      case 'manual':
-        return [...orderedTasks];
-
       case 'priority':
-        return [...orderedTasks].sort((a, b) =>
-          (a.priority ?? '').localeCompare(b.priority ?? ''),
-        );
-
+        return arr.sort((a, b) => (a.priority ?? '').localeCompare(b.priority ?? ''));
       case 'status':
-        return [...orderedTasks].sort((a, b) =>
-          (a.status ?? '').localeCompare(b.status ?? ''),
-        );
-
+        return arr.sort((a, b) => (a.status ?? '').localeCompare(b.status ?? ''));
       case 'dueDate':
-        return [...orderedTasks].sort(
-          (a, b) => new Date(a.dueDate ?? 0) - new Date(b.dueDate ?? 0),
-        );
-
+        return arr.sort((a, b) => new Date(a.dueDate ?? 0) - new Date(b.dueDate ?? 0));
       case 'createdAt':
       default:
-        return [...orderedTasks].sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-        );
+        return arr.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
-  }, [orderedTasks, taskSort]);
+  }, [orderedTasks, tasks, taskSort]);
 
-  const [activeId, setActiveId] = useState(null);
-
-  const handleDragStart = ({ active }) => {
-    setActiveId(active.id);
-  };
+  useEffect(() => {
+    if (taskSort !== 'manual') return;
+    setOrderedTasks(getOrderedTasksFromStorage(selectedBoard?.uuid, tasks));
+  }, [selectedBoard, tasks, taskSort]);
+  const handleDragStart = () => {};
   const handleDragEnd = ({ active, over }) => {
-    setActiveId(null);
+    if (taskSort !== 'manual') return;
     if (!over || active.id === over.id) return;
     const oldIndex = orderedTasks.findIndex((t) => t.uuid === active.id);
     const newIndex = orderedTasks.findIndex((t) => t.uuid === over.id);
-    setOrderedTasks(arrayMove(orderedTasks, oldIndex, newIndex));
+    const newOrder = arrayMove(orderedTasks, oldIndex, newIndex);
+    setOrderedTasks(newOrder);
+    if (selectedBoard?.uuid) {
+      localStorage.setItem(
+        `board_order_${selectedBoard.uuid}`,
+        JSON.stringify(newOrder.map(t => t.uuid))
+      );
+    }
   };
-  const handleDragCancel = () => {
-    setActiveId(null);
-  };
+  const handleDragCancel = () => {};
   const saveUpdateBoard = async () => {
     if (!selectedBoard || load) return;
     setLoad(true);
@@ -322,34 +330,44 @@ export default function BoardDetailsModal() {
                       )}
                     </Listbox>
 
-                    <DndContext
-                      collisionDetection={closestCenter}
-                      onDragStart={handleDragStart}
-                      onDragEnd={handleDragEnd}
-                      onDragCancel={handleDragCancel}
-                    >
-                      <SortableContext
-                        items={sortedTasks.map((t) => t.uuid)}
-                        strategy={rectSortingStrategy}
+                    {taskSort === 'manual' ? (
+                      <DndContext
+                        collisionDetection={closestCenter}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
+                        onDragCancel={handleDragCancel}
                       >
-                        <div
-                          className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center
-                                grid justify-items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3
-                                gap-[40px] overflow-y-auto overflow-x-hidden"
+                        <SortableContext
+                          items={sortedTasks.map((t) => t.uuid)}
+                          strategy={rectSortingStrategy}
                         >
-                          {sortedTasks.length ? (
-                            sortedTasks.map((task) => (
-                              <SortableTaskCard key={task.uuid} task={task} />
-                            ))
-                          ) : (
-                            <p className="text-gray-700 col-span-3">
-                              Задачи отсутствуют
-                            </p>
-                          )}
-                        </div>
-                      </SortableContext>
-                      <DragOverlay />
-                    </DndContext>
+                          <div className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center
+                                grid justify-items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3
+                                gap-[40px] overflow-y-auto overflow-x-hidden">
+                            {sortedTasks.length ? (
+                              sortedTasks.map((task) => (
+                                <SortableTaskCard key={task.uuid} task={task} />
+                              ))
+                            ) : (
+                              <p className="text-gray-700 col-span-3">Задачи отсутствуют</p>
+                            )}
+                          </div>
+                        </SortableContext>
+                        <DragOverlay />
+                      </DndContext>
+                    ) : (
+                      <div className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center
+                                grid justify-items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3
+                                gap-[40px] overflow-y-auto overflow-x-hidden">
+                        {sortedTasks.length ? (
+                          sortedTasks.map((task) => (
+                            <SortableTaskCard key={task.uuid} task={task} />
+                          ))
+                        ) : (
+                          <p className="text-gray-700 col-span-3">Задачи отсутствуют</p>
+                        )}
+                      </div>
+                    )}
                   </>
                 ) : (
                   <div className="h-full mt-4 mb-4 flex-col flex items-center justify-center">

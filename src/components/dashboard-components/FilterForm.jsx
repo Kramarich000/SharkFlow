@@ -46,10 +46,6 @@ export default function FilterForm({
     onChangeSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
-  const flatpickrRef = useRef(null);
-  console.log('FilterForm dateRange before render:', dateRange);
-  console.log('FilterForm optsRange:', optsRange);
-
   return (
     <form className="bg-white p-6 rounded-2xl shadow-md">
       <h3 className="text-xl flex items-center justify-center gap-6 font-semibold mb-4">

@@ -1,34 +1,19 @@
-import { Fragment, useState, useMemo, useEffect } from 'react';
-import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core';
-import {
-  SortableContext,
-  arrayMove,
-  rectSortingStrategy,
-} from '@dnd-kit/sortable';
+import { Fragment, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import {
   Dialog,
   DialogPanel,
-  DialogTitle,
   Transition,
   TransitionChild,
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-  Label,
 } from '@headlessui/react';
-import { FaPlus, FaTrash, FaArrowDown, FaArrowUp } from 'react-icons/fa';
-import { IoCheckmark } from 'react-icons/io5';
-import { ColorSelector } from '@components/dashboard-components/ColorSelector';
-import { IoMdSettings } from 'react-icons/io';
 import useBoardStore from '@store/boardStore';
-import { AiOutlineSync } from 'react-icons/ai';
 import useModalsStore from '@store/modalsStore';
 import useTaskStore from '@store/taskStore';
-import SortableTaskCard from '@components/dashboard-components/dnd/SortableTaskCard';
-import TaskCard from '@components/task-components/TaskCard';
-import { taskSortOptions } from '@data/filterAndSortData';
+import BoardHeader from '@components/dashboard-components/board-details/BoardHeader';
+import BoardLoader from '@components/dashboard-components/board-details/BoardLoader';
+import TaskList from '@components/dashboard-components/board-details/TaskList';
+import TaskSortControl from '@components/dashboard-components/board-details/TaskSortControl';
+import { useTaskSorter } from '@hooks/useTaskSorter';
 
 export default function BoardDetailsModal() {
   const {
@@ -60,112 +45,36 @@ export default function BoardDetailsModal() {
     setIsDeleteBoardModalOpen,
     isDetailsBoardModalOpen,
     setIsDetailsBoardModalOpen,
+    setIsCreateTaskModalOpen,
   } = useModalsStore(
     useShallow((state) => ({
       setIsDeleteBoardModalOpen: state.setIsDeleteBoardModalOpen,
       isDetailsBoardModalOpen: state.isDetailsBoardModalOpen,
       setIsDetailsBoardModalOpen: state.setIsDetailsBoardModalOpen,
+      setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
     })),
   );
 
   const { getCurrentBoardTasks } = useTaskStore();
   const tasks = getCurrentBoardTasks();
 
-  const { setIsCreateTaskModalOpen } = useModalsStore();
-
   const boardUuid = selectedBoard?.uuid;
   const isLoading = useTaskStore((state) => state.loadingBoards[boardUuid]);
 
   const [load, setLoad] = useState(false);
 
-  function getOrderedTasksFromStorage(boardUuid, tasks) {
-    if (!boardUuid) return tasks;
-    const saved = localStorage.getItem(`board_order_${boardUuid}`);
-    if (!saved) return tasks;
-    try {
-      const order = JSON.parse(saved);
-      const taskMap = Object.fromEntries(tasks.map((t) => [t.uuid, t]));
-      const ordered = order.map((uuid) => taskMap[uuid]).filter(Boolean);
-      const missing = tasks.filter((t) => !order.includes(t.uuid));
-      return [...ordered, ...missing];
-    } catch {
-      return tasks;
-    }
-  }
+  const {
+    taskSort,
+    setTaskSort,
+    sortOrder,
+    setSortOrder,
+    activeId,
+    sortedTasks,
+    handleDragStart,
+    handleDragEnd,
+    handleDragCancel,
+  } = useTaskSorter(tasks, boardUuid);
 
-  const [orderedTasks, setOrderedTasks] = useState(() =>
-    getOrderedTasksFromStorage(selectedBoard?.uuid, tasks),
-  );
-  const [taskSort, setTaskSort] = useState('manual');
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [activeId, setActiveId] = useState(null);
-
-  const sortedTasks = useMemo(() => {
-    let arr;
-    if (taskSort === 'manual') {
-      arr = [...orderedTasks];
-    } else {
-      arr = [...tasks];
-      switch (taskSort) {
-        case 'priority':
-          arr.sort((a, b) =>
-            (a.priority ?? '').localeCompare(b.priority ?? ''),
-          );
-          break;
-        case 'status':
-          arr.sort((a, b) => (a.status ?? '').localeCompare(b.status ?? ''));
-          break;
-        case 'dueDate':
-          arr.sort(
-            (a, b) => new Date(a.dueDate ?? 0) - new Date(b.dueDate ?? 0),
-          );
-          break;
-        case 'updatedAt':
-          arr.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-          break;
-        case 'createdAt':
-        default:
-          arr.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-          break;
-      }
-    }
-    if (sortOrder === 'desc') arr.reverse();
-    return arr;
-  }, [orderedTasks, tasks, taskSort, sortOrder]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (taskSort !== 'manual') return;
-    const newOrder = getOrderedTasksFromStorage(selectedBoard?.uuid, tasks);
-    if (
-      newOrder.length !== orderedTasks.length ||
-      newOrder.some((t, i) => t.uuid !== orderedTasks[i]?.uuid)
-    ) {
-      setOrderedTasks(newOrder);
-    }
-  }, [selectedBoard, tasks, taskSort]);
-
-  const handleDragStart = (event) => {
-    setActiveId(event.active.id);
-  };
-  const handleDragEnd = ({ active, over }) => {
-    setActiveId(null);
-    if (taskSort !== 'manual') return;
-    if (!over || active.id === over.id) return;
-    const oldIndex = orderedTasks.findIndex((t) => t.uuid === active.id);
-    const newIndex = orderedTasks.findIndex((t) => t.uuid === over.id);
-    const newOrder = arrayMove(orderedTasks, oldIndex, newIndex);
-    setOrderedTasks(newOrder);
-    if (selectedBoard?.uuid) {
-      localStorage.setItem(
-        `board_order_${selectedBoard.uuid}`,
-        JSON.stringify(newOrder.map((t) => t.uuid)),
-      );
-    }
-  };
-  const handleDragCancel = () => {
-    setActiveId(null);
-  };
   const saveUpdateBoard = async () => {
     if (!selectedBoard || load) return;
     setLoad(true);
@@ -224,237 +133,40 @@ export default function BoardDetailsModal() {
                     : `#${selectedBoard?.color}`,
                 }}
               >
-                {isEditing ? (
-                  <input
-                    value={newTitle}
-                    onChange={(e) => setNewTitle(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') saveUpdateBoard();
-                      if (e.key === 'Escape') setisEditing(false);
-                    }}
-                    autoFocus
-                    className="text-center text-4xl overflow-y-hidden border-b-1 mb-4 pb-2 border-[#111111] focus:outline-none w-full"
-                    disabled={load}
-                    maxLength={64}
-                  />
-                ) : (
-                  <DialogTitle
-                    onClick={() => setisEditing(true)}
-                    className="text-center min-h-[50px] mb-0 sm:mb-4 text-4xl overflow-hidden overflow-ellipsis whitespace-nowrap pb-2 border-b-1 border-transparent"
-                  >
-                    {selectedBoard?.title}
-                  </DialogTitle>
-                )}
-                <div
-                  className={`relative flex items-center gap-2 md:my-2 ${isEditing ? 'justify-between' : 'justify-between'}`}
-                >
-                  {isEditing ? (
-                    <>
-                      <button
-                        className={`!p-2 ${load ? '' : 'group'}`}
-                        onClick={saveDeleteBoard}
-                        disabled={load}
-                        title="Удалить доску"
-                      >
-                        <FaTrash
-                          size={40}
-                          className="group-hover:text-red-500 transition-colors"
-                        />
-                      </button>
-                      <div className="flex w-full items-center flex-col gap-4">
-                        <ColorSelector
-                          wrapperClassName={`absolute z-50 !w-full !p-0 ${load ? 'pointer-events-none' : null}`}
-                          pickerClassName="!top-[50px] !p-2 !w-full !left-0 flex-wrap overflow-y-auto max-h-[500px] !absolute"
-                          color={newColor}
-                          setColor={setNewColor}
-                          disabled={load}
-                        />
-                      </div>
-                      <button
-                        className="!p-2"
-                        onClick={saveUpdateBoard}
-                        title="Сохранить"
-                        disabled={load}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            saveUpdateBoard();
-                          }
-                        }}
-                      >
-                        {load ? (
-                          <AiOutlineSync
-                            size={40}
-                            className="animate-spin duration-75"
-                          />
-                        ) : (
-                          <IoCheckmark size={40} />
-                        )}
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        key="create-task"
-                        className="primary-btn !p-1 sm:!p-2 !w-fit !m-0"
-                        onClick={() => setIsCreateTaskModalOpen(true)}
-                        disabled={load}
-                        title="Создать задачу"
-                      >
-                        <div className="flex gap-4 items-center justify-center">
-                          <p className="sm:text-xl font-normal">
-                            Создать задачу
-                          </p>{' '}
-                          <FaPlus size={30} color="rgb(255, 255, 255)" />
-                        </div>
-                      </button>
+                <BoardHeader
+                  isEditing={isEditing}
+                  newTitle={newTitle}
+                  setNewTitle={setNewTitle}
+                  saveUpdateBoard={saveUpdateBoard}
+                  setisEditing={setisEditing}
+                  selectedBoard={selectedBoard}
+                  load={load}
+                  saveDeleteBoard={saveDeleteBoard}
+                  newColor={newColor}
+                  setNewColor={setNewColor}
+                  setIsCreateTaskModalOpen={setIsCreateTaskModalOpen}
+                />
 
-                      <button
-                        onClick={() => setisEditing(true)}
-                        title="Редактировать"
-                        disabled={load}
-                        className="!p-0 !py-2"
-                      >
-                        <IoMdSettings size={40} />
-                      </button>
-                    </>
-                  )}
-                </div>
                 {!isLoading ? (
                   <>
-                    <Listbox
-                      value={taskSort}
-                      onChange={(value) => {
-                        setTaskSort(value);
-                        if (value === 'manual') setSortOrder('asc');
-                      }}
-                    >
-                      {({ open }) => (
-                        <div className="relative flex items-center justify-center gap-1 md:gap-4 max-w-[400px] m-1 md:m-4">
-                          <Label className="text-xl">Сортировка:</Label>
-                          <ListboxButton className="secondary-btn">
-                            {taskSortOptions.find((opt) => opt.id === taskSort)
-                              ?.name || 'Выберите сортировку'}
-                          </ListboxButton>
-                          <button
-                            type="button"
-                            className="md:ml-2 p-2 border rounded transition hover:bg-gray-100"
-                            title={
-                              sortOrder === 'asc'
-                                ? 'По возрастанию'
-                                : 'По убыванию'
-                            }
-                            onClick={() =>
-                              setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
-                            }
-                          >
-                            {sortOrder === 'asc' ? (
-                              <FaArrowUp />
-                            ) : (
-                              <FaArrowDown />
-                            )}
-                          </button>
-                          <Transition
-                            as={Fragment}
-                            show={open}
-                            enter="transition ease-out duration-200"
-                            enterFrom="opacity-0 scale-50"
-                            enterTo="opacity-100 scale-100"
-                            leave="transition ease-in duration-200"
-                            leaveFrom="opacity-100 scale-100"
-                            leaveTo="opacity-0 scale-50"
-                          >
-                            <ListboxOptions className="options-styles top-10 !text-center">
-                              {taskSortOptions.map((opt) => (
-                                <ListboxOption
-                                  key={opt.id}
-                                  value={opt.id}
-                                  className="option-styles"
-                                >
-                                  {opt.name}
-                                </ListboxOption>
-                              ))}
-                            </ListboxOptions>
-                          </Transition>
-                        </div>
-                      )}
-                    </Listbox>
+                    <TaskSortControl
+                      taskSort={taskSort}
+                      setTaskSort={setTaskSort}
+                      sortOrder={sortOrder}
+                      setSortOrder={setSortOrder}
+                    />
 
-                    {taskSort === 'manual' ? (
-                      <DndContext
-                        collisionDetection={closestCenter}
-                        onDragStart={handleDragStart}
-                        onDragEnd={handleDragEnd}
-                        onDragCancel={handleDragCancel}
-                      >
-                        <SortableContext
-                          items={sortedTasks.map((t) => t.uuid)}
-                          strategy={rectSortingStrategy}
-                        >
-                          <div
-                            className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center
-                                grid justify-items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3
-                                gap-[40px] overflow-y-auto overflow-x-hidden"
-                          >
-                            {sortedTasks.length ? (
-                              sortedTasks.map((task) => (
-                                <SortableTaskCard
-                                  key={task.uuid}
-                                  task={task}
-                                  isDragging={activeId === task.uuid}
-                                />
-                              ))
-                            ) : (
-                              <p className="text-gray-700 col-span-3">
-                                Задачи отсутствуют
-                              </p>
-                            )}
-                          </div>
-                        </SortableContext>
-                        <DragOverlay>
-                          {activeId ? (
-                            <div
-                              style={{ opacity: 0.5, transform: 'scale(0.97)' }}
-                            >
-                              <TaskCard
-                                task={sortedTasks.find(
-                                  (t) => t.uuid === activeId,
-                                )}
-                              />
-                            </div>
-                          ) : null}
-                        </DragOverlay>
-                      </DndContext>
-                    ) : (
-                      <div
-                        className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center
-                                grid justify-items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3
-                                gap-[40px] overflow-y-auto overflow-x-hidden"
-                      >
-                        {sortedTasks.length ? (
-                          sortedTasks.map((task) => (
-                            <SortableTaskCard key={task.uuid} task={task} />
-                          ))
-                        ) : (
-                          <p className="text-gray-700 col-span-3">
-                            Задачи отсутствуют
-                          </p>
-                        )}
-                      </div>
-                    )}
+                    <TaskList
+                      taskSort={taskSort}
+                      sortedTasks={sortedTasks}
+                      activeId={activeId}
+                      handleDragStart={handleDragStart}
+                      handleDragEnd={handleDragEnd}
+                      handleDragCancel={handleDragCancel}
+                    />
                   </>
                 ) : (
-                  <div className="h-full mt-4 mb-4 flex-col flex items-center justify-center">
-                    <div
-                      key="loader"
-                      style={{ animation: 'spin 1.2s linear infinite' }}
-                      className="text-7xl flex gap-8 text-center"
-                    >
-                      <AiOutlineSync />
-                    </div>
-                    <p className="text-4xl mt-4 animate-pulse text-center">
-                      Загрузка ваших задач
-                    </p>
-                  </div>
+                  <BoardLoader />
                 )}
                 <button
                   type="button"

@@ -1,9 +1,10 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { IoClose } from 'react-icons/io5';
 import useTaskStore from '@store/taskStore';
 import useBoardStore from '@store/boardStore';
 import useModalsStore from '@store/modalsStore';
+import { AiOutlineSync } from 'react-icons/ai';
 import {
   Dialog,
   DialogPanel,
@@ -14,6 +15,7 @@ import TaskFormInputs from '@components/dashboard-components/create-task-compone
 import TaskFormSelectors from '@components/dashboard-components/create-task-components/TaskFormSelectors';
 
 export default function CreateTaskModal() {
+  const [load, setLoad] = useState(false);
   const { selectedBoard } = useBoardStore();
   const {
     title,
@@ -51,14 +53,20 @@ export default function CreateTaskModal() {
   );
 
   const handleCreateTask = async () => {
-    const newTask = await createTask(selectedBoard.uuid);
-    if (newTask) {
-      setTitle('');
-      setDescription(null);
-      setPriority(null);
-      setStatus('PENDING');
-      setDueDate(null);
-      setIsCreateTaskModalOpen(false);
+    setLoad(true);
+    try {
+      const newTask = await createTask(selectedBoard.uuid);
+      if (newTask) {
+        setTitle('');
+        setDescription(null);
+        setPriority(null);
+        setStatus('PENDING');
+        setDueDate(null);
+        setIsCreateTaskModalOpen(false);
+        setLoad(false);
+      }
+    } finally {
+      setLoad(false);
     }
   };
 
@@ -99,11 +107,16 @@ export default function CreateTaskModal() {
                     setDueDate={setDueDate}
                   />
                   <button
-                    className="primary-btn !m-0 !p-2 !mt-auto"
+                    className={`primary-btn !m-0 !p-2 !mt-auto flex items-center justify-center ${load ? '!bg-gray-700' : ''}`}
                     onClick={handleCreateTask}
                     title="Создать задачу"
+                    disabled={load}
                   >
-                    Создать
+                    {load ? (
+                      <AiOutlineSync className="animate-spin" size={24} />
+                    ) : (
+                      <>Создать</>
+                    )}
                   </button>
                 </div>
                 <button

@@ -112,42 +112,49 @@ export default function TaskDetailsModal() {
               >
                 <div className="flex h-full overflow-hidden min-h-0">
                   <TaskStatusSidebar task={selectedTask} />
-                  <div className="flex flex-col p-4 md:p-10 gap-2 md:gap-8 md:min-h-0 min-w-0 w-full overflow-y-auto">
-                    <TaskDetailsHeader
-                      task={selectedTask}
-                      newTitle={newTitle}
-                      setNewTitle={setNewTitle}
-                      newPriority={newPriority}
-                      setNewPriority={setNewPriority}
-                      newStatus={newStatus}
-                      setNewStatus={setNewStatus}
-                      handleUpdateTask={handleUpdateTask}
-                    />
-
-                    {showDeadline || isEditing ? (
-                      <TaskDeadline
+                  <div className="flex flex-col p-4 md:p-10 gap-2 md:gap-4 w-full min-w-0">
+                    {/* Header Section */}
+                    <div className="flex-shrink-0">
+                      <TaskDetailsHeader
                         task={selectedTask}
-                        newDueDate={newDueDate}
-                        setNewDueDate={setNewDueDate}
+                        newTitle={newTitle}
+                        setNewTitle={setNewTitle}
+                        newPriority={newPriority}
+                        setNewPriority={setNewPriority}
+                        newStatus={newStatus}
+                        setNewStatus={setNewStatus}
+                        handleUpdateTask={handleUpdateTask}
                       />
-                    ) : (
-                      <div className="md:min-h-[78px]"></div>
-                    )}
+                      {showDeadline || isEditing ? (
+                        <TaskDeadline
+                          task={selectedTask}
+                          newDueDate={newDueDate}
+                          setNewDueDate={setNewDueDate}
+                        />
+                      ) : (
+                        <div className="md:min-h-[78px]"></div>
+                      )}
+                    </div>
 
-                    <TaskDescription
-                      task={selectedTask}
-                      newDescription={newDescription}
-                      setNewDescription={setNewDescription}
-                    />
+                    {/* Scrollable Content Section */}
+                    <div className="flex-grow overflow-y-auto min-h-0 pr-2">
+                      <TaskDescription
+                        task={selectedTask}
+                        newDescription={newDescription}
+                        setNewDescription={setNewDescription}
+                      />
+                    </div>
 
-                    <TaskTimestamps task={selectedTask} />
-
-                    <button
-                      className="primary-btn !p-1 sm:!p-4"
-                      onClick={() => setIsDetailsTaskModalOpen(false)}
-                    >
-                      Закрыть
-                    </button>
+                    {/* Footer Section */}
+                    <div className="flex-shrink-0">
+                      <TaskTimestamps task={selectedTask} />
+                      <button
+                        className="primary-btn !p-1 sm:!p-4 mt-4"
+                        onClick={() => setIsDetailsTaskModalOpen(false)}
+                      >
+                        Закрыть
+                      </button>
+                    </div>
                   </div>
                 </div>
               </DialogPanel>

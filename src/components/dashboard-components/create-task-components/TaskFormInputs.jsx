@@ -1,4 +1,8 @@
-import TiptapEditor from '@components/main-components/tiptap/TiptapEditor';
+import { lazy, Suspense } from 'react';
+
+const TiptapEditor = lazy(() =>
+  import('@components/main-components/tiptap/TiptapEditor'),
+);
 
 const TaskFormInputs = ({ title, setTitle, description, setDescription, handleCreateTask }) => {
   return (
@@ -18,10 +22,12 @@ const TaskFormInputs = ({ title, setTitle, description, setDescription, handleCr
         <label className="label-styles">Введите название задачи</label>
       </div>
       <div className="relative h-full">
-        <TiptapEditor
-          description={description}
-          onChange={(newDescription) => setDescription(newDescription)}
-        />
+        <Suspense fallback={<div className='w-full h-full min-h-[250px] bg-gray-200 animate-pulse rounded-xl' />}>
+          <TiptapEditor
+            description={description}
+            onChange={(newDescription) => setDescription(newDescription)}
+          />
+        </Suspense>
       </div>
     </>
   );

@@ -1,11 +1,12 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import TaskCard from '@components/task-components/TaskCard';
+import { memo } from 'react';
 
-export default function SortableTaskCard({
+const SortableTaskCardComponent = ({
   task,
   isDragging: isDraggingFromParent,
-}) {
+}) => {
   const {
     attributes,
     listeners,
@@ -27,7 +28,11 @@ export default function SortableTaskCard({
         task={task}
         className={`
         ${isDragging ? 'shadow-lg z-50' : 'shadow-none z-auto'}
-        ${isDraggingFromParent ? 'opacity-20 pointer-events-none' : 'opacity-100 pointer-events-auto'}
+        ${
+          isDraggingFromParent
+            ? 'opacity-20 pointer-events-none'
+            : 'opacity-100 pointer-events-auto'
+        }
         !transform                  
         !transition-all
       `}
@@ -36,4 +41,8 @@ export default function SortableTaskCard({
       />
     </div>
   );
-}
+};
+
+const SortableTaskCard = memo(SortableTaskCardComponent);
+
+export default SortableTaskCard;

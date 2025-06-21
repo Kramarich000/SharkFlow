@@ -3,8 +3,10 @@ import {
   SortableContext,
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
-import SortableTaskCard from '@components/dashboard-components/dnd/SortableTaskCard';
+import SortableTaskCardComponent from '@components/dashboard-components/dnd/SortableTaskCard';
 import TaskCard from '@components/task-components/TaskCard';
+
+const SortableTaskCard = SortableTaskCardComponent;
 
 const TaskList = ({
   taskSort,

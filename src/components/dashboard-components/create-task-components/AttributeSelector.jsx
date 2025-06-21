@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { priorityOptions, statusOptions } from '@data/taskOptions';
 import {
   Listbox,
   ListboxButton,
@@ -51,4 +52,4 @@ const AttributeSelector = ({
   );
 };
 
-export default AttributeSelector; 
+export default AttributeSelector;

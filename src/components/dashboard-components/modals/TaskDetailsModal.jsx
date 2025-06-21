@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import {
   Dialog,
   DialogPanel,
@@ -27,7 +27,60 @@ export default function TaskDetailsModal() {
     })),
   );
 
-  const selectedTask = useTaskStore((state) => state.selectedTask);
+  const { setIsEditing, isEditing } = useTaskStore(
+    useShallow((state) => ({
+      setIsEditing: state.setIsEditing,
+      isEditing: state.isEditing,
+    })),
+  );
+
+  const { updateTask, selectedTask } = useTaskStore(
+    useShallow((state) => ({
+      updateTask: state.updateTask,
+      selectedTask: state.selectedTask,
+    })),
+  );
+
+  const [newTitle, setNewTitle] = useState('');
+  const [newDueDate, setNewDueDate] = useState('');
+  const [newDescription, setNewDescription] = useState('');
+  const [newPriority, setNewPriority] = useState('');
+  const [newStatus, setNewStatus] = useState('');
+
+  useEffect(() => {
+    if (selectedTask) {
+      setNewTitle(selectedTask.title);
+      setNewDueDate(selectedTask.dueDate);
+      setNewDescription(selectedTask.description);
+      setNewPriority(selectedTask.priority);
+      setNewStatus(selectedTask.status);
+    }
+  }, [selectedTask]);
+
+  const handleUpdateTask = async () => {
+    const updatedFields = {};
+
+    const newDueDateISO =
+      newDueDate instanceof Date ? newDueDate.toISOString() : newDueDate;
+
+    if (newTitle !== selectedTask.title) updatedFields.title = newTitle;
+    if (newDueDateISO !== selectedTask.dueDate)
+      updatedFields.dueDate = newDueDateISO;
+    if (newDescription !== selectedTask.description)
+      updatedFields.description = newDescription;
+    if (newPriority !== selectedTask.priority)
+      updatedFields.priority = newPriority;
+    if (newStatus !== selectedTask.status) updatedFields.status = newStatus;
+
+    if (Object.keys(updatedFields).length > 0) {
+      await updateTask({
+        uuid: selectedTask.uuid,
+        ...updatedFields,
+      });
+    } else {
+      setIsEditing(false);
+    }
+  };
 
   if (!selectedTask) return null;
 
@@ -63,15 +116,32 @@ export default function TaskDetailsModal() {
                     animate={{ x: 0, opacity: 1 }}
                     className="flex flex-col p-4 md:p-10 gap-2 md:gap-8 md:min-h-0 min-w-0 w-full overflow-y-auto"
                   >
-                    <TaskDetailsHeader task={selectedTask} />
+                    <TaskDetailsHeader
+                      task={selectedTask}
+                      newTitle={newTitle}
+                      setNewTitle={setNewTitle}
+                      newPriority={newPriority}
+                      setNewPriority={setNewPriority}
+                      newStatus={newStatus}
+                      setNewStatus={setNewStatus}
+                      handleUpdateTask={handleUpdateTask}
+                    />
 
-                    {showDeadline ? (
-                      <TaskDeadline task={selectedTask} />
+                    {showDeadline || isEditing ? (
+                      <TaskDeadline
+                        task={selectedTask}
+                        newDueDate={newDueDate}
+                        setNewDueDate={setNewDueDate}
+                      />
                     ) : (
                       <div className="md:min-h-[78px]"></div>
                     )}
 
-                    <TaskDescription task={selectedTask} />
+                    <TaskDescription
+                      task={selectedTask}
+                      newDescription={newDescription}
+                      setNewDescription={setNewDescription}
+                    />
 
                     <TaskTimestamps task={selectedTask} />
 

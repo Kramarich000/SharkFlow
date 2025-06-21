@@ -118,9 +118,11 @@ const useTaskStore = create((set, get) => ({
   },
 
   updateTaskInApi: async (uuid, updatedFields) => {
-    if (!uuid || Object.keys(updatedFields).length === 0) return null;
+    const { selectedBoardUuid } = get();
+    if (!uuid || !selectedBoardUuid || Object.keys(updatedFields).length === 0)
+      return null;
     try {
-      return await apiUpdateTask(uuid, updatedFields);
+      return await apiUpdateTask(selectedBoardUuid, uuid, updatedFields);
     } catch {
       return null;
     }
@@ -150,12 +152,23 @@ const useTaskStore = create((set, get) => ({
     );
   },
 
-  updateTask: async ({ uuid, title, isPinned, isFavorite, boardUuid }) => {
+  updateTask: async ({
+    uuid,
+    title,
+    dueDate,
+    description,
+    priority,
+    status,
+    boardUuid,
+  }) => {
     if (!uuid) return false;
     const updatedFields = {};
     if (title !== undefined) updatedFields.title = title;
-    if (isPinned !== undefined) updatedFields.isPinned = isPinned;
-    if (isFavorite !== undefined) updatedFields.isFavorite = isFavorite;
+    if (dueDate !== undefined) updatedFields.dueDate = dueDate;
+    if (description !== undefined) updatedFields.description = description;
+    if (priority !== undefined) updatedFields.priority = priority;
+    if (status !== undefined) updatedFields.status = status;
+
     if (Object.keys(updatedFields).length === 0) {
       return false;
     }

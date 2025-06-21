@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
 import useTaskStore from '@store/taskStore';
 import { useShallow } from 'zustand/shallow';
+import TiptapEditor from '@components/main-components/tiptap/TiptapEditor';
 
 const TaskDescription = ({ task, newDescription, setNewDescription }) => {
   const { isEditing } = useTaskStore(
@@ -10,37 +10,30 @@ const TaskDescription = ({ task, newDescription, setNewDescription }) => {
   );
 
   return (
-    <motion.div
-      initial={{ y: 30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      className="flex flex-col gap-2 min-w-0 w-full"
-    >
+    <div className="flex flex-col gap-2 min-w-0 w-full">
       {isEditing ? (
         <>
           <div className="md:min-h-[300px] bg-gray-50 rounded-2xl p-2 md:p-5 max-h-[300px] md:max-h-[300px] overflow-y-auto border border-gray-200 text-base max-w-full break-words">
             <div className="relative !h-full">
-              <textarea
-                placeholder=" "
-                required
-                value={newDescription}
-                onChange={(e) => setNewDescription(e.target.value)}
-                className="peer input-styles resize-none !h-full"
+              <TiptapEditor
+                description={newDescription}
+                onChange={setNewDescription}
               />
-              <label className="label-styles">Введите новое описание</label>
             </div>
           </div>
         </>
       ) : (
         <>
           <b className="text-lg">Описание:</b>
-          <div className="md:min-h-[300px] bg-gray-50 rounded-2xl p-2 md:p-5 max-h-[300px] md:max-h-[300px] overflow-y-auto border border-gray-200 text-base max-w-full break-words">
-            {task.description || (
-              <p className="text-gray-700">— Нет описания —</p>
-            )}
-          </div>
+          <div
+            className="md:min-h-[300px] bg-gray-50 rounded-2xl p-2 md:p-5 max-h-[300px] md:max-h-[300px] overflow-y-auto border border-gray-200 text-base max-w-full break-words prose"
+            dangerouslySetInnerHTML={{
+              __html: task.description || '<p>— Нет описания —</p>',
+            }}
+          ></div>
         </>
       )}
-    </motion.div>
+    </div>
   );
 };
 

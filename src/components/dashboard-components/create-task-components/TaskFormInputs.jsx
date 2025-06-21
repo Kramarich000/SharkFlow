@@ -1,3 +1,5 @@
+import TiptapEditor from '@components/main-components/tiptap/TiptapEditor';
+
 const TaskFormInputs = ({ title, setTitle, description, setDescription, handleCreateTask }) => {
   return (
     <>
@@ -15,16 +17,11 @@ const TaskFormInputs = ({ title, setTitle, description, setDescription, handleCr
         />
         <label className="label-styles">Введите название задачи</label>
       </div>
-      <div className="relative">
-        <textarea
-          value={description ?? ''}
-          onChange={(e) => setDescription(e.target.value)}
-          className="peer input-styles resize-none"
-          placeholder=" "
-          required
-          rows={4}А
+      <div className="relative h-full">
+        <TiptapEditor
+          description={description}
+          onChange={(newDescription) => setDescription(newDescription)}
         />
-        <label className="label-styles">Введите описание задачи</label>
       </div>
     </>
   );

@@ -8,8 +8,7 @@ import {
 import useModalsStore from '@store/modalsStore';
 import useTaskStore from '@store/taskStore';
 import { useShallow } from 'zustand/shallow';
-
-import { motion, AnimatePresence } from 'framer-motion';
+import DOMPurify from 'dompurify';
 
 import { statusCardStyles } from '@data/taskOptions';
 
@@ -63,11 +62,13 @@ export default function TaskDetailsModal() {
     const newDueDateISO =
       newDueDate instanceof Date ? newDueDate.toISOString() : newDueDate;
 
+    const sanitizedDescription = DOMPurify.sanitize(newDescription);
+
     if (newTitle !== selectedTask.title) updatedFields.title = newTitle;
     if (newDueDateISO !== selectedTask.dueDate)
       updatedFields.dueDate = newDueDateISO;
-    if (newDescription !== selectedTask.description)
-      updatedFields.description = newDescription;
+    if (sanitizedDescription !== selectedTask.description)
+      updatedFields.description = sanitizedDescription;
     if (newPriority !== selectedTask.priority)
       updatedFields.priority = newPriority;
     if (newStatus !== selectedTask.status) updatedFields.status = newStatus;
@@ -111,11 +112,7 @@ export default function TaskDetailsModal() {
               >
                 <div className="flex h-full overflow-hidden min-h-0">
                   <TaskStatusSidebar task={selectedTask} />
-                  <motion.div
-                    initial={{ x: 40, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    className="flex flex-col p-4 md:p-10 gap-2 md:gap-8 md:min-h-0 min-w-0 w-full overflow-y-auto"
-                  >
+                  <div className="flex flex-col p-4 md:p-10 gap-2 md:gap-8 md:min-h-0 min-w-0 w-full overflow-y-auto">
                     <TaskDetailsHeader
                       task={selectedTask}
                       newTitle={newTitle}
@@ -145,15 +142,13 @@ export default function TaskDetailsModal() {
 
                     <TaskTimestamps task={selectedTask} />
 
-                    <motion.button
+                    <button
                       className="primary-btn !p-1 sm:!p-4"
                       onClick={() => setIsDetailsTaskModalOpen(false)}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
                     >
                       Закрыть
-                    </motion.button>
-                  </motion.div>
+                    </button>
+                  </div>
                 </div>
               </DialogPanel>
             </TransitionChild>

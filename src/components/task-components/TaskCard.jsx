@@ -1,7 +1,6 @@
 import {
   priorityOptions,
   statusOptions,
-  priorityStyles,
   statusCardStyles,
 } from '@data/taskOptions';
 import { FaEye } from 'react-icons/fa';
@@ -9,11 +8,10 @@ import { HiOutlineBars3 } from 'react-icons/hi2';
 import useModalsStore from '@store/modalsStore';
 import useTaskStore from '@store/taskStore';
 
-export default function TaskCard({ task, isDragging, dragHandleProps }) {
+export default function TaskCard({ task, dragHandleProps }) {
   const { setIsDetailsTaskModalOpen } = useModalsStore();
   const handleTaskSelect = useTaskStore((state) => state.handleTaskSelect);
   // console.log(task);
-  const priorityClass = priorityStyles[task.priority] || priorityStyles.DEFAULT;
   const statusClass = statusCardStyles[task.status] || statusCardStyles.DEFAULT;
 
   return (
@@ -41,12 +39,11 @@ export default function TaskCard({ task, isDragging, dragHandleProps }) {
         </button>
       </div>
       {task.description ? (
-        <p
+        <div
           title={task.description}
-          className="mt-1 truncate sm:whitespace-normal sm:break-words sm:line-clamp-3 min-h-[72px]"
-        >
-          {task.description}
-        </p>
+          className="mt-1 prose prose-sm truncate sm:whitespace-normal sm:break-words sm:line-clamp-3 min-h-[72px]"
+          dangerouslySetInnerHTML={{ __html: task.description }}
+        ></div>
       ) : (
         <p className="min-h-[72px] flex justify-center" title="Описание задачи">
           — без описания —

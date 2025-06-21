@@ -4,6 +4,7 @@ import {
   filterByCreatedDateRange,
   filterByRecentDays,
   filterByFavorites,
+  filterByTaskCount,
 } from '@utils/filters/boardFilters';
 import {
   sortByTitleDesc,
@@ -24,6 +25,7 @@ export const useBoardFilterAndPagination = (boards) => {
     onlyFav: false,
     sortBy: '',
     sortOrder: '',
+    taskCount: -1,
   });
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,6 +40,7 @@ export const useBoardFilterAndPagination = (boards) => {
     );
     list = filterByRecentDays(list, params.recentDays);
     list = filterByFavorites(list, params.onlyFav);
+    list = filterByTaskCount(list, params.taskCount);
 
     switch (params.sortBy) {
       case 'title':
@@ -77,6 +80,7 @@ export const useBoardFilterAndPagination = (boards) => {
     params.dateRange,
     params.recentDays,
     params.onlyFav,
+    params.taskCount,
     params.sortBy,
     params.sortOrder,
   ]);
@@ -88,6 +92,7 @@ export const useBoardFilterAndPagination = (boards) => {
     params.dateRange,
     params.recentDays,
     params.onlyFav,
+    params.taskCount,
   ]);
 
   const totalPages = Math.max(1, Math.ceil(processedBoards.length / pageSize));

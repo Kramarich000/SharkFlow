@@ -28,6 +28,10 @@ const DashboardHeader = ({ params, setParams, onOpenCreateBoard }) => {
           onChangeSortOrder={(v) =>
             setParams((p) => ({ ...p, sortOrder: v }))
           }
+          taskCount={params.taskCount}
+          onChangeTaskCount={(v) =>
+            setParams((p) => ({ ...p, taskCount: v }))
+          }
         />
       </div>
       <div className="flex flex-wrap justify-center items-center mb-4">

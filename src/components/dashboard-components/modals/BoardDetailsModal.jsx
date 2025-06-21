@@ -6,6 +6,7 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
+import { motion } from 'framer-motion';
 import useBoardStore from '@store/boardStore';
 import useModalsStore from '@store/modalsStore';
 import useTaskStore from '@store/taskStore';
@@ -131,50 +132,57 @@ export default function BoardDetailsModal() {
                     : `#${selectedBoard?.color}`,
                 }}
               >
-                <BoardHeader
-                  isEditing={isEditing}
-                  newTitle={newTitle}
-                  setNewTitle={setNewTitle}
-                  saveUpdateBoard={saveUpdateBoard}
-                  setisEditing={setisEditing}
-                  selectedBoard={selectedBoard}
-                  load={load}
-                  saveDeleteBoard={saveDeleteBoard}
-                  newColor={newColor}
-                  setNewColor={setNewColor}
-                  setIsCreateTaskModalOpen={setIsCreateTaskModalOpen}
-                />
-
-                {!isLoading ? (
-                  <>
-                    <TaskSortControl
-                      taskSort={taskSort}
-                      setTaskSort={setTaskSort}
-                      sortOrder={sortOrder}
-                      setSortOrder={setSortOrder}
-                    />
-
-                    <TaskList
-                      taskSort={taskSort}
-                      sortedTasks={sortedTasks}
-                      activeId={activeId}
-                      handleDragStart={handleDragStart}
-                      handleDragEnd={handleDragEnd}
-                      handleDragCancel={handleDragCancel}
-                    />
-                  </>
-                ) : (
-                  <BoardLoader />
-                )}
-                <button
-                  type="button"
-                  className="primary-btn !mt-auto !p-1 sm:!p-4"
-                  onClick={() => setIsDetailsBoardModalOpen(false)}
-                  disabled={load}
-                  title="Закрыть доску"
+                <motion.div
+                  className="flex flex-col h-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  Закрыть
-                </button>
+                  <BoardHeader
+                    isEditing={isEditing}
+                    newTitle={newTitle}
+                    setNewTitle={setNewTitle}
+                    saveUpdateBoard={saveUpdateBoard}
+                    setisEditing={setisEditing}
+                    selectedBoard={selectedBoard}
+                    load={load}
+                    saveDeleteBoard={saveDeleteBoard}
+                    newColor={newColor}
+                    setNewColor={setNewColor}
+                    setIsCreateTaskModalOpen={setIsCreateTaskModalOpen}
+                  />
+
+                  {!isLoading ? (
+                    <>
+                      <TaskSortControl
+                        taskSort={taskSort}
+                        setTaskSort={setTaskSort}
+                        sortOrder={sortOrder}
+                        setSortOrder={setSortOrder}
+                      />
+
+                      <TaskList
+                        taskSort={taskSort}
+                        sortedTasks={sortedTasks}
+                        activeId={activeId}
+                        handleDragStart={handleDragStart}
+                        handleDragEnd={handleDragEnd}
+                        handleDragCancel={handleDragCancel}
+                      />
+                    </>
+                  ) : (
+                    <BoardLoader />
+                  )}
+                  <button
+                    type="button"
+                    className="primary-btn !mt-auto !p-1 sm:!p-4"
+                    onClick={() => setIsDetailsBoardModalOpen(false)}
+                    disabled={load}
+                    title="Закрыть доску"
+                  >
+                    Закрыть
+                  </button>
+                </motion.div>
               </DialogPanel>
             </TransitionChild>
           </div>

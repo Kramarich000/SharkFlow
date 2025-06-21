@@ -29,12 +29,8 @@ export function sortByUpdatedDesc(boards) {
 }
 
 export function sortByTaskCountAsc(boards) {
-  return [...boards].sort(
-    (a, b) => (a.tasks?.length || 0) - (b.tasks?.length || 0),
-  );
+  return [...boards].sort((a, b) => (a.taskCount || 0) - (b.taskCount || 0));
 }
 export function sortByTaskCountDesc(boards) {
-  return [...boards].sort(
-    (a, b) => (b.tasks?.length || 0) - (a.tasks?.length || 0),
-  );
+  return [...boards].sort((a, b) => (b.taskCount || 0) - (a.taskCount || 0));
 }

@@ -38,8 +38,17 @@ export const taskSortOptions = [
   { id: 'dueDate', name: 'Дедлайн' },
 ];
 
+export const taskCountOptions = [
+  { id: -1, name: 'Любое число' },
+  { id: 0, name: 'Без задач' },
+  { id: 1, name: '1-10 задач' },
+  { id: 2, name: '11-50 задач' },
+  { id: 3, name: 'Более 50 задач' },
+];
+
 export const DEFAULT_DATE_RANGE = [null, null];
 export const DEFAULT_RECENT_DAYS = null;
 export const DEFAULT_SORT_BY = null;
 export const DEFAULT_SORT_ORDER = null;
 export const DEFAULT_ONLY_FAV = false;
+export const DEFAULT_TASK_COUNT = -1;

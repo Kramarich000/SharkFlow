@@ -1,4 +1,4 @@
-import { Fragment, useRef } from 'react';
+import { Fragment } from 'react';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/dark.css';
 import {
@@ -17,6 +17,8 @@ import {
   optsRange,
   recentDaysOptions,
   sortOptions,
+  taskCountOptions,
+  DEFAULT_TASK_COUNT,
 } from '@data/filterAndSortData';
 import { FaArrowDown, FaTrash } from 'react-icons/fa';
 import { GiBroom } from 'react-icons/gi';
@@ -33,6 +35,8 @@ export default function FilterForm({
   onChangeOnlyFav,
   onChangeSortBy,
   onChangeSortOrder,
+  taskCount,
+  onChangeTaskCount,
 }) {
   const handleResetFilters = () => {
     onChangeDateRange(DEFAULT_DATE_RANGE);
@@ -40,6 +44,7 @@ export default function FilterForm({
     onChangeOnlyFav(DEFAULT_ONLY_FAV);
     onChangeSortBy(DEFAULT_SORT_BY);
     onChangeSortOrder(DEFAULT_SORT_ORDER);
+    onChangeTaskCount(DEFAULT_TASK_COUNT);
   };
 
   const toggleSortOrder = () => {
@@ -71,14 +76,13 @@ export default function FilterForm({
               })()}
               options={{
                 ...optsRange,
-                onChange: (selectedDates, dateStr, instance) => {
+                onChange: (selectedDates) => {
                   const start = selectedDates[0] ?? null;
                   const end = selectedDates[1] ?? null;
                   onChangeDateRange([start, end]);
                 },
-                onValueUpdate: (selectedDates, dateStr, instance) => {
+                onValueUpdate: (selectedDates, _dateStr, instance) => {
                   if (
-                    dateStr &&
                     selectedDates.length === 1 &&
                     selectedDates[0] instanceof Date
                   ) {
@@ -93,7 +97,7 @@ export default function FilterForm({
           </div>
           <Listbox value={recentDays} onChange={onChangeRecentDays}>
             {({ open }) => (
-              <div className="relative w-full">
+              <div className="relative w-full col-span-2 sm:col-span-1">
                 <ListboxButton className="secondary-btn">
                   {recentDaysOptions.find((o) => o.id === recentDays)?.name ||
                     'Период'}
@@ -123,9 +127,41 @@ export default function FilterForm({
               </div>
             )}
           </Listbox>
+          <Listbox value={taskCount} onChange={onChangeTaskCount}>
+            {({ open }) => (
+              <div className="relative w-full col-span-2 sm:col-span-1">
+                <ListboxButton className="secondary-btn">
+                  {taskCountOptions.find((o) => o.id === taskCount)?.name ||
+                    'Число задач'}
+                </ListboxButton>
+                <Transition
+                  as={Fragment}
+                  show={open}
+                  enter="transition ease-out duration-200"
+                  enterFrom="opacity-0 scale-50"
+                  enterTo="opacity-100 scale-100"
+                  leave="transition ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-50"
+                >
+                  <ListboxOptions className="options-styles">
+                    {taskCountOptions.map((opt) => (
+                      <ListboxOption
+                        key={opt.id}
+                        value={opt.id}
+                        className="option-styles"
+                      >
+                        {opt.name}
+                      </ListboxOption>
+                    ))}
+                  </ListboxOptions>
+                </Transition>
+              </div>
+            )}
+          </Listbox>
           <Listbox value={sortBy} onChange={onChangeSortBy}>
             {({ open }) => (
-              <div className="relative w-full">
+              <div className="relative w-full col-span-2 lg:col-span-1">
                 <ListboxButton className="secondary-btn">
                   {sortOptions.find((o) => o.id === sortBy)?.name || 'Тип'}
                 </ListboxButton>
@@ -154,7 +190,7 @@ export default function FilterForm({
               </div>
             )}
           </Listbox>
-          <div className="flex col-span-2 lg:col-span-1 gap-30 lg:gap-10 items-center">
+          <div className="flex col-span-2 lg:col-span-5 gap-30 lg:gap-10 items-center">
             <div className="relative flex items-center justify-center">
               <button
                 type="button"

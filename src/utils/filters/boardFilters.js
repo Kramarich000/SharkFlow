@@ -20,7 +20,7 @@ export function filterByCreatedDateRange(boards, from, to) {
 }
 
 export function filterByRecentDays(boards, days) {
-  if (!days) return boards;
+  if (!days || days === 999999) return boards;
   const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
   return boards.filter((b) => new Date(b.updatedAt).getTime() >= cutoff);
 }
@@ -28,4 +28,23 @@ export function filterByRecentDays(boards, days) {
 export function filterByFavorites(boards, onlyFav) {
   if (!onlyFav) return boards;
   return boards.filter((b) => b.isFavorite === true);
+}
+
+export function filterByTaskCount(boards, taskCountFilter) {
+  if (taskCountFilter === null || taskCountFilter === -1) {
+    return boards;
+  }
+
+  switch (taskCountFilter) {
+    case 0:
+      return boards.filter((b) => (b.taskCount ?? 0) === 0);
+    case 1:
+      return boards.filter((b) => b.taskCount >= 1 && b.taskCount <= 10);
+    case 2:
+      return boards.filter((b) => b.taskCount >= 11 && b.taskCount <= 50);
+    case 3:
+      return boards.filter((b) => b.taskCount >= 51);
+    default:
+      return boards;
+  }
 }

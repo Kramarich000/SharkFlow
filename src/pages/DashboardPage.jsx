@@ -12,7 +12,7 @@ import DashboardLoader from '@components/dashboard-components/page-components/Da
 
 import useModalsStore from '@store/modalsStore';
 import { useBoardFilterAndPagination } from '@hooks/useBoardFilterAndPagination';
-import DeleteTaskModal from '@components/dashboard-components/modals/deleteTaskModal';
+import DeleteTaskModal from '@components/dashboard-components/modals/DeleteTaskModal';
 
 const CreateBoardModal = lazy(
   () => import('@components/dashboard-components/modals/CreateBoardModal'),

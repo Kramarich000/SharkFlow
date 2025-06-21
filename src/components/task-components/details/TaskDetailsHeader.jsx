@@ -95,7 +95,7 @@ const TaskDetailsHeader = ({
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="flex justify-between items-start relative">
+      <div className="justify-between items-start relative">
         {isEditing ? (
           <input
             ref={titleInputRef}
@@ -106,7 +106,7 @@ const TaskDetailsHeader = ({
             placeholder="Введите название задачи"
           />
         ) : (
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 break-words mr-12">
+          <h2 className="text-2xl md:text-3xl truncate font-bold text-gray-900 sm:break-words mr-12">
             {task.title}
           </h2>
         )}

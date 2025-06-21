@@ -32,9 +32,9 @@ const TaskDescription = ({ task, newDescription, setNewDescription }) => {
             </div>
           </div>
         ) : (
-          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 transition-all duration-200 hover:bg-gray-100 hover:border-gray-300">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 transition-all duration-200 break-words hover:bg-gray-100 hover:border-gray-300">
             <HighlightingContent
-              className="prose prose-sm max-w-none text-gray-700 leading-relaxed tiptap-content"
+              className="prose prose-sm max-w-none text-gray-700 leading-relaxed tiptap-content break-words"
               html={task.description || '<p class="text-gray-500 italic">— Описание не добавлено —</p>'}
             />
           </div>

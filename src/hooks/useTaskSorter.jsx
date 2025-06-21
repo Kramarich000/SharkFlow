@@ -62,7 +62,11 @@ export const useTaskSorter = (tasks, boardUuid) => {
     const newOrder = getOrderedTasksFromStorage(boardUuid, tasks);
     if (
       newOrder.length !== orderedTasks.length ||
-      newOrder.some((t, i) => t.uuid !== orderedTasks[i]?.uuid)
+      newOrder.some(
+        (t, i) =>
+          t.uuid !== orderedTasks[i]?.uuid ||
+          t.updatedAt !== orderedTasks[i]?.updatedAt,
+      )
     ) {
       setOrderedTasks(newOrder);
     }

@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { produce } from 'immer';
 import { getTasks as apiGetTasks } from '@api/http/tasks/getTasks';
 import { createTask as apiCreateTask } from '@api/http/tasks/createTask';
 import { updateTask as apiUpdateTask } from '@api/http/tasks/updateTask';
@@ -129,27 +128,37 @@ const useTaskStore = create((set, get) => ({
   },
 
   applyTaskUpdate: (updatedData, boardUuid) => {
-    set((state) =>
-      produce(state, (draft) => {
-        const boardId = boardUuid || state.selectedBoardUuid;
-        const tasks = draft.tasksByBoard[boardId] || [];
-        const task = tasks.find((b) => b.uuid === updatedData.uuid);
-        if (!task) return;
-        if (!updatedData.updatedAt) {
-          updatedData.updatedAt = new Date().toISOString();
-        }
-        Object.assign(task, updatedData);
-        if (draft.selectedTask?.uuid === updatedData.uuid) {
-          const b = task;
-          draft.selectedTask = { ...b };
-          draft.title = b.title;
-          draft.dueDate = b.dueDate;
-          draft.description = b.description;
-          draft.priority = b.priority;
-          draft.status = b.status;
-        }
-      }),
-    );
+    set((state) => {
+      const boardId = boardUuid || state.selectedBoardUuid;
+      const currentTasks = state.tasksByBoard[boardId] || [];
+      const taskIndex = currentTasks.findIndex(
+        (t) => t.uuid === updatedData.uuid,
+      );
+
+      if (taskIndex === -1) {
+        return state;
+      }
+
+      const newTasks = [...currentTasks];
+      newTasks[taskIndex] = {
+        ...currentTasks[taskIndex],
+        ...updatedData,
+      };
+
+      const newTasksByBoard = { ...state.tasksByBoard };
+      newTasksByBoard[boardId] = newTasks;
+
+      const newState = {
+        ...state,
+        tasksByBoard: newTasksByBoard,
+      };
+
+      if (state.selectedTask?.uuid === updatedData.uuid) {
+        newState.selectedTask = { ...newTasks[taskIndex] };
+      }
+
+      return newState;
+    });
   },
 
   updateTask: async ({
@@ -177,11 +186,22 @@ const useTaskStore = create((set, get) => ({
       (b) => b.uuid === uuid,
     );
     const prevSnapshot = prev ? { ...prev } : null;
-    get().applyTaskUpdate({ uuid, ...updatedFields }, boardId);
+
+    const optimisticPayload = {
+      uuid,
+      ...updatedFields,
+      updatedAt: new Date().toISOString(),
+    };
+    get().applyTaskUpdate(optimisticPayload, boardId);
+
     const updatedData = await get().updateTaskInApi(uuid, updatedFields);
     set({ isEditing: false });
     if (updatedData) {
-      get().applyTaskUpdate(updatedData, boardId);
+      const finalPayload = {
+        ...optimisticPayload,
+        ...updatedData,
+      };
+      get().applyTaskUpdate(finalPayload, boardId);
       return true;
     }
     if (prevSnapshot) {

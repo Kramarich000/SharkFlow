@@ -39,7 +39,7 @@ export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
 
   return (
     <div
-      className="group relative overflow-auto rounded-xl border-l-8 box-content max-h-[269px] bg-white p-4 shadow-lg !transition-transform"
+      className="group relative hover:translate-x-[10px] overflow-auto rounded-xl border-l-8 box-content max-h-[269px] bg-white p-4 shadow-lg !transition-transform"
       style={{
         borderLeftColor: board.color.startsWith('#')
           ? board.color

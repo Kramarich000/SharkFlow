@@ -6,7 +6,6 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
-import { motion } from 'framer-motion';
 import useBoardStore from '@store/boardStore';
 import useModalsStore from '@store/modalsStore';
 import useTaskStore from '@store/taskStore';
@@ -37,10 +36,13 @@ export default function BoardDetailsModal() {
     })),
   );
 
-  const { getCurrentBoardTasks } = useTaskStore();
-  const tasks = getCurrentBoardTasks();
-
   const boardUuid = selectedBoard?.uuid;
+  const emptyTasks = [];
+
+  const tasks = useTaskStore(
+    (state) => state.tasksByBoard[boardUuid] || emptyTasks,
+  );
+
   const isLoading = useTaskStore((state) => state.loadingBoards[boardUuid]);
 
   const [isEditing, setisEditing] = useState(false);
@@ -132,12 +134,7 @@ export default function BoardDetailsModal() {
                     : `#${selectedBoard?.color}`,
                 }}
               >
-                <motion.div
-                  className="flex flex-col h-full"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-              >
+                <div className="flex flex-col h-full">
                 <BoardHeader
                   isEditing={isEditing}
                   newTitle={newTitle}
@@ -182,7 +179,7 @@ export default function BoardDetailsModal() {
                 >
                   Закрыть
                 </button>
-                </motion.div>
+                </div>
               </DialogPanel>
             </TransitionChild>
           </div>

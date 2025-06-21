@@ -34,7 +34,7 @@ const TaskList = ({
             {sortedTasks.length ? (
               sortedTasks.map((task) => (
                 <SortableTaskCard
-                  key={task.uuid}
+                  key={`${task.uuid}-${task.updatedAt}`}
                   task={task}
                   isDragging={activeId === task.uuid}
                 />
@@ -63,7 +63,10 @@ const TaskList = ({
     >
       {sortedTasks.length ? (
         sortedTasks.map((task) => (
-          <SortableTaskCard key={task.uuid} task={task} />
+          <SortableTaskCard
+            key={`${task.uuid}-${task.updatedAt}`}
+            task={task}
+          />
         ))
       ) : (
         <p className="text-gray-700 col-span-3">Задачи отсутствуют</p>

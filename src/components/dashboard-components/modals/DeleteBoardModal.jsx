@@ -19,7 +19,11 @@ export default function DeleteBoardModal() {
       selectedBoard: state.selectedBoard,
     })),
   );
-  const { isDeleteBoardModalOpen, setIsDeleteBoardModalOpen, setIsDetailsBoardModalOpen } = useModalsStore(
+  const {
+    isDeleteBoardModalOpen,
+    setIsDeleteBoardModalOpen,
+    setIsDetailsBoardModalOpen,
+  } = useModalsStore(
     useShallow((state) => ({
       isDeleteBoardModalOpen: state.isDeleteBoardModalOpen,
       setIsDeleteBoardModalOpen: state.setIsDeleteBoardModalOpen,
@@ -55,7 +59,7 @@ export default function DeleteBoardModal() {
     setInputValue('');
     setIsDeleteBoardModalOpen(false);
   };
-
+  // console.log(selectedBoard);
   return (
     <Transition appear show={isDeleteBoardModalOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={handleClose}>

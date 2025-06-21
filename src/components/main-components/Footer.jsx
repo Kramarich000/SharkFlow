@@ -31,7 +31,7 @@ export default function Footer() {
           key={token ? 'auth-footer-nav' : 'anon-footer-nav'}
         >
           <ul className="flex flex-wrap items-center justify-center gap-4 text-[20px]">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               {navLinks(token).map((link) => (
                 <motion.li
                   key={`${token ? 'auth' : 'anon'}-${link.path}`}

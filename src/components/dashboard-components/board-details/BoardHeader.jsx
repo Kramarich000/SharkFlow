@@ -82,10 +82,7 @@ const BoardHeader = ({
               }}
             >
               {load ? (
-                <AiOutlineSync
-                  size={40}
-                  className="animate-spin duration-75"
-                />
+                <AiOutlineSync size={40} className="animate-spin duration-75" />
               ) : (
                 <IoCheckmark size={40} />
               )}
@@ -121,4 +118,4 @@ const BoardHeader = ({
   );
 };
 
-export default BoardHeader; 
+export default BoardHeader;

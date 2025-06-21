@@ -16,4 +16,4 @@ const BoardGrid = ({ boards, onOpen, onTogglePin, onToggleFav }) => {
   );
 };
 
-export default BoardGrid; 
+export default BoardGrid;

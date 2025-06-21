@@ -1,3 +1,5 @@
+import { playSuccess, playError } from '@utils/sounds';
+import { canPlaySound } from '@utils/sounds/canPlaySound';
 import { showToast } from '@utils/toast/showToast';
 
 export async function apiResponsesHandler(requestFn, options = {}) {
@@ -8,13 +10,15 @@ export async function apiResponsesHandler(requestFn, options = {}) {
     onSuccess,
     onError,
   } = options;
-
   try {
     const response = await requestFn();
 
     if (response.status === 200 || response.status === 201) {
       const message = successMessage || response.data?.message;
-      if (message && !silent) showToast(message, 'success');
+      if (message && !silent) {
+        showToast(message, 'success');
+        playSuccess();
+      }
       if (onSuccess) return onSuccess(response.data);
       return response.data;
     }
@@ -22,7 +26,10 @@ export async function apiResponsesHandler(requestFn, options = {}) {
     const fallbackError = errorMessage || 'Неизвестная ошибка сервера';
     const error = response.data?.error || fallbackError;
 
-    if (!silent) showToast(error, 'error');
+    if (!silent) {
+      playError();
+      showToast(error, 'error');
+    }
     if (onError) onError(response.data);
 
     return null;
@@ -32,6 +39,7 @@ export async function apiResponsesHandler(requestFn, options = {}) {
       error.response?.data?.error || error.response?.data?.message;
 
     if (!silent) {
+      playError();
       let message =
         serverMessage ||
         errorMessage ||

@@ -110,11 +110,11 @@ export default function TaskDetailsModal() {
                   statusCardStyles.DEFAULT
                 }`}
               >
-                <div className="flex h-full overflow-hidden min-h-0">
+                <div className="flex h-full overflow-hidden">
                   <TaskStatusSidebar task={selectedTask} />
-                  <div className="flex flex-col p-4 md:p-10 gap-2 md:gap-4 w-full min-w-0">
-                    {/* Header Section */}
-                    <div className="flex-shrink-0">
+                  
+                  <div className="flex flex-col flex-1 min-w-0">
+                    <div className="flex-shrink-0 p-6 pb-4 border-b border-gray-100 bg-white">
                       <TaskDetailsHeader
                         task={selectedTask}
                         newTitle={newTitle}
@@ -132,12 +132,11 @@ export default function TaskDetailsModal() {
                           setNewDueDate={setNewDueDate}
                         />
                       ) : (
-                        <div className="md:min-h-[78px]"></div>
+                        <div className="h-6"></div>
                       )}
                     </div>
 
-                    {/* Scrollable Content Section */}
-                    <div className="flex-grow overflow-y-auto min-h-0 pr-2">
+                    <div className="flex-1 overflow-y-auto p-6 pt-4 bg-gray-50">
                       <TaskDescription
                         task={selectedTask}
                         newDescription={newDescription}
@@ -145,11 +144,10 @@ export default function TaskDetailsModal() {
                       />
                     </div>
 
-                    {/* Footer Section */}
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 p-6 pt-4 border-t border-gray-100 bg-white">
                       <TaskTimestamps task={selectedTask} />
                       <button
-                        className="primary-btn !p-1 sm:!p-4 mt-4"
+                        className="primary-btn"
                         onClick={() => setIsDetailsTaskModalOpen(false)}
                       >
                         Закрыть

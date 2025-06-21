@@ -69,8 +69,6 @@ const TiptapEditor = ({ description, onChange }) => {
   
   useEffect(() => {
     if (editor && isLowlightLoaded) {
-        // This is a trick to force re-render of the editor
-        // once the languages are loaded to apply highlighting.
         const { from, to } = editor.state.selection;
         editor.commands.setContent(editor.getHTML(), false, { preserveWhitespace: 'full' });
         editor.commands.setTextSelection({ from, to });
@@ -78,13 +76,13 @@ const TiptapEditor = ({ description, onChange }) => {
   }, [isLowlightLoaded, editor])
 
   return (
-    <div className="!h-full relative">
+    <div className="h-full flex flex-col bg-white rounded-lg overflow-hidden">
       {editor && (
         <BubbleMenu
           editor={editor}
           tippyOptions={{ duration: 100 }}
           shouldShow={({ editor }) => editor.isActive('link')}
-          className="bg-white rounded-lg shadow-lg p-2 flex gap-2"
+          className="bg-white rounded-lg shadow-lg border border-gray-200 p-3 flex gap-2 items-center"
         >
           <input
             type="text"
@@ -108,21 +106,29 @@ const TiptapEditor = ({ description, onChange }) => {
                   .run();
               }
             }}
-            className="input-styles !p-1 text-sm"
-            placeholder="Enter URL"
+            className="px-3 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Введите URL"
           />
           <button
             onClick={() => editor.chain().focus().unsetLink().run()}
-            className="!p-1"
-            title="Remove Link"
+            className="p-1 text-gray-600 hover:text-red-600 transition-colors duration-200"
+            title="Удалить ссылку"
           >
-            <FaUnlink />
+            <FaUnlink size={16} />
           </button>
         </BubbleMenu>
       )}
 
-      <MenuBar editor={editor} />
-      <EditorContent editor={editor} className="tiptap !h-full overflow-y-auto" />
+      <div className="border-b border-gray-200 bg-gray-50">
+        <MenuBar editor={editor} />
+      </div>
+      
+      <div className="flex-1 overflow-hidden">
+        <EditorContent 
+          editor={editor} 
+          className="h-full overflow-y-auto p-4 focus:outline-none prose prose-sm max-w-none" 
+        />
+      </div>
     </div>
   );
 };

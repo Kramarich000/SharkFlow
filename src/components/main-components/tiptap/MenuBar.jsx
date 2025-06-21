@@ -47,7 +47,7 @@ const MenuBar = ({ editor }) => {
   const config = getMenuBarConfig(editor, setLink);
 
   return (
-    <div className="flex flex-wrap items-center gap-2 p-2 bg-gray-100 border border-gray-300 rounded-t-lg">
+    <div className="flex items-center gap-1 p-3 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
       {config.map((item) => {
         if (item.type === 'color-picker') {
           return (
@@ -56,7 +56,7 @@ const MenuBar = ({ editor }) => {
               type="color"
               onInput={item.onInput}
               value={item.value}
-              className="w-8 h-8 p-1 bg-transparent border-none cursor-pointer"
+              className="w-8 h-8 p-1 bg-transparent border border-gray-300 rounded-md cursor-pointer hover:border-gray-400 transition-colors duration-200"
               title={item.title}
             />
           );
@@ -68,12 +68,18 @@ const MenuBar = ({ editor }) => {
             key={item.id}
             onClick={item.onClick}
             disabled={item.disabled}
-            className={`p-2 rounded-lg disabled:opacity-50 ${
-              item.isActive ? 'is-active bg-gray-300' : 'bg-gray-200'
+            className={`p-2 rounded-md transition-all duration-200 ${
+              item.isActive 
+                ? 'bg-blue-100 text-blue-700 border border-blue-200' 
+                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:border-gray-300'
+            } ${
+              item.disabled 
+                ? 'opacity-50 cursor-not-allowed' 
+                : 'hover:shadow-sm'
             }`}
             title={item.title}
           >
-            {Icon ? <Icon /> : Content}
+            {Icon ? <Icon size={16} /> : <span className="text-sm font-medium">{Content}</span>}
           </button>
         );
       })}

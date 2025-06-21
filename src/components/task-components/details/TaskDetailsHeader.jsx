@@ -16,6 +16,7 @@ import {
   priorityStyles,
 } from '@data/taskOptions';
 import { useRef, useState, useEffect } from 'react';
+import { deleteTask } from '@api/http/tasks/deleteTask';
 
 const TaskDetailsHeader = ({ task }) => {
   const [openTaskOptions, setOpenTaskOptions] = useState(false);
@@ -121,10 +122,10 @@ const TaskDetailsHeader = ({ task }) => {
             ref={openTaskOptionsRef}
             className="flex gap-1 absolute top-10 bg-white right-0 flex-col"
           >
-            <button className="w-full text-left px-4 py-2 hover:bg-gray-200 rounded-lg !transition flex items-center justify-center gap-4">
+            <button className="w-full text-left px-4 py-2 hover:bg-gray-200 rounded-lg !transition flex items-center justify-between gap-4">
               Изменить <FaPen />
             </button>
-            <button className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg !transition flex items-center justify-center gap-4">
+            <button className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg !transition flex items-center justify-between gap-4" onClick={()=>deleteTask()}>
               Удалить <FaTrash />
             </button>
           </motion.div>

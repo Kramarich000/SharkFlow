@@ -137,51 +137,51 @@ export default function BoardDetailsModal() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
+              >
+                <BoardHeader
+                  isEditing={isEditing}
+                  newTitle={newTitle}
+                  setNewTitle={setNewTitle}
+                  saveUpdateBoard={saveUpdateBoard}
+                  setisEditing={setisEditing}
+                  selectedBoard={selectedBoard}
+                  load={load}
+                  saveDeleteBoard={saveDeleteBoard}
+                  newColor={newColor}
+                  setNewColor={setNewColor}
+                  setIsCreateTaskModalOpen={setIsCreateTaskModalOpen}
+                />
+
+                {!isLoading ? (
+                  <>
+                    <TaskSortControl
+                      taskSort={taskSort}
+                      setTaskSort={setTaskSort}
+                      sortOrder={sortOrder}
+                      setSortOrder={setSortOrder}
+                    />
+
+                    <TaskList
+                      taskSort={taskSort}
+                      sortedTasks={sortedTasks}
+                      activeId={activeId}
+                      handleDragStart={handleDragStart}
+                      handleDragEnd={handleDragEnd}
+                      handleDragCancel={handleDragCancel}
+                    />
+                  </>
+                ) : (
+                  <BoardLoader />
+                )}
+                <button
+                  type="button"
+                  className="primary-btn !mt-auto !p-1 sm:!p-4"
+                  onClick={() => setIsDetailsBoardModalOpen(false)}
+                  disabled={load}
+                  title="Закрыть доску"
                 >
-                  <BoardHeader
-                    isEditing={isEditing}
-                    newTitle={newTitle}
-                    setNewTitle={setNewTitle}
-                    saveUpdateBoard={saveUpdateBoard}
-                    setisEditing={setisEditing}
-                    selectedBoard={selectedBoard}
-                    load={load}
-                    saveDeleteBoard={saveDeleteBoard}
-                    newColor={newColor}
-                    setNewColor={setNewColor}
-                    setIsCreateTaskModalOpen={setIsCreateTaskModalOpen}
-                  />
-
-                  {!isLoading ? (
-                    <>
-                      <TaskSortControl
-                        taskSort={taskSort}
-                        setTaskSort={setTaskSort}
-                        sortOrder={sortOrder}
-                        setSortOrder={setSortOrder}
-                      />
-
-                      <TaskList
-                        taskSort={taskSort}
-                        sortedTasks={sortedTasks}
-                        activeId={activeId}
-                        handleDragStart={handleDragStart}
-                        handleDragEnd={handleDragEnd}
-                        handleDragCancel={handleDragCancel}
-                      />
-                    </>
-                  ) : (
-                    <BoardLoader />
-                  )}
-                  <button
-                    type="button"
-                    className="primary-btn !mt-auto !p-1 sm:!p-4"
-                    onClick={() => setIsDetailsBoardModalOpen(false)}
-                    disabled={load}
-                    title="Закрыть доску"
-                  >
-                    Закрыть
-                  </button>
+                  Закрыть
+                </button>
                 </motion.div>
               </DialogPanel>
             </TransitionChild>

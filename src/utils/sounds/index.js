@@ -9,29 +9,17 @@ success.volume = 0.5;
 error.volume = 0.5;
 
 export const playSuccess = () => {
-  if (!canPlaySound()) return;
-  try {
-    const audio = new Audio(successSound);
-    audio.volume = 0.5;
-    audio.currentTime = 0;
-    audio.play().catch((e) => {
-      console.warn('Не удалось воспроизвести success звук:', e);
-    });
-  } catch (e) {
-    console.warn('Ошибка создания success звука:', e);
-  }
+  if (!canPlaySound() || !success.paused) return;
+  success.currentTime = 0;
+  success.play().catch((e) => {
+    console.warn('Не удалось воспроизвести success звук:', e);
+  });
 };
 
 export const playError = () => {
-  if (!canPlaySound()) return;
-  try {
-    const audio = new Audio(errorSound);
-    audio.volume = 0.5;
-    audio.currentTime = 0;
-    audio.play().catch((e) => {
-      console.warn('Не удалось воспроизвести error звук:', e);
-    });
-  } catch (e) {
-    console.warn('Ошибка создания error звука:', e);
-  }
+  if (!canPlaySound() || !error.paused) return;
+  error.currentTime = 0;
+  error.play().catch((e) => {
+    console.warn('Не удалось воспроизвести error звук:', e);
+  });
 };

@@ -22,7 +22,7 @@ const TaskFormInputs = ({ title, setTitle, description, setDescription, handleCr
           className="peer input-styles resize-none"
           placeholder=" "
           required
-          rows={4}
+          rows={4}А
         />
         <label className="label-styles">Введите описание задачи</label>
       </div>

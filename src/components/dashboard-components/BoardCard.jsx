@@ -1,18 +1,28 @@
-import { FaEye, FaThumbtack } from 'react-icons/fa';
+import { FaEye, FaThumbtack, FaTasks } from 'react-icons/fa';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { GrPowerCycle } from 'react-icons/gr';
-import { FaStar, FaTasks } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
+import { FaEllipsisH } from 'react-icons/fa';
 import { dateFormatter } from '@utils/date/dateFormatter';
 import useModalsStore from '@store/modalsStore';
 import { useShallow } from 'zustand/shallow';
 import useTaskStore from '@store/taskStore';
 
 export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
-  const { setIsDetailsBoardModalOpen } = useModalsStore(
+  const {
+    setIsDetailsBoardModalOpen,
+    openContextMenu,
+    contextMenu,
+  } = useModalsStore(
     useShallow((state) => ({
       setIsDetailsBoardModalOpen: state.setIsDetailsBoardModalOpen,
+      openContextMenu: state.openContextMenu,
+      contextMenu: state.contextMenu,
     })),
   );
+
+  const menuVisibleForThisCard =
+    contextMenu.visible && contextMenu.board?.uuid === board.uuid;
 
   const { getTasks, setSelectedBoard } = useTaskStore(
     useShallow((state) => ({
@@ -21,9 +31,15 @@ export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
     })),
   );
 
+  const handleMenuClick = (e) => {
+    e.stopPropagation();
+    const rect = e.currentTarget.getBoundingClientRect();
+    openContextMenu(rect.right, rect.bottom, board);
+  };
+
   return (
     <div
-      className="relative overflow-auto rounded-xl shadow-lg !transition-transform border-l-8 box-content max-h-[269px] bg-white p-4"
+      className="group relative overflow-auto rounded-xl border-l-8 box-content max-h-[269px] bg-white p-4 shadow-lg !transition-transform"
       style={{
         borderLeftColor: board.color.startsWith('#')
           ? board.color
@@ -50,6 +66,20 @@ export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
       >
         <FaEye size={27} />
       </button>
+
+      <div className="absolute top-2.5 right-14 flex items-center">
+        <button
+          title="Действия"
+          className={`!p-2 hover:text-gray-800 hover:scale-120 !transition-all ${
+            menuVisibleForThisCard
+              ? 'text-black scale-110 rotate-90'
+              : 'text-gray-400 scale-100'
+          } hover:text-black`}
+          onClick={handleMenuClick}
+        >
+          <FaEllipsisH size={28} />
+        </button>
+      </div>
 
       <button
         title={board.isPinned ? 'Открепить доску' : 'Закрепить доску'}

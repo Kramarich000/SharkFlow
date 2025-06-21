@@ -1,10 +1,13 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import useBoardStore from '@store/boardStore';
 import { useShallow } from 'zustand/react/shallow';
+import { AnimatePresence } from 'framer-motion';
 
 import PaginationControl from '@components/dashboard-components/PaginationControl';
 import DashboardHeader from '@components/dashboard-components/page-components/DashboardHeader';
 import BoardGrid from '@components/dashboard-components/page-components/BoardGrid';
+import BoardGridLoader from '@components/dashboard-components/page-components/BoardGridLoader';
+import BoardContextMenu from '@components/dashboard-components/BoardContextMenu';
 import DashboardLoader from '@components/dashboard-components/page-components/DashboardLoader';
 
 import useModalsStore from '@store/modalsStore';
@@ -27,20 +30,37 @@ const TaskDetailsModal = lazy(
 );
 
 export default function DashboardPage() {
-  const { boards, handleBoardSelect, getBoards, updateBoard, isLoaded } =
-    useBoardStore(
-      useShallow((state) => ({
-        boards: state.boards,
-        handleBoardSelect: state.handleBoardSelect,
-        getBoards: state.getBoards,
-        updateBoard: state.updateBoard,
-        isLoaded: state.isLoaded,
-      })),
-    );
+  const {
+    boards,
+    handleBoardSelect,
+    getBoards,
+    updateBoard,
+    isLoaded,
+    createBoard,
+  } = useBoardStore(
+    useShallow((state) => ({
+      boards: state.boards,
+      handleBoardSelect: state.handleBoardSelect,
+      getBoards: state.getBoards,
+      updateBoard: state.updateBoard,
+      isLoaded: state.isLoaded,
+      createBoard: state.createBoard,
+    })),
+  );
 
-  const { setIsCreateBoardModalOpen } = useModalsStore(
+  const {
+    setIsCreateBoardModalOpen,
+    setIsDetailsBoardModalOpen,
+    setIsDeleteBoardModalOpen,
+    contextMenu,
+    closeContextMenu,
+  } = useModalsStore(
     useShallow((state) => ({
       setIsCreateBoardModalOpen: state.setIsCreateBoardModalOpen,
+      setIsDetailsBoardModalOpen: state.setIsDetailsBoardModalOpen,
+      setIsDeleteBoardModalOpen: state.setIsDeleteBoardModalOpen,
+      contextMenu: state.contextMenu,
+      closeContextMenu: state.closeContextMenu,
     })),
   );
 
@@ -69,6 +89,18 @@ export default function DashboardPage() {
     }
   }, [isLoaded]);
 
+  useEffect(() => {
+    const handleClick = () => {
+      if (contextMenu.visible) {
+        closeContextMenu();
+      }
+    };
+    window.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, [contextMenu.visible, closeContextMenu]);
+
   const handleTogglePin = async (board) => {
     try {
       await updateBoard({ uuid: board.uuid, isPinned: !board.isPinned });
@@ -85,10 +117,49 @@ export default function DashboardPage() {
     }
   };
 
+  const handleEditBoard = () => {
+    if (!contextMenu.board) return;
+    handleBoardSelect(contextMenu.board);
+    setIsDetailsBoardModalOpen(true);
+  };
+
+  const handleDuplicateBoard = async () => {
+    if (!contextMenu.board) return;
+    const { title, color } = contextMenu.board;
+
+    let newTitle = `${title} (копия)`;
+    await createBoard({ title: newTitle, color });
+  };
+
+  const handleDeleteBoard = () => {
+    if (!contextMenu.board) return;
+    handleBoardSelect(contextMenu.board);
+    setIsDeleteBoardModalOpen(true);
+  };
+
   return (
     <>
+      <AnimatePresence>
+        {contextMenu.visible && (
+          <BoardContextMenu
+            x={contextMenu.x}
+            y={contextMenu.y}
+            onClose={closeContextMenu}
+            onEdit={handleEditBoard}
+            onDuplicate={handleDuplicateBoard}
+            onDelete={handleDeleteBoard}
+          />
+        )}
+      </AnimatePresence>
       {loading ? (
-        <DashboardLoader />
+        <div className="flex h-full flex-col p-0 sm:p-6">
+          <DashboardHeader
+            params={params}
+            setParams={setParams}
+            onOpenCreateBoard={() => setIsCreateBoardModalOpen(true)}
+          />
+          <BoardGridLoader />
+        </div>
       ) : (
         <div className="flex flex-col h-full p-0 sm:p-6">
           <DashboardHeader

@@ -184,6 +184,7 @@ const useTaskStore = create((set, get) => ({
     if (!selectedTask?.uuid || !selectedBoardUuid) {
       return false;
     }
+    
     const deleted = await apiDeleteTask(selectedTask.uuid);
     if (deleted) {
       set((state) => {

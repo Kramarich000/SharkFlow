@@ -233,3 +233,194 @@ span.flatpickr-weekday,
 .flatpickr-day.today:focus {
   color: white !important;
 }
+
+.tiptap-content ul {
+  list-style-type: disc !important;
+  margin-left: 20px !important;
+  padding-left: 1em !important;
+}
+
+.tiptap-content ol {
+  list-style-type: decimal !important;
+  margin-left: 20px !important;
+  padding-left: 1em !important;
+}
+
+/* Force styles for tiptap code blocks */
+.tiptap-content pre {
+  background: #0d1117 !important;
+  color: #c9d1d9 !important;
+  font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace !important;
+  padding: 1rem !important;
+  border-radius: 0.5rem !important;
+  margin: 1rem 0 !important;
+}
+
+.tiptap-content pre code {
+  color: inherit !important;
+  padding: 0 !important;
+  background: none !important;
+  font-size: 0.85em !important;
+}
+
+/* Force highlight.js colors */
+.tiptap-content .hljs-comment,
+.tiptap-content .hljs-quote {
+  color: #8b949e !important;
+  font-style: italic;
+}
+
+.tiptap-content .hljs-keyword,
+.tiptap-content .hljs-selector-tag,
+.tiptap-content .hljs-subst {
+  color: #ff7b72 !important;
+}
+
+.tiptap-content .hljs-number,
+.tiptap-content .hljs-literal,
+.tiptap-content .hljs-variable,
+.tiptap-content .hljs-template-variable,
+.tiptap-content .hljs-tag .hljs-attr {
+  color: #79c0ff !important;
+}
+
+.tiptap-content .hljs-string,
+.tiptap-content .hljs-doctag {
+  color: #a5d6ff !important;
+}
+
+.tiptap-content .hljs-title,
+.tiptap-content .hljs-section,
+.tiptap-content .hljs-selector-id {
+  color: #d2a8ff !important;
+  font-weight: bold;
+}
+
+.tiptap-content .hljs-subst {
+  font-weight: normal;
+}
+
+.tiptap-content .hljs-type,
+.tiptap-content .hljs-class .hljs-title {
+  color: #ffa657 !important;
+  font-weight: bold;
+}
+
+.tiptap-content a {
+  color: #58a6ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Task list styles */
+.tiptap-content ul[data-type='taskList'] {
+  list-style: none;
+  padding: 0;
+}
+
+.tiptap-content ul[data-type='taskList'] li {
+  display: flex;
+  align-items: center;
+}
+
+.tiptap-content
+  ul[data-type='taskList']
+  li
+  > label {
+  margin-right: 0.5rem;
+  user-select: none;
+}
+
+.tiptap-content
+  ul[data-type='taskList']
+  li
+  > div {
+  flex-grow: 1;
+}
+
+.tiptap-content
+  ul[data-type='taskList']
+  li[data-checked='true']
+  > div
+  > p {
+  text-decoration: line-through;
+  color: #8b949e;
+}
+
+/* By default, make checkboxes in rendered content read-only */
+.tiptap-content ul[data-type='taskList'] li > label,
+.tiptap-content
+  ul[data-type='taskList']
+  li
+  input[type='checkbox'] {
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+/* Re-enable them only inside the actual editor instance */
+.tiptap
+  .tiptap-content
+  ul[data-type='taskList']
+  li
+  > label,
+.tiptap
+  .tiptap-content
+  ul[data-type='taskList']
+  li
+  input[type='checkbox'] {
+  pointer-events: auto;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.tiptap-content mark {
+  background-color: #ffe066;
+  padding: 0.125em 0.25em;
+  border-radius: 0.25em;
+}
+
+/* Table styles */
+.tiptap-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.tiptap-content th,
+.tiptap-content td {
+  border: 2px solid #ced4da;
+  padding: 0.5rem;
+  min-width: 1em;
+  position: relative;
+}
+
+.tiptap-content th {
+  font-weight: bold;
+  text-align: left;
+  background-color: #f1f3f5;
+}
+
+.tiptap-content .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #adb5bd;
+  cursor: col-resize;
+  user-select: none;
+}
+
+.tiptap-content .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: '';
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(200, 200, 255, 0.4);
+  pointer-events: none;
+}

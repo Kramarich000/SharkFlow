@@ -11,8 +11,18 @@ import useTaskStore from '@store/taskStore';
 export default function TaskCard({ task, dragHandleProps }) {
   const { setIsDetailsTaskModalOpen } = useModalsStore();
   const handleTaskSelect = useTaskStore((state) => state.handleTaskSelect);
-  // console.log(task);
-  const statusClass = statusCardStyles[task.status] || statusCardStyles.DEFAULT;
+
+  const descriptionAsText = (html) => {
+    if (!html) return '— без описания —';
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    return tempDiv.textContent || tempDiv.innerText || '';
+  };
+
+  const plainDescription = descriptionAsText(task.description);
+
+  const statusClass =
+    statusCardStyles[task.status] || statusCardStyles.DEFAULT;
 
   return (
     <div
@@ -38,17 +48,12 @@ export default function TaskCard({ task, dragHandleProps }) {
           <FaEye size={27} />
         </button>
       </div>
-      {task.description ? (
-        <div
-          title={task.description}
-          className="mt-1 prose prose-sm truncate sm:whitespace-normal sm:break-words sm:line-clamp-3 min-h-[72px]"
-          dangerouslySetInnerHTML={{ __html: task.description }}
-        ></div>
-      ) : (
-        <p className="min-h-[72px] flex justify-center" title="Описание задачи">
-          — без описания —
-        </p>
-      )}
+      {/* <p
+        title={plainDescription}
+        className="mt-1 text-center sm:whitespace-normal sm:break-words sm:line-clamp-3 min-h-[72px]"
+      >
+        {plainDescription}
+      </p> */}
       <div className="flex mt-10 flex-col gap-2 justify-center">
         {/* <div className="items-center flex-wrap flex justify-center gap-2 sm:justify-between sm:gap-0">
           <p className="rounded-xl" title="Дата создания">

@@ -105,7 +105,7 @@ export default function TaskDetailsModal() {
               leaveTo="translate-y-full"
             >
               <DialogPanel
-                className={`w-full xl:w-[75%] h-full z-9998 flex flex-col !bg-white !border-4 lg:!border-l-0 !border-b-0 transform overflow-hidden relative rounded-2xl rounded-b-none p-0 text-left align-middle shadow-2xl !transition-all ${
+                className={`w-full xl:w-[95%] h-full z-9998 flex flex-col !bg-white !border-4 lg:!border-l-0 !border-b-0 transform overflow-hidden relative rounded-2xl rounded-b-none p-0 text-left align-middle shadow-2xl !transition-all ${
                   statusCardStyles[selectedTask.status] ||
                   statusCardStyles.DEFAULT
                 }`}

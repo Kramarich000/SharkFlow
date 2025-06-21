@@ -6,7 +6,12 @@ import {
   FaStrikethrough,
   FaListUl,
   FaListOl,
+  FaCode,
 } from 'react-icons/fa';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import { createLowlight, common } from 'lowlight';
+
+const lowlight = createLowlight(common);
 
 const MenuBar = ({ editor }) => {
   if (!editor) {
@@ -67,13 +72,27 @@ const MenuBar = ({ editor }) => {
       >
         <FaListOl />
       </button>
+      <button
+        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+        className={`p-2 rounded-lg ${
+          editor.isActive('codeBlock') ? 'is-active bg-gray-300' : 'bg-gray-200'
+        }`}
+        title="Code Block"
+      >
+        <FaCode />
+      </button>
     </div>
   );
 };
 
 const TiptapEditor = ({ description, onChange }) => {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      CodeBlockLowlight.configure({
+        lowlight,
+      }),
+    ],
     content: description,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());

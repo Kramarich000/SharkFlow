@@ -24,6 +24,7 @@ const useTaskStore = create((set, get) => ({
   setDescription: (description) => set({ description }),
   setPriority: (priority) => set({ priority }),
   setStatus: (status) => set({ status }),
+  setIsEditing: (isEditing) => set({ isEditing }),
 
   setSelectedBoard: (uuid) => set({ selectedBoardUuid: uuid }),
 
@@ -164,10 +165,7 @@ const useTaskStore = create((set, get) => ({
     );
     const prevSnapshot = prev ? { ...prev } : null;
     get().applyTaskUpdate({ uuid, ...updatedFields }, boardId);
-    const updatedData = await get().updateTaskInApi(
-      uuid,
-      updatedFields,
-    );
+    const updatedData = await get().updateTaskInApi(uuid, updatedFields);
     set({ isEditing: false });
     if (updatedData) {
       get().applyTaskUpdate(updatedData, boardId);
@@ -181,11 +179,12 @@ const useTaskStore = create((set, get) => ({
 
   deleteTask: async () => {
     const { selectedTask, selectedBoardUuid } = get();
+    console.log(selectedTask);
     if (!selectedTask?.uuid || !selectedBoardUuid) {
       return false;
     }
-    
-    const deleted = await apiDeleteTask(selectedTask.uuid);
+
+    const deleted = await apiDeleteTask(selectedBoardUuid, selectedTask?.uuid);
     if (deleted) {
       set((state) => {
         const updatedTasks = (

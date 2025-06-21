@@ -9,7 +9,7 @@ import useModalsStore from '@store/modalsStore';
 import useTaskStore from '@store/taskStore';
 import { useShallow } from 'zustand/shallow';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import { statusCardStyles } from '@data/taskOptions';
 

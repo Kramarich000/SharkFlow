@@ -20,7 +20,7 @@ const TaskSortControl = ({ taskSort, setTaskSort, sortOrder, setSortOrder }) => 
       }}
     >
       {({ open }) => (
-        <div className="relative flex items-center justify-center gap-1 md:gap-4 max-w-[400px] m-1 md:m-4">
+        <div className="relative flex items-center justify-center gap-1 md:gap-4 max-w-[400px] m-1 md:m-2">
           <Label className="text-xl">Сортировка:</Label>
           <ListboxButton className="secondary-btn">
             {taskSortOptions.find((opt) => opt.id === taskSort)?.name ||

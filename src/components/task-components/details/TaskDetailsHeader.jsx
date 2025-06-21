@@ -16,12 +16,25 @@ import {
   priorityStyles,
 } from '@data/taskOptions';
 import { useRef, useState, useEffect } from 'react';
-import { deleteTask } from '@api/http/tasks/deleteTask';
+import { useShallow } from 'zustand/shallow';
+import useTaskStore from '@store/taskStore';
+import useModalsStore from '@store/modalsStore';
 
 const TaskDetailsHeader = ({ task }) => {
   const [openTaskOptions, setOpenTaskOptions] = useState(false);
   const openTaskOptionsRef = useRef(null);
   const openTaskButtonRef = useRef(null);
+
+  const setIsDeleteTaskModalOpen = useModalsStore(
+    (state) => state.setIsDeleteTaskModalOpen,
+  );
+
+  const { setIsEditing, isEditing } = useTaskStore(
+    useShallow((state) => ({
+      setIsEditing: state.setIsEditing,
+      isEditing: state.isEditing,
+    })),
+  );
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -46,16 +59,30 @@ const TaskDetailsHeader = ({ task }) => {
       className="grid grid-cols-1 gap-2 border-b pb-4 md:min-h-[129px] lg:grid-cols-2 relative  sm:items-center"
     >
       <div className="min-w-0">
-        <h2 className="text-2xl sm:text-4xl overflow-y-auto xl:overflow-y-hidden max-h-[80px] font-extrabold break-words w-full text-left mb-1 tracking-tight">
-          {task.title}
-        </h2>
-
-        <p className="text-gray-500 text-md sm:text-lg font-medium">
-          Сведения о задаче
-        </p>
+        {isEditing ? (
+          <>
+            <input
+              value={task.title}
+              onChange={(e) => setNewTitle(e.target.value)}
+              className="text-2xl sm:text-4xl overflow-y-auto xl:overflow-y-hidden max-h-[80px] font-extrabold break-words w-full text-left mb-1 tracking-tight"
+            />
+            <p className="text-gray-500 text-md sm:text-lg font-medium">
+              Режим редактирования
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 className="text-2xl sm:text-4xl overflow-y-auto xl:overflow-y-hidden max-h-[80px] font-extrabold break-words w-full text-left mb-1 tracking-tight">
+              {task.title}
+            </h2>
+            <p className="text-gray-500 text-md sm:text-lg font-medium">
+              Сведения о задаче
+            </p>
+          </>
+        )}
       </div>
+      {isEditing ? <></> : <></>}
       <div className="flex h-full sm:gap-3 mt-0 justify-end items-end">
-        {' '}
         <motion.span
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -112,20 +139,32 @@ const TaskDetailsHeader = ({ task }) => {
           <FaEllipsisH size={28} />
         </motion.button>
       </div>
+
       <AnimatePresence>
         {openTaskOptions && (
           <motion.div
-            initial={{ opacity: 0, transform: 'translateY(-10px)' }}
+            initial={{
+              opacity: 0,
+              transform: 'translateY(-10px)',
+            }}
             animate={{ opacity: 1, transform: 'translateY(0px)' }}
             exit={{ opacity: 0, transform: 'translateY(-10px)' }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
             ref={openTaskOptionsRef}
             className="flex gap-1 absolute top-10 bg-white right-0 flex-col"
           >
-            <button className="w-full text-left px-4 py-2 hover:bg-gray-200 rounded-lg !transition flex items-center justify-between gap-4">
+            <button
+              className="w-full text-left px-4 py-2 hover:bg-gray-200 rounded-lg !transition flex items-center justify-between gap-4"
+              onClick={() => setIsEditing(true)}
+            >
               Изменить <FaPen />
             </button>
-            <button className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg !transition flex items-center justify-between gap-4" onClick={()=>deleteTask()}>
+            <button
+              className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg !transition flex items-center justify-between gap-4"
+              onClick={() => {
+                setIsDeleteTaskModalOpen(true);
+              }}
+            >
               Удалить <FaTrash />
             </button>
           </motion.div>

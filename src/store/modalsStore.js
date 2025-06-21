@@ -26,6 +26,9 @@ const useModalsStore = create((set) => ({
   isDetailsTaskModalOpen: false,
   setIsDetailsTaskModalOpen: (value) => set({ isDetailsTaskModalOpen: value }),
 
+  isDeleteTaskModalOpen: false,
+  setIsDeleteTaskModalOpen: (value) => set({ isDeleteTaskModalOpen: value }),
+
   contextMenu: {
     visible: false,
     x: 0,
@@ -51,6 +54,7 @@ const useModalsStore = create((set) => ({
       isDetailsBoardModalOpen: false,
       isCreateTaskModalOpen: false,
       isDetailsTaskModalOpen: false,
+      isDeleteTaskModalOpen: false,
       contextMenu: { visible: false, x: 0, y: 0, board: null },
     }),
 }));

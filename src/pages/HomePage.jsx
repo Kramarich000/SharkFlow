@@ -1,20 +1,20 @@
 import { lazy, Suspense } from 'react';
 
-import Hero from '@components/home-components/Hero';
-import Loader from '@components/main-components/Loader';
+import Hero from 'features/home/components/Hero';
+import Loader from 'common/ui/Loader';
 
-const HowItWorks = lazy(() => import('@components/home-components/HowItWorks'));
-const Features = lazy(() => import('@components/home-components/Features'));
-const Slider = lazy(() => import('@components/home-components/Slider'));
-const Advantages = lazy(() => import('@components/home-components/Advantages'));
-const Security = lazy(() => import('@components/home-components/Security'));
-const About = lazy(() => import('@components/home-components/About'));
-const FAQ = lazy(() => import('@components/home-components/FAQ'));
-const Contacts = lazy(() => import('@components/home-components/Contacts'));
-const Partners = lazy(() => import('@components/home-components/Partners'));
-const Separator = lazy(() => import('@components/main-components/Separator'));
+const HowItWorks = lazy(() => import('features/home/components/HowItWorks'));
+const Features = lazy(() => import('features/home/components/Features'));
+const Slider = lazy(() => import('features/home/components/Slider'));
+const Advantages = lazy(() => import('features/home/components/Advantages'));
+const Security = lazy(() => import('features/home/components/Security'));
+const About = lazy(() => import('features/home/components/About'));
+const FAQ = lazy(() => import('features/home/components/FAQ'));
+const Contacts = lazy(() => import('features/home/components/Contacts'));
+const Partners = lazy(() => import('features/home/components/Partners'));
+const Separator = lazy(() => import('common/ui/Separator'));
 
-export default function HomePage() {
+export function HomePage() {
   return (
     <>
       <Hero />

@@ -1,38 +1,38 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
-import useBoardStore from '@store/boardStore';
+import useBoardStore from 'features/boards/store/boardStore';
 import { useShallow } from 'zustand/react/shallow';
 import { AnimatePresence } from 'framer-motion';
 
-import PaginationControl from '@components/dashboard-components/PaginationControl';
-import DashboardHeader from '@components/dashboard-components/page-components/DashboardHeader';
-import BoardGrid from '@components/dashboard-components/page-components/BoardGrid';
-import BoardGridLoader from '@components/dashboard-components/page-components/BoardGridLoader';
-import BoardContextMenu from '@components/dashboard-components/BoardContextMenu';
-import DashboardLoader from '@components/dashboard-components/page-components/DashboardLoader';
+import PaginationControl from 'features/dashboard/components/PaginationControl';
+import DashboardHeader from 'features/dashboard/components/DashboardHeader';
+import BoardGrid from 'features/boards/components/BoardGrid';
+import BoardGridLoader from 'features/boards/components/BoardGridLoader';
+import BoardContextMenu from 'features/boards/components/BoardContextMenu';
+import DashboardLoader from 'features/dashboard/components/DashboardLoader';
 
 import useModalsStore from '@store/modalsStore';
-import { useBoardFilterAndPagination } from '@hooks/useBoardFilterAndPagination';
+import { useBoardFilterAndPagination } from 'features/boards/hooks/useBoardFilterAndPagination';
 
 const CreateBoardModal = lazy(
-  () => import('@components/dashboard-components/modals/CreateBoardModal'),
+  () => import('features/boards/modals/CreateBoardModal'),
 );
 const CreateTaskModal = lazy(
-  () => import('@components/dashboard-components/modals/CreateTaskModal'),
+  () => import('features/tasks/modals/CreateTaskModal'),
 );
 const DeleteTaskModal = lazy(
-  () => import('@components/dashboard-components/modals/DeleteTaskModal'),
+  () => import('features/tasks/modals/DeleteTaskModal'),
 );
 const BoardDetailsModal = lazy(
-  () => import('@components/dashboard-components/modals/BoardDetailsModal'),
+  () => import('features/boards/modals/BoardDetailsModal'),
 );
 const DeleteBoardModal = lazy(
-  () => import('@components/dashboard-components/modals/DeleteBoardModal'),
+  () => import('features/boards/modals/DeleteBoardModal'),
 );
 const TaskDetailsModal = lazy(
-  () => import('@components/dashboard-components/modals/TaskDetailsModal'),
+  () => import('features/tasks/modals/TaskDetailsModal'),
 );
 
-export default function DashboardPage() {
+export function DashboardPage() {
   const {
     boards,
     handleBoardSelect,
@@ -185,15 +185,6 @@ export default function DashboardPage() {
             onPageChange={setCurrentPage}
             onPageSizeChange={setPageSize}
           />
-
-          <Suspense fallback={null}>
-            <CreateBoardModal />
-            <CreateTaskModal />
-            <DeleteTaskModal />
-            <TaskDetailsModal />
-            <BoardDetailsModal />
-            <DeleteBoardModal />
-          </Suspense>
         </div>
       )}
     </>

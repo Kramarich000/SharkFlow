@@ -1,13 +1,13 @@
 import useModalsStore from '@store/modalsStore';
-import DeleteUserModal from '@components/main-components/user/DeleteUserModal';
-import UpdateUserModal from '@components/main-components/user/UpdateUserModal';
+import DeleteUserModal from 'features/user/modals/DeleteUserModal';
+import UpdateUserModal from 'features/user/modals/UpdateUserModal';
 import { useState, useEffect } from 'react';
-import { getUser } from '@api/http/users/get/getUser';
-import useUserStore from '@store/userStore';
+import { getUser } from 'features/user/api/getUser';
+import useUserStore from 'features/user/store/userStore';
 import { AiOutlineSync } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 
-export default function SettingsPage() {
+export function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const setIsDeleteUserModalOpen = useModalsStore(
     (state) => state.setIsDeleteUserModalOpen,

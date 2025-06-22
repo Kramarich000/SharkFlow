@@ -1,16 +1,16 @@
 import { useEffect, lazy, Suspense } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useRegisterStore } from '@store/registerStore';
-import Loader from '@components/main-components/Loader';
-import RegisterFirstStep from '@components/register-components/RegisterFirstStep';
+import { useRegisterStore } from 'features/auth/store/registerStore';
+import Loader from 'common/ui/Loader';
+import RegisterFirstStep from 'features/auth/components/RegisterFirstStep';
 const RegisterSecondStep = lazy(
-  () => import('@components/register-components/RegisterSecondStep'),
+  () => import('features/auth/components/RegisterSecondStep'),
 );
 const RegisterThirdStep = lazy(
-  () => import('@components/register-components/RegisterThirdStep'),
+  () => import('features/auth/components/RegisterThirdStep'),
 );
-export default function RegisterPage() {
+export function RegisterPage() {
   const { step, setStep } = useRegisterStore();
   const navigate = useNavigate();
 

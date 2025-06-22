@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AiOutlineSync } from 'react-icons/ai';
-import AnimatedError from '@components/main-components/AnimatedError';
+import AnimatedError from 'common/ui/AnimatedError';
 import {
   resetRequest,
   resetVerifyCode,
@@ -15,7 +15,7 @@ import {
 } from '@validators/passwordResetSchema';
 import { useNavigate } from 'react-router-dom';
 
-export default function ResetPasswordPage() {
+export function ResetPasswordPage() {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);

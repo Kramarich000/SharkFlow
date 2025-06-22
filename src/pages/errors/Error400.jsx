@@ -1,7 +1,7 @@
-import ErrorPage from '@components/main-components/ErrorPage';
+import ErrorPage from 'common/ui/ErrorPage';
 import { MdDoNotDisturb } from 'react-icons/md';
 
-const Error400 = () => {
+export const Error400 = () => {
   return (
     <ErrorPage
       errorTitle="400"
@@ -11,5 +11,3 @@ const Error400 = () => {
     />
   );
 };
-
-export default Error400;

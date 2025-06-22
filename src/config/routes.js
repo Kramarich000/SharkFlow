@@ -16,9 +16,9 @@ const PrivacyPage = lazy(() => import('@pages/PrivacyPage'));
 
 const Error404 = lazy(() => import('@pages/errors/Error404'));
 
-import { baseURL } from '@api/http/http';
+import { baseURL } from 'lib/http/http';
 
-const routes = [
+export const routes = [
   {
     path: '/register',
     component: RegisterPage,
@@ -83,5 +83,3 @@ const routes = [
     private: false,
   },
 ];
-
-export default routes;

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const useModalsStore = create((set) => ({
+export const useModalsStore = create((set) => ({
   isLogoutUserModalOpen: false,
   setIsLogoutUserModalOpen: (value) => set({ isLogoutUserModalOpen: value }),
 
@@ -58,5 +58,3 @@ const useModalsStore = create((set) => ({
       contextMenu: { visible: false, x: 0, y: 0, board: null },
     }),
 }));
-
-export default useModalsStore;

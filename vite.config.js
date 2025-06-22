@@ -155,20 +155,19 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      
-      '@components': path.resolve(__dirname, 'src/components'),
+      '@features': path.resolve(__dirname, 'src/features'),
+      '@common': path.resolve(__dirname, 'src/common'),
       '@pages': path.resolve(__dirname, 'src/pages'),
-      '@errors': path.resolve(__dirname, 'src/pages/errors'),
-      '@hooks': path.resolve(__dirname, 'src/hooks'),
-      '@metadata': path.resolve(__dirname, 'src/metadata'),
       '@validators': path.resolve(__dirname, 'src/validators'),
-      '@services': path.resolve(__dirname, 'src/services'),
       '@utils': path.resolve(__dirname, 'src/utils'),
       '@assets': path.resolve(__dirname, 'src/assets'),
       '@config': path.resolve(__dirname, 'src/config'),
-      '@data': path.resolve(__dirname, 'src/data'),
       '@store': path.resolve(__dirname, 'src/store'),
-      '@api': path.resolve(__dirname, 'src/api'),
+      '@lib': path.resolve(__dirname, 'src/lib'),
+      'hljs-langs': path.resolve(
+        __dirname,
+        'node_modules/highlight.js/lib/languages',
+      ),
     },
   },
   build: {

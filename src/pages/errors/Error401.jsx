@@ -1,7 +1,7 @@
-import ErrorPage from '@components/main-components/ErrorPage';
+import ErrorPage from 'common/ui/ErrorPage';
 import { FiShieldOff } from 'react-icons/fi';
 
-const Error401 = () => {
+export const Error401 = () => {
   return (
     <ErrorPage
       errorTitle="401"
@@ -11,5 +11,3 @@ const Error401 = () => {
     />
   );
 };
-
-export default Error401;

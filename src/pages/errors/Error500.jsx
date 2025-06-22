@@ -1,7 +1,7 @@
-import ErrorPage from '@components/main-components/ErrorPage';
+import ErrorPage from 'common/ui/ErrorPage';
 import { LuServerOff } from 'react-icons/lu';
 
-const Error500 = () => {
+export const Error500 = () => {
   return (
     <ErrorPage
       errorTitle="500"
@@ -12,4 +12,3 @@ const Error500 = () => {
   );
 };
 
-export default Error500;

@@ -1,9 +1,9 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { loginSchema } from '@validators/loginSchema';
-import AnimatedError from '@components/main-components/AnimatedError';
-import { login } from '@api/http/auth/login/loginUser';
-import { getUser } from '@api/http/users/get/getUser';
-import { FormikCheckbox } from '@components/main-components/checkbox/FormikCheckbox';
+import AnimatedError from 'common/ui/AnimatedError';
+import { login } from 'features/auth/api/loginUser';
+import { getUser } from 'features/user/api/getUser';
+import { FormikCheckbox } from 'common/ui/FormikCheckbox';
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LuEye } from 'react-icons/lu';
@@ -11,7 +11,7 @@ import { LuEyeClosed } from 'react-icons/lu';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineSync } from 'react-icons/ai';
 
-export default function LoginPage() {
+export function LoginPage() {
   const formikRef = useRef(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();

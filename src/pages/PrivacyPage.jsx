@@ -1,6 +1,6 @@
-import { privacy } from '@data/privacy';
+import { privacy } from 'features/home/data/privacy';
 
-export default function PrivacyPage() {
+export function PrivacyPage() {
   return (
     <section className="bg-white rounded-2xl mx-auto p-4 sm:text-left">
       <h1 className="!text-3xl sm:!text-5xl mb-8 text-center">

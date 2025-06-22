@@ -1,6 +1,6 @@
-import { terms } from '@data/terms';
+import { terms } from 'features/home/data/terms';
 
-export default function TermsPage() {
+export function TermsPage() {
   return (
     <section className="bg-white rounded-2xl mx-auto p-4 sm:text-left">
       <h1 className="!text-3xl sm:!text-5xl mb-8 text-center">

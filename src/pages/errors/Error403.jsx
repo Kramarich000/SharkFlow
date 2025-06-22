@@ -1,7 +1,7 @@
-import ErrorPage from '@components/main-components/ErrorPage';
+import ErrorPage from 'common/ui/ErrorPage';
 import { IoHandLeft } from 'react-icons/io5';
 
-const Error403 = () => {
+export const Error403 = () => {
   return (
     <ErrorPage
       errorTitle="403"
@@ -11,5 +11,3 @@ const Error403 = () => {
     />
   );
 };
-
-export default Error403;

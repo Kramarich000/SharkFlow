@@ -40,9 +40,9 @@ export default React.memo(function BoardCard({ board, onOpen, onTogglePin, onTog
 
   return (
     <div
-      className="group relative hover:translate-x-[10px] overflow-auto rounded-xl border-l-8 box-content max-h-[269px] bg-white p-4 shadow-lg !transition-transform"
+      className="group relative hover:translate-y-[-10px] overflow-auto rounded-xl border-l-8 border-2 box-content max-h-[269px] bg-white p-4 shadow-lg !transition-transform"
       style={{
-        borderLeftColor: board.color.startsWith('#')
+        borderColor: board.color.startsWith('#')
           ? board.color
           : `#${board.color}`,
       }}

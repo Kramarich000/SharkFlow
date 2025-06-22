@@ -77,7 +77,7 @@ export default function TaskDetailsModal() {
                   <TaskStatusSidebar task={selectedTask} />
                   
                   <div className="flex flex-col flex-1 min-w-0">
-                    <div className="flex-shrink-0 p-6 pb-4 border-b border-gray-100 bg-white">
+                    <div className="flex-shrink-0 p-4 sm:p-6 pb-4 border-b border-gray-100 bg-white">
                       <TaskDetailsHeader
                         task={selectedTask}
                         newTitle={taskUpdate.newTitle}
@@ -99,7 +99,7 @@ export default function TaskDetailsModal() {
                       )}
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-6 pt-4 bg-gray-50">
+                    <div className="flex-1 overflow-y-auto p-4 sm:p-6 pt-4 bg-gray-50">
                       <TaskDescription
                         task={selectedTask}
                         newDescription={taskUpdate.newDescription}
@@ -107,7 +107,7 @@ export default function TaskDetailsModal() {
                       />
                     </div>
 
-                    <div className="flex-shrink-0 p-6 pt-4 border-t border-gray-100 bg-white">
+                    <div className="flex-shrink-0 p-4 sm:p-6 pt-4 border-t border-gray-100 bg-white">
                       <TaskTimestamps task={selectedTask} />
                       <button
                         className="primary-btn"

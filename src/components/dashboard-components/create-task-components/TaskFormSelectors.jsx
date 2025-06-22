@@ -23,14 +23,14 @@ const TaskFormSelectors = ({
         onChange={setPriority}
         options={priorityOptions}
         placeholder="Выберите приоритет"
-        optionsClassName="!top-[-180px]"
+        optionsClassName="!top-[-140px]"
       />
       <AttributeSelector
         value={status}
         onChange={setStatus}
         options={statusOptions}
         placeholder="Выберите статус"
-        optionsClassName="!top-[-235px]"
+        optionsClassName="!top-[-180px]"
       />
       <div className="relative sm:col-span-2 md:col-span-1 w-full mt-4">
         <Flatpickr

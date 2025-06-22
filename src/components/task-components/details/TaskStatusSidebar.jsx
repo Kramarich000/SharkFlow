@@ -84,8 +84,8 @@ const TaskStatusSidebar = ({ task }) => {
           )}
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 0.7, y: 0 }}
+          initial={{ opacity: 0, transform: 'translateY(-10px)'  }}
+          animate={{ opacity: 0.7, transform: 'translateY(0px)' }}
         >
           <MdAssignment size={28} color="black" />
         </motion.div>

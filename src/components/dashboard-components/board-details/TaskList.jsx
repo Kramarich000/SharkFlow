@@ -30,7 +30,7 @@ export default React.memo(function TaskList({
           strategy={rectSortingStrategy}
         >
           <div
-            className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center
+            className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center pt-4
                         grid justify-items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3
                         gap-[40px] overflow-y-auto overflow-x-hidden"
           >
@@ -60,7 +60,7 @@ export default React.memo(function TaskList({
 
   return (
     <div
-      className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center
+      className="mt-1 h-full sm:mt-4 mb-4 pr-1 sm:pr-4 text-center pt-4
                 grid justify-items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3
                 gap-[40px] overflow-y-auto overflow-x-hidden"
     >

@@ -104,7 +104,7 @@ export default React.memo(function TaskDetailsHeader({
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-              className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 w-full border-b-2 border-transparent focus:border-black focus:outline-none transition duration-200"
+              className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 w-full border-b-2 border-transparent focus:border-black focus:outline-none !transition duration-200"
               placeholder="Введите название задачи"
             />
           ) : (
@@ -118,7 +118,7 @@ export default React.memo(function TaskDetailsHeader({
           <button
             ref={openTaskButtonRef}
             onClick={() => setOpenTaskOptions(!openTaskOptions)}
-            className={`p-2 rounded-full hover:bg-gray-200 transition-colors duration-200 ${openTaskOptions ? 'bg-gray-200' : ''}`}
+            className={`p-2 rounded-full hover:bg-gray-200 !transition-colors duration-200 ${openTaskOptions ? 'bg-gray-200' : ''}`}
             title="Действия"
           >
             <FaEllipsisH size={20} className="text-gray-600" />
@@ -127,23 +127,22 @@ export default React.memo(function TaskDetailsHeader({
           <AnimatePresence>
             {openTaskOptions && (
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
+                initial={{ opacity: 0, transform: 'translateY(-10px)' }}
+                animate={{ opacity: 1, transform: 'translateY(0px)' }}
+                exit={{ opacity: 0, transform: 'translateY(-10px)'  }}
                 ref={openTaskOptionsRef}
                 className="absolute top-full right-0 mt-2 w-52 bg-white rounded-lg shadow-lg z-20 border border-gray-100 p-2"
               >
                 {isEditing ? (
                   <>
                     <button 
-                      className="w-full text-left px-4 py-2 hover:bg-green-100 text-green-600 rounded-lg font-medium transition flex items-center justify-between gap-4" 
+                      className="w-full text-left px-4 py-2 hover:bg-green-100 text-green-600 rounded-lg font-medium !transition flex items-center justify-between gap-4" 
                       onClick={handleUpdateTask}
                     >
                       Сохранить <FaSave />
                     </button>
                     <button 
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 rounded-lg font-medium transition flex items-center justify-between gap-4" 
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 rounded-lg font-medium !transition flex items-center justify-between gap-4" 
                       onClick={() => setIsEditing(false)}
                     >
                       Отмена <FaTimes />
@@ -151,7 +150,7 @@ export default React.memo(function TaskDetailsHeader({
                   </>
                 ) : (
                   <button 
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 rounded-lg font-medium transition flex items-center justify-between gap-4" 
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 rounded-lg font-medium !transition flex items-center justify-between gap-4" 
                     onClick={() => setIsEditing(true)}
                   >
                     Редактировать <FaPen />
@@ -159,7 +158,7 @@ export default React.memo(function TaskDetailsHeader({
                 )}
                 <div className="border-t border-gray-100 my-2"></div>
                 <button 
-                  className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg font-medium transition flex items-center justify-between gap-4" 
+                  className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg font-medium !transition flex items-center justify-between gap-4" 
                   onClick={() => { 
                     setIsDeleteTaskModalOpen(true); 
                     setOpenTaskOptions(false); 
@@ -173,7 +172,7 @@ export default React.memo(function TaskDetailsHeader({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mb-4">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-4 mb-4">
         <div>
           <p className="text-sm font-medium text-gray-500 mb-1 flex items-center gap-2">
             <FaChevronDown size={10} /> Приоритет

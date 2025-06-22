@@ -1,8 +1,13 @@
 import { useEffect, useRef } from 'react';
 import hljs from 'highlight.js/lib/core';
 
-// A map to keep track of loaded languages to avoid re-loading
 const loadedLanguages = new Set();
+
+const languageModules = import.meta.glob(
+  './hljs-langs/*.js',
+  { eager: false }
+);
+
 
 const HighlightingContent = ({ html, className }) => {
   const contentRef = useRef(null);
@@ -12,41 +17,47 @@ const HighlightingContent = ({ html, className }) => {
 
     const highlightAll = async () => {
       const codeBlocks = contentRef.current.querySelectorAll('pre code');
-      if (codeBlocks.length === 0) return;
+      if (!codeBlocks.length) return;
 
       const languagesToLoad = new Map();
 
       codeBlocks.forEach((block) => {
-        const languageClass = Array.from(block.classList).find((cls) =>
-          cls.startsWith('language-'),
+        const cls = Array.from(block.classList).find((c) =>
+          c.startsWith('language-'),
         );
-        if (!languageClass) return;
+        if (!cls) return;
 
-        const languageName = languageClass.replace('language-', '');
-        if (languageName && !hljs.getLanguage(languageName) && !loadedLanguages.has(languageName)) {
-          languagesToLoad.set(languageName, import(`highlight.js/lib/languages/${languageName}`));
+        const name = cls.replace('language-', '');
+        // Проверяем, что HLJS ещё не знает язык и мы ещё не загружали
+        if (name && !hljs.getLanguage(name) && !loadedLanguages.has(name)) {
+          // Ищем путь к модулю через glob-объект
+          const modulePath = `highlight.js/lib/languages/${name}.js`;
+          const loader = languageModules[modulePath];
+          if (loader) {
+            languagesToLoad.set(name, loader());
+          }
         }
       });
 
-      if (languagesToLoad.size > 0) {
-        const loadedModules = await Promise.all(languagesToLoad.values());
-        const languageNames = Array.from(languagesToLoad.keys());
-        
-        loadedModules.forEach((module, index) => {
-          const name = languageNames[index];
-          hljs.registerLanguage(name, module.default);
-          loadedLanguages.add(name);
+      if (languagesToLoad.size) {
+        const loaded = await Promise.all(languagesToLoad.values());
+        const names = Array.from(languagesToLoad.keys());
+
+        loaded.forEach((mod, i) => {
+          const lang = names[i];
+          hljs.registerLanguage(lang, mod.default);
+          loadedLanguages.add(lang);
         });
       }
-      
+
       codeBlocks.forEach((block) => {
-        // Re-check if the language is now available before highlighting
-        const languageClass = Array.from(block.classList).find((cls) => cls.startsWith('language-'));
-        if (languageClass) {
-            const languageName = languageClass.replace('language-', '');
-            if(hljs.getLanguage(languageName)) {
-                 hljs.highlightElement(block);
-            }
+        const cls = Array.from(block.classList).find((c) =>
+          c.startsWith('language-'),
+        );
+        if (!cls) return;
+        const name = cls.replace('language-', '');
+        if (hljs.getLanguage(name)) {
+          hljs.highlightElement(block);
         }
       });
     };
@@ -63,4 +74,4 @@ const HighlightingContent = ({ html, className }) => {
   );
 };
 
-export default HighlightingContent; 
+export default HighlightingContent;

@@ -155,6 +155,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      
       '@components': path.resolve(__dirname, 'src/components'),
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@errors': path.resolve(__dirname, 'src/pages/errors'),

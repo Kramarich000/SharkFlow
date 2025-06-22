@@ -10,7 +10,12 @@ import {
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { taskSortOptions } from '@data/filterAndSortData';
 
-const TaskSortControl = ({ taskSort, setTaskSort, sortOrder, setSortOrder }) => {
+const TaskSortControl = ({
+  taskSort,
+  setTaskSort,
+  sortOrder,
+  setSortOrder,
+}) => {
   return (
     <Listbox
       value={taskSort}
@@ -45,12 +50,14 @@ const TaskSortControl = ({ taskSort, setTaskSort, sortOrder, setSortOrder }) => 
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-50"
           >
-            <ListboxOptions className="options-styles top-10 !text-center">
+            <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white top-10 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {taskSortOptions.map((opt) => (
                 <ListboxOption
                   key={opt.id}
                   value={opt.id}
-                  className="option-styles"
+                  className={({ active }) =>
+                    `relative cursor-default select-none py-2 pl-4 pr-4 ${active ? 'bg-blue-100 text-blue-900' : 'text-gray-900'}`
+                  }
                 >
                   {opt.name}
                 </ListboxOption>
@@ -63,4 +70,4 @@ const TaskSortControl = ({ taskSort, setTaskSort, sortOrder, setSortOrder }) => 
   );
 };
 
-export default TaskSortControl; 
+export default TaskSortControl;

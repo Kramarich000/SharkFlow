@@ -22,12 +22,11 @@ export default React.memo(function TaskCard({ task, dragHandleProps }) {
 
   const plainDescription = descriptionAsText(task.description);
 
-  const statusClass =
-    statusCardStyles[task.status] || statusCardStyles.DEFAULT;
+  const statusClass = statusCardStyles[task.status] || statusCardStyles.DEFAULT;
 
   return (
     <div
-      className={`w-full relative !h-fit text-center flex flex-col justify-around p-4 border-l-8 rounded-xl transition ${statusClass}`}
+      className={`w-full relative !h-fit text-center flex flex-col justify-around p-4 border-l-8 rounded-xl hover:translate-y-[-8px] transition ${statusClass}`}
     >
       <div className="flex !items-start justify-between">
         <button {...dragHandleProps} className="!p-1" title="Перетащить задачу">
@@ -49,12 +48,12 @@ export default React.memo(function TaskCard({ task, dragHandleProps }) {
           <FaEye size={27} />
         </button>
       </div>
-      {/* <p
+      <p
         title={plainDescription}
         className="mt-1 text-center sm:whitespace-normal sm:break-words sm:line-clamp-3 min-h-[72px]"
       >
         {plainDescription}
-      </p> */}
+      </p>
       <div className="flex mt-10 flex-col gap-2 justify-center">
         {/* <div className="items-center flex-wrap flex justify-center gap-2 sm:justify-between sm:gap-0">
           <p className="rounded-xl" title="Дата создания">
@@ -73,7 +72,7 @@ export default React.memo(function TaskCard({ task, dragHandleProps }) {
             })}
           </p>
         </div> */}
-        <div className="items-center flex justify-center gap-2 flex-wrap">
+        <div className="grid grid-cols-2 gap-2">
           <p className={`rounded-xl ${statusClass} p-1`} title="Статус задачи">
             Статус:{' '}
             {statusOptions.find((opt) => opt.value === task.status)?.label ||
@@ -98,7 +97,7 @@ export default React.memo(function TaskCard({ task, dragHandleProps }) {
           </p>
 
           <p
-            className={`rounded-xl ${statusClass} p-1`}
+            className={`rounded-xl ${statusClass} p-1 col-span-2`}
             title="Приоритет задачи"
           >
             Приоритет:{' '}

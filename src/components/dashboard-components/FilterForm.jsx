@@ -112,12 +112,14 @@ export default function FilterForm({
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-50"
                 >
-                  <ListboxOptions className="options-styles">
+                  <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white top-10 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {recentDaysOptions.map((opt) => (
                       <ListboxOption
                         key={opt.id}
                         value={opt.id}
-                        className="option-styles"
+                        className={({ active }) =>
+                          `relative cursor-default select-none py-2 pl-4 pr-4 ${active ? 'bg-blue-100 text-blue-900' : 'text-gray-900'}`
+                        }
                       >
                         {opt.name}
                       </ListboxOption>
@@ -144,12 +146,14 @@ export default function FilterForm({
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-50"
                 >
-                  <ListboxOptions className="options-styles">
+                  <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white top-10 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {taskCountOptions.map((opt) => (
                       <ListboxOption
                         key={opt.id}
                         value={opt.id}
-                        className="option-styles"
+                        className={({ active }) =>
+                          `relative cursor-default select-none py-2 pl-4 pr-4 ${active ? 'bg-blue-100 text-blue-900' : 'text-gray-900'}`
+                        }
                       >
                         {opt.name}
                       </ListboxOption>
@@ -175,12 +179,14 @@ export default function FilterForm({
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-50"
                 >
-                  <ListboxOptions className="options-styles">
+                  <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white top-10 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {sortOptions.map((opt) => (
                       <ListboxOption
                         key={opt.id}
                         value={opt.id}
-                        className="option-styles"
+                        className={({ active }) =>
+                          `relative cursor-default select-none py-2 pl-4 pr-4 ${active ? 'bg-blue-100 text-blue-900' : 'text-gray-900'}`
+                        }
                       >
                         {opt.name}
                       </ListboxOption>

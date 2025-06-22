@@ -14,8 +14,8 @@ export default function Security() {
             <motion.li
               key={feature.title}
               className="rounded-4xl p-4 text-left"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, transform: 'translateY(-50px)'  }}
+              whileInView={{ opacity: 1, transform: 'translateY(0px)'  }}
               transition={{ delay: index * 0.3 }}
               viewport={{ once: true }}
             >
@@ -31,8 +31,8 @@ export default function Security() {
             <motion.li
               key={feature.title + '-desc'}
               className="rounded-4xl p-4 text-left"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, transform: 'translateY(50px)'  }}
+              whileInView={{ opacity: 1, transform: 'translateY(0px)'  }}
               transition={{ delay: index * 0.3 }}
               viewport={{ once: true }}
             >
@@ -48,8 +48,8 @@ export default function Security() {
             <motion.li
               key={feature.title + '-mobile'}
               className="rounded-4xl p-4 text-center"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, transform: 'translateX(-50px)' }}
+              whileInView={{ opacity: 1, transform: 'translateX(0px)' }}
               transition={{ delay: index * 0.3 }}
               viewport={{ once: true }}
             >

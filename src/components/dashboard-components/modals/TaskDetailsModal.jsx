@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment } from 'react';
 import {
   Dialog,
   DialogPanel,
@@ -17,6 +17,7 @@ import TaskDetailsHeader from '@components/task-components/details/TaskDetailsHe
 import TaskDeadline from '@components/task-components/details/TaskDeadline';
 import TaskDescription from '@components/task-components/details/TaskDescription';
 import TaskTimestamps from '@components/task-components/details/TaskTimestamps';
+import { useTaskUpdate } from '@hooks/useTaskUpdate';
 
 export default function TaskDetailsModal() {
   const { isDetailsTaskModalOpen, setIsDetailsTaskModalOpen } = useModalsStore(
@@ -26,74 +27,36 @@ export default function TaskDetailsModal() {
     })),
   );
 
-  const { setIsEditing, isEditing } = useTaskStore(
+  const { isEditing } = useTaskStore(
     useShallow((state) => ({
-      setIsEditing: state.setIsEditing,
       isEditing: state.isEditing,
     })),
   );
 
-  const { updateTask, selectedTask } = useTaskStore(
+  const { selectedTask } = useTaskStore(
     useShallow((state) => ({
-      updateTask: state.updateTask,
       selectedTask: state.selectedTask,
     })),
   );
 
-  const [newTitle, setNewTitle] = useState('');
-  const [newDueDate, setNewDueDate] = useState('');
-  const [newDescription, setNewDescription] = useState('');
-  const [newPriority, setNewPriority] = useState('');
-  const [newStatus, setNewStatus] = useState('');
-
-  useEffect(() => {
-    if (selectedTask) {
-      setNewTitle(selectedTask.title);
-      setNewDueDate(selectedTask.dueDate);
-      setNewDescription(selectedTask.description);
-      setNewPriority(selectedTask.priority);
-      setNewStatus(selectedTask.status);
-    }
-  }, [selectedTask]);
-
-  const handleUpdateTask = async () => {
-    const updatedFields = {};
-
-    const newDueDateISO =
-      newDueDate instanceof Date ? newDueDate.toISOString() : newDueDate;
-
-    const sanitizedDescription = DOMPurify.sanitize(newDescription);
-
-    if (newTitle !== selectedTask.title) updatedFields.title = newTitle;
-    if (newDueDateISO !== selectedTask.dueDate)
-      updatedFields.dueDate = newDueDateISO;
-    if (sanitizedDescription !== selectedTask.description)
-      updatedFields.description = sanitizedDescription;
-    if (newPriority !== selectedTask.priority)
-      updatedFields.priority = newPriority;
-    if (newStatus !== selectedTask.status) updatedFields.status = newStatus;
-
-    if (Object.keys(updatedFields).length > 0) {
-      await updateTask({
-        uuid: selectedTask.uuid,
-        ...updatedFields,
-      });
-    } else {
-      setIsEditing(false);
-    }
-  };
+  // Используем кастомный хук для логики обновления задачи
+  const taskUpdate = useTaskUpdate(selectedTask);
 
   if (!selectedTask) return null;
 
   const showDeadline =
     selectedTask.status !== 'COMPLETED' && selectedTask.status !== 'CANCELLED';
 
+  const handleClose = () => {
+    setIsDetailsTaskModalOpen(false);
+  };
+
   return (
     <Transition appear show={isDetailsTaskModalOpen} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-50"
-        onClose={() => setIsDetailsTaskModalOpen(false)}
+        onClose={handleClose}
       >
         <div className="fixed inset-0">
           <div className="flex h-full items-end justify-center p-4 pb-0">
@@ -117,19 +80,19 @@ export default function TaskDetailsModal() {
                     <div className="flex-shrink-0 p-6 pb-4 border-b border-gray-100 bg-white">
                       <TaskDetailsHeader
                         task={selectedTask}
-                        newTitle={newTitle}
-                        setNewTitle={setNewTitle}
-                        newPriority={newPriority}
-                        setNewPriority={setNewPriority}
-                        newStatus={newStatus}
-                        setNewStatus={setNewStatus}
-                        handleUpdateTask={handleUpdateTask}
+                        newTitle={taskUpdate.newTitle}
+                        setNewTitle={taskUpdate.setNewTitle}
+                        newPriority={taskUpdate.newPriority}
+                        setNewPriority={taskUpdate.setNewPriority}
+                        newStatus={taskUpdate.newStatus}
+                        setNewStatus={taskUpdate.setNewStatus}
+                        handleUpdateTask={taskUpdate.handleUpdateTask}
                       />
                       {showDeadline || isEditing ? (
                         <TaskDeadline
                           task={selectedTask}
-                          newDueDate={newDueDate}
-                          setNewDueDate={setNewDueDate}
+                          newDueDate={taskUpdate.newDueDate}
+                          setNewDueDate={taskUpdate.setNewDueDate}
                         />
                       ) : (
                         <div className="h-6"></div>
@@ -139,8 +102,8 @@ export default function TaskDetailsModal() {
                     <div className="flex-1 overflow-y-auto p-6 pt-4 bg-gray-50">
                       <TaskDescription
                         task={selectedTask}
-                        newDescription={newDescription}
-                        setNewDescription={setNewDescription}
+                        newDescription={taskUpdate.newDescription}
+                        setNewDescription={taskUpdate.setNewDescription}
                       />
                     </div>
 
@@ -148,7 +111,7 @@ export default function TaskDetailsModal() {
                       <TaskTimestamps task={selectedTask} />
                       <button
                         className="primary-btn"
-                        onClick={() => setIsDetailsTaskModalOpen(false)}
+                        onClick={handleClose}
                       >
                         Закрыть
                       </button>

@@ -76,7 +76,7 @@ const TiptapEditor = ({ description, onChange }) => {
   }, [isLowlightLoaded, editor])
 
   return (
-    <div className="h-full flex flex-col bg-white rounded-lg overflow-hidden">
+    <div className="h-full flex flex-col bg-white rounded-lg">
       {editor && (
         <BubbleMenu
           editor={editor}
@@ -123,7 +123,7 @@ const TiptapEditor = ({ description, onChange }) => {
         <MenuBar editor={editor} />
       </div>
       
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-y-auto max-h-[500px]">
         <EditorContent 
           editor={editor} 
           className="h-full overflow-y-auto p-4 focus:outline-none prose prose-sm max-w-none" 

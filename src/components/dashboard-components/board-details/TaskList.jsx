@@ -1,3 +1,4 @@
+import React from 'react';
 import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -8,14 +9,14 @@ import TaskCard from '@components/task-components/TaskCard';
 
 const SortableTaskCard = SortableTaskCardComponent;
 
-const TaskList = ({
+export default React.memo(function TaskList({
   taskSort,
   sortedTasks,
   activeId,
   handleDragStart,
   handleDragEnd,
   handleDragCancel,
-}) => {
+}) {
   if (taskSort === 'manual') {
     return (
       <DndContext
@@ -75,6 +76,4 @@ const TaskList = ({
       )}
     </div>
   );
-};
-
-export default TaskList; 
+}); 

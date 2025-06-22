@@ -1,3 +1,4 @@
+import React from 'react';
 import { FaEye, FaThumbtack, FaTasks } from 'react-icons/fa';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { GrPowerCycle } from 'react-icons/gr';
@@ -8,7 +9,7 @@ import useModalsStore from '@store/modalsStore';
 import { useShallow } from 'zustand/shallow';
 import useTaskStore from '@store/taskStore';
 
-export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
+export default React.memo(function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
   const {
     setIsDetailsBoardModalOpen,
     openContextMenu,
@@ -121,4 +122,4 @@ export default function BoardCard({ board, onOpen, onTogglePin, onToggleFav }) {
       </div>
     </div>
   );
-}
+});

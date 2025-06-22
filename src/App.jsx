@@ -18,6 +18,7 @@ import { getUser } from '@api/http/users/get/getUser';
 import LogoutUserModal from '@components/main-components/user/LogoutUserModal';
 import { blockedPublicPaths } from '@config/blockedPublicPaths';
 import useUserStore from '@store/userStore';
+import ModalManager from './components/main-components/ModalManager';
 
 function App() {
   const { setUser } = useUserStore.getState();
@@ -105,7 +106,7 @@ function App() {
           limit={isMobile ? 2 : 10}
         />
       </Suspense>
-      <LogoutUserModal />
+      <ModalManager />
     </Router>
   );
 }

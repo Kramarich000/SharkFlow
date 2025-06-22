@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   priorityOptions,
   statusOptions,
@@ -8,7 +9,7 @@ import { HiOutlineBars3 } from 'react-icons/hi2';
 import useModalsStore from '@store/modalsStore';
 import useTaskStore from '@store/taskStore';
 
-export default function TaskCard({ task, dragHandleProps }) {
+export default React.memo(function TaskCard({ task, dragHandleProps }) {
   const { setIsDetailsTaskModalOpen } = useModalsStore();
   const handleTaskSelect = useTaskStore((state) => state.handleTaskSelect);
 
@@ -108,4 +109,4 @@ export default function TaskCard({ task, dragHandleProps }) {
       </div>
     </div>
   );
-}
+});

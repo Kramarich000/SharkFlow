@@ -119,7 +119,7 @@ const TiptapEditor = ({ description, onChange }) => {
         </BubbleMenu>
       )}
 
-      <div className="border-b border-gray-200 bg-gray-50">
+      <div className="border-b border-gray-200 bg-gray-50 rounded-xl">
         <MenuBar editor={editor} />
       </div>
       

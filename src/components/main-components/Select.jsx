@@ -1,6 +1,11 @@
 import React, { Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { FaChevronDown, FaCheck } from 'react-icons/fa';
+import {
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from '@headlessui/react';
 
 const Select = ({
   value,
@@ -16,7 +21,7 @@ const Select = ({
   showCheckmark = true,
   maxHeight = 'max-h-60',
 }) => {
-  const selectedOption = options.find(opt => opt.value === value);
+  const selectedOption = options.find((opt) => opt.value === value);
 
   const sizeClasses = {
     sm: 'py-1.5 px-3 text-sm',
@@ -25,9 +30,12 @@ const Select = ({
   };
 
   const variantClasses = {
-    default: 'bg-white border border-gray-300 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20',
-    outlined: 'bg-transparent border-2 border-gray-300 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20',
-    filled: 'bg-gray-50 border border-gray-300 hover:bg-gray-100 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20',
+    default:
+      'bg-white border border-gray-300 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20',
+    outlined:
+      'bg-transparent border-2 border-gray-300 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20',
+    filled:
+      'bg-gray-50 border border-gray-300 hover:bg-gray-100 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20',
   };
 
   const buttonClasses = `
@@ -58,11 +66,11 @@ const Select = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 min-w-0 flex-1">
               {icon && (
-                <span className="flex-shrink-0 text-gray-500">
-                  {icon}
-                </span>
+                <span className="flex-shrink-0 text-gray-500">{icon}</span>
               )}
-              <span className={`truncate ${selectedOption ? 'text-gray-900' : 'text-gray-500'}`}>
+              <span
+                className={`truncate ${selectedOption ? 'text-gray-900' : 'text-gray-500'}`}
+              >
                 {selectedOption ? selectedOption.label : placeholder}
               </span>
             </div>
@@ -70,9 +78,9 @@ const Select = ({
               {showCheckmark && selectedOption && (
                 <FaCheck className="h-4 w-4 text-blue-600" />
               )}
-              <FaChevronDown 
-                className="h-4 w-4 text-gray-400 transition-transform duration-200 ui-open:rotate-180" 
-                aria-hidden="true" 
+              <FaChevronDown
+                className="h-4 w-4 text-gray-400 transition-transform duration-200 ui-open:rotate-180"
+                aria-hidden="true"
               />
             </div>
           </div>
@@ -92,7 +100,9 @@ const Select = ({
               <Listbox.Option
                 key={option.value}
                 value={option.value}
-                className={({ active, selected }) => optionClasses(active, selected)}
+                className={({ active, selected }) =>
+                  optionClasses(active, selected)
+                }
               >
                 {({ selected }) => (
                   <div className="flex items-center justify-between">
@@ -102,9 +112,7 @@ const Select = ({
                           {option.icon}
                         </span>
                       )}
-                      <span className="truncate">
-                        {option.label}
-                      </span>
+                      <span className="truncate">{option.label}</span>
                     </div>
                     {selected && showCheckmark && (
                       <FaCheck className="h-4 w-4 text-blue-600 flex-shrink-0" />
@@ -120,4 +128,4 @@ const Select = ({
   );
 };
 
-export default Select; 
+export default Select;

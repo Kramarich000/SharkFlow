@@ -2,6 +2,14 @@ import { Fragment } from 'react';
 import { FaFilter, FaCalendarAlt, FaArrowDown } from 'react-icons/fa';
 import { GiBroom } from 'react-icons/gi';
 import Flatpickr from 'react-flatpickr';
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+  Transition,
+} from '@headlessui/react';
+
 import 'flatpickr/dist/themes/dark.css';
 import Select from '@components/main-components/Select';
 import {
@@ -43,17 +51,17 @@ export default function FilterForm({
     onChangeSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
-  const recentDaysSelectOptions = recentDaysOptions.map(opt => ({
+  const recentDaysSelectOptions = recentDaysOptions.map((opt) => ({
     value: opt.id,
     label: opt.name,
   }));
 
-  const taskCountSelectOptions = taskCountOptions.map(opt => ({
+  const taskCountSelectOptions = taskCountOptions.map((opt) => ({
     value: opt.id,
     label: opt.name,
   }));
 
-  const sortBySelectOptions = sortOptions.map(opt => ({
+  const sortBySelectOptions = sortOptions.map((opt) => ({
     value: opt.id,
     label: opt.name,
   }));

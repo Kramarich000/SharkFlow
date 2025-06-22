@@ -1,29 +1,21 @@
 import { Fragment } from 'react';
+import { FaFilter, FaCalendarAlt, FaArrowDown } from 'react-icons/fa';
+import { GiBroom } from 'react-icons/gi';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/dark.css';
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-  Transition,
-} from '@headlessui/react';
+import Select from '@components/main-components/Select';
 import {
   DEFAULT_DATE_RANGE,
   DEFAULT_RECENT_DAYS,
   DEFAULT_ONLY_FAV,
   DEFAULT_SORT_BY,
   DEFAULT_SORT_ORDER,
-  optsRange,
-  recentDaysOptions,
-  sortOptions,
-  taskCountOptions,
   DEFAULT_TASK_COUNT,
+  recentDaysOptions,
+  taskCountOptions,
+  sortOptions,
+  optsRange,
 } from '@data/filterAndSortData';
-import { FaArrowDown, FaTrash } from 'react-icons/fa';
-import { GiBroom } from 'react-icons/gi';
-import { FaFilter } from 'react-icons/fa';
-import { FaCalendarAlt } from 'react-icons/fa';
 
 export default function FilterForm({
   dateRange,
@@ -50,6 +42,21 @@ export default function FilterForm({
   const toggleSortOrder = () => {
     onChangeSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
+
+  const recentDaysSelectOptions = recentDaysOptions.map(opt => ({
+    value: opt.id,
+    label: opt.name,
+  }));
+
+  const taskCountSelectOptions = taskCountOptions.map(opt => ({
+    value: opt.id,
+    label: opt.name,
+  }));
+
+  const sortBySelectOptions = sortOptions.map(opt => ({
+    value: opt.id,
+    label: opt.name,
+  }));
 
   return (
     <form className="bg-white p-6 rounded-2xl shadow-md">

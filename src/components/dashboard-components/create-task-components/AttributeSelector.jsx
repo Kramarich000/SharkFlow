@@ -1,12 +1,5 @@
-import { Fragment } from 'react';
-import { priorityOptions, statusOptions } from '@data/taskOptions';
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-  Transition,
-} from '@headlessui/react';
+import React from 'react';
+import Select from '@components/main-components/Select';
 
 const AttributeSelector = ({
   value,
@@ -14,6 +7,10 @@ const AttributeSelector = ({
   options,
   placeholder,
   optionsClassName,
+  size = 'md',
+  variant = 'default',
+  icon,
+  showCheckmark = true,
 }) => {
   return (
     <Listbox value={value} onChange={onChange}>

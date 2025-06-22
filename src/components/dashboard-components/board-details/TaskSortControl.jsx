@@ -1,14 +1,7 @@
-import { Fragment } from 'react';
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-  Label,
-  Transition,
-} from '@headlessui/react';
-import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import React from 'react';
+import { FaArrowDown, FaArrowUp, FaSort } from 'react-icons/fa';
 import { taskSortOptions } from '@data/filterAndSortData';
+import Select from '@components/main-components/Select';
 
 const TaskSortControl = ({
   taskSort,

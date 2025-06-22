@@ -1,12 +1,5 @@
-import { Fragment } from 'react';
-import { priorityOptions, statusOptions } from '@data/taskOptions';
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-  Transition,
-} from '@headlessui/react';
+import React from 'react';
+import Select from '@components/main-components/Select';
 
 const AttributeSelector = ({
   value,
@@ -14,41 +7,25 @@ const AttributeSelector = ({
   options,
   placeholder,
   optionsClassName,
+  size = 'md',
+  variant = 'default',
+  icon,
+  showCheckmark = true,
 }) => {
   return (
-    <Listbox value={value} onChange={onChange}>
-      {({ open }) => (
-        <div className="relative w-full mt-4">
-          <ListboxButton className="secondary-btn w-full">
-            {options.find((opt) => opt.value === value)?.label || placeholder}
-          </ListboxButton>
-          <Transition
-            as={Fragment}
-            show={open}
-            enter="transition ease-out duration-200"
-            enterFrom="opacity-0 scale-50"
-            enterTo="opacity-100 scale-100"
-            leave="transition ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-50"
-          >
-            <ListboxOptions
-              className={`options-styles !text-center ${optionsClassName}`}
-            >
-              {options.map((opt) => (
-                <ListboxOption
-                  key={opt.value}
-                  value={opt.value}
-                  className="option-styles"
-                >
-                  {opt.label}
-                </ListboxOption>
-              ))}
-            </ListboxOptions>
-          </Transition>
-        </div>
-      )}
-    </Listbox>
+    <div className="relative w-full mt-4">
+      <Select
+        value={value}
+        onChange={onChange}
+        options={options}
+        placeholder={placeholder}
+        size={size}
+        variant={variant}
+        icon={icon}
+        optionsClassName={optionsClassName}
+        showCheckmark={showCheckmark}
+      />
+    </div>
   );
 };
 

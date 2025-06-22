@@ -1,29 +1,21 @@
 import { Fragment } from 'react';
+import { FaFilter, FaCalendarAlt, FaArrowDown } from 'react-icons/fa';
+import { GiBroom } from 'react-icons/gi';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/dark.css';
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-  Transition,
-} from '@headlessui/react';
+import Select from '@components/main-components/Select';
 import {
   DEFAULT_DATE_RANGE,
   DEFAULT_RECENT_DAYS,
   DEFAULT_ONLY_FAV,
   DEFAULT_SORT_BY,
   DEFAULT_SORT_ORDER,
-  optsRange,
-  recentDaysOptions,
-  sortOptions,
-  taskCountOptions,
   DEFAULT_TASK_COUNT,
+  recentDaysOptions,
+  taskCountOptions,
+  sortOptions,
+  optsRange,
 } from '@data/filterAndSortData';
-import { FaArrowDown, FaTrash } from 'react-icons/fa';
-import { GiBroom } from 'react-icons/gi';
-import { FaFilter } from 'react-icons/fa';
-import { FaCalendarAlt } from 'react-icons/fa';
 
 export default function FilterForm({
   dateRange,
@@ -50,6 +42,21 @@ export default function FilterForm({
   const toggleSortOrder = () => {
     onChangeSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
+
+  const recentDaysSelectOptions = recentDaysOptions.map(opt => ({
+    value: opt.id,
+    label: opt.name,
+  }));
+
+  const taskCountSelectOptions = taskCountOptions.map(opt => ({
+    value: opt.id,
+    label: opt.name,
+  }));
+
+  const sortBySelectOptions = sortOptions.map(opt => ({
+    value: opt.id,
+    label: opt.name,
+  }));
 
   return (
     <form className="bg-white p-6 rounded-2xl shadow-md">
@@ -95,101 +102,46 @@ export default function FilterForm({
             />
             <FaCalendarAlt className="absolute right-2 bottom-3.5 pointer-events-none" />
           </div>
-          <Listbox value={recentDays} onChange={onChangeRecentDays}>
-            {({ open }) => (
-              <div className="relative w-full col-span-2 sm:col-span-1">
-                <ListboxButton className="secondary-btn">
-                  {recentDaysOptions.find((o) => o.id === recentDays)?.name ||
-                    'Период'}
-                </ListboxButton>
-                <Transition
-                  as={Fragment}
-                  show={open}
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0 scale-50"
-                  enterTo="opacity-100 scale-100"
-                  leave="transition ease-in duration-200"
-                  leaveFrom="opacity-100 scale-100"
-                  leaveTo="opacity-0 scale-50"
-                >
-                  <ListboxOptions className="options-styles">
-                    {recentDaysOptions.map((opt) => (
-                      <ListboxOption
-                        key={opt.id}
-                        value={opt.id}
-                        className="option-styles"
-                      >
-                        {opt.name}
-                      </ListboxOption>
-                    ))}
-                  </ListboxOptions>
-                </Transition>
-              </div>
-            )}
-          </Listbox>
-          <Listbox value={taskCount} onChange={onChangeTaskCount}>
-            {({ open }) => (
-              <div className="relative w-full col-span-2 sm:col-span-1">
-                <ListboxButton className="secondary-btn">
-                  {taskCountOptions.find((o) => o.id === taskCount)?.name ||
-                    'Число задач'}
-                </ListboxButton>
-                <Transition
-                  as={Fragment}
-                  show={open}
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0 scale-50"
-                  enterTo="opacity-100 scale-100"
-                  leave="transition ease-in duration-200"
-                  leaveFrom="opacity-100 scale-100"
-                  leaveTo="opacity-0 scale-50"
-                >
-                  <ListboxOptions className="options-styles">
-                    {taskCountOptions.map((opt) => (
-                      <ListboxOption
-                        key={opt.id}
-                        value={opt.id}
-                        className="option-styles"
-                      >
-                        {opt.name}
-                      </ListboxOption>
-                    ))}
-                  </ListboxOptions>
-                </Transition>
-              </div>
-            )}
-          </Listbox>
-          <Listbox value={sortBy} onChange={onChangeSortBy}>
-            {({ open }) => (
-              <div className="relative w-full col-span-2 lg:col-span-1">
-                <ListboxButton className="secondary-btn">
-                  {sortOptions.find((o) => o.id === sortBy)?.name || 'Тип'}
-                </ListboxButton>
-                <Transition
-                  as={Fragment}
-                  show={open}
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0 scale-50"
-                  enterTo="opacity-100 scale-100"
-                  leave="transition ease-in duration-200"
-                  leaveFrom="opacity-100 scale-100"
-                  leaveTo="opacity-0 scale-50"
-                >
-                  <ListboxOptions className="options-styles">
-                    {sortOptions.map((opt) => (
-                      <ListboxOption
-                        key={opt.id}
-                        value={opt.id}
-                        className="option-styles"
-                      >
-                        {opt.name}
-                      </ListboxOption>
-                    ))}
-                  </ListboxOptions>
-                </Transition>
-              </div>
-            )}
-          </Listbox>
+          
+          <div className="relative w-full col-span-2 sm:col-span-1">
+            <Select
+              value={recentDays}
+              onChange={onChangeRecentDays}
+              options={recentDaysSelectOptions}
+              placeholder="Период"
+              size="sm"
+              variant="outlined"
+              icon={<FaCalendarAlt className="h-4 w-4" />}
+              showCheckmark={false}
+            />
+          </div>
+          
+          <div className="relative w-full col-span-2 sm:col-span-1">
+            <Select
+              value={taskCount}
+              onChange={onChangeTaskCount}
+              options={taskCountSelectOptions}
+              placeholder="Число задач"
+              size="sm"
+              variant="outlined"
+              icon={<FaFilter className="h-4 w-4" />}
+              showCheckmark={false}
+            />
+          </div>
+          
+          <div className="relative w-full col-span-2 lg:col-span-1">
+            <Select
+              value={sortBy}
+              onChange={onChangeSortBy}
+              options={sortBySelectOptions}
+              placeholder="Тип"
+              size="sm"
+              variant="outlined"
+              icon={<FaArrowDown className="h-4 w-4" />}
+              showCheckmark={false}
+            />
+          </div>
+          
           <div className="flex col-span-2 lg:col-span-5 gap-30 lg:gap-10 items-center">
             <div className="relative flex items-center justify-center">
               <button

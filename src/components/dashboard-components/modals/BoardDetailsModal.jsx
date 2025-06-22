@@ -21,7 +21,7 @@ export default function BoardDetailsModal() {
       selectedBoard: state.selectedBoard,
     })),
   );
-  
+
   const {
     setIsDeleteBoardModalOpen,
     isDetailsBoardModalOpen,
@@ -61,11 +61,7 @@ export default function BoardDetailsModal() {
 
   return (
     <Transition appear show={isDetailsBoardModalOpen} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-50"
-        onClose={handleClose}
-      >
+      <Dialog as="div" className="relative z-50" onClose={handleClose}>
         <div className="fixed inset-0">
           <div className="flex h-full items-end justify-center p-4 pb-0">
             <TransitionChild

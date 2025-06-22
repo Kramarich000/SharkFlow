@@ -1,10 +1,11 @@
-import React from 'react';
+import { Fragment } from 'react';
 import Select from '@components/main-components/Select';
 import {
   Listbox,
   ListboxButton,
   ListboxOption,
   ListboxOptions,
+  Transition,
 } from '@headlessui/react';
 
 const AttributeSelector = ({

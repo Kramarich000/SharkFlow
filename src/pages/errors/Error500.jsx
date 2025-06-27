@@ -1,5 +1,6 @@
-import ErrorPage from 'common/ui/ErrorPage';
 import { LuServerOff } from 'react-icons/lu';
+
+import ErrorPage from '@common/ui';
 
 export const Error500 = () => {
   return (
@@ -11,4 +12,3 @@ export const Error500 = () => {
     />
   );
 };
-

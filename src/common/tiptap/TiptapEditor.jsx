@@ -1,11 +1,10 @@
-import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
+import { useEffect, useState } from 'react';
+import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import { createLowlight } from 'lowlight';
+// import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Link from '@tiptap/extension-link';
 import TaskList from '@tiptap/extension-task-list';
 import TaskItem from '@tiptap/extension-task-item';
-import { useEffect, useState } from 'react';
 import TextStyle from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
@@ -13,29 +12,31 @@ import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
-import MenuBar from './MenuBar';
 
+// import { createLowlight } from 'lowlight';
+import { MenuBar } from '@common/tiptap/MenuBar';
 import { FaUnlink } from 'react-icons/fa';
+import { BubbleMenu, EditorContent } from '@tiptap/react';
 
-const lowlight = createLowlight();
+// const lowlight = createLowlight();
 
-export const TiptapEditor = ({ description, onChange }) => {
-  const [isLowlightLoaded, setIsLowlightLoaded] = useState(false);
+const TiptapEditor = ({ description, onChange }) => {
+  // const [isLowlightLoaded, setIsLowlightLoaded] = useState(false);
 
-  useEffect(() => {
-    import('@utils/lowlight-loader.js').then((module) => {
-      const common = module.common;
-      lowlight.register(common);
-      setIsLowlightLoaded(true);
-    });
-  }, []);
+  // useEffect(() => {
+  //   import('@utils/lowlight-loader.js').then((module) => {
+  //     const common = module.common;
+  //     lowlight.register(common);
+  //     setIsLowlightLoaded(true);
+  //   });
+  // }, []);
 
   const editor = useEditor({
     extensions: [
       StarterKit,
-      CodeBlockLowlight.configure({
-        lowlight,
-      }),
+      // CodeBlockLowlight.configure({
+      //   lowlight,
+      // }),
       Link.configure({
         openOnClick: false,
         autolink: true,
@@ -65,15 +66,15 @@ export const TiptapEditor = ({ description, onChange }) => {
     },
   });
 
-  useEffect(() => {
-    if (editor && isLowlightLoaded) {
-      const { from, to } = editor.state.selection;
-      editor.commands.setContent(editor.getHTML(), false, {
-        preserveWhitespace: 'full',
-      });
-      editor.commands.setTextSelection({ from, to });
-    }
-  }, [isLowlightLoaded, editor]);
+  // useEffect(() => {
+  //   if (editor && isLowlightLoaded) {
+  //     const { from, to } = editor.state.selection;
+  //     editor.commands.setContent(editor.getHTML(), false, {
+  //       preserveWhitespace: 'full',
+  //     });
+  //     editor.commands.setTextSelection({ from, to });
+  //   }
+  // }, [isLowlightLoaded, editor]);
 
   return (
     <div className="h-full flex flex-col bg-white rounded-lg">
@@ -132,3 +133,5 @@ export const TiptapEditor = ({ description, onChange }) => {
     </div>
   );
 };
+
+export default TiptapEditor;

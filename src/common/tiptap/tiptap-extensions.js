@@ -13,9 +13,9 @@ import TableRow from '@tiptap/extension-table-row';
 
 export const getExtensions = (lowlight) => [
   StarterKit,
-  CodeBlockLowlight.configure({
-    lowlight,
-  }),
+  // CodeBlockLowlight.configure({
+  //   lowlight,
+  // }),
   Link.configure({
     openOnClick: false,
     autolink: true,

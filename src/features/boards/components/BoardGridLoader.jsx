@@ -1,4 +1,4 @@
-import BoardCardSkeleton from './BoardCardSkeleton';
+import { BoardCardSkeleton } from '@features/boards';
 
 export function BoardGridLoader({ count = 10 }) {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import BoardCard from 'features/boards/components/BoardCard';
+import { BoardCard } from '@features/boards';
 
 function BoardGridComponent({ boards, onOpen, onTogglePin, onToggleFav }) {
   return (

@@ -1,6 +1,6 @@
-import api from 'lib/http/http';
-import { useAuthStore } from 'features/auth/store/authStore';
-import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
+import { api } from '@lib/http';
+import { useAuthStore } from '@features/auth';
+import { apiResponsesHandler } from '@utils/responsesHandler';
 
 export async function login(values) {
   const payload = {

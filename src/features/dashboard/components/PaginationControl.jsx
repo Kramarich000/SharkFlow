@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 
 export function PaginationControl({
@@ -16,7 +15,7 @@ export function PaginationControl({
         <button
           disabled={page === 1}
           onClick={() => onPageChange(page - 1)}
-          className="tertiary-btn"
+          className={`btn-tertiary ${page === 1 ? 'pointer-events-none' : ''}`}
           title="Назад"
         >
           <FaArrowLeft />
@@ -27,7 +26,7 @@ export function PaginationControl({
         <button
           disabled={page === totalPages}
           onClick={() => onPageChange(page + 1)}
-          className="tertiary-btn"
+          className={`btn-tertiary ${page === totalPages ? 'pointer-events-none' : ''}`}
           title="Вперед"
         >
           <FaArrowLeft className="rotate-180" />
@@ -38,13 +37,17 @@ export function PaginationControl({
         {sizes.map((size) => (
           <button
             key={size}
-            className={`px-4 py-2 rounded-full text-white
-                        !transition-colors hover:bg-gray-800
-                        ${pageSize === size ? 'bg-gray-900' : 'bg-gray-400'}`}
+            className={`btn-tertiary !transition-all ${
+              pageSize === size ? '!bg-white scale-110 !border-1 !border-[var(--main-primary)]' : ''
+            }`}
             onClick={() => onPageSizeChange(size)}
             title={`Количество досок на странице: ${size}`}
           >
-            {size}
+            <span
+              className={pageSize === size ? 'text-[var(--main-primary)]' : ''}
+            >
+              {size}
+            </span>
           </button>
         ))}
       </div>

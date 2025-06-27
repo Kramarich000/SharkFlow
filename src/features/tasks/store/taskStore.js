@@ -1,8 +1,8 @@
 import { create } from 'zustand';
-import { getTasks as apiGetTasks } from 'features/tasks/api/getTasks';
-import { createTask as apiCreateTask } from 'features/tasks/api/createTask';
-import { updateTask as apiUpdateTask } from 'features/tasks/api/updateTask';
-import { deleteTask as apiDeleteTask } from 'features/tasks/api/deleteTask';
+import { getTasks as apiGetTasks } from '@features/tasks';
+import { createTask as apiCreateTask } from '@features/tasks';
+import { updateTask as apiUpdateTask } from '@features/tasks';
+import { deleteTask as apiDeleteTask } from '@features/tasks';
 
 export const useTaskStore = create((set, get) => ({
   tasksByBoard: {},

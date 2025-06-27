@@ -1,8 +1,9 @@
-import { partners } from 'features/home/data/logos';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-export function Partners() {
+import { partners } from '@features/home';
+
+export default function Partners() {
   return (
     <section className="py-16 mx-auto">
       <h2 className="text-3xl mb-8">Наши партнёры</h2>
@@ -32,14 +33,14 @@ export function Partners() {
         className="mt-6"
         initial={{ transform: 'translateY(100px)', opacity: 0 }}
         whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.5, delay: 1.5 }}
         viewport={{ once: true }}
       >
         <Link
-          className="bg-[#111111] mt-4 block sm:inline text-[16px] max-w-[400px] mx-auto sm:text-[20px] rounded-4xl p-4 text-xl text-white hover:!text-white hover:bg-gray-600 !transition-colors"
+          className="btn-primary !text-[var(--main-button-text)] !no-underline !w-fit mx-auto"
           to="/register"
         >
-          Попробовать сейчас
+          Начать охоту
         </Link>
       </motion.div>
     </section>

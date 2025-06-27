@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import useTaskStore from 'features/tasks/store/taskStore';
 import DOMPurify from 'dompurify';
+import { useTaskStore } from '@features/tasks';
 
 export const useTaskUpdate = (selectedTask) => {
   const { updateTask } = useTaskStore();

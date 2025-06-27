@@ -11,19 +11,15 @@
     "resolveJsonModule": true,
     "baseUrl": "src",
     "paths": {
-      "@components/*": ["components/*"],
+      "@features/*": ["features/*"],
+      "@common/*": ["common/*"],
       "@pages/*": ["pages/*"],
-      "@errors/*": ["pages/errors/*"],
-      "@hooks/*": ["hooks/*"],
-      "@metadata/*": ["metadata/*"],
       "@validators/*": ["validators/*"],
-      "@services/*": ["services/*"],
       "@utils/*": ["utils/*"],
       "@assets/*": ["assets/*"],
       "@config/*": ["config/*"],
-      "@data/*": ["data/*"],
       "@store/*": ["store/*"],
-      "@api/*": ["api/*"]
+      "@lib/*": ["lib/*"]
     }
   },
   "include": ["src/**/*", "src/metrics", "public/disableErrors.js"]

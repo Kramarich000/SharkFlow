@@ -1,15 +1,16 @@
-import { dateFormatter } from '@utils/date/dateFormatter';
 import {
   FaRegClock,
   FaExclamationTriangle,
   FaCalendarAlt,
   FaChevronDown,
 } from 'react-icons/fa';
-import { baseOpts } from 'common/data/filterAndSortData';
-import useTaskStore from 'features/tasks/store/taskStore';
-import { useShallow } from 'zustand/shallow';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/dark.css';
+import { useShallow } from 'zustand/shallow';
+
+import { dateFormatter } from '@utils/date';
+import { baseOpts } from '@common/data';
+import { useTaskStore } from '@features/tasks';
 
 export const TaskDeadline = ({ task, newDueDate, setNewDueDate }) => {
   const { isEditing } = useTaskStore(
@@ -60,7 +61,7 @@ export const TaskDeadline = ({ task, newDueDate, setNewDueDate }) => {
             onChange={(selectedDates) => setNewDueDate(selectedDates[0])}
             value={newDueDate ? [newDueDate] : []}
             options={{ ...baseOpts, minDate: todayStart }}
-            className="w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left border border-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+            className="w-full cursor-pointer rounded-lg py-2 pl-3 pr-10 text-left border border-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
             placeholder="Выберите дату..."
           />
           <FaCalendarAlt className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />

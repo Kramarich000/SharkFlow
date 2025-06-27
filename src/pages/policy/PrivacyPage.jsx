@@ -1,0 +1,28 @@
+import { privacy } from '@features/home';
+
+export default function PrivacyPage() {
+  return (
+    <section className="rounded-2xl mx-auto p-4 sm:text-left">
+      <h1 className="!text-3xl sm:!text-5xl mb-8 text-center">
+        Политика конфиденциальности SharkFlow
+      </h1>
+
+      <p className="mb-6">Дата последнего обновления: 16 июня 2025 г.</p>
+
+      {privacy.map(({ id, title, description, items }) => (
+        <div key={id} className="mb-3 sm:mb-6">
+          <h2 className="text-[20px] font-bold mb-2">{title}</h2>
+          {description && <p className="sm:pl-8">{description}</p>}
+
+          {items && (
+            <ul className="pl-8">
+              {items.map((text, idx) => (
+                <li key={idx}>{text}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
+    </section>
+  );
+}

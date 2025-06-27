@@ -7,15 +7,8 @@ import {
 } from 'react-icons/fa';
 import { PiEmpty } from 'react-icons/pi';
 import { MdAssignment } from 'react-icons/md';
-import { statusStyles } from 'features/tasks/data/taskOptions';
 
-const statusIconBg = {
-  COMPLETED: 'from-green-400 to-green-600 shadow-green-400/40',
-  CANCELLED: 'from-red-400 to-red-600 shadow-red-400/40',
-  PENDING: 'from-yellow-300 to-yellow-500 shadow-yellow-300/40',
-  IN_PROGRESS: 'from-blue-400 to-blue-600 shadow-blue-400/40',
-  DEFAULT: 'from-gray-300 to-gray-500 shadow-gray-300/40',
-};
+import { statusStyles, statusIconBg } from '@features/tasks';
 
 export const TaskStatusSidebar = ({ task }) => {
   return (

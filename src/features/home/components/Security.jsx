@@ -1,12 +1,11 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { security } from 'features/home/data/security';
+import { security } from '@features/home';
 
-export function Security() {
+export default function Security() {
   return (
     <section className="py-12 mx-auto">
       <h2 className="text-3xl mb-8">Безопасность</h2>
-      <p className="mb-8">TaskFlow — это безопасный инструмент.</p>
+      <p className="mb-8">SharkFlow — это безопасный инструмент.</p>
 
       <div className="hidden xl:flex justify-between text-left">
         <ul>
@@ -24,7 +23,7 @@ export function Security() {
           ))}
         </ul>
 
-        <span className="border-1 border-[#111111]"></span>
+        <span className="border-1 border-[var(--main-primary)]"></span>
 
         <ul>
           {security.map((feature, index) => (

@@ -1,5 +1,6 @@
-import ErrorPage from 'common/ui/ErrorPage';
 import { IoHandLeft } from 'react-icons/io5';
+
+import ErrorPage from '@common/ui';
 
 export const Error403 = () => {
   return (

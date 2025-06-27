@@ -1,9 +1,14 @@
-import useTaskStore from 'features/tasks/store/taskStore';
+import { lazy } from 'react';
 import { useShallow } from 'zustand/shallow';
-import TiptapEditor from 'common/tiptap/TiptapEditor';
-import HighlightingContent from 'common/ui/HighlightingContent';
+import { useTaskStore } from '@features/tasks';
+const TiptapEditor = lazy(() => import('@common/tiptap/TiptapEditor'));
+import { HighlightingContent } from '@common/ui';
 
-export const TaskDescription = ({ task, newDescription, setNewDescription }) => {
+export const TaskDescription = ({
+  task,
+  newDescription,
+  setNewDescription,
+}) => {
   const { isEditing } = useTaskStore(
     useShallow((state) => ({
       isEditing: state.isEditing,

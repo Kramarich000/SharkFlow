@@ -1,5 +1,5 @@
-import api from 'lib/http/http';
-import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
+import { api } from "@lib/http";
+import { apiResponsesHandler } from "@utils/responsesHandler";
 
 export async function deleteTask(boardUuid, taskUuid) {
   return await apiResponsesHandler(() =>

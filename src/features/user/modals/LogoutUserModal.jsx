@@ -6,9 +6,10 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
-import useModalsStore from '@store/modalsStore';
 import { AiOutlineSync } from 'react-icons/ai';
-import { logoutUser } from 'features/auth/api/logoutUser';
+
+import { useModalsStore } from '@store/modalsStore';
+import { logoutUser } from '@features/auth';
 
 export function LogoutUserModal() {
   const [load, setLoad] = useState(false);
@@ -52,13 +53,13 @@ export function LogoutUserModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-xl h-full transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="modal-base w-full border-2 max-w-xl h-full transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all">
                 <h2 className="text-center text-3xl mb-4">
                   Вы уверены что хотите выйти?
                 </h2>
                 <div className="flex items-center flex-col sm:flex-row justify-between gap-6">
                   <button
-                    className={`primary-btn items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : null}`}
+                    className={`btn-primary ${load ? 'btn-loading' : ''}`}
                     onClick={() => logoutUserHandler()}
                     disabled={load}
                   >
@@ -69,7 +70,7 @@ export function LogoutUserModal() {
                     )}
                   </button>
                   <button
-                    className={`primary-btn ${load ? 'pointer-events-none' : null}`}
+                    className={`btn-primary ${load ? 'btn-loading' : ''}`}
                     disabled={load}
                     onClick={() => setIsLogoutUserModalOpen(false)}
                   >

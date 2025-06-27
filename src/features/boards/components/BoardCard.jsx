@@ -1,13 +1,18 @@
 import React from 'react';
-import { FaEye, FaThumbtack, FaTasks } from 'react-icons/fa';
+import {
+  FaEye,
+  FaThumbtack,
+  FaTasks,
+  FaStar,
+  FaEllipsisH,
+} from 'react-icons/fa';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { GrPowerCycle } from 'react-icons/gr';
-import { FaStar } from 'react-icons/fa';
-import { FaEllipsisH } from 'react-icons/fa';
-import { dateFormatter } from '@utils/date/dateFormatter';
-import useModalsStore from '@store/modalsStore';
 import { useShallow } from 'zustand/shallow';
-import useTaskStore from 'features/tasks/store/taskStore';
+
+import { dateFormatter } from '@utils/date';
+import { useModalsStore } from '@store/modalsStore';
+import { useTaskStore } from '@features/tasks';
 
 function BoardCardComponent({ board, onOpen, onTogglePin, onToggleFav }) {
   const { setIsDetailsBoardModalOpen, openContextMenu, contextMenu } =
@@ -37,7 +42,7 @@ function BoardCardComponent({ board, onOpen, onTogglePin, onToggleFav }) {
 
   return (
     <div
-      className="group relative hover:translate-y-[-10px] overflow-auto rounded-xl border-l-8 border-2 box-content max-h-[269px] bg-white p-4 shadow-lg !transition-transform"
+      className="card-base group board-card"
       style={{
         borderColor: board.color.startsWith('#')
           ? board.color
@@ -51,10 +56,9 @@ function BoardCardComponent({ board, onOpen, onTogglePin, onToggleFav }) {
           {board.title}
         </h2>
       </div>
-
       <button
         title="Открыть доску"
-        className="!p-2 absolute right-4 top-2.5 text-gray-400 hover:text-gray-800 hover:scale-120 !transition-all"
+        className="!p-2 absolute right-4 top-2.5 opacity-30 !text-[var(--main-primary)] hover:opacity-100 hover:scale-120 !transition-all"
         onClick={() => {
           setSelectedBoard(board.uuid);
           getTasks(board.uuid);
@@ -64,45 +68,40 @@ function BoardCardComponent({ board, onOpen, onTogglePin, onToggleFav }) {
       >
         <FaEye size={27} />
       </button>
-
       <div className="absolute top-2.5 right-14 flex items-center">
         <button
           title="Действия"
-          className={`!p-2 hover:text-gray-800 hover:scale-120 !transition-all ${
+          className={`!p-2 hover:scale-120 hover:text-[var(--main-primary)] hover:opacity-100 !transition-all ${
             menuVisibleForThisCard
-              ? 'text-black scale-110 rotate-90'
-              : 'text-gray-400 scale-100'
-          } hover:text-black`}
+              ? '!text-[var(--main-primary)] scale-110 rotate-90'
+              : '!text-[var(--main-primary)] opacity-30'
+          }`}
           onClick={handleMenuClick}
         >
           <FaEllipsisH size={28} />
         </button>
       </div>
-
       <button
         title={board.isPinned ? 'Открепить доску' : 'Закрепить доску'}
-        className={`!p-2 absolute left-4 top-4 text-gray-400 hover:text-gray-900 hover:scale-120 !transition-all`}
+        className={`!p-2 absolute left-4 top-4 hover:scale-120 !transition-all`}
         onClick={() => onTogglePin(board)}
       >
         <FaThumbtack
           size={27}
-          className={board.isPinned ? 'rotate-0 text-gray-900' : 'rotate-45 '}
+          className={`text-[var(--main-primary)] hover:opacity-100 !transition ${board.isPinned ? 'rotate-0' : 'rotate-45 opacity-30'}`}
         />
       </button>
 
       <button
         title={!board.isFavorite ? 'В избранное' : 'Убрать из избранного'}
-        className={`!p-2 absolute left-15 top-3.5 hover:scale-120 !transition-all
-               ${
-                 board.isFavorite
-                   ? 'text-amber-400'
-                   : 'text-gray-400 hover:text-amber-400'
-               }`}
+        className={`!p-2 absolute left-15 top-3.5 hover:scale-120 !transition-all`}
         onClick={() => onToggleFav(board)}
       >
-        <FaStar size={27} className={board.isFavorite ? null : 'opacity-60'} />
+        <FaStar
+          size={27}
+          className={`text-[var(--main-primary)] hover:opacity-100 !transition ${board.isFavorite ? '' : 'opacity-30'}`}
+        />
       </button>
-
       <div className="flex flex-col mt-4 items-center w-full md:items-start">
         <div className="flex items-center gap-2">
           <FaTasks size={20} title="Количество задач" />

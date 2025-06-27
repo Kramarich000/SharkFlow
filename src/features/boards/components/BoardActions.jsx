@@ -1,11 +1,11 @@
 import React from 'react';
 
-function BoardActionsComponent() {
+function BoardActionsComponent({ onClose, load }) {
   return (
     <div className="flex gap-2 mt-auto">
       <button
         type="button"
-        className="primary-btn !p-1 sm:!p-4 flex-1"
+        className={`btn-primary flex-1 ${load ? ' btn-loading' : ''}`}
         onClick={onClose}
         disabled={load}
         title="Закрыть доску"

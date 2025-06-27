@@ -7,18 +7,18 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
-import useBoardStore from 'features/boards/store/boardStore';
-import { showToast } from '@utils/toast/showToast';
+import { useBoardStore, useDeleteBoard } from '@features/boards';
 import { AiOutlineSync } from 'react-icons/ai';
-import useModalsStore from '@store/modalsStore';
+import { useModalsStore } from '@store/modalsStore';
 
 export function DeleteBoardModal() {
-  const { deleteBoard, selectedBoard } = useBoardStore(
+  const { selectedBoard } = useBoardStore(
     useShallow((state) => ({
-      deleteBoard: state.deleteBoard,
       selectedBoard: state.selectedBoard,
     })),
   );
+  const { mutate: deleteBoard, isPending } = useDeleteBoard();
+
   const {
     isDeleteBoardModalOpen,
     setIsDeleteBoardModalOpen,
@@ -32,26 +32,18 @@ export function DeleteBoardModal() {
   );
 
   const [inputValue, setInputValue] = useState('');
-  const [load, setLoad] = useState(false);
 
   const handleDeleteBoard = async () => {
-    if (load || !selectedBoard) return;
-    setLoad(true);
+    if (isPending || !selectedBoard) return;
+
     if (inputValue.trim() === selectedBoard?.title.trim()) {
-      try {
-        const result = await deleteBoard();
-        if (result) {
+      deleteBoard(selectedBoard.uuid, {
+        onSuccess: () => {
           setInputValue('');
           setIsDeleteBoardModalOpen(false);
           setIsDetailsBoardModalOpen(false);
-        }
-      } catch (error) {
-      } finally {
-        setLoad(false);
-      }
-    } else {
-      setLoad(false);
-      showToast('Название доски неверно', 'error');
+        },
+      });
     }
   };
 
@@ -59,7 +51,6 @@ export function DeleteBoardModal() {
     setInputValue('');
     setIsDeleteBoardModalOpen(false);
   };
-  // console.log(selectedBoard);
   return (
     <Transition appear show={isDeleteBoardModalOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={handleClose}>
@@ -72,7 +63,7 @@ export function DeleteBoardModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-3xl h-full transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="modal-base w-full border-2 max-w-3xl h-full transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all">
                 <h2 className="text-3xl text-center mb-8">Удаление доски</h2>
                 <div className="flex flex-col items-center justify-between gap-4 sm:gap-10">
                   <h2 className="text-2xl text-center">
@@ -98,18 +89,18 @@ export function DeleteBoardModal() {
                     }}
                     className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-[16px] !border-b-1 !pb-2 lg:!pb-0 lg:!border-b-0 !text-center sm:!text-left sm:!text-2xl"
                     placeholder="Введите название доски для удаления"
-                    disabled={load}
+                    disabled={isPending}
                     maxLength={64}
                   />
                   <button
-                    className={`primary-btn !bg-red-700 hover:!bg-red-800 flex justify-center items-center ${
-                      load ? '!h-[50px]' : null
+                    className={`btn-primary flex justify-center items-center ${
+                      isPending ? '!h-[50px]' : null
                     }`}
                     onClick={handleDeleteBoard}
-                    disabled={load}
+                    disabled={isPending}
                     title="Удалить доску"
                   >
-                    {load ? (
+                    {isPending ? (
                       <AiOutlineSync size={25} className="animate-spin" />
                     ) : (
                       'Удалить'

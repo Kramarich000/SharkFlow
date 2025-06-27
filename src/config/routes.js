@@ -1,22 +1,22 @@
 import { lazy } from 'react';
 
-const RegisterPage = lazy(() => import('@pages/RegisterPage'));
+const RegisterPage = lazy(() => import('@pages/auth/RegisterPage'));
 
-const LoginPage = lazy(() => import('@pages/LoginPage'));
+const LoginPage = lazy(() => import('@pages/auth/LoginPage'));
 
-const DashboardPage = lazy(() => import('@pages/DashboardPage'));
+const DashboardPage = lazy(() => import('@pages/dashboard/DashboardPage'));
 
-const SettingsPage = lazy(() => import('@pages/SettingsPage'));
+const SettingsPage = lazy(() => import('@pages/settings/SettingsPage'));
 
-const HomePage = lazy(() => import('@pages/HomePage'));
+const HomePage = lazy(() => import('@pages/home/HomePage'));
 
-const TermsPage = lazy(() => import('@pages/TermsPage'));
+const TermsPage = lazy(() => import('@pages/policy/TermsPage'));
 
-const PrivacyPage = lazy(() => import('@pages/PrivacyPage'));
+const PrivacyPage = lazy(() => import('@pages/policy/PrivacyPage'));
 
 const Error404 = lazy(() => import('@pages/errors/Error404'));
 
-import { baseURL } from 'lib/http/http';
+import { baseURL } from '@lib/http';
 
 export const routes = [
   {

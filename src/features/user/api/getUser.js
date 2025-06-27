@@ -1,6 +1,6 @@
-import api from 'lib/http/http';
-import { showToast } from '@utils/toast/showToast';
-import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
+import { api } from "@lib/http";
+import { apiResponsesHandler } from "@utils/responsesHandler";
+import { showToast } from "@utils/toast";
 
 const GREETED_USER_KEY = 'greetedUser';
 export async function getUser() {

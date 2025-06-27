@@ -5,16 +5,19 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
-import useModalsStore from '@store/modalsStore';
-import { updateUser } from 'features/user/api/updateUser';
-import { confirmUpdate } from 'features/user/api/updateUserConfirm';
-import { updateSchema } from '@validators/updateSchema';
 import { AnimatePresence, motion } from 'framer-motion';
-import { showToast } from '@utils/toast/showToast';
-import useUserStore from 'features/user/store/userStore';
-import UpdateConfirmation from '../components/UpdateConfirmation';
-import UpdateForm from '../components/UpdateForm';
 import { useShallow } from 'zustand/shallow';
+import { showToast } from '@utils/toast';
+
+import { useModalsStore } from '@store/modalsStore';
+import {
+  updateUser,
+  confirmUpdate,
+  updateSchema,
+  UpdateForm,
+  UpdateConfirmation,
+  useUserStore,
+} from '@features/user';
 
 export function UpdateUserModal() {
   const [load, setLoad] = useState(false);
@@ -32,10 +35,12 @@ export function UpdateUserModal() {
   const user = useUserStore((state) => state.user);
 
   useEffect(() => {
-    setNewLogin(user.login);
-    setNewEmail(user.email);
-    setOriginalLogin(user.login || '');
-    setOriginalEmail(user.email || '');
+    if (user) {
+      setNewLogin(user.login);
+      setNewEmail(user.email);
+      setOriginalLogin(user.login || '');
+      setOriginalEmail(user.email || '');
+    }
   }, [user]);
 
   const { isUpdateUserModalOpen, setIsUpdateUserModalOpen } = useModalsStore(
@@ -114,7 +119,7 @@ export function UpdateUserModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 overflow-hidden max-w-4xl transform relative rounded-2xl rounded-b-none bg-white p-4 md:p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="modal-base w-full border-2 overflow-hidden max-w-4xl transform relative rounded-2xl rounded-b-none p-4 md:p-6 text-left align-middle shadow-xl !transition-all">
                 <div className="max-w-[700px] mx-auto h-full">
                   <h2 className="text-3xl text-center mb-8">
                     Обновление данных

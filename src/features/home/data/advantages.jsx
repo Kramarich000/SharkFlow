@@ -21,7 +21,7 @@ export const advantages = [
       <>
         Проект полностью{' '}
         <a
-          href="https://github.com/Kramarich000/TaskFlow"
+          href="https://github.com/Kramarich000/SharkFlow"
           target="_blank"
           rel="noopener noreferrer"
           className="!underline text-blue-600"

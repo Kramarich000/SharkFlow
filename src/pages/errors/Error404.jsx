@@ -1,6 +1,8 @@
-import ErrorPage from 'common/ui/ErrorPage';
 import { MdError } from 'react-icons/md';
-export const Error404 = () => {
+
+import ErrorPage from '@common/ui/layout/ErrorPage';
+
+const Error404 = () => {
   return (
     <ErrorPage
       errorTitle="404"
@@ -10,3 +12,5 @@ export const Error404 = () => {
     />
   );
 };
+
+export default Error404;

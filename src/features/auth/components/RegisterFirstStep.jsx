@@ -1,15 +1,15 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { registerSchema } from '@validators/registerSchema';
-import AnimatedError from 'common/ui/AnimatedError';
-import { register } from 'features/user/api/createUserConfirm';
-import { motion } from 'framer-motion';
-import { LuEye } from 'react-icons/lu';
-import { LuEyeClosed } from 'react-icons/lu';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FormikCheckbox } from 'common/ui/FormikCheckbox';
-import { useRegisterStore } from 'features/auth/store/registerStore';
-import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { AiOutlineSync } from 'react-icons/ai';
+import { LuEye, LuEyeClosed } from 'react-icons/lu';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+
+import { register } from '@features/user';
+import { AnimatedError } from '@common/ui';
+import { registerSchema } from '@features/user';
+import { FormikCheckbox } from '@common/ui';
+import { useRegisterStore } from '@features/auth';
 
 export function RegisterFirstStep() {
   const { setStep, passwordVisible, togglePasswordVisible } =
@@ -55,7 +55,7 @@ export function RegisterFirstStep() {
         {({ handleChange, handleBlur }) => {
           return (
             <>
-              <Form className="sm:grid mt-4 sm:mt-12 flex flex-col gap-4 bg-[#fff] border-b-4 border-[#111111] p-8 rounded-2xl">
+              <Form className="sm:grid mt-4 sm:mt-12 flex flex-col gap-4 p-8 rounded-2xl border-2 border-[var(--main-primary)] shadow-glow transition-colors">
                 <h2 className="col-span-2 text-3xl">Регистрация</h2>
 
                 <div className="relative">
@@ -66,7 +66,7 @@ export function RegisterFirstStep() {
                     autoComplete="username"
                     placeholder=" "
                     required
-                    className="peer input-styles"
+                    className="peer input-styles input-primary"
                     disabled={load}
                   />
                   <label htmlFor="login" className="label-styles">
@@ -85,7 +85,7 @@ export function RegisterFirstStep() {
                     autoComplete="email"
                     placeholder=" "
                     required
-                    className="peer input-styles"
+                    className="peer input-styles input-primary"
                     disabled={load}
                   />
                   <label htmlFor="email" className="label-styles">
@@ -109,7 +109,7 @@ export function RegisterFirstStep() {
                       handleChange(e);
                     }}
                     onBlur={handleBlur}
-                    className="peer input-styles !pr-8"
+                    className="peer input-styles input-primary !pr-8"
                     disabled={load}
                   />
                   <label htmlFor="password" className="label-styles">
@@ -139,7 +139,7 @@ export function RegisterFirstStep() {
                     placeholder=" "
                     required
                     disabled={load}
-                    className="peer input-styles"
+                    className="peer input-styles input-primary"
                   />
                   <label htmlFor="confirmPassword" className="label-styles">
                     Подтвердите пароль
@@ -183,7 +183,7 @@ export function RegisterFirstStep() {
                 </div>
 
                 <button
-                  className={`primary-btn flex items-center justify-center col-span-2 ${load ? '!bg-gray-600' : null}`}
+                  className={`btn-primary col-span-2 ${load ? 'btn-loading' : ''}`}
                   type="submit"
                   disabled={load}
                 >
@@ -193,7 +193,7 @@ export function RegisterFirstStep() {
                     <>Зарегистрироваться</>
                   )}
                 </button>
-                <Link className="col-span-2 text-blue-600" to="/login">
+                <Link className="col-span-2 !w-fit mx-auto" to="/login">
                   Уже есть аккаунт?
                 </Link>
               </Form>

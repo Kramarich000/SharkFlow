@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-export function Features() {
+export default function Features() {
   return (
     <section className="relative mx-auto py-12">
       <h2 className="text-3xl mb-8">Ключевые особенности</h2>

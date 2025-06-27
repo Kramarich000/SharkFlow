@@ -1,9 +1,6 @@
-import useTaskStore from 'features/tasks/store/taskStore';
+import React, { Fragment, useRef, useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useShallow } from 'zustand/shallow';
-import {
-  priorityOptions,
-  statusOptions,
-} from 'features/tasks/data/taskOptions';
 import { Listbox, Transition } from '@headlessui/react';
 import {
   FaChevronDown,
@@ -20,10 +17,9 @@ import {
   FaHourglassHalf,
   FaTimesCircle,
 } from 'react-icons/fa';
-import { Fragment, useRef, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import useModalsStore from '@store/modalsStore';
-import React from 'react';
+
+import { useTaskStore, priorityOptions, statusOptions } from '@features/tasks';
+import { useModalsStore } from '@store/modalsStore';
 
 function TaskDetailsHeaderComponent({
   task,
@@ -142,10 +138,10 @@ function TaskDetailsHeaderComponent({
           <button
             ref={openTaskButtonRef}
             onClick={() => setOpenTaskOptions(!openTaskOptions)}
-            className={`p-2 rounded-full hover:bg-gray-200 !transition-colors duration-200 ${openTaskOptions ? 'bg-gray-200' : ''}`}
+            className={`btn-tertiary ${openTaskOptions ? 'bg-gray-200' : ''}`}
             title="Действия"
           >
-            <FaEllipsisH size={20} className="text-gray-600" />
+            <FaEllipsisH size={20} className="text-muted" />
           </button>
 
           <AnimatePresence>
@@ -155,18 +151,18 @@ function TaskDetailsHeaderComponent({
                 animate={{ opacity: 1, transform: 'translateY(0px)' }}
                 exit={{ opacity: 0, transform: 'translateY(-10px)' }}
                 ref={openTaskOptionsRef}
-                className="absolute top-full right-0 mt-2 w-52 bg-white rounded-lg shadow-lg z-20 border border-gray-100 p-2"
+                className="absolute top-full right-0 mt-2 w-52 rounded-lg shadow-lg z-20 border border-gray-100 p-2"
               >
                 {isEditing ? (
                   <>
                     <button
-                      className="w-full text-left px-4 py-2 hover:bg-green-100 text-green-600 rounded-lg font-medium !transition flex items-center justify-between gap-4"
+                      className="btn-primary btn-save !justify-between"
                       onClick={handleUpdateTask}
                     >
                       Сохранить <FaSave />
                     </button>
                     <button
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 rounded-lg font-medium !transition flex items-center justify-between gap-4"
+                      className="btn-primary btn-cancel !justify-between"
                       onClick={() => setIsEditing(false)}
                     >
                       Отмена <FaTimes />
@@ -174,7 +170,7 @@ function TaskDetailsHeaderComponent({
                   </>
                 ) : (
                   <button
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 rounded-lg font-medium !transition flex items-center justify-between gap-4"
+                    className="btn-primary !justify-between"
                     onClick={() => setIsEditing(true)}
                   >
                     Редактировать <FaPen />
@@ -182,7 +178,7 @@ function TaskDetailsHeaderComponent({
                 )}
                 <div className="border-t border-gray-100 my-2"></div>
                 <button
-                  className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg font-medium !transition flex items-center justify-between gap-4"
+                  className="btn-primary !justify-between !bg-red-300 hover:!bg-red-400"
                   onClick={() => {
                     setIsDeleteTaskModalOpen(true);
                     setOpenTaskOptions(false);
@@ -222,7 +218,7 @@ function TaskDetailsHeaderComponent({
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {priorityOptions.map((option) => {
                       const Icon = priorityIcons[option.value];
                       return (
@@ -283,7 +279,7 @@ function TaskDetailsHeaderComponent({
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {statusOptions.map((option) => {
                       const Icon = statusIcons[option.value];
                       return (

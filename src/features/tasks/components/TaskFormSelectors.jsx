@@ -1,12 +1,9 @@
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/dark.css';
 import { FaCalendarAlt } from 'react-icons/fa';
-import {
-  priorityOptions,
-  statusOptions,
-} from 'features/tasks/data/taskOptions';
-import { baseOpts } from 'common/data/filterAndSortData';
-import AttributeSelector from '../../../common/ui/AttributeSelector';
+import { priorityOptions, statusOptions } from '@features/tasks';
+import { baseOpts } from '@common/data';
+import { AttributeSelector } from '@common/ui';
 
 export const TaskFormSelectors = ({
   priority,

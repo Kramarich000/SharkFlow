@@ -8,14 +8,9 @@ export const UpdateForm = ({
   setConfirmationCode,
   newLogin,
   setNewLogin,
-  newEmail,
-  setNewEmail,
 }) => {
   return (
-    <div
-      key="step2"
-      className="flex flex-col gap-5 h-full justify-center mb-4"
-    >
+    <div key="step2" className="flex flex-col gap-5 h-full justify-center mb-4">
       <div>
         <h2 className="text-center text-2xl sm:text-3xl mb-4">
           Введите код и новые данные:
@@ -64,16 +59,14 @@ export const UpdateForm = ({
       </div>
       <div className="flex items-center flex-col md:flex-row justify-center gap-2">
         <button
-          className={`primary-btn ${isLoading ? 'pointer-events-none' : ''}`}
+          className="btn-primary"
           disabled={isLoading}
           onClick={onCancel}
         >
           Отмена
         </button>
         <button
-          className={`primary-btn order-[-1] md:order-1 items-center justify-center flex ${
-            isLoading ? 'pointer-events-none' : ''
-          }`}
+          className="btn-primary"
           onClick={onUpdate}
           disabled={isLoading}
         >
@@ -87,4 +80,3 @@ export const UpdateForm = ({
     </div>
   );
 };
-

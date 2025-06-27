@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import { getMenuBarConfig } from './menu-bar-config';
+import { getMenuBarConfig } from '@common/tiptap/menu-bar-config';
 
-const MenuBar = ({ editor }) => {
+export const MenuBar = ({ editor }) => {
   const setLink = useCallback(() => {
     if (editor.isActive('link')) {
       editor.chain().focus().unsetLink().run();
@@ -50,15 +50,7 @@ const MenuBar = ({ editor }) => {
             key={item.id}
             onClick={item.onClick}
             disabled={item.disabled}
-            className={`p-2 rounded-md transition-all duration-200 ${
-              item.isActive
-                ? 'bg-blue-100 text-blue-700 border border-blue-200'
-                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:border-gray-300'
-            } ${
-              item.disabled
-                ? 'opacity-50 cursor-not-allowed'
-                : 'hover:shadow-sm'
-            }`}
+            className={`btn-tertiary p-2 ${item.isActive ? 'bg-blue-100 text-blue-700' : ''} ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-sm'}`}
             title={item.title}
           >
             {Icon ? (
@@ -72,5 +64,3 @@ const MenuBar = ({ editor }) => {
     </div>
   );
 };
-
-export MenuBar;

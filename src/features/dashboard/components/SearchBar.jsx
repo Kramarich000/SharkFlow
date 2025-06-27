@@ -1,5 +1,3 @@
-import React from 'react';
-
 export function SearchBar({ value, onChange }) {
   return (
     <div className="relative flex-1">
@@ -10,11 +8,11 @@ export function SearchBar({ value, onChange }) {
         required
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="peer input-styles"
+        className="peer input-styles input-primary"
       />
       <label
         htmlFor="search"
-        className="label-styles !bg-[#c7c7c7] !text-[#111111]"
+        className="label-styles"
       >
         Поиск досок...
       </label>

@@ -1,6 +1,6 @@
-import api from 'lib/http/http';
-import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
-import { showToast } from '@utils/toast/showToast';
+import { api } from '@lib/http';
+import { apiResponsesHandler } from '@utils/responsesHandler';
+import { showToast } from '@utils/toast';
 
 export async function updateBoard(uuid, updatedFields = {}) {
   if (!uuid) {

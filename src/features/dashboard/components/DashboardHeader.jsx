@@ -1,7 +1,6 @@
-import SearchBar from 'features/dashboard/components/SearchBar';
-import FilterForm from 'features/dashboard/components/FilterForm';
-import { SimpleCheckbox } from 'common/ui/SimpleСheckBox';
 import { FaPlus } from 'react-icons/fa';
+import { FilterForm, SearchBar } from '@features/dashboard';
+import { SimpleCheckbox } from '@common/ui';
 
 export const DashboardHeader = ({ params, setParams, onOpenCreateBoard }) => {
   return (
@@ -40,7 +39,7 @@ export const DashboardHeader = ({ params, setParams, onOpenCreateBoard }) => {
           />
         </div>
         <button
-          className="ml-0 sm:ml-auto bg-white hover:bg-gray-200 !transition-colors rounded-3xl px-6 py-2 flex items-center gap-2"
+          className="btn-primary !w-fit ml-0 sm:ml-auto gap-2"
           onClick={onOpenCreateBoard}
         >
           Создать доску <FaPlus size={20} />

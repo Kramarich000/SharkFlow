@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-export function Contacts() {
+export default function Contacts() {
   return (
     <section className="py-12 mx-auto">
       <motion.h2
@@ -35,7 +35,7 @@ export function Contacts() {
       </motion.p>
 
       <motion.ul
-        className="space-y-3 underline sm:grid grid-cols-2"
+        className="space-y-3 sm:grid grid-cols-2"
         initial={{ opacity: 0, transform: 'translateY(30px)' }}
         whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         transition={{ delay: 0.3, duration: 0.5 }}
@@ -67,7 +67,7 @@ export function Contacts() {
         Если же у вас специфичный вопрос — заполните форму:
       </p>
       <motion.form
-        className="p-4 sm:p-8 bg-[#111111] rounded-2xl space-y-4"
+        className="p-4 sm:p-8 rounded-2xl space-y-4 bg-[var(--main-form-bg)]"
         initial={{ opacity: 0, transform: 'translateY(30px)' }}
         whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         transition={{ delay: 0.3, duration: 0.5 }}
@@ -77,7 +77,7 @@ export function Contacts() {
           <input
             type="email"
             name="email"
-            className="bg-[#1A1A1A] p-4 text-white outline-0 rounded-2xl"
+            className="p-4 outline-0 rounded-2xl border-1 focus:border-[var(--main-input-border-focus)] !transition-colors"
             placeholder="Ваша почта"
             required
             aria-label="E-mail"
@@ -85,19 +85,19 @@ export function Contacts() {
           <input
             type="text"
             name="username"
-            className="bg-[#1A1A1A] p-4 text-white outline-0 rounded-2xl"
+            className="p-4 outline-0 rounded-2xl border-1 focus:border-[var(--main-input-border-focus)] !transition-colors"
             placeholder="Ваше имя"
             aria-label="Имя"
           />
         </div>
         <textarea
           name="question"
-          className="bg-[#1A1A1A] p-4 text-white min-h-[200px] outline-0 rounded-2xl resize-none w-full"
+          className="p-4 min-h-[200px] outline-0 rounded-2xl resize-none w-full border-1 focus:!border-[var(--main-input-border-focus)] !transition-colors"
           placeholder="Ваш вопрос"
           required
           aria-label="Вопрос"
         />
-        <button title="Отправить" type="submit" className="primary-btn">
+        <button title="Отправить" type="submit" className="btn-primary">
           Отправить
         </button>
       </motion.form>

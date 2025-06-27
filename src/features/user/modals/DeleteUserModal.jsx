@@ -7,13 +7,14 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
-import useModalsStore from '@store/modalsStore';
+import { motion, AnimatePresence } from 'framer-motion';
+
 import { AiOutlineSync } from 'react-icons/ai';
-import { deleteUser } from 'features/user/api/deleteUser';
+import { useModalsStore } from '@store/modalsStore';
+import { deleteUser } from '@features/user';
 import { emailSchema } from '@validators/emailSchema';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
-import { motion, AnimatePresence } from 'framer-motion';
-import { userVerify } from 'features/user/api/deleteUserConfirm';
+import { userVerify } from '@features/user';
 
 export function DeleteUserModal() {
   const [load, setLoad] = useState(false);
@@ -72,7 +73,7 @@ export function DeleteUserModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-2xl overflow-hidden transform relative rounded-2xl rounded-b-none bg-white p-4 md:p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="modal-base w-full border-2 max-w-2xl overflow-hidden transform relative rounded-2xl rounded-b-none p-4 md:p-6 text-left align-middle shadow-xl !transition-all">
                 <h2 className="text-3xl text-center mb-8">Удаление аккаунта</h2>
                 <AnimatePresence mode="wait">
                   {step === 1 && (
@@ -90,7 +91,7 @@ export function DeleteUserModal() {
                       </h2>
                       <div className="flex flex-col md:flex-row items-center w-full justify-center gap-2">
                         <button
-                          className={`primary-btn ${load ? 'pointer-events-none' : ''}`}
+                          className={`btn-primary ${load ? 'pointer-events-none' : ''}`}
                           disabled={load}
                           onClick={() => {
                             setConfirmationCode({ confirmationCode: '' });
@@ -101,7 +102,7 @@ export function DeleteUserModal() {
                           Нет
                         </button>
                         <button
-                          className={`primary-btn order-[-1] md:order-1 items-center justify-center flex ${load ? '!bg-gray-600 pointer-events-none' : ''}`}
+                          className={`btn-primary order-[-1] md:order-1 items-center justify-center flex ${load ? 'btn-loading' : ''}`}
                           onClick={() => {
                             sendEmailHandler();
                           }}
@@ -148,7 +149,7 @@ export function DeleteUserModal() {
                       </div>
                       <div className="flex gap-2 flex-col md:flex-rowflex-col md:flex-row items-center justify-center">
                         <button
-                          className={`primary-btn ${load ? 'pointer-events-none' : ''}`}
+                          className={`btn-primary ${load ? 'pointer-events-none' : ''}`}
                           disabled={load}
                           onClick={() => {
                             setConfirmationCode({ confirmationCode: '' });
@@ -159,7 +160,7 @@ export function DeleteUserModal() {
                           Отмена
                         </button>
                         <button
-                          className={`primary-btn order-[-1] md:order-1 items-center !bg-red-700 hover:!bg-red-800 justify-center flex ${load ? 'pointer-events-none' : ''}`}
+                          className={`btn-primary order-[-1] md:order-1 items-center justify-center flex ${load ? 'pointer-events-none' : ''}`}
                           onClick={() => deleteUserHandler(confirmationCode)}
                           disabled={load}
                         >

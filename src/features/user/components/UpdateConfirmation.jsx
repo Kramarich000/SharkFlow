@@ -11,16 +11,14 @@ export const UpdateConfirmation = ({ onConfirm, onCancel, isLoading }) => {
       </h2>
       <div className="flex flex-col md:flex-row items-center w-full justify-center gap-2">
         <button
-          className={`primary-btn ${isLoading ? 'pointer-events-none' : ''}`}
+          className="btn-primary"
           disabled={isLoading}
           onClick={onCancel}
         >
           Нет
         </button>
         <button
-          className={`primary-btn order-[-1] md:order-1 items-center justify-center flex ${
-            isLoading ? '!bg-gray-600 pointer-events-none' : ''
-          }`}
+          className="btn-primary"
           onClick={onConfirm}
           disabled={isLoading}
         >

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
 
-export function RegisterThirdStep() {
+export default function RegisterThirdStep() {
   return (
     <motion.div
       key="step3"
@@ -17,7 +17,7 @@ export function RegisterThirdStep() {
       >
         Шаг 3/3
       </motion.h2>
-      <div className="bg-white p-12 mt-8 rounded-2xl flex flex-col items-center justify-center gap-4">
+      <div className="p-12 mt-8 rounded-2xl flex flex-col items-center justify-center gap-4 bg-surface shadow-glow">
         <IoIosCheckmarkCircle size={100} />
         <p className="text-[20px]">Вы успешно зарегистрировались</p>
       </div>

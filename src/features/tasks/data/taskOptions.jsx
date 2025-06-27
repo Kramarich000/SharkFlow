@@ -41,6 +41,14 @@ export const statusCardStyles = {
     'border-[2px] bg-white !transition-all border-gray-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_18px_rgba(0,0,0,0.15)]',
 };
 
+export const statusIconBg = {
+  COMPLETED: 'from-green-400 to-green-600 shadow-green-400/40',
+  CANCELLED: 'from-red-400 to-red-600 shadow-red-400/40',
+  PENDING: 'from-yellow-300 to-yellow-500 shadow-yellow-300/40',
+  IN_PROGRESS: 'from-blue-400 to-blue-600 shadow-blue-400/40',
+  DEFAULT: 'from-gray-300 to-gray-500 shadow-gray-300/40',
+};
+
 export function getPriorityColor(priority) {
   switch (priority) {
     case 'LOW':

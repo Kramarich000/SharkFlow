@@ -1,7 +1,7 @@
-import api from 'lib/http/http';
-import { apiResponsesHandler } from '@utils/responsesHandler/apiResponsesHandler';
-import { showToast } from '@utils/toast/showToast';
-import useUserStore from 'features/user/store/userStore';
+import { api } from '@lib/http';
+import { apiResponsesHandler } from '@utils/responsesHandler';
+import { showToast } from '@utils/toast';
+import { useUserStore } from '@features/user';
 
 export async function updateUser(confirmationCode, updatedFields = {}) {
   if (!updatedFields || Object.keys(updatedFields).length === 0) {

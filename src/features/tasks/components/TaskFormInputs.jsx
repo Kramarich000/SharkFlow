@@ -1,6 +1,7 @@
+import { Loader } from '@common/ui';
 import { lazy, Suspense } from 'react';
 
-const TiptapEditor = lazy(() => import('common/tiptap/TiptapEditor'));
+const TiptapEditor = lazy(() => import('@common/tiptap/TiptapEditor'));
 
 export const TaskFormInputs = ({
   title,
@@ -26,11 +27,7 @@ export const TaskFormInputs = ({
         <label className="label-styles">Введите название задачи</label>
       </div>
       <div className="relative h-full">
-        <Suspense
-          fallback={
-            <div className="w-full h-full min-h-[250px] bg-gray-200 animate-pulse rounded-xl" />
-          }
-        >
+        <Suspense fallback={<Loader />}>
           <TiptapEditor
             description={description}
             onChange={(newDescription) => setDescription(newDescription)}

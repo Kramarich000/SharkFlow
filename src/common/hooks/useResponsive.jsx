@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import useMediaQuery from './useMediaQuery';
+
+import { useMediaQuery } from './useMediaQuery';
 
 export function useResponsive() {
   const [hasMounted, setHasMounted] = useState(false);

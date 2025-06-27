@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuthStore } from 'features/auth/store/authStore';
+
+import { useAuthStore } from '@features/auth';
 
 export function PublicRoute({ children }) {
   const token = useAuthStore((state) => state.accessToken);

@@ -1,8 +1,4 @@
 import { Fragment } from 'react';
-import { FaArrowDown, FaArrowUp, FaSort } from 'react-icons/fa';
-import { taskSortOptions } from 'common/data/filterAndSortData';
-import { FaChevronDown } from 'react-icons/fa';
-import Select from 'common/ui/Select';
 import {
   Listbox,
   ListboxButton,
@@ -11,6 +7,10 @@ import {
   Label,
   Transition,
 } from '@headlessui/react';
+import { FaArrowDown, FaArrowUp, FaSort, FaChevronDown } from 'react-icons/fa';
+
+import { Select } from '@common/ui';
+import { taskSortOptions } from '@common/data';
 
 export const TaskSortControl = ({
   taskSort,
@@ -58,7 +58,7 @@ export const TaskSortControl = ({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-50"
           >
-            <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white top-10 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md top-10 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {taskSortOptions.map((opt) => (
                 <ListboxOption
                   key={opt.id}

@@ -1,5 +1,6 @@
-import ErrorPage from 'common/ui/ErrorPage';
 import { MdDoNotDisturb } from 'react-icons/md';
+
+import ErrorPage from '@common/ui';
 
 export const Error400 = () => {
   return (

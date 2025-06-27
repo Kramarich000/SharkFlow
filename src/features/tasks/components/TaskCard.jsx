@@ -1,15 +1,17 @@
 import React from 'react';
+import { FaEye } from 'react-icons/fa';
+import { HiOutlineBars3 } from 'react-icons/hi2';
+
 import {
   priorityOptions,
   statusOptions,
   statusCardStyles,
-} from 'features/tasks/data/taskOptions';
-import { FaEye } from 'react-icons/fa';
-import { HiOutlineBars3 } from 'react-icons/hi2';
-import useModalsStore from '@store/modalsStore';
-import useTaskStore from 'features/tasks/store/taskStore';
+} from '@features/tasks';
 
-export React.memo(function TaskCard({ task, dragHandleProps }) {
+import { useModalsStore } from '@store/modalsStore';
+import { useTaskStore } from '@features/tasks';
+
+function TaskCardComponent({ task, dragHandleProps }) {
   const { setIsDetailsTaskModalOpen } = useModalsStore();
   const handleTaskSelect = useTaskStore((state) => state.handleTaskSelect);
 
@@ -108,4 +110,6 @@ export React.memo(function TaskCard({ task, dragHandleProps }) {
       </div>
     </div>
   );
-});
+}
+
+export const TaskCard = React.memo(TaskCardComponent);

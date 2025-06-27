@@ -8,6 +8,7 @@ import imp from 'vite-plugin-imp';
 import path from 'path';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import vitePluginSvgr from 'vite-plugin-svgr';
+import { analyzer } from 'vite-bundle-analyzer';
 
 const compressionOpts = {
   threshold: 10240,
@@ -50,6 +51,7 @@ export default defineConfig({
       rel: 'modulepreload',
       include: ['**/*.js'],
     }),
+    analyzer(),
     // VitePWA({
     //   registerType: 'autoUpdate',
     //   devOptions: {
@@ -102,7 +104,7 @@ export default defineConfig({
     //   ],
     // },
     // manifest: {
-    //   name: 'TaskFlow',
+    //   name: 'SharkFlow',
     //   short_name: 'TF',
     //   description: 'Список задач',
     //   start_url: '/?utm_source=homescreen',

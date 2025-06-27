@@ -5,19 +5,19 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
-import useModalsStore from '@store/modalsStore';
-import useTaskStore from 'features/tasks/store/taskStore';
 import { useShallow } from 'zustand/shallow';
 import DOMPurify from 'dompurify';
 
-import { statusCardStyles } from 'features/tasks/data/taskOptions';
-
-import TaskStatusSidebar from 'features/tasks/components/TaskStatusSidebar';
-import TaskDetailsHeader from 'features/tasks/components/TaskDetailsHeader';
-import TaskDeadline from 'features/tasks/components/TaskDeadline';
-import TaskDescription from 'features/tasks/components/TaskDescription';
-import TaskTimestamps from 'features/tasks/components/TaskTimestamps';
-import { useTaskUpdate } from 'features/tasks/hooks/useTaskUpdate';
+import { useModalsStore } from '@store/modalsStore';
+import { useTaskStore, useTaskUpdate } from '@features/tasks';
+import {
+  statusCardStyles,
+  TaskStatusSidebar,
+  TaskDetailsHeader,
+  TaskDeadline,
+  TaskDescription,
+  TaskTimestamps,
+} from '@features/tasks';
 
 export function TaskDetailsModal() {
   const { isDetailsTaskModalOpen, setIsDetailsTaskModalOpen } = useModalsStore(
@@ -63,7 +63,7 @@ export function TaskDetailsModal() {
               leaveTo="translate-y-full"
             >
               <DialogPanel
-                className={`w-full xl:w-[95%] h-full z-9998 flex flex-col !bg-white !border-4 lg:!border-l-0 !border-b-0 transform overflow-hidden relative rounded-2xl rounded-b-none p-0 text-left align-middle shadow-2xl !transition-all ${
+                className={`modal-base w-full xl:w-[95%] h-full z-9998 flex flex-col !border-4 lg:!border-l-0 !border-b-0 transform overflow-hidden relative rounded-2xl rounded-b-none p-0 text-left align-middle shadow-2xl !transition-all ${
                   statusCardStyles[selectedTask.status] ||
                   statusCardStyles.DEFAULT
                 }`}
@@ -72,7 +72,7 @@ export function TaskDetailsModal() {
                   <TaskStatusSidebar task={selectedTask} />
 
                   <div className="flex flex-col flex-1 min-w-0">
-                    <div className="flex-shrink-0 p-4 sm:p-6 pb-4 border-b border-gray-100 bg-white">
+                    <div className="flex-shrink-0 p-4 sm:p-6 pb-4 border-b border-gray-100">
                       <TaskDetailsHeader
                         task={selectedTask}
                         newTitle={taskUpdate.newTitle}
@@ -102,9 +102,9 @@ export function TaskDetailsModal() {
                       />
                     </div>
 
-                    <div className="flex-shrink-0 p-4 sm:p-6 pt-4 border-t border-gray-100 bg-white">
+                    <div className="flex-shrink-0 p-4 sm:p-6 pt-4 border-t border-gray-100">
                       <TaskTimestamps task={selectedTask} />
-                      <button className="primary-btn" onClick={handleClose}>
+                      <button className="btn-primary" onClick={handleClose}>
                         Закрыть
                       </button>
                     </div>

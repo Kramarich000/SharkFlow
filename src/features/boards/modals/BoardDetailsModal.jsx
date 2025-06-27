@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import {
   Dialog,
@@ -6,14 +6,16 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
-import useBoardStore from 'features/boards/store/boardStore';
-import useModalsStore from '@store/modalsStore';
-import useTaskStore from 'features/tasks/store/taskStore';
-import BoardHeader from 'features/boards/components/BoardHeader';
-import BoardContent from 'features/boards/components/BoardContent';
-import BoardActions from 'features/boards/components/BoardActions';
-import { useTaskSorter } from 'features/tasks/hooks/useTaskSorter';
-import { useBoardUpdate } from 'features/boards/hooks/useBoardUpdate';
+
+import {
+  useBoardStore,
+  BoardHeader,
+  BoardActions,
+  useBoardUpdate,
+} from '@features/boards';
+import { BoardContent } from '@features/boards/components/BoardContent';
+import { useModalsStore } from '@store/modalsStore';
+import { useTaskStore, useTaskSorter } from '@features/tasks';
 
 export function BoardDetailsModal() {
   const { selectedBoard } = useBoardStore(
@@ -21,6 +23,19 @@ export function BoardDetailsModal() {
       selectedBoard: state.selectedBoard,
     })),
   );
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [newTitle, setNewTitle] = useState(selectedBoard?.title || '');
+  const [newColor, setNewColor] = useState(selectedBoard?.color || 'transparent');
+
+  useEffect(() => {
+    if (selectedBoard) {
+      setNewTitle(selectedBoard.title);
+      setNewColor(selectedBoard.color);
+    }
+  }, [selectedBoard]);
+
+  const { mutate: updateBoard, isPending } = useBoardUpdate();
 
   const {
     setIsDeleteBoardModalOpen,
@@ -45,11 +60,23 @@ export function BoardDetailsModal() {
 
   const isLoading = useTaskStore((state) => state.loadingBoards[boardUuid]);
 
-  // Используем кастомный хук для логики обновления доски
-  const boardUpdate = useBoardUpdate(selectedBoard);
-
-  // Используем хук для сортировки задач
   const taskSorter = useTaskSorter(tasks, boardUuid);
+
+  const handleSaveBoard = () => {
+    if (!selectedBoard) return;
+    const updatedFields = {};
+    if (newTitle !== selectedBoard.title) {
+      updatedFields.title = newTitle;
+    }
+    if (newColor !== selectedBoard.color) {
+      updatedFields.color = newColor;
+    }
+
+    if (Object.keys(updatedFields).length > 0) {
+      updateBoard({ uuid: selectedBoard.uuid, data: updatedFields });
+    }
+    setIsEditing(false);
+  };
 
   const handleDeleteBoard = () => {
     setIsDeleteBoardModalOpen(true);
@@ -57,6 +84,7 @@ export function BoardDetailsModal() {
 
   const handleClose = () => {
     setIsDetailsBoardModalOpen(false);
+    setIsEditing(false);
   };
 
   return (
@@ -72,7 +100,7 @@ export function BoardDetailsModal() {
               leaveTo="translate-y-full"
             >
               <DialogPanel
-                className="w-full h-full md:h-[99%] border-4 border-b-0 z-9998 flex flex-col bg-white transform overflow-hidden relative rounded-2xl rounded-b-none p-3 sm:p-6 text-left align-middle shadow-xl !transition-all"
+                className="modal-base w-full h-full md:h-[99%] border-4 border-b-0 z-9998 flex flex-col transform overflow-hidden relative rounded-2xl rounded-b-none p-3 sm:p-6 text-left align-middle shadow-xl !transition-all"
                 style={{
                   borderColor: selectedBoard?.color?.startsWith('#')
                     ? selectedBoard?.color
@@ -81,16 +109,16 @@ export function BoardDetailsModal() {
               >
                 <div className="flex flex-col h-full">
                   <BoardHeader
-                    isEditing={boardUpdate.isEditing}
-                    newTitle={boardUpdate.newTitle}
-                    setNewTitle={boardUpdate.setNewTitle}
-                    saveUpdateBoard={boardUpdate.saveUpdateBoard}
-                    setisEditing={boardUpdate.setIsEditing}
+                    isEditing={isEditing}
+                    newTitle={newTitle}
+                    setNewTitle={setNewTitle}
+                    saveUpdateBoard={handleSaveBoard}
+                    setisEditing={setIsEditing}
                     selectedBoard={selectedBoard}
-                    load={boardUpdate.load}
+                    load={isPending}
                     saveDeleteBoard={handleDeleteBoard}
-                    newColor={boardUpdate.newColor}
-                    setNewColor={boardUpdate.setNewColor}
+                    newColor={newColor}
+                    setNewColor={setNewColor}
                     setIsCreateTaskModalOpen={setIsCreateTaskModalOpen}
                   />
 
@@ -107,11 +135,7 @@ export function BoardDetailsModal() {
                     handleDragCancel={taskSorter.handleDragCancel}
                   />
 
-                  <BoardActions
-                    load={boardUpdate.load}
-                    onClose={handleClose}
-                    onDelete={handleDeleteBoard}
-                  />
+                  <BoardActions load={isPending} onClose={handleClose} />
                 </div>
               </DialogPanel>
             </TransitionChild>

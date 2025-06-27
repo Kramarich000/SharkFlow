@@ -1,5 +1,6 @@
-import ErrorPage from 'common/ui/ErrorPage';
 import { FiShieldOff } from 'react-icons/fi';
+
+import { ErrorPage } from '@common/ui';
 
 export const Error401 = () => {
   return (

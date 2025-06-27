@@ -3,18 +3,19 @@ import 'swiper/css';
 import { lazy, Suspense } from 'react';
 import { Autoplay } from 'swiper/modules';
 import { motion } from 'framer-motion';
-import Loader from 'common/ui/Loader';
-const ReviewCard = lazy(() => import('./Reviewers'));
-import reviews from 'features/home/data/reviewers';
 
-export function Slider() {
+import { Loader } from '@common/ui';
+import ReviewCard from '@features/home/components/Reviewers';
+import { reviews } from '@features/home';
+
+export default function Slider() {
   return (
-    <section className="flex flex-col  items-center justify-center py-12 mx-auto">
+    <section className="flex flex-col items-center justify-center py-12 mx-auto">
       <h2 className="text-2xl sm:text-3xl mb-8">Отзывы</h2>
       <motion.div
         className="w-full"
-        initial={{ opacity: 0, transform: 'translateY(75px) ' }}
-        whileInView={{ opacity: 1, transform: 'translateY(0px) ' }}
+        initial={{ opacity: 0, transform: 'translateY(75px)' }}
+        whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
@@ -30,10 +31,7 @@ export function Slider() {
           }}
         >
           {reviews.map((review) => (
-            <SwiperSlide
-              className="h-[500px] bg-[#111111] rounded-4xl"
-              key={review.id}
-            >
+            <SwiperSlide className="h-[500px] rounded-4xl" key={review.id}>
               <Suspense fallback={<Loader />}>
                 <ReviewCard {...review} />
               </Suspense>

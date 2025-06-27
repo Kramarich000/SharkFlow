@@ -1,13 +1,19 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import AnimatedError from 'common/ui/AnimatedError';
-import { confirmCode } from 'features/user/api/createUser';
-import { motion } from 'framer-motion';
-import { useRegisterStore } from 'features/auth/store/registerStore';
+// import AnimatedError from 'common/ui/feedback/AnimatedError';
+// import { confirmCode } from 'features/user/api/createUser';
+// import { useRegisterStore } from 'features/auth/store/registerStore';
+// import { confirmCodeSchema } from '@validators/confirmCodeSchema';
+
 import { useState } from 'react';
 import { AiOutlineSync } from 'react-icons/ai';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { motion } from 'framer-motion';
+
+import { AnimatedError } from '@common/ui';
+import { confirmCode } from '@features/user';
+import { useRegisterStore } from '@features/auth';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 
-export function RegisterSecondStep() {
+export default function RegisterSecondStep() {
   const { setStep } = useRegisterStore();
   const [load, setLoad] = useState(false);
 
@@ -43,7 +49,7 @@ export function RegisterSecondStep() {
         }}
       >
         {() => (
-          <Form className="grid gap-8 mt-8 bg-[#fff] border-b-4 border-[#111111] p-8 rounded-2xl">
+          <Form className="grid gap-8 mt-8 border-b-4 p-8 rounded-2xl bg-surface shadow-glow">
             <h2 className="text-3xl">Код подтверждения</h2>
             <div className="relative">
               <Field
@@ -64,7 +70,7 @@ export function RegisterSecondStep() {
               <ErrorMessage name="confirmationCode" component={AnimatedError} />
             </div>
             <button
-              className="primary-btn flex items-center justify-center"
+              className="btn-primary"
               type="submit"
               disabled={load}
             >

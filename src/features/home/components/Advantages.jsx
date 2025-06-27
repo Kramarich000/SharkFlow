@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
-import { advantages } from 'features/home/data/advantages';
+import { advantages } from '@features/home';
 
-export function Advantages() {
+export default function Advantages() {
   return (
     <section className="py-12 mx-auto">
       <h2 className="text-3xl mb-8">Преимущества</h2>
       <p className="mb-8">
-        TaskFlow — надёжный инструмент для управления задачами
+        SharkFlow — надёжный инструмент для управления задачами
       </p>
       <ul className="space-y-6">
         {advantages.map((adv) => (

@@ -1,8 +1,11 @@
 import React from 'react';
 import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import SortableTaskCardComponent from 'features/tasks/components/SortableTaskCard';
-import TaskCard from 'features/tasks/components/TaskCard';
+
+import {
+  SortableTaskCardComponent,
+  TaskCard,
+} from '@features/tasks/components';
 
 const SortableTaskCard = SortableTaskCardComponent;
 

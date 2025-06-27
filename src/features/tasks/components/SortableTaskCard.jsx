@@ -1,8 +1,8 @@
+import { memo } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import TaskCard from 'features/tasks/components/TaskCard';
-import { memo } from 'react';
 
+import { TaskCard } from '@features/tasks';
 export const SortableTaskCardComponent = ({
   task,
   isDragging: isDraggingFromParent,

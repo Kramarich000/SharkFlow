@@ -1,7 +1,6 @@
 import React from 'react';
-import TaskSortControl from '../../tasks/components/TaskSortControl';
-import TaskList from '../../tasks/components/TaskList';
-import BoardLoader from './BoardLoader';
+import { TaskSortControl, TaskList } from '@features/tasks';
+import { BoardLoader } from '@features/boards';
 
 function BoardContentComponent({
   isLoading,

@@ -1,37 +1,40 @@
 @import 'tailwindcss';
-
-.primary-btn {
-  @apply !transition-colors bg-[#1A1A1A] hover:bg-gray-600 w-full text-white py-3 px-6 rounded-4xl mt-2;
-}
-
-.secondary-btn {
-  @apply !border-0 w-full !font-normal !border-b-1 !p-2 !rounded-none !border-[#111111];
-}
-
-.tertiary-btn {
-  @apply px-4 py-2 bg-gray-200 rounded disabled:opacity-50;
-}
+@import '../css/colors.css';
+@import '../css/utilities.css';
 
 .label-styles {
-  @apply absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm peer-focus:text-[#888] bg-white px-1 peer-valid:top-0 peer-valid:text-sm peer-valid:text-[#888];
+  @apply absolute pointer-events-none left-4 top-1/2 -translate-y-1/2 transition-all bg-[var(--main-bg)] px-1;
 }
 
 .input-styles {
-  @apply w-full p-4 outline-0 border border-transparent border-b-[#111111] focus:border-[#111111] rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all;
+  @apply w-full p-4 outline-0 rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all;
 }
 
 .calendar-styles {
-  @apply w-full text-left sm:text-center cursor-pointer p-0 pb-2 sm:p-2 placeholder:!text-gray-900 outline-0 !border-0 !border-b-1 border-transparent border-b-[#111111];
+  @apply w-full text-left sm:text-center cursor-pointer p-0 pb-2 sm:p-2 outline-0 border-0 border-b;
 }
 
 .options-styles {
-  @apply bg-[#111111] w-full outline-0 z-50 mt-1 rounded-3xl absolute;
+  @apply w-full outline-0 z-50 mt-1 rounded-3xl absolute;
 }
 
 .option-styles {
-  @apply cursor-pointer select-none text-white hover:bg-gray-700 rounded-3xl p-4 !transition-colors;
+  @apply cursor-pointer select-none rounded-3xl p-4 transition-colors;
+}
+
+.option-styles:hover {
+  background: var(--main-primary-hover);
+  color: var(--main-button-text);
 }
 
 .li-styles {
-  @apply bg-[#111111] text-white rounded-4xl p-4;
+  @apply rounded-4xl p-4;
+}
+
+.board-card {
+  @apply relative overflow-auto rounded-xl border-l-8 border-2 box-content max-h-[269px] p-4 shadow-lg transition-transform;
+}
+
+.board-card:hover {
+  transform: translateY(-10px);
 }

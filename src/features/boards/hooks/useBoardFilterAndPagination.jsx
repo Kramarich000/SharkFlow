@@ -5,8 +5,6 @@ import {
   filterByRecentDays,
   filterByFavorites,
   filterByTaskCount,
-} from '@utils/filters/boardFilters';
-import {
   sortByTitleDesc,
   sortByCreatedAsc,
   sortByCreatedDesc,
@@ -15,7 +13,7 @@ import {
   sortByUpdatedDesc,
   sortByTaskCountAsc,
   sortByTaskCountDesc,
-} from '@utils/filters/boardSorts';
+} from '@utils/filters';
 
 export const useBoardFilterAndPagination = (boards) => {
   const [params, setParams] = useState({
@@ -118,4 +116,4 @@ export const useBoardFilterAndPagination = (boards) => {
     totalPages,
     currentBoards,
   };
-}; 
+};

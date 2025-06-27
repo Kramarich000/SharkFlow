@@ -2,8 +2,9 @@ import { FaPlus, FaTrash } from 'react-icons/fa';
 import { IoCheckmark } from 'react-icons/io5';
 import { IoMdSettings } from 'react-icons/io';
 import { AiOutlineSync } from 'react-icons/ai';
-import { ColorSelector } from 'common/ui/ColorSelector';
 import { DialogTitle } from '@headlessui/react';
+
+import { ColorSelector } from '@common/ui';
 
 export const BoardHeader = ({
   isEditing,
@@ -29,7 +30,7 @@ export const BoardHeader = ({
             if (e.key === 'Escape') setisEditing(false);
           }}
           autoFocus
-          className="text-center text-4xl overflow-y-hidden border-b-1 mb-4 pb-2 border-[#111111] focus:outline-none w-full"
+          className="text-center text-4xl overflow-y-hidden border-b-1 mb-4 pb-2 border-[var(--main-primary)] focus:outline-none w-full"
           disabled={load}
           maxLength={64}
         />
@@ -49,13 +50,13 @@ export const BoardHeader = ({
         {isEditing ? (
           <>
             <button
-              className={`!p-2 ${load ? '' : 'group'}`}
+              className="btn-tertiary p-2"
               onClick={saveDeleteBoard}
               disabled={load}
               title="Удалить доску"
             >
               <FaTrash
-                size={40}
+                size={28}
                 className="group-hover:text-red-500 transition-colors"
               />
             </button>
@@ -71,7 +72,7 @@ export const BoardHeader = ({
               />
             </div>
             <button
-              className="!p-2"
+              className="btn-tertiary p-2"
               onClick={saveUpdateBoard}
               title="Сохранить"
               disabled={load}
@@ -82,9 +83,9 @@ export const BoardHeader = ({
               }}
             >
               {load ? (
-                <AiOutlineSync size={40} className="animate-spin duration-75" />
+                <AiOutlineSync size={28} className="animate-spin duration-75" />
               ) : (
-                <IoCheckmark size={40} />
+                <IoCheckmark size={28} />
               )}
             </button>
           </>
@@ -92,14 +93,14 @@ export const BoardHeader = ({
           <>
             <button
               key="create-task"
-              className="primary-btn !p-1 sm:!p-2 !w-fit !m-0"
+              className="btn-primary !w-fit !m-0"
               onClick={() => setIsCreateTaskModalOpen(true)}
               disabled={load}
               title="Создать задачу"
             >
               <div className="flex gap-4 items-center justify-center">
-                <p className="sm:text-xl font-normal">Создать задачу</p>{' '}
-                <FaPlus size={30} color="rgb(255, 255, 255)" />
+                <p className="sm:text-xl font-normal">Создать задачу</p>
+                <FaPlus size={25} />
               </div>
             </button>
 
@@ -107,9 +108,9 @@ export const BoardHeader = ({
               onClick={() => setisEditing(true)}
               title="Редактировать"
               disabled={load}
-              className="!p-0 !py-2"
+              className="btn-tertiary p-2"
             >
-              <IoMdSettings size={40} />
+              <IoMdSettings size={28} />
             </button>
           </>
         )}

@@ -1,10 +1,6 @@
-import { showToast } from '@utils/toast/showToast';
 import { useEffect, useState } from 'react';
-import {
-  connectSocket,
-  disconnectSocket,
-  setupSocketListeners,
-} from 'lib/ws/ws';
+
+import { connectSocket, disconnectSocket, setupSocketListeners } from '@lib/ws';
 
 export function useSocket(accessToken) {
   const [notify, setNotify] = useState('');

@@ -4,13 +4,12 @@ import {
   DisclosurePanel,
   Transition,
 } from '@headlessui/react';
-
 import { motion } from 'framer-motion';
-
 import { FaArrowDown } from 'react-icons/fa';
-import { faqs } from 'features/home/data/faqs';
 
-export function FAQ() {
+import { faqs } from '@features/home';
+
+export default function FAQ() {
   return (
     <section className="py-16 mx-auto">
       <h2 className="text-3xl mb-8">Часто задаваемые вопросы</h2>
@@ -24,7 +23,7 @@ export function FAQ() {
                 transition={{ delay: 0.1 * item.id }}
                 viewport={{ once: true }}
               >
-                <DisclosureButton className="w-full flex-col sm:flex-row text-center sm:text-center flex justify-between !px-2 items-center py-4 text-lg font-medium !border-b-[#111111] !rounded-none focus:outline-none hover:text-[#808080] !transition">
+                <DisclosureButton className="w-full flex-col sm:flex-row !text-[var(--main-text)] !border-b-2 !border-b-blue-500 text-center sm:text-center flex justify-between !px-2 items-center py-4 text-lg font-medium !rounded-none focus:outline-none hover:text-[#808080] !transition">
                   <p className="mb-3 sm:mb-0">{item.question}</p>
                   <FaArrowDown
                     className={`transition-transform ${

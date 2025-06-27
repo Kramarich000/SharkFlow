@@ -1,16 +1,17 @@
 import { Fragment, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { IoClose } from 'react-icons/io5';
-import useTaskStore from 'features/tasks/store/taskStore';
-import useBoardStore from 'features/boards/store/boardStore';
-import useModalsStore from '@store/modalsStore';
+import { AiOutlineSync } from 'react-icons/ai';
 import {
   Dialog,
   DialogPanel,
   Transition,
   TransitionChild,
 } from '@headlessui/react';
-import { AiOutlineSync } from 'react-icons/ai';
+
+import { useTaskStore } from '@features/tasks';
+import { useBoardStore } from '@features/boards';
+import { useModalsStore } from '@store/modalsStore';
 
 export function DeleteTaskModal() {
   const deleteTask = useTaskStore((state) => state.deleteTask);
@@ -53,7 +54,7 @@ export function DeleteTaskModal() {
               leave="ease-in duration-200"
               leaveTo="translate-y-full"
             >
-              <DialogPanel className="w-full border-2 max-w-3xl h-full transform overflow-hidden relative rounded-2xl rounded-b-none bg-white p-6 text-left align-middle shadow-xl !transition-all">
+              <DialogPanel className="modal-base w-full border-2 max-w-3xl h-full transform overflow-hidden relative rounded-2xl rounded-b-none p-6 text-left align-middle shadow-xl !transition-all">
                 <h2 className="text-[31px] text-center mb-4">
                   Удаление задачи
                 </h2>
@@ -62,14 +63,14 @@ export function DeleteTaskModal() {
                 </p>
                 <div className="w-full flex gap-4">
                   <button
-                    className="primary-btn !m-0 !p-2 !mt-auto"
+                    className="btn-primary !m-0 !p-2 !mt-auto"
                     title="Отмена"
                     onClick={() => setIsDeleteTaskModalOpen(false)}
                   >
                     Отмена
                   </button>
                   <button
-                    className="primary-btn flex items-center justify-center !bg-red-700 hover:!bg-red-800 !m-0 !p-2 !mt-auto"
+                    className="btn-primary flex items-center justify-center !m-0 !p-2 !mt-auto"
                     onClick={handleDeleteTask}
                     title="Удалить задачу"
                   >

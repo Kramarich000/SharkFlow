@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { dateFormatter } from '@utils/date/dateFormatter';
 import { FaRegCalendarAlt } from 'react-icons/fa';
+import { dateFormatter } from '@utils/date';
 
 export const TaskTimestamps = ({ task }) => {
   return (

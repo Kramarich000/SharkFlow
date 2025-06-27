@@ -1,7 +1,8 @@
-import { work } from 'features/home/data/work';
 import { motion } from 'framer-motion';
 
-export function HowItWorks() {
+import { work } from '@features/home';
+
+export default function HowItWorks() {
   return (
     <section className="py-12 mx-auto text-center">
       <h2 className="text-3xl mb-8">Как это работает</h2>
@@ -15,7 +16,7 @@ export function HowItWorks() {
             key={item.id}
             className="space-y-2"
           >
-            <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-[#111111] to-gray-400 text-white flex items-center justify-center text-3xl font-bold">
+            <div className="w-16 h-16 mx-auto rounded-full text-white bg-[var(--main-primary)] flex items-center justify-center text-3xl font-bold">
               {item.id}
             </div>
             <h3 className="text-xl font-semibold">{item.title}</h3>

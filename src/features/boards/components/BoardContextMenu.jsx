@@ -11,7 +11,7 @@ export function BoardContextMenu({
 }) {
   return (
     <motion.div
-      className="fixed z-[100] rounded-xl bg-white p-2 shadow-2xl transform -translate-x-full"
+      className="fixed z-[100] rounded-xl p-2 shadow-2xl transform -translate-x-full !bg-[var(--main-bg)]"
       style={{ top: y, left: x }}
       onClick={onClose}
       initial={{ opacity: 0, transform: 'translateY(-10px)' }}
@@ -36,7 +36,7 @@ export function BoardContextMenu({
         <li>
           <button
             onClick={onDuplicate}
-            className="flex w-full items-center gap-2 rounded-lg p-2 text-left hover:bg-gray-100"
+            className="flex w-full items-center gap-2 rounded-lg p-2 text-left !text-[var(--main-primary)] hover:!bg-[var(--main-accent-soft)] !transition"
           >
             <FaCopy />
             <span>Дублировать</span>
@@ -45,7 +45,7 @@ export function BoardContextMenu({
         <li>
           <button
             onClick={onDelete}
-            className="flex w-full items-center gap-2 rounded-lg p-2 text-left text-red-500 hover:bg-red-50"
+            className="flex w-full items-center gap-2 rounded-lg p-2 text-left !text-[var(--main-primary)] hover:!bg-[var(--main-btn-delete-hover-bg))] hover:!text-[var(--main-button-text)] !transition"
           >
             <FaTrash />
             <span>Удалить</span>

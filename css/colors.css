@@ -1,0 +1,62 @@
+:root {
+  /* === Основа === */
+  --main-bg: #f5f7fa;
+  --main-surface: #ffffff;
+  --main-card-bg: #f8fafc;
+  --main-modal-bg: #ffffff;
+  --main-form-bg: #a5b4fc;
+
+  /* === Текст === */
+  --main-heading: #22223b;
+  --main-text: #22223b;
+  --main-text-muted: #4a4e69;
+  --main-text-subtle: #9ca3af;
+
+  /* === Акцент === */
+  --main-primary: #2563eb;
+  --main-primary-hover: #1d4ed8;
+  --main-accent-soft: #dbeafe;
+
+  --main-disabled-btn: #a5b4fc;
+
+  /* === Дополнительные акценты (для меток/категорий) === */
+  --main-accent-blue: #38bdf8; /* sky-400 */
+  --main-accent-green: #22c55e; /* green-500 */
+  --main-accent-pink: #f472b6; /* pink-400 */
+
+  /* === Статусы === */
+  --main-success: #22c55e; /* green-500 */
+  --main-warning: #facc15; /* yellow-400 */
+  --main-error: #ef4444; /* red-500 */
+
+  /* === Кнопки === */
+  --main-button-bg: #2563eb;
+  --main-button-hover: #1745b9;
+  --main-button-text: #ffffff;
+
+  --main-btn-save-bg: #dbeafe;
+  --main-btn-save-hover-bg: #93c5fd;
+
+  --main-btn-cancel-bg: #e0e7ff;
+  --main-btn-cancel-hover-bg: #c7d2fe;
+
+  --main-btn-delete-bg: #fee2e2;
+  --main-btn-delete-hover-bg: #ef4444;
+
+  /* === Инпуты и рамки === */
+  --main-input-bg: var(--main-surface);
+  --main-input-border-focus: var(--main-primary);
+  --main-input-placeholder: var(--main-primary);
+
+  /* === Шапка и подвал === */
+  --main-header-bg: var(--main-primary);
+  --main-header-text: #ffffff;
+  --main-footer-bg: var(--main-primary);
+  --main-footer-text: #ffffff;
+
+  /* === Тени и рамки === */
+  --main-border: #e5e7eb;
+  --main-shadow-soft: 0px 4px 12px rgba(0, 0, 0, 0.04);
+
+  --main-link-hover: #1e293b;
+}

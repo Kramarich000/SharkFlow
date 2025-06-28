@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createBoard as createBoardApi } from '../api';
+import { createBoard as createBoardApi } from '@features/boards';
 
 export const useCreateBoard = () => {
   const queryClient = useQueryClient();
@@ -10,4 +10,4 @@ export const useCreateBoard = () => {
       return queryClient.invalidateQueries({ queryKey: ['boards'] });
     },
   });
-}; 
+};

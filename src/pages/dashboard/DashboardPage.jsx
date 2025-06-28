@@ -18,7 +18,7 @@ import {
   useBoardFilterAndPagination,
 } from '@features/boards';
 
-import { useBoards } from '@features/boards/hooks/useBoards';
+import { useBoards } from '@features/boards';
 
 export default function DashboardPage() {
   const { handleBoardSelect } = useBoardStore(
@@ -27,17 +27,14 @@ export default function DashboardPage() {
     })),
   );
 
-  const {
-    setIsCreateBoardModalOpen,
-    contextMenu,
-    closeContextMenu,
-  } = useModalsStore(
-    useShallow((state) => ({
-      setIsCreateBoardModalOpen: state.setIsCreateBoardModalOpen,
-      contextMenu: state.contextMenu,
-      closeContextMenu: state.closeContextMenu,
-    })),
-  );
+  const { setIsCreateBoardModalOpen, contextMenu, closeContextMenu } =
+    useModalsStore(
+      useShallow((state) => ({
+        setIsCreateBoardModalOpen: state.setIsCreateBoardModalOpen,
+        contextMenu: state.contextMenu,
+        closeContextMenu: state.closeContextMenu,
+      })),
+    );
 
   const { data: boards, isLoading, isError } = useBoards();
 

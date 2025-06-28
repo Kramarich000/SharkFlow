@@ -65,7 +65,7 @@ export const BoardHeader = ({
                 wrapperClassName={`absolute z-50 !w-full !p-0 ${
                   load ? 'pointer-events-none' : null
                 }`}
-                pickerClassName="!top-[50px] !p-2 !w-full !left-0 flex-wrap overflow-y-auto max-h-[500px] !absolute"
+                pickerClassName="!top-[50px] !overflow-x-hidden !p-2 !w-full !left-0 flex-wrap overflow-y-auto max-h-[500px] !absolute"
                 color={newColor}
                 setColor={setNewColor}
                 disabled={load}

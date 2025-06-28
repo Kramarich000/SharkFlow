@@ -1,4 +1,7 @@
 :root {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   /* === Основа === */
   --main-bg: #f5f7fa;
   --main-surface: #ffffff;
@@ -20,14 +23,14 @@
   --main-disabled-btn: #a5b4fc;
 
   /* === Дополнительные акценты (для меток/категорий) === */
-  --main-accent-blue: #38bdf8; /* sky-400 */
-  --main-accent-green: #22c55e; /* green-500 */
-  --main-accent-pink: #f472b6; /* pink-400 */
+  --main-accent-blue: #38bdf8; 
+  --main-accent-green: #22c55e; 
+  --main-accent-pink: #f472b6; 
 
   /* === Статусы === */
-  --main-success: #22c55e; /* green-500 */
-  --main-warning: #facc15; /* yellow-400 */
-  --main-error: #ef4444; /* red-500 */
+  --main-success: #22c55e; 
+  --main-warning: #facc15;
+  --main-error: #ef4444; 
 
   /* === Кнопки === */
   --main-button-bg: #2563eb;
@@ -59,4 +62,68 @@
   --main-shadow-soft: 0px 4px 12px rgba(0, 0, 0, 0.04);
 
   --main-link-hover: #1e293b;
+}
+
+/* ====== ТЕМНАЯ ТЕМА ====== */
+[data-theme='dark'] {
+  /* === Основа === */
+  --main-bg: #1e293b;
+  --main-surface: #273449;
+  --main-card-bg: #2e3a55;
+  --main-modal-bg: #2e3a55;
+  --main-form-bg: #3b4a6b;
+
+  /* === Текст === */
+  --main-heading: #f8fafc;
+  --main-text: #e5e7eb;
+  --main-text-muted: #94a3b8;
+  --main-text-subtle: #64748b;
+
+  /* === Акцент === */
+  --main-primary: #3b82f6;
+  --main-primary-hover: #2563eb;
+  --main-accent-soft: #1e40af; 
+
+  --main-disabled-btn: #4f46e5;
+
+  /* === Дополнительные акценты === */
+  --main-accent-blue: #60a5fa;
+  --main-accent-green: #4ade80;
+  --main-accent-pink: #f472b6;
+
+  /* === Статусы === */
+  --main-success: #4ade80;
+  --main-warning: #eab308;
+  --main-error: #f87171;
+
+  /* === Кнопки === */
+  --main-button-bg: #2563eb;
+  --main-button-hover: #1e3a8a;
+  --main-button-text: #f8fafc;
+
+  --main-btn-save-bg: #1e40af;
+  --main-btn-save-hover-bg: #1e3a8a;
+
+  --main-btn-cancel-bg: #374151;
+  --main-btn-cancel-hover-bg: #4b5563;
+
+  --main-btn-delete-bg: #7f1d1d;
+  --main-btn-delete-hover-bg: #991b1b;
+
+  /* === Инпуты и рамки === */
+  --main-input-bg: #334155;
+  --main-input-border-focus: var(--main-primary);
+  --main-input-placeholder: #94a3b8;
+
+  /* === Шапка и подвал === */
+  --main-header-bg: #1e3a8a;
+  --main-header-text: #f8fafc;
+  --main-footer-bg: #1e3a8a;
+  --main-footer-text: #f8fafc;
+
+  /* === Тени и рамки === */
+  --main-border: #475569;
+  --main-shadow-soft: 0px 4px 12px rgba(0, 0, 0, 0.2);
+
+  --main-link-hover: #f1f5f9;
 }

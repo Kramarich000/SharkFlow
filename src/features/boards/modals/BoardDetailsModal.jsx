@@ -26,7 +26,9 @@ export function BoardDetailsModal() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(selectedBoard?.title || '');
-  const [newColor, setNewColor] = useState(selectedBoard?.color || 'transparent');
+  const [newColor, setNewColor] = useState(
+    selectedBoard?.color || 'transparent',
+  );
 
   useEffect(() => {
     if (selectedBoard) {
@@ -62,7 +64,7 @@ export function BoardDetailsModal() {
 
   const taskSorter = useTaskSorter(tasks, boardUuid);
 
-  const handleSaveBoard = () => {
+  const handleSaveBoard = async () => {
     if (!selectedBoard) return;
     const updatedFields = {};
     if (newTitle !== selectedBoard.title) {
@@ -73,9 +75,8 @@ export function BoardDetailsModal() {
     }
 
     if (Object.keys(updatedFields).length > 0) {
-      updateBoard({ uuid: selectedBoard.uuid, data: updatedFields });
+      await updateBoard({ uuid: selectedBoard.uuid, data: updatedFields });
     }
-    setIsEditing(false);
   };
 
   const handleDeleteBoard = () => {

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { navLinks, legalLinks } from '@features/home/data';
@@ -6,6 +6,12 @@ import { useAuthStore } from '@features/auth';
 
 export function Footer() {
   const token = useAuthStore((state) => state.accessToken);
+  const linkClasses = ({ isActive }) =>
+    `!transition-colors px-3 py-1 rounded-full ${
+      isActive
+        ? '!text-[var(--main-primary)] !bg-[var(--main-bg)]'
+        : '!text-[var(--main-button-text)] hover:!text-[var(--main-text)]'
+    }`;
 
   return (
     <footer className="flex-col sm:flex-row items-center flex py-6 px-5 text-base w-full">
@@ -39,7 +45,14 @@ export function Footer() {
                   animate={{ opacity: 1, transform: 'translateY(0px)' }}
                   exit={{ opacity: 0, transform: 'translateY(-10px)' }}
                 >
-                  <Link to={link.path}>{link.label}</Link>
+                  <NavLink
+                    key={link.path}
+                    to={link.path}
+                    end
+                    className={linkClasses}
+                  >
+                    {link.label}
+                  </NavLink>
                 </motion.li>
               ))}
             </AnimatePresence>
@@ -69,9 +82,9 @@ export function Footer() {
                 transition={{ duration: 0.3 }}
                 viewport={{ once: true }}
               >
-                <Link to={path} className="transition">
+                <NavLink key={path} to={path} end className={linkClasses}>
                   {label}
-                </Link>
+                </NavLink>
               </motion.div>
             ),
           )}

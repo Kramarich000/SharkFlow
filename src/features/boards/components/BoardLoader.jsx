@@ -4,8 +4,8 @@ export const BoardLoader = () => (
   <div className="h-full mt-4 mb-4 flex-col flex items-center justify-center">
     <div
       key="loader"
-      style={{ animation: 'spin 1.2s linear infinite' }}
-      className="text-7xl flex gap-8 text-center"
+      // style={{ animation: 'spin 1.2s linear infinite' }}
+      className="text-7xl flex gap-8 text-center animate-spin"
     >
       <AiOutlineSync />
     </div>

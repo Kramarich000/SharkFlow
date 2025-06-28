@@ -3,9 +3,9 @@ import { useModalsStore } from '@store/modalsStore';
 import { AiOutlineSync } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 
-import { DeleteUserModal, UpdateUserModal } from '@features/user';
 import { getUser } from '@features/user';
 import { useUserStore } from '@features/user';
+import { ToggleTheme } from '@features/user/components/ToggleTheme';
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
@@ -63,8 +63,7 @@ export default function SettingsPage() {
               Удалить аккаунт
             </button>
           </div>
-          <DeleteUserModal />
-          <UpdateUserModal />
+          <ToggleTheme />
         </div>
       )}
     </div>

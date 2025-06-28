@@ -24,6 +24,9 @@ body,
 #root {
   height: auto;
   min-height: 100vh;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 #root {
@@ -37,12 +40,11 @@ body,
 a {
   color: var(--main-primary);
   transition: color 0.3s;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 a:hover {
-  color: var(--main-primary-hover);
-  text-decoration: underline;
+  color: var(--main-text) !important;
 }
 
 body {
@@ -163,6 +165,18 @@ span.flatpickr-weekday,
 
 .flatpickr-calendar {
   margin-top: 4px !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+.flatpickr-calendar.arrowTop:before {
+  border-bottom-color: var(--main-primary) !important;
+  color: var(--main-primary) !important;
+}
+
+.flatpickr-calendar.arrowTop:after {
+  border-bottom-color: var(--main-primary) !important;
+  color: var(--main-primary) !important;
 }
 
 .flatpickr-months .flatpickr-prev-month:hover svg,
@@ -177,6 +191,7 @@ span.flatpickr-weekday,
 
 .flatpickr-monthDropdown-month {
   background: #fff !important;
+  color: var(--main-primary) !important;
 }
 
 .arrowUp,
@@ -417,4 +432,36 @@ header a:hover,
 footer a:hover {
   color: #e0e7ff;
   text-decoration: underline;
+}
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background: var(--main-primary);
+}
+
+.shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  height: 100%;
+  width: 150%;
+  background: linear-gradient(
+    90deg,
+    rgba(37, 99, 235, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(37, 99, 235, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+  animation: shimmerMove 1.5s infinite;
+}
+
+@keyframes shimmerMove {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 100%;
+  }
 }

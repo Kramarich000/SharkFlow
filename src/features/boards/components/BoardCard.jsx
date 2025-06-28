@@ -83,23 +83,23 @@ function BoardCardComponent({ board, onOpen, onTogglePin, onToggleFav }) {
       </div>
       <button
         title={board.isPinned ? 'Открепить доску' : 'Закрепить доску'}
-        className={`!p-2 absolute left-4 top-4 hover:scale-120 !transition-all`}
+        className={`!p-2 absolute left-4 top-4 hover:scale-120 !transition-all group/pinned`}
         onClick={() => onTogglePin(board)}
       >
         <FaThumbtack
           size={27}
-          className={`text-[var(--main-primary)] hover:opacity-100 !transition ${board.isPinned ? 'rotate-0' : 'rotate-45 opacity-30'}`}
+          className={`text-[var(--main-primary)] group-hover/pinned:opacity-100 !transition ${board.isPinned ? 'rotate-0' : 'rotate-45 opacity-30'}`}
         />
       </button>
 
       <button
         title={!board.isFavorite ? 'В избранное' : 'Убрать из избранного'}
-        className={`!p-2 absolute left-15 top-3.5 hover:scale-120 !transition-all`}
+        className={`!p-2 absolute left-15 top-3.5 hover:scale-120 !transition-all group/favorite`}
         onClick={() => onToggleFav(board)}
       >
         <FaStar
           size={27}
-          className={`text-[var(--main-primary)] hover:opacity-100 !transition ${board.isFavorite ? '' : 'opacity-30'}`}
+          className={`text-[var(--main-primary)] group-hover/favorite:opacity-100 !transition ${board.isFavorite ? '' : 'opacity-30'}`}
         />
       </button>
       <div className="flex flex-col mt-4 items-center w-full md:items-start">

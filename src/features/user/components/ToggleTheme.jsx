@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { FaMoon, FaSun, FaRegClock } from 'react-icons/fa';
 
+import { DAY_NIGHT_RANGES } from '@utils/theme/toggleTheme';
+
 import {
   MODES,
   isNight,
@@ -20,16 +22,23 @@ export function ToggleTheme() {
 
     if (mode === 'auto') {
       const now = new Date();
-      const h = now.getHours();
-      let next = new Date(now);
+      const hour = now.getHours();
+      const month = now.getMonth();
+      const { dayStart, dayEnd } = DAY_NIGHT_RANGES[month];
 
-      if (h < 7) next.setHours(7, 0, 0, 0);
-      else if (h < 19) next.setHours(19, 0, 0, 0);
-      else {
+      const next = new Date(now);
+
+      if (hour < dayStart) {
+        next.setHours(dayStart, 0, 0, 0);
+      } else if (hour < dayEnd) {
+        next.setHours(dayEnd, 0, 0, 0);
+      } else {
         next.setDate(next.getDate() + 1);
-        next.setHours(7, 0, 0, 0);
+        next.setHours(0, 0, 0, 0);
+        const nextMonth = next.getMonth();
+        const { dayStart: nextStart } = DAY_NIGHT_RANGES[nextMonth];
+        next.setHours(nextStart, 0, 0, 0);
       }
-
       const ms = next.getTime() - now.getTime();
       const timer = setTimeout(() => {
         const nextDark = isNight();

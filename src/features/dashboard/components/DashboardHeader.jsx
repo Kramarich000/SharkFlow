@@ -1,7 +1,7 @@
 import { FaPlus } from 'react-icons/fa';
 import { FilterForm, SearchBar } from '@features/dashboard';
 import { SimpleCheckbox } from '@common/ui';
-import { Button } from '@common/ui/utilities/button';
+import { Button } from '@common/ui/utilities/Button';
 
 export const DashboardHeader = ({ params, setParams, onOpenCreateBoard }) => {
   return (

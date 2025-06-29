@@ -45,7 +45,7 @@ export function Bubbles() {
             height: `${bubble.height}px`,
             filter: `blur(${bubble.blurAmount}px)`,
             borderRadius: '50% / 60%',
-            backgroundColor: 'rgba(30,144,255,0.3)',
+            backgroundColor: 'rgba(30,144,255,0.9)',
             boxShadow: '0 0 5px 1px rgba(30,144,255,0.15)',
             pointerEvents: 'none',
           }}

@@ -62,6 +62,6 @@ export const privacy = [
     id: 8,
     title: '8. Контакты',
     description:
-      'По вопросам конфиденциальности пишите на privacy@taskflow.example.com',
+      'По вопросам конфиденциальности пишите на privacy@sharkflow.example.com',
   },
 ];

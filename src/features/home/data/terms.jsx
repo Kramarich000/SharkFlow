@@ -49,6 +49,6 @@ export const terms = [
     id: 8,
     title: '8. Контакты',
     description:
-      'По всем вопросам пользовательского соглашения пишите на support@taskflow.example.com',
+      'По всем вопросам пользовательского соглашения пишите на support@sharkflow.example.com',
   },
 ];

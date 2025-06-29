@@ -42,24 +42,26 @@ export default function Contacts() {
         viewport={{ once: true }}
       >
         <li>
-          <a href="mailto:support@taskflow.app">E-mail: support@taskflow.app</a>
+          <a href="mailto:support@sharkflow.app">
+            E-mail: support@sharkflow.app
+          </a>
         </li>
         <li>
           <a
-            href="https://t.me/taskflow_support"
+            href="https://t.me/sharkflow_support"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Telegram: @taskflow_support
+            Telegram: @sharkflow_support
           </a>
         </li>
         <li className="col-span-2">
           <a
-            href="https://discord.gg/taskflow"
+            href="https://discord.gg/sharkflow"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Discord: discord.gg/taskflow
+            Discord: discord.gg/sharkflow
           </a>
         </li>
       </motion.ul>

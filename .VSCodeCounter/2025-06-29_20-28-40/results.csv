@@ -1,0 +1,249 @@
+"filename", "language", "JSON with Comments", "Markdown", "JavaScript", "JSON", "JavaScript JSX", "HTML", "PostCSS", "XML", "YAML", "comment", "blank", "total"
+"c:\TaskFlow\.github\workflows\static.yml", "YAML", 0, 0, 0, 0, 0, 0, 0, 0, 30, 8, 6, 44
+"c:\TaskFlow\README.md", "Markdown", 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 6, 13
+"c:\TaskFlow\components.json", "JSON", 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 21
+"c:\TaskFlow\css\colors.css", "PostCSS", 0, 0, 0, 0, 0, 0, 85, 0, 0, 19, 28, 132
+"c:\TaskFlow\css\utilities.css", "PostCSS", 0, 0, 0, 0, 0, 0, 97, 0, 0, 46, 32, 175
+"c:\TaskFlow\eslint.config.js", "JavaScript", 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 2, 34
+"c:\TaskFlow\index.html", "HTML", 0, 0, 0, 0, 0, 18, 0, 0, 0, 0, 3, 21
+"c:\TaskFlow\jsconfig.json", "JSON with Comments", 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 27
+"c:\TaskFlow\package-lock.json", "JSON", 0, 0, 0, 11986, 0, 0, 0, 0, 0, 0, 1, 11987
+"c:\TaskFlow\package.json", "JSON", 0, 0, 0, 98, 0, 0, 0, 0, 0, 0, 1, 99
+"c:\TaskFlow\postcss.config.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 1, 7
+"c:\TaskFlow\public\vite.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 8
+"c:\TaskFlow\src\App.css", "PostCSS", 0, 0, 0, 0, 0, 0, 33, 0, 0, 116, 12, 161
+"c:\TaskFlow\src\App.jsx", "JavaScript JSX", 0, 0, 0, 0, 104, 0, 0, 0, 0, 3, 14, 121
+"c:\TaskFlow\src\assets\react.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 8
+"c:\TaskFlow\src\common\data\filterAndSortData.jsx", "JavaScript JSX", 0, 0, 0, 0, 47, 0, 0, 0, 0, 0, 8, 55
+"c:\TaskFlow\src\common\data\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\common\hooks\index.js", "JavaScript", 0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 1, 5
+"c:\TaskFlow\src\common\hooks\useMediaQuery.jsx", "JavaScript JSX", 0, 0, 0, 0, 33, 0, 0, 0, 0, 0, 8, 41
+"c:\TaskFlow\src\common\hooks\useResponsive.jsx", "JavaScript JSX", 0, 0, 0, 0, 17, 0, 0, 0, 0, 0, 6, 23
+"c:\TaskFlow\src\common\hooks\useSocket.jsx", "JavaScript JSX", 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 7, 26
+"c:\TaskFlow\src\common\index.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\TaskFlow\src\common\route-auth\PrivateRoute.jsx", "JavaScript JSX", 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 5, 15
+"c:\TaskFlow\src\common\route-auth\PublicRoute.jsx", "JavaScript JSX", 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 5, 15
+"c:\TaskFlow\src\common\route-auth\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\common\tiptap\MenuBar.jsx", "JavaScript JSX", 0, 0, 0, 0, 58, 0, 0, 0, 0, 0, 9, 67
+"c:\TaskFlow\src\common\tiptap\TiptapEditor.jsx", "JavaScript JSX", 0, 0, 0, 0, 104, 0, 0, 0, 0, 23, 11, 138
+"c:\TaskFlow\src\common\tiptap\index.js", "JavaScript", 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1, 5
+"c:\TaskFlow\src\common\tiptap\menu-bar-config.js", "JavaScript", 0, 0, 185, 0, 0, 0, 0, 0, 0, 6, 1, 192
+"c:\TaskFlow\src\common\tiptap\tiptap-extensions.js", "JavaScript", 0, 0, 32, 0, 0, 0, 0, 0, 0, 3, 1, 36
+"c:\TaskFlow\src\common\ui\feedback\AnimatedError.jsx", "JavaScript JSX", 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 4, 42
+"c:\TaskFlow\src\common\ui\feedback\FallbackComponent.jsx", "JavaScript JSX", 0, 0, 0, 0, 25, 0, 0, 0, 0, 0, 5, 30
+"c:\TaskFlow\src\common\ui\feedback\Loader.jsx", "JavaScript JSX", 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 3, 19
+"c:\TaskFlow\src\common\ui\feedback\ModalManager.jsx", "JavaScript JSX", 0, 0, 0, 0, 35, 0, 0, 0, 0, 0, 3, 38
+"c:\TaskFlow\src\common\ui\feedback\index.js", "JavaScript", 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4
+"c:\TaskFlow\src\common\ui\forms\FormikCheckbox.jsx", "JavaScript JSX", 0, 0, 0, 0, 39, 0, 0, 0, 0, 0, 4, 43
+"c:\TaskFlow\src\common\ui\forms\Select.jsx", "JavaScript JSX", 0, 0, 0, 0, 121, 0, 0, 0, 0, 0, 10, 131
+"c:\TaskFlow\src\common\ui\forms\SimpleСheckBox.jsx", "JavaScript JSX", 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 2, 32
+"c:\TaskFlow\src\common\ui\forms\index.js", "JavaScript", 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"c:\TaskFlow\src\common\ui\index.js", "JavaScript", 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1, 5
+"c:\TaskFlow\src\common\ui\layout\ErrorPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 6, 36
+"c:\TaskFlow\src\common\ui\layout\Footer.jsx", "JavaScript JSX", 0, 0, 0, 0, 93, 0, 0, 0, 0, 0, 4, 97
+"c:\TaskFlow\src\common\ui\layout\Header.jsx", "JavaScript JSX", 0, 0, 0, 0, 133, 0, 0, 0, 0, 0, 10, 143
+"c:\TaskFlow\src\common\ui\layout\Page.jsx", "JavaScript JSX", 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 3, 19
+"c:\TaskFlow\src\common\ui\layout\index.js", "JavaScript", 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1, 5
+"c:\TaskFlow\src\common\ui\utilities\AttributeSelector.jsx", "JavaScript JSX", 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 2, 66
+"c:\TaskFlow\src\common\ui\utilities\BackToTop.jsx", "JavaScript JSX", 0, 0, 0, 0, 46, 0, 0, 0, 0, 0, 10, 56
+"c:\TaskFlow\src\common\ui\utilities\Bubbles.jsx", "JavaScript JSX", 0, 0, 0, 0, 53, 0, 0, 0, 0, 0, 4, 57
+"c:\TaskFlow\src\common\ui\utilities\Button.jsx", "JavaScript JSX", 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 6, 56
+"c:\TaskFlow\src\common\ui\utilities\ColorSelector.jsx", "JavaScript JSX", 0, 0, 0, 0, 117, 0, 0, 0, 0, 0, 6, 123
+"c:\TaskFlow\src\common\ui\utilities\DropdownMenu.jsx", "JavaScript JSX", 0, 0, 0, 0, 54, 0, 0, 0, 0, 0, 8, 62
+"c:\TaskFlow\src\common\ui\utilities\HighlightingContent.jsx", "JavaScript JSX", 0, 0, 0, 0, 56, 0, 0, 0, 0, 0, 14, 70
+"c:\TaskFlow\src\common\ui\utilities\Separator.jsx", "JavaScript JSX", 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"c:\TaskFlow\src\common\ui\utilities\Waves.jsx", "JavaScript JSX", 0, 0, 0, 0, 48, 0, 0, 0, 0, 0, 6, 54
+"c:\TaskFlow\src\common\ui\utilities\index.js", "JavaScript", 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 1, 9
+"c:\TaskFlow\src\config\blockedPublicPaths.jsx", "JavaScript JSX", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\config\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\config\routes.js", "JavaScript", 0, 0, 75, 0, 0, 0, 0, 0, 0, 0, 11, 86
+"c:\TaskFlow\src\features\auth\api\index.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 1, 7
+"c:\TaskFlow\src\features\auth\api\loginUser.js", "JavaScript", 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 4, 27
+"c:\TaskFlow\src\features\auth\api\logoutUser.js", "JavaScript", 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 2, 10
+"c:\TaskFlow\src\features\auth\api\refreshToken.js", "JavaScript", 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 4, 25
+"c:\TaskFlow\src\features\auth\api\resetPassword.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 3, 13
+"c:\TaskFlow\src\features\auth\api\resetPasswordConfirm.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 3, 13
+"c:\TaskFlow\src\features\auth\api\resetPasswordRequest.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 3, 13
+"c:\TaskFlow\src\features\auth\components\RegisterFirstStep.jsx", "JavaScript JSX", 0, 0, 0, 0, 196, 0, 0, 0, 0, 0, 11, 207
+"c:\TaskFlow\src\features\auth\components\RegisterSecondStep.jsx", "JavaScript JSX", 0, 0, 0, 0, 79, 0, 0, 0, 0, 4, 6, 89
+"c:\TaskFlow\src\features\auth\components\RegisterThirdStep.jsx", "JavaScript JSX", 0, 0, 0, 0, 25, 0, 0, 0, 0, 0, 2, 27
+"c:\TaskFlow\src\features\auth\components\index.js", "JavaScript", 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"c:\TaskFlow\src\features\auth\hooks\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\features\auth\hooks\useAuthTokenRefresh.jsx", "JavaScript JSX", 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 5, 23
+"c:\TaskFlow\src\features\auth\index.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\TaskFlow\src\features\auth\store\authStore.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 4, 10
+"c:\TaskFlow\src\features\auth\store\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\features\auth\store\registerStore.js", "JavaScript", 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 2, 10
+"c:\TaskFlow\src\features\auth\validators\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\features\auth\validators\loginSchema.js", "JavaScript", 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 3, 10
+"c:\TaskFlow\src\features\auth\validators\passwordResetSchema.js", "JavaScript", 0, 0, 39, 0, 0, 0, 0, 0, 0, 0, 6, 45
+"c:\TaskFlow\src\features\boards\api\createBoard.js", "JavaScript", 0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 3, 23
+"c:\TaskFlow\src\features\boards\api\deleteBoard.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 2, 7
+"c:\TaskFlow\src\features\boards\api\getBoards.js", "JavaScript", 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 2, 9
+"c:\TaskFlow\src\features\boards\api\index.js", "JavaScript", 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1, 5
+"c:\TaskFlow\src\features\boards\api\updateBoard.js", "JavaScript", 0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 4, 28
+"c:\TaskFlow\src\features\boards\components\BoardActions.jsx", "JavaScript JSX", 0, 0, 0, 0, 17, 0, 0, 0, 0, 0, 3, 20
+"c:\TaskFlow\src\features\boards\components\BoardCard.jsx", "JavaScript JSX", 0, 0, 0, 0, 114, 0, 0, 0, 0, 0, 10, 124
+"c:\TaskFlow\src\features\boards\components\BoardCardSkeleton.jsx", "JavaScript JSX", 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 2, 25
+"c:\TaskFlow\src\features\boards\components\BoardContent.jsx", "JavaScript JSX", 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 5, 43
+"c:\TaskFlow\src\features\boards\components\BoardContextMenu.jsx", "JavaScript JSX", 0, 0, 0, 0, 43, 0, 0, 0, 0, 13, 2, 58
+"c:\TaskFlow\src\features\boards\components\BoardGrid.jsx", "JavaScript JSX", 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 3, 21
+"c:\TaskFlow\src\features\boards\components\BoardGridLoader.jsx", "JavaScript JSX", 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 2, 12
+"c:\TaskFlow\src\features\boards\components\BoardHeader.jsx", "JavaScript JSX", 0, 0, 0, 0, 117, 0, 0, 0, 0, 0, 4, 121
+"c:\TaskFlow\src\features\boards\components\BoardLoader.jsx", "JavaScript JSX", 0, 0, 0, 0, 14, 0, 0, 0, 0, 1, 2, 17
+"c:\TaskFlow\src\features\boards\components\index.js", "JavaScript", 0, 0, 8, 0, 0, 0, 0, 0, 0, 1, 1, 10
+"c:\TaskFlow\src\features\boards\hooks\index.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\TaskFlow\src\features\boards\hooks\useBoardFilterAndPagination.jsx", "JavaScript JSX", 0, 0, 0, 0, 109, 0, 0, 0, 0, 0, 11, 120
+"c:\TaskFlow\src\features\boards\hooks\useCreateBoard.js", "JavaScript", 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 3, 14
+"c:\TaskFlow\src\features\boards\hooks\useDeleteBoard.js", "JavaScript", 0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 8, 32
+"c:\TaskFlow\src\features\boards\hooks\useGetBoards.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 2, 7
+"c:\TaskFlow\src\features\boards\hooks\useUpdateBoard.js", "JavaScript", 0, 0, 37, 0, 0, 0, 0, 0, 0, 0, 6, 43
+"c:\TaskFlow\src\features\boards\index.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\TaskFlow\src\features\boards\modals\BoardDetailsModal.jsx", "JavaScript JSX", 0, 0, 0, 0, 131, 0, 0, 0, 0, 0, 18, 149
+"c:\TaskFlow\src\features\boards\modals\CreateBoardModal.jsx", "JavaScript JSX", 0, 0, 0, 0, 133, 0, 0, 0, 0, 0, 9, 142
+"c:\TaskFlow\src\features\boards\modals\DeleteBoardModal.jsx", "JavaScript JSX", 0, 0, 0, 0, 109, 0, 0, 0, 0, 0, 9, 118
+"c:\TaskFlow\src\features\boards\modals\index.js", "JavaScript", 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 2, 5
+"c:\TaskFlow\src\features\boards\store\boardStore.js", "JavaScript", 0, 0, 13, 0, 0, 0, 0, 0, 0, 0, 5, 18
+"c:\TaskFlow\src\features\boards\store\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\features\dashboard\components\DashboardHeader.jsx", "JavaScript JSX", 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 2, 52
+"c:\TaskFlow\src\features\dashboard\components\DashboardLoader.jsx", "JavaScript JSX", 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 2, 23
+"c:\TaskFlow\src\features\dashboard\components\FilterForm.jsx", "JavaScript JSX", 0, 0, 0, 0, 270, 0, 0, 0, 0, 0, 9, 279
+"c:\TaskFlow\src\features\dashboard\components\PaginationControl.jsx", "JavaScript JSX", 0, 0, 0, 0, 53, 0, 0, 0, 0, 0, 4, 57
+"c:\TaskFlow\src\features\dashboard\components\SearchBar.jsx", "JavaScript JSX", 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 1, 22
+"c:\TaskFlow\src\features\dashboard\components\index.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\TaskFlow\src\features\dashboard\hooks\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\features\dashboard\hooks\useDashboardHandlers.js", "JavaScript", 0, 0, 53, 0, 0, 0, 0, 0, 0, 0, 9, 62
+"c:\TaskFlow\src\features\dashboard\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\features\home\components\About.jsx", "JavaScript JSX", 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 2, 43
+"c:\TaskFlow\src\features\home\components\Advantages.jsx", "JavaScript JSX", 0, 0, 0, 0, 36, 0, 0, 0, 0, 0, 2, 38
+"c:\TaskFlow\src\features\home\components\Contacts.jsx", "JavaScript JSX", 0, 0, 0, 0, 104, 0, 0, 0, 0, 0, 5, 109
+"c:\TaskFlow\src\features\home\components\FAQ.jsx", "JavaScript JSX", 0, 0, 0, 0, 52, 0, 0, 0, 0, 0, 4, 56
+"c:\TaskFlow\src\features\home\components\Features.jsx", "JavaScript JSX", 0, 0, 0, 0, 62, 0, 0, 0, 0, 0, 2, 64
+"c:\TaskFlow\src\features\home\components\Hero.jsx", "JavaScript JSX", 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 4, 54
+"c:\TaskFlow\src\features\home\components\HowItWorks.jsx", "JavaScript JSX", 0, 0, 0, 0, 27, 0, 0, 0, 0, 0, 3, 30
+"c:\TaskFlow\src\features\home\components\Partners.jsx", "JavaScript JSX", 0, 0, 0, 0, 46, 0, 0, 0, 0, 0, 3, 49
+"c:\TaskFlow\src\features\home\components\Reviewers.jsx", "JavaScript JSX", 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 2, 33
+"c:\TaskFlow\src\features\home\components\Security.jsx", "JavaScript JSX", 0, 0, 0, 0, 58, 0, 0, 0, 0, 0, 6, 64
+"c:\TaskFlow\src\features\home\components\Slider.jsx", "JavaScript JSX", 0, 0, 0, 0, 42, 0, 0, 0, 0, 0, 3, 45
+"c:\TaskFlow\src\features\home\components\VerticalGallery.jsx", "JavaScript JSX", 0, 0, 0, 0, 152, 0, 0, 0, 0, 0, 13, 165
+"c:\TaskFlow\src\features\home\components\index.js", "JavaScript", 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 1, 12
+"c:\TaskFlow\src\features\home\data\advantages.jsx", "JavaScript JSX", 0, 0, 0, 0, 52, 0, 0, 0, 0, 0, 2, 54
+"c:\TaskFlow\src\features\home\data\faqs.jsx", "JavaScript JSX", 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 1, 65
+"c:\TaskFlow\src\features\home\data\index.js", "JavaScript", 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 1, 12
+"c:\TaskFlow\src\features\home\data\legalLinks.jsx", "JavaScript JSX", 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 1, 10
+"c:\TaskFlow\src\features\home\data\logos.jsx", "JavaScript JSX", 0, 0, 0, 0, 107, 0, 0, 0, 0, 0, 1, 108
+"c:\TaskFlow\src\features\home\data\navLinks.jsx", "JavaScript JSX", 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 1, 13
+"c:\TaskFlow\src\features\home\data\privacy.jsx", "JavaScript JSX", 0, 0, 0, 0, 67, 0, 0, 0, 0, 0, 1, 68
+"c:\TaskFlow\src\features\home\data\reviewers.jsx", "JavaScript JSX", 0, 0, 0, 0, 97, 0, 0, 0, 0, 0, 1, 98
+"c:\TaskFlow\src\features\home\data\security.jsx", "JavaScript JSX", 0, 0, 0, 0, 27, 0, 0, 0, 0, 0, 1, 28
+"c:\TaskFlow\src\features\home\data\team.jsx", "JavaScript JSX", 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 2, 40
+"c:\TaskFlow\src\features\home\data\terms.jsx", "JavaScript JSX", 0, 0, 0, 0, 53, 0, 0, 0, 0, 0, 2, 55
+"c:\TaskFlow\src\features\home\data\work.jsx", "JavaScript JSX", 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 1, 23
+"c:\TaskFlow\src\features\home\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\features\lib\utils.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 2, 7
+"c:\TaskFlow\src\features\tasks\api\createTask.js", "JavaScript", 0, 0, 30, 0, 0, 0, 0, 0, 0, 16, 8, 54
+"c:\TaskFlow\src\features\tasks\api\deleteTask.js", "JavaScript", 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 2, 9
+"c:\TaskFlow\src\features\tasks\api\getTasks.js", "JavaScript", 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 1, 11
+"c:\TaskFlow\src\features\tasks\api\index.js", "JavaScript", 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4
+"c:\TaskFlow\src\features\tasks\api\updateTask.js", "JavaScript", 0, 0, 29, 0, 0, 0, 0, 0, 0, 0, 5, 34
+"c:\TaskFlow\src\features\tasks\components\SortableTaskCard.jsx", "JavaScript JSX", 0, 0, 0, 0, 42, 0, 0, 0, 0, 0, 5, 47
+"c:\TaskFlow\src\features\tasks\components\TaskCard.jsx", "JavaScript JSX", 0, 0, 0, 0, 82, 0, 0, 0, 0, 24, 10, 116
+"c:\TaskFlow\src\features\tasks\components\TaskDeadline.jsx", "JavaScript JSX", 0, 0, 0, 0, 72, 0, 0, 0, 0, 0, 8, 80
+"c:\TaskFlow\src\features\tasks\components\TaskDescription.jsx", "JavaScript JSX", 0, 0, 0, 0, 45, 0, 0, 0, 0, 0, 4, 49
+"c:\TaskFlow\src\features\tasks\components\TaskDetailsHeader.jsx", "JavaScript JSX", 0, 0, 0, 0, 304, 0, 0, 0, 0, 0, 19, 323
+"c:\TaskFlow\src\features\tasks\components\TaskFormInputs.jsx", "JavaScript JSX", 0, 0, 0, 0, 37, 0, 0, 0, 0, 0, 3, 40
+"c:\TaskFlow\src\features\tasks\components\TaskFormSelectors.jsx", "JavaScript JSX", 0, 0, 0, 0, 49, 0, 0, 0, 0, 0, 3, 52
+"c:\TaskFlow\src\features\tasks\components\TaskList.jsx", "JavaScript JSX", 0, 0, 0, 0, 76, 0, 0, 0, 0, 0, 6, 82
+"c:\TaskFlow\src\features\tasks\components\TaskSortControl.jsx", "JavaScript JSX", 0, 0, 0, 0, 77, 0, 0, 0, 0, 0, 3, 80
+"c:\TaskFlow\src\features\tasks\components\TaskStatusSidebar.jsx", "JavaScript JSX", 0, 0, 0, 0, 86, 0, 0, 0, 0, 0, 3, 89
+"c:\TaskFlow\src\features\tasks\components\TaskTimestamps.jsx", "JavaScript JSX", 0, 0, 0, 0, 25, 0, 0, 0, 0, 0, 2, 27
+"c:\TaskFlow\src\features\tasks\components\index.js", "JavaScript", 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 1, 12
+"c:\TaskFlow\src\features\tasks\data\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\features\tasks\data\taskOptions.jsx", "JavaScript JSX", 0, 0, 0, 0, 69, 0, 0, 0, 0, 0, 8, 77
+"c:\TaskFlow\src\features\tasks\hooks\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\features\tasks\hooks\useTaskSorter.jsx", "JavaScript JSX", 0, 0, 0, 0, 105, 0, 0, 0, 0, 0, 8, 113
+"c:\TaskFlow\src\features\tasks\hooks\useTaskUpdate.jsx", "JavaScript JSX", 0, 0, 0, 0, 53, 0, 0, 0, 0, 0, 12, 65
+"c:\TaskFlow\src\features\tasks\index.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 1, 7
+"c:\TaskFlow\src\features\tasks\modals\CreateTaskModal.jsx", "JavaScript JSX", 0, 0, 0, 0, 132, 0, 0, 0, 0, 0, 6, 138
+"c:\TaskFlow\src\features\tasks\modals\DeleteTaskModal.jsx", "JavaScript JSX", 0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 6, 95
+"c:\TaskFlow\src\features\tasks\modals\TaskDetailsModal.jsx", "JavaScript JSX", 0, 0, 0, 0, 108, 0, 0, 0, 0, 0, 13, 121
+"c:\TaskFlow\src\features\tasks\modals\index.js", "JavaScript", 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"c:\TaskFlow\src\features\tasks\store\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\features\tasks\store\taskStore.js", "JavaScript", 0, 0, 234, 0, 0, 0, 0, 0, 0, 0, 27, 261
+"c:\TaskFlow\src\features\user\api\createUser.js", "JavaScript", 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 3, 11
+"c:\TaskFlow\src\features\user\api\createUserConfirm.js", "JavaScript", 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 3, 19
+"c:\TaskFlow\src\features\user\api\deleteUser.js", "JavaScript", 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 2, 13
+"c:\TaskFlow\src\features\user\api\deleteUserConfirm.js", "JavaScript", 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 2, 9
+"c:\TaskFlow\src\features\user\api\getUser.js", "JavaScript", 0, 0, 17, 0, 0, 0, 0, 0, 0, 0, 3, 20
+"c:\TaskFlow\src\features\user\api\index.js", "JavaScript", 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 1, 15
+"c:\TaskFlow\src\features\user\api\updateUser.js", "JavaScript", 0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 8, 46
+"c:\TaskFlow\src\features\user\api\updateUserConfirm.js", "JavaScript", 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 2, 9
+"c:\TaskFlow\src\features\user\components\ToggleTheme.jsx", "JavaScript JSX", 0, 0, 0, 0, 72, 0, 0, 0, 0, 0, 12, 84
+"c:\TaskFlow\src\features\user\components\UpdateConfirmation.jsx", "JavaScript JSX", 0, 0, 0, 0, 33, 0, 0, 0, 0, 0, 2, 35
+"c:\TaskFlow\src\features\user\components\UpdateForm.jsx", "JavaScript JSX", 0, 0, 0, 0, 68, 0, 0, 0, 0, 13, 2, 83
+"c:\TaskFlow\src\features\user\components\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\features\user\index.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\TaskFlow\src\features\user\modals\DeleteUserModal.jsx", "JavaScript JSX", 0, 0, 0, 0, 181, 0, 0, 0, 0, 0, 7, 188
+"c:\TaskFlow\src\features\user\modals\LogoutUserModal.jsx", "JavaScript JSX", 0, 0, 0, 0, 83, 0, 0, 0, 0, 0, 5, 88
+"c:\TaskFlow\src\features\user\modals\UpdateUserModal.jsx", "JavaScript JSX", 0, 0, 0, 0, 163, 0, 0, 0, 0, 0, 13, 176
+"c:\TaskFlow\src\features\user\modals\index.js", "JavaScript", 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"c:\TaskFlow\src\features\user\store\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\features\user\store\userStore.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 4, 10
+"c:\TaskFlow\src\features\user\validators\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\features\user\validators\registerSchema.js", "JavaScript", 0, 0, 49, 0, 0, 0, 0, 0, 0, 0, 8, 57
+"c:\TaskFlow\src\features\user\validators\updateSchema.js", "JavaScript", 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 2, 14
+"c:\TaskFlow\src\index.css", "PostCSS", 0, 0, 0, 0, 0, 0, 436, 0, 0, 6, 76, 518
+"c:\TaskFlow\src\lib\http\apiClient.js", "JavaScript", 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 4, 18
+"c:\TaskFlow\src\lib\http\authInterceptor.js", "JavaScript", 0, 0, 70, 0, 0, 0, 0, 0, 0, 1, 12, 83
+"c:\TaskFlow\src\lib\http\http.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 3, 9
+"c:\TaskFlow\src\lib\http\index.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\TaskFlow\src\lib\http\loggerInterceptor.js", "JavaScript", 0, 0, 42, 0, 0, 0, 0, 0, 0, 0, 2, 44
+"c:\TaskFlow\src\lib\ws\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\lib\ws\ws.js", "JavaScript", 0, 0, 36, 0, 0, 0, 0, 0, 0, 3, 11, 50
+"c:\TaskFlow\src\main.jsx", "JavaScript JSX", 0, 0, 0, 0, 26, 0, 0, 0, 0, 0, 3, 29
+"c:\TaskFlow\src\pages\auth\LoginPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 159, 0, 0, 0, 0, 0, 9, 168
+"c:\TaskFlow\src\pages\auth\RegisterPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 42, 0, 0, 0, 0, 0, 8, 50
+"c:\TaskFlow\src\pages\auth\ResetPasswordPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 3, 0, 0, 0, 0, 184, 13, 200
+"c:\TaskFlow\src\pages\auth\index.js", "JavaScript", 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"c:\TaskFlow\src\pages\dashboard\DashboardPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 116, 0, 0, 0, 0, 0, 14, 130
+"c:\TaskFlow\src\pages\dashboard\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\pages\errors\Error400.jsx", "JavaScript JSX", 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 3, 15
+"c:\TaskFlow\src\pages\errors\Error401.jsx", "JavaScript JSX", 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 3, 15
+"c:\TaskFlow\src\pages\errors\Error403.jsx", "JavaScript JSX", 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 3, 15
+"c:\TaskFlow\src\pages\errors\Error404.jsx", "JavaScript JSX", 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 4, 17
+"c:\TaskFlow\src\pages\errors\Error500.jsx", "JavaScript JSX", 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 3, 15
+"c:\TaskFlow\src\pages\errors\index.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\TaskFlow\src\pages\home\HomePage.jsx", "JavaScript JSX", 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 3, 63
+"c:\TaskFlow\src\pages\home\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\pages\index.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 1, 7
+"c:\TaskFlow\src\pages\policy\PrivacyPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 5, 29
+"c:\TaskFlow\src\pages\policy\TermsPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 6, 30
+"c:\TaskFlow\src\pages\policy\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\pages\settings\SettingsPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 65, 0, 0, 0, 0, 0, 7, 72
+"c:\TaskFlow\src\pages\settings\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\store\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\store\modalsStore.js", "JavaScript", 0, 0, 47, 0, 0, 0, 0, 0, 0, 0, 14, 61
+"c:\TaskFlow\src\utils\color\hexToRgba.js", "JavaScript", 0, 0, 13, 0, 0, 0, 0, 0, 0, 0, 4, 17
+"c:\TaskFlow\src\utils\color\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\utils\color\normalizeColor.js", "JavaScript", 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"c:\TaskFlow\src\utils\date\dateFormatter.js", "JavaScript", 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 1, 10
+"c:\TaskFlow\src\utils\date\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\utils\filters\boardFilters.js", "JavaScript", 0, 0, 44, 0, 0, 0, 0, 0, 0, 0, 7, 51
+"c:\TaskFlow\src\utils\filters\boardSorts.js", "JavaScript", 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 5, 37
+"c:\TaskFlow\src\utils\filters\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\utils\index.js", "JavaScript", 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 1, 8
+"c:\TaskFlow\src\utils\lowlight-loader.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"c:\TaskFlow\src\utils\responsesHandler\apiResponsesHandler.js", "JavaScript", 0, 0, 74, 0, 0, 0, 0, 0, 0, 0, 10, 84
+"c:\TaskFlow\src\utils\responsesHandler\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\utils\sounds\canPlaySound.js", "JavaScript", 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 3, 15
+"c:\TaskFlow\src\utils\sounds\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\src\utils\sounds\makeSound.js", "JavaScript", 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 5, 26
+"c:\TaskFlow\src\utils\theme\toggleTheme.jsx", "JavaScript JSX", 0, 0, 0, 0, 35, 0, 0, 0, 0, 0, 6, 41
+"c:\TaskFlow\src\utils\toast\index.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\TaskFlow\src\utils\toast\showToast.js", "JavaScript", 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 2, 17
+"c:\TaskFlow\src\validators\confirmCodeSchema.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 2, 8
+"c:\TaskFlow\src\validators\emailSchema.js", "JavaScript", 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 2, 6
+"c:\TaskFlow\src\validators\index.js", "JavaScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3
+"c:\TaskFlow\tailwind.config.js", "JavaScript", 0, 0, 7, 0, 0, 0, 0, 0, 0, 1, 1, 9
+"c:\TaskFlow\vite.config.js", "JavaScript", 0, 0, 117, 0, 0, 0, 0, 0, 0, 93, 7, 217
+"Total", "-", 26, 7, 1916, 12105, 7010, 18, 651, 16, 30, 615, 1117, 23511

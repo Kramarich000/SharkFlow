@@ -468,7 +468,7 @@ footer a:hover {
   }
 }
 
-@keyframes bubble-rise {
+/* @keyframes bubble-rise {
   0% {
     transform: translateY(0);
     opacity: 1;
@@ -485,7 +485,7 @@ footer a:hover {
 .animate-bubble {
   animation: bubble-rise linear infinite;
   will-change: transform, opacity;
-}
+} */
 
 .yarl__navigation_next,
 .yarl__navigation_prev {

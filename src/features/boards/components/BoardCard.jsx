@@ -13,6 +13,7 @@ import { useShallow } from 'zustand/shallow';
 import { dateFormatter } from '@utils/date';
 import { useModalsStore } from '@store/modalsStore';
 import { useTaskStore } from '@features/tasks';
+import { useBoardStore } from '@features/boards';
 
 function BoardCardComponent({ board, onOpen, onTogglePin, onToggleFav }) {
   const { setIsDetailsBoardModalOpen, openContextMenu, contextMenu } =
@@ -33,6 +34,8 @@ function BoardCardComponent({ board, onOpen, onTogglePin, onToggleFav }) {
       setSelectedBoard: state.setSelectedBoard,
     })),
   );
+
+  const taskCount = useBoardStore((state) => state.taskCount[board.uuid] ?? 0);
 
   const handleMenuClick = (e) => {
     e.stopPropagation();
@@ -105,7 +108,7 @@ function BoardCardComponent({ board, onOpen, onTogglePin, onToggleFav }) {
       <div className="flex flex-col mt-4 items-center w-full md:items-start">
         <div className="flex items-center gap-2">
           <FaTasks size={20} title="Количество задач" />
-          <p>Задач: {board.taskCount ?? 0}</p>
+          <p>Задач: {taskCount}</p>
         </div>
         <div className="flex items-center gap-2 mt-1">
           <AiOutlineClockCircle size={20} title="Дата создания" />

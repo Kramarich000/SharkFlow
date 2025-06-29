@@ -8,12 +8,12 @@ import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen';
 import Slideshow from 'yet-another-react-lightbox/plugins/slideshow';
 import { useResponsive } from '@common/hooks';
 
-import img1 from '../../../assets/images/screenshoots/1.png';
-import img2 from '../../../assets/images/screenshoots/2.png';
-import img3 from '../../../assets/images/screenshoots/3.png';
-import img4 from '../../../assets/images/screenshoots/4.png';
-import img5 from '../../../assets/images/screenshoots/5.png';
-import img6 from '../../../assets/images/screenshoots/6.png';
+import img1 from '@assets/images/screenshoots/1.png';
+import img2 from '@assets/images/screenshoots/2.png';
+import img3 from '@assets/images/screenshoots/3.png';
+import img4 from '@assets/images/screenshoots/4.png';
+import img5 from '@assets/images/screenshoots/5.png';
+import img6 from '@assets/images/screenshoots/6.png';
 
 const images = [img1, img2, img3, img4, img5, img6];
 

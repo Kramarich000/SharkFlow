@@ -4,6 +4,8 @@ import { createTask as apiCreateTask } from '@features/tasks';
 import { updateTask as apiUpdateTask } from '@features/tasks';
 import { deleteTask as apiDeleteTask } from '@features/tasks';
 
+import { useBoardStore } from '@features/boards';
+
 export const useTaskStore = create((set, get) => ({
   tasksByBoard: {},
   loadedBoards: {},
@@ -110,6 +112,11 @@ export const useTaskStore = create((set, get) => ({
           status: '',
         };
       });
+
+      useBoardStore
+        .getState()
+        .setTaskCount(boardUuid, (prev) => (prev ?? 0) + 1);
+
       get().handleTaskSelect(newTask);
       return true;
     }

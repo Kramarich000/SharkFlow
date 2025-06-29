@@ -6,6 +6,8 @@ import {
 } from '@features/boards';
 import { useModalsStore } from '@store/modalsStore';
 
+import { useBoards } from '@features/boards';
+
 export function useDashboardHandlers() {
   const { handleBoardSelect } = useBoardStore(
     useShallow((s) => ({
@@ -24,6 +26,8 @@ export function useDashboardHandlers() {
       })),
     );
 
+  const { data: boards = [] } = useBoards();
+
   const handleTogglePin = async (board) => {
     updateBoard({ uuid: board.uuid, data: { isPinned: !board.isPinned } });
   };
@@ -41,7 +45,25 @@ export function useDashboardHandlers() {
   const handleDuplicateBoard = async () => {
     if (!contextMenu.board) return;
     const { title, color } = contextMenu.board;
-    let newTitle = `${title} (копия)`;
+
+    const titles = boards.map((b) => b.title);
+
+    const regex = new RegExp(
+      `^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} \\(копия (\\d+)\\)$`,
+    );
+
+    let maxNumber = 0;
+
+    titles.forEach((existingTitle) => {
+      const match = existingTitle.match(regex);
+      if (match) {
+        const num = parseInt(match[1], 10);
+        if (num > maxNumber) maxNumber = num;
+      }
+    });
+
+    const newTitle = `${title} (копия ${maxNumber + 1})`;
+
     createBoard({ title: newTitle, color });
   };
 

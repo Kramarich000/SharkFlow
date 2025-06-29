@@ -21,9 +21,10 @@ import {
 import { useBoards } from '@features/boards';
 
 export default function DashboardPage() {
-  const { handleBoardSelect } = useBoardStore(
+  const { handleBoardSelect, setTaskCount } = useBoardStore(
     useShallow((state) => ({
       handleBoardSelect: state.handleBoardSelect,
+      setTaskCount: state.setTaskCount,
     })),
   );
 
@@ -68,6 +69,14 @@ export default function DashboardPage() {
       window.removeEventListener('click', handleClick);
     };
   }, [contextMenu.visible, closeContextMenu]);
+
+  useEffect(() => {
+    if (boards) {
+      boards.forEach((board) => {
+        setTaskCount(board.uuid, board.taskCount ?? 0);
+      });
+    }
+  }, [boards, setTaskCount]);
 
   if (isError) {
     return (

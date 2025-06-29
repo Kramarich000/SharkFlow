@@ -1,4 +1,4 @@
-import { api } from '@lib/http';
+import api from '@lib/http';
 import { useAuthStore } from '@features/auth';
 import { apiResponsesHandler } from '@utils/responsesHandler';
 

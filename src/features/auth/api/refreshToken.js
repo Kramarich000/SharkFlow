@@ -1,4 +1,4 @@
-import { api } from '@lib/http';
+import api from '@lib/http';
 import { apiResponsesHandler } from '@utils/responsesHandler';
 
 const SESSION_EXPIRED_KEY = 'sessionExpired';

@@ -1,4 +1,4 @@
-import { api } from '@lib/http';
+import api from '@lib/http';
 import { apiResponsesHandler } from '@utils/responsesHandler';
 import { showToast } from '@utils/toast';
 

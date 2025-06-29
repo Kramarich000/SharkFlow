@@ -51,7 +51,7 @@ export default defineConfig({
       rel: 'modulepreload',
       include: ['**/*.js'],
     }),
-    analyzer(),
+    // analyzer(),
     // VitePWA({
     //   registerType: 'autoUpdate',
     //   devOptions: {

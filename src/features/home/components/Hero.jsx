@@ -2,12 +2,13 @@ import Separator from '@common/ui/utilities/Separator';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Wave from 'react-wavify';
-import { Bubbles, Waves } from '@common/ui';
+import { Bubbles, Waves, SharkFin } from '@common/ui';
 
 export default function Hero() {
   return (
     <section className="flex min-h-screen flex-col items-center justify-center">
       <Bubbles />
+      <SharkFin />
 
       <motion.h1
         className="mb-8 !text-3xl sm:!text-5xl "

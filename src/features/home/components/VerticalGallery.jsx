@@ -47,7 +47,7 @@ function ScrollingColumn({ images, direction = 'up', onImageClick }) {
             src={src}
             alt=""
             draggable={false}
-            className="w-full object-cover rounded-2xl cursor-pointer"
+            className="w-full object-cover rounded-2xl hover:scale-110 cursor-pointer !transition-transform"
             style={{
               height: imgHeight,
             }}
@@ -107,13 +107,13 @@ export default function InfiniteVerticalScroll() {
           />
         </div>
       ) : (
-        <div className="flex max-h-[600px] pr-4 overflow-auto gap-4 flex-col">
+        <div className="flex max-h-[600px] pr-4 overflow-autogap-4 flex-col">
           {images.map((src, i) => (
             <img
               key={i}
               src={src}
               alt={`Screenshot ${i + 1}`}
-              className="inline object-contain rounded-2xl cursor-pointer"
+              className="inline object-contain rounded-2xl hover:scale-110 cursor-pointer !transition-transform"
               draggable={false}
               onClick={() => handleImageClick(i)}
             />

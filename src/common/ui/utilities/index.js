@@ -6,3 +6,4 @@ export * from './HighlightingContent';
 export * from './Separator';
 export * from './Waves';
 export * from './Bubbles';
+export * from './SharkFin';

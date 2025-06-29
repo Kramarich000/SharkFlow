@@ -1,4 +1,4 @@
 export * from './apiClient';
-export * from './authInterceprtor';
+export * from './authInterceptor';
 export * from './http';
 export * from './loggerInterceptor';

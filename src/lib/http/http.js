@@ -116,7 +116,9 @@
 //   },
 // );
 
-import { api, setupLoggerInterceptor, setupAuthInterceptor } from '@lib/http';
+import { api } from './apiClient';
+import { setupLoggerInterceptor } from './loggerInterceptor';
+import { setupAuthInterceptor } from './authInterceptor';
 
 setupLoggerInterceptor(api);
 setupAuthInterceptor();

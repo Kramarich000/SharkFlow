@@ -1,4 +1,4 @@
-import { api, refreshClient } from '@lib/http';
+import { api, refreshClient } from './apiClient';
 import { useAuthStore } from '@features/auth';
 
 let isRefreshing = false;
@@ -79,4 +79,4 @@ export function setupAuthInterceptor() {
       return Promise.reject(error);
     },
   );
-}
+} 

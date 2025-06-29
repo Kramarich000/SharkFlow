@@ -26,7 +26,7 @@ function App() {
   const { setUser } = useUserStore.getState();
   const { isAuthLoading } = useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
-
+  // console.log(accessToken);
   const greeted = useRef(false);
 
   applyTheme(getThemeMode());

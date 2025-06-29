@@ -1,12 +1,16 @@
 import Separator from '@common/ui/utilities/Separator';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import Wave from 'react-wavify';
+import { Bubbles, Waves } from '@common/ui';
 
 export default function Hero() {
   return (
     <section className="flex min-h-screen flex-col items-center justify-center">
+      <Bubbles />
+
       <motion.h1
-        className="mb-8 !text-3xl sm:!text-5xl"
+        className="mb-8 !text-3xl sm:!text-5xl "
         initial={{ transform: 'translateY(30px)', opacity: 0 }}
         whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -16,30 +20,17 @@ export default function Hero() {
         задачами как акула
       </motion.h1>
       <div className="flex text-xl sm:text-3xl mb-8 justify-center flex-wrap gap-x-20">
-        <motion.p
-          initial={{ transform: 'translateY(100px)', opacity: 0 }}
-          whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-        >
-          Нацелься
-        </motion.p>
-        <motion.p
-          initial={{ transform: 'translateY(150px)', opacity: 0 }}
-          whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          viewport={{ once: true }}
-        >
-          Планируй
-        </motion.p>
-        <motion.p
-          initial={{ transform: 'translateY(200px)', opacity: 0 }}
-          whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1 }}
-          viewport={{ once: true }}
-        >
-          Действуй
-        </motion.p>
+        {['Нацелься', 'Планируй', 'Действуй'].map((text, idx) => (
+          <motion.p
+            key={text}
+            initial={{ transform: 'translateY(100px)', opacity: 0 }}
+            whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
+            transition={{ duration: 0.7, delay: idx * 0.5 }}
+            viewport={{ once: true }}
+          >
+            {text}
+          </motion.p>
+        ))}
       </div>
       <motion.div
         className="mt-6"
@@ -55,6 +46,8 @@ export default function Hero() {
           Начать охоту
         </Link>
       </motion.div>
+
+      <Waves />
     </section>
   );
 }

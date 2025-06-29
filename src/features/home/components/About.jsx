@@ -13,7 +13,7 @@ export default function About() {
               whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
               transition={{ duration: 0.5, delay: item.id * 0.2 }}
               viewport={{ once: true }}
-              className="rounded-4xl border-2"
+              className="rounded-4xl border-2 border-[var(--main-primary)]"
               key={item.id}
             >
               <div className="p-4">

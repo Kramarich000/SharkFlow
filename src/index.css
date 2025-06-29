@@ -428,11 +428,13 @@ header a,
 footer a {
   color: var(--main-header-text);
 }
+
 header a:hover,
 footer a:hover {
-  color: #e0e7ff;
+  color: var(--main-text-hover) !important;
   text-decoration: underline;
 }
+
 .shimmer {
   position: relative;
   overflow: hidden;
@@ -464,4 +466,52 @@ footer a:hover {
   100% {
     left: 100%;
   }
+}
+
+@keyframes bubble-rise {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(var(--rise-height));
+    opacity: 0;
+  }
+}
+
+.animate-bubble {
+  animation: bubble-rise linear infinite;
+  will-change: transform, opacity;
+}
+
+.yarl__navigation_next,
+.yarl__navigation_prev {
+  background: black !important;
+  padding: 5px !important;
+  transition: 0.3s all !important;
+}
+
+.yarl__navigation_next {
+  right: 20px !important;
+}
+.yarl__navigation_prev {
+  left: 20px !important;
+}
+
+.yarl__navigation_next:hover,
+.yarl__navigation_prev:hover {
+  background: gray !important;
+}
+
+.yarl__toolbar {
+  gap: 8px;
+}
+
+.yarl__toolbar .yarl__button {
+  background: black !important;
+  padding: 5px !important;
+  transition: 0.3s all !important;
 }

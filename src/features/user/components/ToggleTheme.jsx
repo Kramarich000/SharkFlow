@@ -1,60 +1,74 @@
 import { useEffect, useState } from 'react';
-import { FaMoon, FaSun } from 'react-icons/fa';
+import { FaMoon, FaSun, FaRegClock } from 'react-icons/fa';
+
+import {
+  MODES,
+  isNight,
+  getDarkByMode,
+  getThemeMode,
+  applyTheme,
+} from '@utils/theme/toggleTheme';
 
 export function ToggleTheme() {
-  const [dark, setDark] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    const stored = window.localStorage.getItem('theme');
-    if (stored === 'dark' || stored === 'light') {
-      return stored === 'dark';
-    }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
+  const [mode, setMode] = useState(() => getThemeMode());
+  const [dark, setDark] = useState(() => getDarkByMode(mode));
 
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    localStorage.setItem('themeMode', mode);
+    applyTheme(mode);
+    setDark(getDarkByMode(mode));
 
-    const handler = (e) => {
-      if (!window.localStorage.getItem('theme')) {
-        setDark(e.matches);
+    if (mode === 'auto') {
+      const now = new Date();
+      const h = now.getHours();
+      let next = new Date(now);
+
+      if (h < 7) next.setHours(7, 0, 0, 0);
+      else if (h < 19) next.setHours(19, 0, 0, 0);
+      else {
+        next.setDate(next.getDate() + 1);
+        next.setHours(7, 0, 0, 0);
       }
-    };
 
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
+      const ms = next.getTime() - now.getTime();
+      const timer = setTimeout(() => {
+        const nextDark = isNight();
+        setDark(nextDark);
+        applyTheme(nextDark ? 'dark' : 'light');
+      }, ms);
 
-  useEffect(() => {
-    const theme = dark ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', theme);
-    window.localStorage.setItem('theme', theme);
-  }, [dark]);
+      return () => clearTimeout(timer);
+    }
+  }, [mode]);
+
+  const handleClick = () => {
+    const next = MODES[(MODES.indexOf(mode) + 1) % MODES.length];
+    setMode(next);
+  };
+
+  const idx = MODES.indexOf(mode);
+  const translateClass =
+    idx === 0 ? 'translate-x-0' : idx === 1 ? 'translate-x-4' : 'translate-x-8';
+  const Icon = mode === 'light' ? FaSun : mode === 'dark' ? FaMoon : FaRegClock;
 
   return (
     <button
-      onClick={() => setDark((d) => !d)}
-      className="flex items-center p-2 rounded-full bg-[var(--main-surface)] shadow hover:shadow-md transition"
-      aria-label={
-        dark ? 'Переключить на светлую тему' : 'Переключить на тёмную тему'
+      onClick={handleClick}
+      className="flex items-center space-x-2 p-2 rounded-full bg-[var(--main-surface)] shadow hover:shadow-md transition"
+      title={
+        mode === 'auto'
+          ? 'Авто: по времени суток'
+          : mode === 'light'
+            ? 'Светлая тема'
+            : 'Тёмная тема'
       }
     >
-      <div
-        className={`
-          relative w-10 h-6 flex items-center transition-colors duration-300
-          ${dark ? 'bg-[var(--main-primary)]' : 'bg-gray-300'}
-          rounded-full
-        `}
-      >
+      <div className="relative w-14 h-6 flex items-center bg-[var(--main-button-bg)] rounded-full transition-colors">
         <span
-          className={`
-            absolute left-1 w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300
-            ${dark ? 'translate-x-4' : 'translate-x-0'}
-          `}
+          className={`absolute left-0.5 top-0.5 w-5 h-5 bg-[var(--main-button-text)] rounded-full shadow transform transition-transform ${translateClass}`}
         />
       </div>
-      <span className="ml-2 text-xl">
-        {dark ? <FaSun /> : <FaMoon color="black" />}
-      </span>
+      <Icon className="text-xl text-[var(--main-text)] dark:text-[var(--main-text)]" />
     </button>
   );
 }

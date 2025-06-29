@@ -20,6 +20,7 @@ import { useAuthTokenRefresh, useAuthStore } from '@features/auth';
 import { useUserStore, LogoutUserModal, getUser } from '@features/user';
 import { blockedPublicPaths } from '@config/blockedPublicPaths';
 import { FallbackComponent } from '@common/ui';
+import { getThemeMode, applyTheme } from '@utils/theme/toggleTheme';
 
 function App() {
   const { setUser } = useUserStore.getState();
@@ -27,6 +28,8 @@ function App() {
   const accessToken = useAuthStore((state) => state.accessToken);
 
   const greeted = useRef(false);
+
+  applyTheme(getThemeMode());
 
   useEffect(() => {
     if (!accessToken || greeted.current) return;

@@ -1,6 +1,7 @@
 import { FaPlus } from 'react-icons/fa';
 import { FilterForm, SearchBar } from '@features/dashboard';
 import { SimpleCheckbox } from '@common/ui';
+import { Button } from '@features/components/ui/button';
 
 export const DashboardHeader = ({ params, setParams, onOpenCreateBoard }) => {
   return (
@@ -38,12 +39,12 @@ export const DashboardHeader = ({ params, setParams, onOpenCreateBoard }) => {
             onChange={(v) => setParams((p) => ({ ...p, onlyFav: v }))}
           />
         </div>
-        <button
+        <Button
           className="btn-primary !w-fit ml-0 sm:ml-auto gap-2"
           onClick={onOpenCreateBoard}
         >
           Создать доску <FaPlus size={20} />
-        </button>
+        </Button>
       </div>
     </>
   );

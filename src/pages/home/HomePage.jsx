@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import Hero from '@features/home/components/Hero';
 import { Loader } from '@common/ui';
+import VerticalGallery from '@features/home/components/VerticalGallery';
 
 const HowItWorks = lazy(() => import('@features/home/components/HowItWorks'));
 const Features = lazy(() => import('@features/home/components/Features'));
@@ -26,7 +27,7 @@ export default function HomePage() {
         <Separator />
       </Suspense>
       <Suspense fallback={<Loader />}>
-        <section>Тут будут скрины приложения</section>
+        <VerticalGallery />
         <Separator />
       </Suspense>
       <Suspense fallback={<Loader />}>

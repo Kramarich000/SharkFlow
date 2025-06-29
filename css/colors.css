@@ -12,6 +12,7 @@
   /* === Текст === */
   --main-heading: #22223b;
   --main-text: #22223b;
+  --main-text-hover: #93c5fd;
   --main-text-muted: #4a4e69;
   --main-text-subtle: #9ca3af;
 
@@ -23,14 +24,14 @@
   --main-disabled-btn: #a5b4fc;
 
   /* === Дополнительные акценты (для меток/категорий) === */
-  --main-accent-blue: #38bdf8; 
-  --main-accent-green: #22c55e; 
-  --main-accent-pink: #f472b6; 
+  --main-accent-blue: #38bdf8;
+  --main-accent-green: #22c55e;
+  --main-accent-pink: #f472b6;
 
   /* === Статусы === */
-  --main-success: #22c55e; 
+  --main-success: #22c55e;
   --main-warning: #facc15;
-  --main-error: #ef4444; 
+  --main-error: #ef4444;
 
   /* === Кнопки === */
   --main-button-bg: #2563eb;
@@ -76,13 +77,14 @@
   /* === Текст === */
   --main-heading: #f8fafc;
   --main-text: #e5e7eb;
+  --main-text-hover: #93c5fd;
   --main-text-muted: #94a3b8;
   --main-text-subtle: #64748b;
 
   /* === Акцент === */
   --main-primary: #3b82f6;
   --main-primary-hover: #2563eb;
-  --main-accent-soft: #1e40af; 
+  --main-accent-soft: #1e40af;
 
   --main-disabled-btn: #4f46e5;
 

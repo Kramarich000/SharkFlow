@@ -31,9 +31,7 @@ export function Header() {
 
   const linkClasses = ({ isActive }) =>
     `!transition-colors px-3 py-1 rounded-full ${
-      isActive
-        ? '!text-[var(--main-primary)] !bg-[var(--main-bg)]'
-        : '!text-[var(--main-button-text)] hover:!text-[var(--main-text)]'
+      isActive ? '!text-[var(--main-primary)] !bg-[var(--main-bg)]' : ''
     }`;
 
   return (
@@ -88,7 +86,7 @@ export function Header() {
           <button
             title="Выйти из аккаунта"
             onClick={() => setIsLogoutUserModalOpen(true)}
-            className={`!w-fit !p-3 !text-[24px] !font-normal !transition-colors !text-[var(--main-button-text)] hover:!text-[var(--main-text)]  ${!token ? 'hidden pointer-events-none select-none' : null}`}
+            className={`!w-fit !p-3 !text-[24px] !font-normal !transition-colors !text-[var(--main-button-text)] hover:!text-[var(--main-text-hover)]  ${!token ? 'hidden pointer-events-none select-none' : null}`}
           >
             Выход
           </button>
@@ -115,7 +113,7 @@ export function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="sm:hidden z-50 left-0 absolute w-full py-4 rounded-md shadow-md flex flex-col gap-3 text-lg items-center"
+              className="sm:hidden z-50 left-0 absolute w-full py-4 rounded-md shadow-md flex flex-col gap-3 text-lg items-center bg-[var(--main-primary)]"
             >
               {navLinks(token).map((link) => (
                 <NavLink

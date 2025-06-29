@@ -4,3 +4,5 @@ export * from './ColorSelector';
 export * from './DropdownMenu';
 export * from './HighlightingContent';
 export * from './Separator';
+export * from './Waves';
+export * from './Bubbles';

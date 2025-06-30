@@ -18,6 +18,18 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [load, setLoad] = useState(false);
+  const [guestLoad, setGuestLoad] = useState(false);
+
+  const createGuest = async () => {
+    try {
+      setGuestLoad(true);
+      await guestLogin();
+      setGuestLoad(false);
+    } catch (error) {
+    } finally {
+      setGuestLoad(false);
+    }
+  };
 
   return (
     <div className="h-full flex-col flex items-center justify-center py-15">
@@ -140,9 +152,9 @@ export default function LoginPage() {
                       </div>
 
                       <button
-                        className={`btn-primary sm:col-span-2 ${load ? 'btn-loading' : ''}`}
+                        className={`btn-primary sm:col-span-2 ${load || guestLoad ? 'btn-loading' : ''}`}
                         type="submit"
-                        disabled={load}
+                        disabled={load || guestLoad}
                       >
                         {load ? (
                           <AiOutlineSync size={24} className="animate-spin" />
@@ -157,14 +169,19 @@ export default function LoginPage() {
                         Забыли пароль?
                       </Link>
                     </Form>
-                    <Button
-                      className="btn-primary"
+                    <button
+                      className={`btn-primary ${guestLoad || load ? 'btn-loading' : ''}`}
                       onClick={() => {
-                        guestLogin();
+                        createGuest();
                       }}
+                      disabled={guestLoad || load}
                     >
-                      Войти как гость
-                    </Button>
+                      {guestLoad ? (
+                        <AiOutlineSync size={24} className="animate-spin" />
+                      ) : (
+                        <>Войти как гость</>
+                      )}
+                    </button>
                   </>
                 );
               }}

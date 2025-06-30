@@ -36,7 +36,6 @@ export function DeleteTaskModal() {
       setLoad(false);
     }
   };
-  console.log('sadadasd');
 
   return (
     <Transition appear show={isDeleteTaskModalOpen} as={Fragment}>

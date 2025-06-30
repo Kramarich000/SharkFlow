@@ -4,6 +4,9 @@ import { apiResponsesHandler } from '@utils/responsesHandler';
 
 export async function logoutUser() {
   return await apiResponsesHandler(() => api.post('/api/auth/logout'), {
-    onSuccess: () => useAuthStore.getState().clearAccessToken(),
+    onSuccess: () => {
+      useAuthStore.getState().clearAccessToken();
+      useAuthStore.getState().clearUserRole();
+    },
   });
 }

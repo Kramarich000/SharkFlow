@@ -10,6 +10,7 @@ import { useModalsStore } from '@store/modalsStore';
 
 export function Header() {
   const token = useAuthStore((state) => state.accessToken);
+  const role = useAuthStore((state) => state.userRole);
   const setIsLogoutUserModalOpen = useModalsStore(
     (state) => state.setIsLogoutUserModalOpen,
   );
@@ -36,7 +37,7 @@ export function Header() {
 
   return (
     <header className="py-4 px-5 w-full shadow-md">
-      <div className="max-w-[1240px] mx-auto flex justify-between items-center">
+      <div className="max-w-[1240px] mx-auto flex justify-between items-center flex-col gap-y-4 lg:flex-row">
         <Link to="/" className="group flex gap-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -92,6 +93,8 @@ export function Header() {
           </button>
         </motion.nav>
 
+        {role === 'guest' && <p className="text-2xl">Гостевой аккаунт</p>}
+
         <button
           className="sm:hidden z-50"
           onClick={() => setIsOpen((prev) => !prev)}
@@ -113,7 +116,7 @@ export function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="sm:hidden z-50 left-0 absolute w-full py-4 rounded-md shadow-md flex flex-col gap-3 text-lg items-center bg-[var(--main-primary)]"
+              className="sm:hidden z-50 left-0 absolute w-full py-4 rounded-md shadow-md flex flex-col gap-3 text-lg items-center bg-[var(--main-header-bg)]"
             >
               {navLinks(token).map((link) => (
                 <NavLink

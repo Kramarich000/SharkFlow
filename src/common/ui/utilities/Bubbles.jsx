@@ -61,7 +61,7 @@ export function Bubbles() {
             width: `${bubble.width}px`,
             height: `${bubble.height}px`,
             borderRadius: '50% / 60%',
-            backgroundColor: 'rgba(30,144,255,1)',
+            backgroundColor: `rgba(30,144,255,${0.3 + Math.random() * 0.7})`,
             pointerEvents: 'none',
             willChange: 'transform, opacity',
             transform: 'translateZ(0)',

@@ -1,14 +1,26 @@
-import Separator from '@common/ui/utilities/Separator';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Wave from 'react-wavify';
+
+import Separator from '@common/ui/utilities/Separator';
 import { Bubbles, Waves, SharkFin } from '@common/ui';
 
 export default function Hero() {
+  const [showSecondFin, setShowSecondFin] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSecondFin(true);
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <section className="flex min-h-screen flex-col items-center justify-center">
       <Bubbles />
       <SharkFin />
+      {showSecondFin && <SharkFin />}
 
       <motion.h1
         className="mb-8 !text-3xl sm:!text-5xl "

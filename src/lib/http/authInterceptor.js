@@ -26,8 +26,6 @@ export function setupAuthInterceptor() {
     if (token && !isPublic) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    // DEBUG LOG
-    console.log('[AUTH-INTERCEPTOR] URL:', config.url, '| TOKEN:', token, '| HEADERS:', config.headers);
     return config;
   });
 
@@ -80,4 +78,4 @@ export function setupAuthInterceptor() {
       return Promise.reject(error);
     },
   );
-} 
+}

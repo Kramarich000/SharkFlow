@@ -38,7 +38,6 @@ function App() {
       try {
         const data = await getUser();
         greeted.current = true;
-        console.log('ivan', data);
         setUser({ login: data.login, email: data.email });
       } catch (error) {
         console.error('Ошибка при получении данных:', error);

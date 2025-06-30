@@ -7,8 +7,10 @@ import { AiOutlineSync } from 'react-icons/ai';
 
 import { loginSchema } from '@features/auth';
 import { login } from '@features/auth';
+import { guestLogin } from '@features/auth';
 import { getUser } from '@features/user';
 import { FormikCheckbox, AnimatedError } from '@common/ui';
+import { Button } from '@common/ui/utilities/Button';
 
 export default function LoginPage() {
   const formikRef = useRef(null);
@@ -104,7 +106,7 @@ export default function LoginPage() {
                             handleChange(e);
                           }}
                           onBlur={handleBlur}
-                          className="peer input-styles input-primary   !pr-8"
+                          className="peer input-styles input-primary !pr-8"
                         />
                         <label htmlFor="password" className="label-styles">
                           Введите пароль
@@ -155,6 +157,14 @@ export default function LoginPage() {
                         Забыли пароль?
                       </Link>
                     </Form>
+                    <Button
+                      className="btn-primary"
+                      onClick={() => {
+                        guestLogin();
+                      }}
+                    >
+                      Войти как гость
+                    </Button>
                   </>
                 );
               }}

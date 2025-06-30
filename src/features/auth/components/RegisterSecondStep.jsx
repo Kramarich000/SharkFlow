@@ -49,7 +49,7 @@ export default function RegisterSecondStep() {
         }}
       >
         {() => (
-          <Form className="grid gap-8 mt-8 border-b-4 p-8 rounded-2xl bg-surface shadow-glow">
+          <Form className="grid gap-8 mt-8 border-2 border-[var(--main-primary)] p-8 rounded-2xl bg-surface shadow-glow">
             <h2 className="text-3xl">Код подтверждения</h2>
             <div className="relative">
               <Field
@@ -57,7 +57,7 @@ export default function RegisterSecondStep() {
                 type="text"
                 id="confirmationCode"
                 required
-                className="peer input-styles"
+                className="peer input-styles input-primary"
                 placeholder=" "
                 disabled={load}
               />
@@ -67,13 +67,9 @@ export default function RegisterSecondStep() {
               <ErrorMessage name="confirmationCode">
                 {(msg) => <AnimatedError msg={msg} variant="register" />}
               </ErrorMessage>
-              <ErrorMessage name="confirmationCode" component={AnimatedError} />
+              {/* <ErrorMessage name="confirmationCode" component={AnimatedError} /> */}
             </div>
-            <button
-              className="btn-primary"
-              type="submit"
-              disabled={load}
-            >
+            <button className="btn-primary" type="submit" disabled={load}>
               {load ? (
                 <AiOutlineSync className="animate-spin" size={24} />
               ) : (

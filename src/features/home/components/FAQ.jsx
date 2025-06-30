@@ -41,7 +41,7 @@ export default function FAQ() {
                   leaveFrom="transform opacity-100"
                   leaveTo="transform opacity-0"
                 >
-                  <DisclosurePanel className="p-4 text-gray-900 text-center sm:text-left">
+                  <DisclosurePanel className="p-4 text-[var(--main-text)] text-center sm:text-left">
                     {item.answer}
                   </DisclosurePanel>
                 </Transition>

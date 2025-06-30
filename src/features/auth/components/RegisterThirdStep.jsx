@@ -17,8 +17,11 @@ export default function RegisterThirdStep() {
       >
         Шаг 3/3
       </motion.h2>
-      <div className="p-12 mt-8 rounded-2xl flex flex-col items-center justify-center gap-4 bg-surface shadow-glow">
-        <IoIosCheckmarkCircle size={100} />
+      <div className="p-12 border-2 border-[var(--main-primary)] mt-8 rounded-2xl flex flex-col items-center justify-center gap-4 bg-surface shadow-glow">
+        <IoIosCheckmarkCircle
+          size={100}
+          className="text-[var(--main-primary)]"
+        />
         <p className="text-[20px]">Вы успешно зарегистрировались</p>
       </div>
     </motion.div>

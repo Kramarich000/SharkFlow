@@ -3,20 +3,19 @@ import { useAuthStore } from '@features/auth';
 import { refreshToken } from '@features/auth';
 
 export function useAuthTokenRefresh() {
-  const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   useEffect(() => {
     const refresh = async () => {
       try {
-        await refreshToken(setAccessToken);
+        await refreshToken();
       } finally {
         setIsAuthLoading(false);
       }
     };
 
     refresh();
-  }, [setAccessToken]);
+  }, []);
 
   return { isAuthLoading };
 }

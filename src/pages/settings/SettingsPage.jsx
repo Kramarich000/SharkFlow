@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 
 import { getUser } from '@features/user';
 import { useUserStore } from '@features/user';
+import { useAuthStore } from '@features/auth';
 import { ToggleTheme } from '@features/user/components/ToggleTheme';
 
 export default function SettingsPage() {
@@ -19,6 +20,10 @@ export default function SettingsPage() {
 
   const user = useUserStore((state) => state.user);
 
+  const token = useAuthStore((state) => state.accessToken);
+
+  const role = useAuthStore((state) => state.userRole);
+
   useEffect(() => {
     if (user) {
       setLoading(false);
@@ -27,6 +32,7 @@ export default function SettingsPage() {
 
   return (
     <div className="p-0 sm:p-10 lg:p-30 lg:px-50 h-full">
+      {/* <p>роль: {role}</p> */}
       {loading ? (
         <div className="h-full flex-col flex items-center justify-center">
           <motion.div
@@ -42,6 +48,17 @@ export default function SettingsPage() {
             <AiOutlineSync />
           </motion.div>
           <p className="text-4xl mt-4 animate-pulse">Загрузка ваших данных</p>
+        </div>
+      ) : role === 'guest' ? (
+        <div className="flex gap-8 items-center justify-center flex-col p-4 rounded-3xl h-full">
+          <div>
+            <p className="text-4xl mb-4">Гостевой аккаунт</p>
+            <p className="text-xl">
+              Это гостевой аккаунт, войдите или зарегистрируйтесь в течении 24
+              часов чтобы сохранить данные
+            </p>
+          </div>
+          <ToggleTheme />
         </div>
       ) : (
         <div className="flex gap-8 items-center justify-center flex-col p-4 rounded-3xl h-full">

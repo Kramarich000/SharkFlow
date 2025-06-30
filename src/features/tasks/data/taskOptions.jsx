@@ -30,13 +30,13 @@ export const statusStyles = {
 
 export const statusCardStyles = {
   IN_PROGRESS:
-    'border-[2px] bg-blue-100 hover:bg-blue-100/70 !transition-all border-blue-500 shadow-[0_6px_20px_rgba(68, 41, 221, 0.35)] hover:shadow-[0_10px_30px_rgba(68, 41, 221, 0.5)]',
+    'border-[2px] bg-blue-100 !transition-all border-blue-500 shadow-[0_6px_20px_rgba(68, 41, 221, 0.35)] hover:shadow-[0_10px_30px_rgba(68, 41, 221, 0.5)]',
   PENDING:
-    'border-[2px] bg-yellow-100 hover:bg-yellow-100/70 !transition-all border-yellow-400 shadow-[0_6px_20px_rgba(255,201,39,0.35)] hover:shadow-[0_10px_30px_rgba(255,201,39,0.5)]',
+    'border-[2px] bg-yellow-100 !transition-all border-yellow-400 shadow-[0_6px_20px_rgba(255,201,39,0.35)] hover:shadow-[0_10px_30px_rgba(255,201,39,0.5)]',
   COMPLETED:
-    'border-[2px] bg-green-100 hover:bg-green-100/70 !transition-all border-green-500 shadow-[0_6px_20px_rgba(47, 255, 75, 0.35)] hover:shadow-[0_10px_30px_rgba(47, 255, 75, 0.5)]',
+    'border-[2px] bg-green-100 !transition-all border-green-500 shadow-[0_6px_20px_rgba(47, 255, 75, 0.35)] hover:shadow-[0_10px_30px_rgba(47, 255, 75, 0.5)]',
   CANCELLED:
-    'border-[2px] bg-red-100 hover:bg-red-100/70 !transition-all border-red-500 shadow-[0_6px_20px_rgba(255,47,47,0.35)] hover:shadow-[0_10px_30px_rgba(255,47,47,0.5)]',
+    'border-[2px] bg-red-100 !transition-all border-red-500 shadow-[0_6px_20px_rgba(255,47,47,0.35)] hover:shadow-[0_10px_30px_rgba(255,47,47,0.5)]',
   DEFAULT:
     'border-[2px] bg-white !transition-all border-gray-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_18px_rgba(0,0,0,0.15)]',
 };

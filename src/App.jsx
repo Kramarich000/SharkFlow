@@ -31,19 +31,20 @@ function App() {
   );
 
   // console.log(accessToken);
-  const greeted = useRef(false);
+  // const greeted = useRef(false);
 
   useEffect(() => {
     applyTheme(getThemeMode());
   }, []);
 
   useEffect(() => {
-    if (!accessToken || greeted.current) return;
+    // if (!accessToken || greeted.current) return;
+    if (!accessToken) return;
 
     const fetchData = async () => {
       try {
         const data = await getUser();
-        greeted.current = true;
+        // greeted.current = true;
         setUser({
           login: data.login,
           email: data.email,

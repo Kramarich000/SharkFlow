@@ -163,6 +163,7 @@ export function AvatarCropModal() {
                     </div>
                     <div className="flex justify-center flex-wrap gap-2">
                       <Button
+                        className="rounded-full"
                         variant="primary"
                         onClick={async () => {
                           try {

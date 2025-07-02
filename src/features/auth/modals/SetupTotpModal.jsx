@@ -29,7 +29,7 @@ import { sendConfirmationCode } from '@features/auth/api/confirmCode';
 import { sendEmail } from '@features/auth/api/sendEmail';
 import { useAuthStore } from '@features/auth/store';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
-import { QrCode } from '@utils/totp/qrCode';
+import { QrCode } from '@utils/totp/QrCode';
 
 export function SetupTotpModal() {
   const [load, setLoad] = useState(false);

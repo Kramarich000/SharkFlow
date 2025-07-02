@@ -26,7 +26,7 @@
   /* === Дополнительные акценты (для меток/категорий) === */
   --main-accent-blue: #38bdf8;
   --main-accent-green: #22c55e;
-  --main-accent-pink: #f472b6;
+  --main-accent-red: #ef4444;
 
   /* === Статусы === */
   --main-success: #22c55e;
@@ -44,7 +44,7 @@
   --main-btn-cancel-bg: #e0e7ff;
   --main-btn-cancel-hover-bg: #c7d2fe;
 
-  --main-btn-delete-bg: #fee2e2;
+  --main-btn-delete-bg: #f87171;
   --main-btn-delete-hover-bg: #ef4444;
 
   /* === Инпуты и рамки === */
@@ -91,7 +91,7 @@
   /* === Дополнительные акценты === */
   --main-accent-blue: #60a5fa;
   --main-accent-green: #4ade80;
-  --main-accent-pink: #f472b6;
+  --main-accent-red: #ef4444;
 
   /* === Статусы === */
   --main-success: #4ade80;
@@ -109,8 +109,8 @@
   --main-btn-cancel-bg: #374151;
   --main-btn-cancel-hover-bg: #4b5563;
 
-  --main-btn-delete-bg: #7f1d1d;
-  --main-btn-delete-hover-bg: #991b1b;
+  --main-btn-delete-bg: #f87171; 
+  --main-btn-delete-hover-bg: #ef4444;
 
   /* === Инпуты и рамки === */
   --main-input-bg: #334155;

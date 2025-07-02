@@ -14,6 +14,9 @@ import {
   DeleteTaskModal,
 } from '@features/tasks';
 
+import { SetupTotpModal } from '@features/auth';
+import { DisableTotpModal } from '@features/auth/modals/DisableTotpModal';
+
 const modalConfig = {
   isLogoutUserModalOpen: LogoutUserModal,
   isDeleteUserModalOpen: DeleteUserModal,
@@ -24,6 +27,8 @@ const modalConfig = {
   isCreateTaskModalOpen: CreateTaskModal,
   isDetailsTaskModalOpen: TaskDetailsModal,
   isDeleteTaskModalOpen: DeleteTaskModal,
+  isSetupTotpModalOpen: SetupTotpModal,
+  isDisableTotpModalOpen: DisableTotpModal,
 };
 
 export function ModalManager() {

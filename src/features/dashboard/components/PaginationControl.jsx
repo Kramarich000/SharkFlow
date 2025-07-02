@@ -1,3 +1,4 @@
+import { Button } from '@common/ui/utilities/Button';
 import { FaArrowLeft } from 'react-icons/fa';
 
 export function PaginationControl({
@@ -12,33 +13,38 @@ export function PaginationControl({
   return (
     <div className="flex flex-col items-center gap-4 mt-auto ">
       <div className="flex items-center gap-4">
-        <button
+        <Button
+          variant="tertiary"
           disabled={page === 1}
           onClick={() => onPageChange(page - 1)}
-          className={`btn-tertiary ${page === 1 ? 'pointer-events-none' : ''}`}
+          className={`${page === 1 ? 'pointer-events-none' : ''}`}
           title="Назад"
         >
           <FaArrowLeft />
-        </button>
+        </Button>
         <span>
           Страница {page} из {totalPages}
         </span>
-        <button
+        <Button
+          variant="tertiary"
           disabled={page === totalPages}
           onClick={() => onPageChange(page + 1)}
-          className={`btn-tertiary ${page === totalPages ? 'pointer-events-none' : ''}`}
+          className={`${page === totalPages ? 'pointer-events-none' : ''}`}
           title="Вперед"
         >
           <FaArrowLeft className="rotate-180" />
-        </button>
+        </Button>
       </div>
 
       <div className="flex items-center gap-2 flex-wrap justify-center">
         {sizes.map((size) => (
-          <button
+          <Button
             key={size}
-            className={`btn-tertiary !transition-all ${
-              pageSize === size ? '!bg-white scale-110 !border-1 !border-[var(--main-primary)]' : ''
+            variant="tertiary"
+            className={`!transition-all ${
+              pageSize === size
+                ? '!bg-white hover:!bg-white scale-110 !border-1 !border-[var(--main-primary)]'
+                : ''
             }`}
             onClick={() => onPageSizeChange(size)}
             title={`Количество досок на странице: ${size}`}
@@ -48,7 +54,7 @@ export function PaginationControl({
             >
               {size}
             </span>
-          </button>
+          </Button>
         ))}
       </div>
     </div>

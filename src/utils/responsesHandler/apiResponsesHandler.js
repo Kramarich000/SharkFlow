@@ -1,4 +1,3 @@
-import { playSuccess, canPlaySound, playError } from '@utils/sounds';
 import { showToast } from '@utils/toast';
 
 export async function apiResponsesHandler(requestFn, options = {}) {
@@ -16,7 +15,6 @@ export async function apiResponsesHandler(requestFn, options = {}) {
       const message = successMessage || response.data?.message;
       if (message && !silent) {
         showToast(message, 'success');
-        playSuccess();
       }
       if (onSuccess) return onSuccess(response.data);
       return response.data;
@@ -26,7 +24,6 @@ export async function apiResponsesHandler(requestFn, options = {}) {
     const error = response.data?.error || fallbackError;
 
     if (!silent) {
-      playError();
       showToast(error, 'error');
     }
     if (onError) onError(response.data);
@@ -38,7 +35,6 @@ export async function apiResponsesHandler(requestFn, options = {}) {
       error.response?.data?.error || error.response?.data?.message;
 
     if (!silent) {
-      playError();
       let message =
         serverMessage ||
         errorMessage ||

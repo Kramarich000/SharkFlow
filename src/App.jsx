@@ -26,10 +26,16 @@ function App() {
   const { setUser } = useUserStore.getState();
   const { isAuthLoading } = useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
+  const setTwoFactorEnabled = useAuthStore(
+    (state) => state.setTwoFactorEnabled,
+  );
+
   // console.log(accessToken);
   const greeted = useRef(false);
 
-  applyTheme(getThemeMode());
+  useEffect(() => {
+    applyTheme(getThemeMode());
+  }, []);
 
   useEffect(() => {
     if (!accessToken || greeted.current) return;
@@ -38,7 +44,12 @@ function App() {
       try {
         const data = await getUser();
         greeted.current = true;
-        setUser({ login: data.login, email: data.email });
+        setUser({
+          login: data.login,
+          email: data.email,
+          avatarUrl: data.avatarUrl,
+        });
+        setTwoFactorEnabled(data.twoFactorEnabled);
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
       }

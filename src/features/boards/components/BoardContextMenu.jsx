@@ -1,6 +1,8 @@
 import { FaEdit, FaTrash, FaCopy } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
+import { Button } from '@common/ui/utilities/Button';
+
 export function BoardContextMenu({
   onClose,
   onEdit,
@@ -34,18 +36,18 @@ export function BoardContextMenu({
           </button>
         </li> */}
         <li>
-          <button
+          <Button
             onClick={onDuplicate}
-            className="flex w-full items-center gap-2 rounded-lg p-2 text-left !text-[var(--main-primary)] hover:!bg-[var(--main-accent-soft)] !transition"
+            className="flex w-full items-center gap-2 rounded-lg p-2 text-left !bg-transparent !text-[var(--main-primary)] hover:!bg-[var(--main-primary))] hover:!text-[var(--main-button-text)]  !transition"
           >
             <FaCopy />
             <span>Дублировать</span>
-          </button>
+          </Button>
         </li>
         <li>
           <button
             onClick={onDelete}
-            className="flex w-full items-center gap-2 rounded-lg p-2 text-left !text-[var(--main-primary)] hover:!bg-[var(--main-btn-delete-hover-bg))] hover:!text-[var(--main-button-text)] !transition"
+            className="flex w-full items-center gap-2 rounded-lg p-2 text-left !text-[var(--main-accent-red)] hover:!bg-[var(--main-btn-delete-hover-bg))] hover:!text-[var(--main-button-text)] !transition"
           >
             <FaTrash />
             <span>Удалить</span>

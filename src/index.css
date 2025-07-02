@@ -37,9 +37,20 @@ body,
   flex-direction: column;
 }
 
+img {
+  user-select: none;
+  pointer-events: none;
+  display: none;
+
+}
+
+img[src] {
+  display: block;
+}
+
 a {
   color: var(--main-primary);
-  transition: color 0.3s;
+  transition: all 0.3s;
   text-decoration: none !important;
 }
 
@@ -100,8 +111,8 @@ select:-webkit-autofill:focus {
   border-bottom: 1px solid var(--main-input-border-focus) !important;
 }
 
-input.peer:not(:placeholder-shown) + label,
-input.peer:focus + label {
+input.peer:not(:placeholder-shown)+label,
+input.peer:focus+label {
   top: 0;
   font-size: 0.75rem;
   color: var(--main-primary);
@@ -124,7 +135,7 @@ input.peer:focus + label {
   background-color: var(--main-primary-hover);
 }
 
-.swiper-horizontal > .swiper-scrollbar,
+.swiper-horizontal>.swiper-scrollbar,
 .swiper-scrollbar.swiper-scrollbar-horizontal {
   display: none !important;
 }
@@ -139,7 +150,7 @@ input.peer:focus + label {
   transition: max-height 0.3s ease;
 }
 
-.accordion-btn[aria-expanded='true'] ~ .accordion-panel {
+.accordion-btn[aria-expanded='true']~.accordion-panel {
   max-height: 500px;
 }
 
@@ -247,9 +258,9 @@ span.flatpickr-weekday,
   border-radius: 30px !important;
 }
 
-.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n + 1)),
-.flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
-.flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
+.flatpickr-day.selected.startRange+.endRange:not(:nth-child(7n + 1)),
+.flatpickr-day.startRange.startRange+.endRange:not(:nth-child(7n + 1)),
+.flatpickr-day.endRange.startRange+.endRange:not(:nth-child(7n + 1)) {
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
 }
@@ -347,27 +358,27 @@ span.flatpickr-weekday,
   align-items: center;
 }
 
-.tiptap-content ul[data-type='taskList'] li > label {
+.tiptap-content ul[data-type='taskList'] li>label {
   margin-right: 0.5rem;
   user-select: none;
 }
 
-.tiptap-content ul[data-type='taskList'] li > div {
+.tiptap-content ul[data-type='taskList'] li>div {
   flex-grow: 1;
 }
 
-.tiptap-content ul[data-type='taskList'] li[data-checked='true'] > div > p {
+.tiptap-content ul[data-type='taskList'] li[data-checked='true']>div>p {
   text-decoration: line-through;
   color: #8b949e;
 }
 
-.tiptap-content ul[data-type='taskList'] li > label,
+.tiptap-content ul[data-type='taskList'] li>label,
 .tiptap-content ul[data-type='taskList'] li input[type='checkbox'] {
   pointer-events: none;
   opacity: 0.75;
 }
 
-.tiptap .tiptap-content ul[data-type='taskList'] li > label,
+.tiptap .tiptap-content ul[data-type='taskList'] li>label,
 .tiptap .tiptap-content ul[data-type='taskList'] li input[type='checkbox'] {
   pointer-events: auto;
   cursor: pointer;
@@ -448,12 +459,10 @@ footer a:hover {
   left: -150%;
   height: 100%;
   width: 150%;
-  background: linear-gradient(
-    90deg,
-    rgba(37, 99, 235, 0) 0%,
-    rgba(255, 255, 255, 0.4) 50%,
-    rgba(37, 99, 235, 0) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(37, 99, 235, 0) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(37, 99, 235, 0) 100%);
   pointer-events: none;
   z-index: 1;
   animation: shimmerMove 1.5s infinite;
@@ -463,6 +472,7 @@ footer a:hover {
   0% {
     left: -150%;
   }
+
   100% {
     left: 100%;
   }
@@ -497,6 +507,7 @@ footer a:hover {
 .yarl__navigation_next {
   right: 20px !important;
 }
+
 .yarl__navigation_prev {
   left: 20px !important;
 }

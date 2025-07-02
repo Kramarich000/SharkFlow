@@ -5,6 +5,7 @@ import { AiOutlineSync } from 'react-icons/ai';
 import { DialogTitle } from '@headlessui/react';
 
 import { ColorSelector } from '@common/ui';
+import { Button } from '@common/ui/utilities/Button';
 
 export const BoardHeader = ({
   isEditing,
@@ -49,8 +50,8 @@ export const BoardHeader = ({
       >
         {isEditing ? (
           <>
-            <button
-              className="btn-tertiary p-2"
+            <Button
+              variant="tertiary"
               onClick={saveDeleteBoard}
               disabled={load}
               title="Удалить доску"
@@ -59,7 +60,7 @@ export const BoardHeader = ({
                 size={28}
                 className="group-hover:text-red-500 transition-colors"
               />
-            </button>
+            </Button>
             <div className="flex w-full items-center flex-col gap-4">
               <ColorSelector
                 wrapperClassName={`absolute z-50 !w-full !p-0 ${
@@ -71,8 +72,8 @@ export const BoardHeader = ({
                 disabled={load}
               />
             </div>
-            <button
-              className="btn-tertiary p-2"
+            <Button
+              variant="tertiary"
               onClick={saveUpdateBoard}
               title="Сохранить"
               disabled={load}
@@ -87,31 +88,32 @@ export const BoardHeader = ({
               ) : (
                 <IoCheckmark size={28} />
               )}
-            </button>
+            </Button>
           </>
         ) : (
           <>
-            <button
+            <Button
               key="create-task"
-              className="btn-primary !w-fit !m-0"
+              className="!w-fit !m-0"
+              variant="primary"
               onClick={() => setIsCreateTaskModalOpen(true)}
               disabled={load}
               title="Создать задачу"
             >
               <div className="flex gap-4 items-center justify-center">
-                <p className="sm:text-xl font-normal">Создать задачу</p>
-                <FaPlus size={25} />
+                <>Создать задачу</>
+                <FaPlus />
               </div>
-            </button>
+            </Button>
 
-            <button
+            <Button
+              variant="tertiary"
               onClick={() => setisEditing(true)}
               title="Редактировать"
               disabled={load}
-              className="btn-tertiary p-2"
             >
               <IoMdSettings size={28} />
-            </button>
+            </Button>
           </>
         )}
       </div>

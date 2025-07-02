@@ -1,3 +1,4 @@
+import { Button } from '@common/ui/utilities/Button';
 import { motion } from 'framer-motion';
 
 export default function Contacts() {
@@ -99,9 +100,9 @@ export default function Contacts() {
           required
           aria-label="Вопрос"
         />
-        <button title="Отправить" type="submit" className="btn-primary">
+        <Button title="Отправить" type="submit" variant="primary">
           Отправить
-        </button>
+        </Button>
       </motion.form>
     </section>
   );

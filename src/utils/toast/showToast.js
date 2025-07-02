@@ -1,6 +1,13 @@
 import { toast, Slide } from 'react-toastify';
+import { canPlaySound, playError, playSuccess } from '@utils/sounds';
 
 export const showToast = (message, type = 'success', autoClose = 3500) => {
+  if (type === 'success') {
+    playSuccess();
+  } else {
+    playError();
+  }
+
   toast(message, {
     type,
     autoClose: autoClose,

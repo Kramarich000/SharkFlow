@@ -10,6 +10,7 @@ import {
   getThemeMode,
   applyTheme,
 } from '@utils/theme/toggleTheme';
+import { Button } from '@common/ui/utilities/Button';
 
 export function ToggleTheme() {
   const [mode, setMode] = useState(() => getThemeMode());
@@ -61,7 +62,7 @@ export function ToggleTheme() {
   const Icon = mode === 'light' ? FaSun : mode === 'dark' ? FaMoon : FaRegClock;
 
   return (
-    <button
+    <Button
       onClick={handleClick}
       className="flex items-center space-x-2 p-2 rounded-full bg-[var(--main-surface)] shadow hover:shadow-md transition"
       title={
@@ -78,6 +79,6 @@ export function ToggleTheme() {
         />
       </div>
       <Icon className="text-xl text-[var(--main-text)] dark:text-[var(--main-text)]" />
-    </button>
+    </Button>
   );
 }

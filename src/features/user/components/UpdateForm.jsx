@@ -1,3 +1,4 @@
+import { Button } from '@common/ui/utilities/Button';
 import { AiOutlineSync } from 'react-icons/ai';
 
 export const UpdateForm = ({
@@ -19,7 +20,7 @@ export const UpdateForm = ({
           <input
             type="text"
             required
-            className="peer input-styles"
+            className="peer input-styles input-primary"
             value={confirmationCode.confirmationCode}
             onChange={(e) =>
               setConfirmationCode({ confirmationCode: e.target.value })
@@ -27,7 +28,9 @@ export const UpdateForm = ({
             disabled={isLoading}
             placeholder=" "
           />
-          <label className="label-styles">Введите код подтверждения</label>
+          <label className="label-styles !bg-[var(--main-modal-bg)]">
+            Введите код подтверждения
+          </label>
         </div>
       </div>
       <div>
@@ -35,13 +38,15 @@ export const UpdateForm = ({
           <input
             type="text"
             required
-            className="peer input-styles"
+            className="peer input-styles input-primary"
             value={newLogin}
             onChange={(e) => setNewLogin(e.target.value)}
             disabled={isLoading}
             placeholder=" "
           />
-          <label className="label-styles">Введите новый логин</label>
+          <label className="label-styles !bg-[var(--main-modal-bg)]">
+            Введите новый логин
+          </label>
         </div>
         {/* <p className="text-center text-2xl">и/или</p>
         <div className="relative">
@@ -58,24 +63,21 @@ export const UpdateForm = ({
         </div> */}
       </div>
       <div className="flex items-center flex-col md:flex-row justify-center gap-2">
-        <button
-          className="btn-primary"
+        <Button
+          className="order-1 md:order-[-1]"
+          variant="primary"
           disabled={isLoading}
           onClick={onCancel}
         >
           Отмена
-        </button>
-        <button
-          className="btn-primary"
-          onClick={onUpdate}
-          disabled={isLoading}
-        >
+        </Button>
+        <Button variant="primary" onClick={onUpdate} disabled={isLoading}>
           {isLoading ? (
-            <AiOutlineSync className="animate-spin !text-white" size={24} />
+            <AiOutlineSync className="animate-spin !text-white" size={23} />
           ) : (
             <>Подтвердить обновление</>
           )}
-        </button>
+        </Button>
       </div>
     </div>
   );

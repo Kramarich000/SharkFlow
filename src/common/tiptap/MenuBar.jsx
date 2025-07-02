@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { getMenuBarConfig } from '@common/tiptap/menu-bar-config';
+import { Button } from '@common/ui/utilities/Button';
 
 export const MenuBar = ({ editor }) => {
   const setLink = useCallback(() => {
@@ -46,11 +47,12 @@ export const MenuBar = ({ editor }) => {
 
         const { Icon, Content } = item;
         return (
-          <button
+          <Button
             key={item.id}
             onClick={item.onClick}
             disabled={item.disabled}
-            className={`btn-tertiary p-2 ${item.isActive ? 'bg-blue-100 text-blue-700' : ''} ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-sm'}`}
+            variant="tertiary"
+            className={`p-2 ${item.isActive ? 'bg-blue-100 text-blue-700' : ''} ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-sm'}`}
             title={item.title}
           >
             {Icon ? (
@@ -58,7 +60,7 @@ export const MenuBar = ({ editor }) => {
             ) : (
               <span className="text-sm font-medium">{Content}</span>
             )}
-          </button>
+          </Button>
         );
       })}
     </div>

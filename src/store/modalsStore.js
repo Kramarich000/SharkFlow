@@ -29,6 +29,12 @@ export const useModalsStore = create((set) => ({
   isDeleteTaskModalOpen: false,
   setIsDeleteTaskModalOpen: (value) => set({ isDeleteTaskModalOpen: value }),
 
+  isSetupTotpModalOpen: false,
+  setIsSetupTotpModalOpen: (value) => set({ isSetupTotpModalOpen: value }),
+
+  isDisableTotpModalOpen: false,
+  setIsDisableTotpModalOpen: (value) => set({ isDisableTotpModalOpen: value }),
+
   contextMenu: {
     visible: false,
     x: 0,
@@ -55,6 +61,8 @@ export const useModalsStore = create((set) => ({
       isCreateTaskModalOpen: false,
       isDetailsTaskModalOpen: false,
       isDeleteTaskModalOpen: false,
+      isSetupTotpModalOpen: false,
+      isDisableTotpModalOpen: false,
       contextMenu: { visible: false, x: 0, y: 0, board: null },
     }),
 }));

@@ -1,6 +1,7 @@
+import { Button } from '@common/ui/utilities/Button';
 import { AiOutlineSync } from 'react-icons/ai';
 
-export const UpdateConfirmation = ({ onConfirm, onCancel, isLoading }) => {
+export const UpdateConfirmation = ({ onConfirm, onCancel, loading }) => {
   return (
     <div
       key="step1"
@@ -10,24 +11,21 @@ export const UpdateConfirmation = ({ onConfirm, onCancel, isLoading }) => {
         Вы уверены что хотите обновить данные аккаунта?
       </h2>
       <div className="flex flex-col md:flex-row items-center w-full justify-center gap-2">
-        <button
-          className="btn-primary"
-          disabled={isLoading}
-          onClick={onCancel}
-        >
+        <Button variant="primary" disabled={loading} onClick={onCancel}>
           Нет
-        </button>
-        <button
-          className="btn-primary"
+        </Button>
+        <Button
+          variant="primary"
+          className="order-[-1] md:order-1"
           onClick={onConfirm}
-          disabled={isLoading}
+          disabled={loading}
         >
-          {isLoading ? (
-            <AiOutlineSync className="animate-spin" size={24} />
+          {loading ? (
+            <AiOutlineSync className="animate-spin" size={23} />
           ) : (
             <>Да, отправить код на почту</>
           )}
-        </button>
+        </Button>
       </div>
     </div>
   );

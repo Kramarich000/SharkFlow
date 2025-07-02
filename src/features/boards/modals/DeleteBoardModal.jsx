@@ -10,6 +10,7 @@ import {
 import { useBoardStore, useDeleteBoard } from '@features/boards';
 import { AiOutlineSync } from 'react-icons/ai';
 import { useModalsStore } from '@store/modalsStore';
+import { Button } from '@common/ui/utilities/Button';
 
 export function DeleteBoardModal() {
   const { selectedBoard } = useBoardStore(
@@ -77,35 +78,38 @@ export function DeleteBoardModal() {
                       '{selectedBoard?.title}'
                     </b>
                   </p>
-
-                  <input
-                    autoFocus
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        handleDeleteBoard();
-                      }
-                    }}
-                    className="focus-within:outline-0 w-full p-1 pr-4 focus:outline-0 text-[16px] !border-b-1 !pb-2 lg:!pb-0 lg:!border-b-0 !text-center sm:!text-left sm:!text-2xl"
-                    placeholder="Введите название доски для удаления"
-                    disabled={isPending}
-                    maxLength={64}
-                  />
-                  <button
-                    className={`btn-primary flex justify-center items-center ${
-                      isPending ? '!h-[50px]' : null
-                    }`}
+                  <div className="relative w-full">
+                    <input
+                      autoFocus
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleDeleteBoard();
+                        }
+                      }}
+                      className="peer input-styles input-primary"
+                      placeholder=" "
+                      required
+                      disabled={isPending}
+                      maxLength={64}
+                    />
+                    <label className="label-styles !bg-[var(--main-modal-bg)]">
+                      Введите название доски для удаления
+                    </label>
+                  </div>
+                  <Button
+                    variant="primary"
                     onClick={handleDeleteBoard}
                     disabled={isPending}
                     title="Удалить доску"
                   >
                     {isPending ? (
-                      <AiOutlineSync size={25} className="animate-spin" />
+                      <AiOutlineSync size={23} className="animate-spin" />
                     ) : (
                       'Удалить'
                     )}
-                  </button>
+                  </Button>
                 </div>
               </DialogPanel>
             </TransitionChild>

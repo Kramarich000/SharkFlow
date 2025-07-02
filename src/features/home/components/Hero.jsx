@@ -5,6 +5,7 @@ import Wave from 'react-wavify';
 
 import Separator from '@common/ui/utilities/Separator';
 import { Bubbles, Waves, SharkFin } from '@common/ui';
+import { Button } from '@common/ui/utilities/Button';
 
 export default function Hero() {
   const [showSecondFin, setShowSecondFin] = useState(false);
@@ -52,12 +53,9 @@ export default function Hero() {
         transition={{ duration: 0.5, delay: 1.5 }}
         viewport={{ once: true }}
       >
-        <Link
-          className="btn-primary !text-[var(--main-button-text)] !no-underline"
-          to="/register"
-        >
-          Начать охоту
-        </Link>
+        <Button className="text-xl" variant="primary" asChild>
+          <Link to="/register">Начать охоту</Link>
+        </Button>
       </motion.div>
 
       <Waves />

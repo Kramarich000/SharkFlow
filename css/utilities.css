@@ -65,18 +65,17 @@
     - Скруглённые углы
     - Плавное изменение цвета
   */
-  .btn-primary {
+  /* .btn-primary {
     @apply !transition-colors w-full py-3 px-6 rounded-4xl mt-2 flex items-center justify-center;
     background-color: var(--main-button-bg);
     color: var(--main-text);
     border: 2px solid #fff;
   }
-  /* Цвет кнопки при наведении */
 
   .btn-primary:hover {
     background-color: var(--main-button-hover);
     color: var(--main-button-text);
-  }
+  } */
 
   /*
     Стиль для secondary-кнопок:
@@ -98,7 +97,7 @@
     - Минимальный акцент
     - Скругления и disabled-состояние
   */
-  .btn-tertiary {
+  /* .btn-tertiary {
     @apply !transition-colors px-4 py-2 rounded disabled:opacity-50;
     background: var(--main-button-bg);
     color: var(--main-button-text) !important;
@@ -106,7 +105,7 @@
 
   .btn-tertiary:hover {
     background: var(--main-button-hover);
-  }
+  } */
 
   /* === Shadow utilities === */
 
@@ -138,24 +137,24 @@
     - Скругленные углы
   */
 
-  .btn-save {
+  /* .btn-save {
     background-color: var(--main-btn-save-bg);
   }
   .btn-save:hover {
     background-color: var(--main-btn-save-hover-bg);
-  }
-  .btn-cancel {
+  } */
+  /* .btn-cancel {
     background-color: var(--main-btn-cancel-bg);
-  }
-  .btn-cancel:hover {
+  } */
+  /* .btn-cancel:hover {
     background-color: var(--main-btn-cancel-hover-bg);
-  }
-  .btn-delete {
+  } */
+  /* .btn-delete {
     background-color: var(--main-btn-delete-bg);
-  }
-  .btn-delete:hover {
+  } */
+  /* .btn-delete:hover {
     background-color: var(--main-btn-delete-hover-bg);
-  }
+  } */
 
   .btn-loading {
     background-color: var(--main-disabled-btn) !important;

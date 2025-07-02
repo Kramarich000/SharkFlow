@@ -20,6 +20,7 @@ import {
 
 import { useTaskStore, priorityOptions, statusOptions } from '@features/tasks';
 import { useModalsStore } from '@store/modalsStore';
+import { Button } from '@common/ui/utilities/Button';
 
 function TaskDetailsHeaderComponent({
   task,
@@ -135,14 +136,15 @@ function TaskDetailsHeaderComponent({
         </div>
 
         <div className="flex-shrink-0 relative">
-          <button
+          <Button
+            variant="tertiary"
             ref={openTaskButtonRef}
             onClick={() => setOpenTaskOptions(!openTaskOptions)}
-            className={`btn-tertiary ${openTaskOptions ? 'bg-gray-200' : ''}`}
+            className={`${openTaskOptions ? 'bg-gray-200' : ''}`}
             title="Действия"
           >
             <FaEllipsisH size={20} className="text-muted" />
-          </button>
+          </Button>
 
           <AnimatePresence>
             {openTaskOptions && (
@@ -151,41 +153,45 @@ function TaskDetailsHeaderComponent({
                 animate={{ opacity: 1, transform: 'translateY(0px)' }}
                 exit={{ opacity: 0, transform: 'translateY(-10px)' }}
                 ref={openTaskOptionsRef}
-                className="absolute top-full right-0 mt-2 w-52 rounded-lg shadow-lg z-20 border border-gray-100 p-2"
+                className="absolute bg-[var(--main-modal-bg)] top-full right-0 mt-2 w-52 rounded-lg shadow-lg z-20 border border-[var(--main-primary)] p-2"
               >
                 {isEditing ? (
                   <>
-                    <button
-                      className="btn-primary btn-save !justify-between"
+                    <Button
+                      variant="save"
+                      className="!justify-between"
                       onClick={handleUpdateTask}
                     >
                       Сохранить <FaSave />
-                    </button>
-                    <button
-                      className="btn-primary btn-cancel !justify-between"
+                    </Button>
+                    <Button
+                      variant="cancel"
+                      className="!justify-between"
                       onClick={() => setIsEditing(false)}
                     >
                       Отмена <FaTimes />
-                    </button>
+                    </Button>
                   </>
                 ) : (
-                  <button
-                    className="btn-primary !justify-between"
+                  <Button
+                    variant="primary"
+                    className="!justify-between"
                     onClick={() => setIsEditing(true)}
                   >
                     Редактировать <FaPen />
-                  </button>
+                  </Button>
                 )}
-                <div className="border-t border-gray-100 my-2"></div>
-                <button
-                  className="btn-primary !justify-between !bg-red-300 hover:!bg-red-400"
+                <div className="border-t border-[var(--main-primary)] my-2"></div>
+                <Button
+                  className="!justify-between"
+                  variant="delete"
                   onClick={() => {
                     setIsDeleteTaskModalOpen(true);
                     setOpenTaskOptions(false);
                   }}
                 >
                   Удалить <FaTrash />
-                </button>
+                </Button>
               </motion.div>
             )}
           </AnimatePresence>

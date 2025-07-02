@@ -12,6 +12,7 @@ import { AnimatedError } from '@common/ui';
 import { confirmCode } from '@features/user';
 import { useRegisterStore } from '@features/auth';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
+import { Button } from '@common/ui/utilities/Button';
 
 export default function RegisterSecondStep() {
   const { setStep } = useRegisterStore();
@@ -57,11 +58,14 @@ export default function RegisterSecondStep() {
                 type="text"
                 id="confirmationCode"
                 required
-                className="peer input-styles input-primary"
+                  className="peer input-styles input-primary"
                 placeholder=" "
                 disabled={load}
               />
-              <label htmlFor="confirmationCode" className="label-styles">
+              <label
+                htmlFor="confirmationCode"
+                className="label-styles !bg-[var(--main-surface)]"
+              >
                 Введите код подтверждения
               </label>
               <ErrorMessage name="confirmationCode">
@@ -69,13 +73,13 @@ export default function RegisterSecondStep() {
               </ErrorMessage>
               {/* <ErrorMessage name="confirmationCode" component={AnimatedError} /> */}
             </div>
-            <button className="btn-primary" type="submit" disabled={load}>
+            <Button variant="primary" type="submit" disabled={load}>
               {load ? (
-                <AiOutlineSync className="animate-spin" size={24} />
+                <AiOutlineSync className="animate-spin" size={23} />
               ) : (
                 <>Подтвердить</>
               )}
-            </button>
+            </Button>
           </Form>
         )}
       </Formik>

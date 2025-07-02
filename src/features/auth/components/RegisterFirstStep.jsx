@@ -10,6 +10,7 @@ import { AnimatedError } from '@common/ui';
 import { registerSchema } from '@features/user';
 import { FormikCheckbox } from '@common/ui';
 import { useRegisterStore } from '@features/auth';
+import { Button } from '@common/ui/utilities/Button';
 
 export function RegisterFirstStep() {
   const { setStep, passwordVisible, togglePasswordVisible } =
@@ -55,7 +56,7 @@ export function RegisterFirstStep() {
         {({ handleChange, handleBlur }) => {
           return (
             <>
-              <Form className="sm:grid mt-4 sm:mt-12 flex flex-col gap-4 p-8 rounded-2xl border-2 border-[var(--main-primary)] shadow-glow transition-colors">
+              <Form className="sm:grid mt-4 sm:mt-12 flex flex-col gap-4 p-8 rounded-2xl border-2 bg-surface border-[var(--main-primary)] shadow-glow transition-colors">
                 <h2 className="col-span-2 text-3xl">Регистрация</h2>
 
                 <div className="relative">
@@ -69,7 +70,10 @@ export function RegisterFirstStep() {
                     className="peer input-styles input-primary"
                     disabled={load}
                   />
-                  <label htmlFor="login" className="label-styles">
+                  <label
+                    htmlFor="login"
+                    className="label-styles !bg-[var(--main-surface)]"
+                  >
                     Введите логин
                   </label>
                   <ErrorMessage name="login">
@@ -88,7 +92,10 @@ export function RegisterFirstStep() {
                     className="peer input-styles input-primary"
                     disabled={load}
                   />
-                  <label htmlFor="email" className="label-styles">
+                  <label
+                    htmlFor="email"
+                    className="label-styles !bg-[var(--main-surface)]"
+                  >
                     Введите почту
                   </label>
 
@@ -112,7 +119,10 @@ export function RegisterFirstStep() {
                     className="peer input-styles input-primary !pr-8"
                     disabled={load}
                   />
-                  <label htmlFor="password" className="label-styles">
+                  <label
+                    htmlFor="password"
+                    className="label-styles !bg-[var(--main-surface)]"
+                  >
                     Введите пароль
                   </label>
                   <div
@@ -141,7 +151,10 @@ export function RegisterFirstStep() {
                     disabled={load}
                     className="peer input-styles input-primary"
                   />
-                  <label htmlFor="confirmPassword" className="label-styles">
+                  <label
+                    htmlFor="confirmPassword"
+                    className="label-styles !bg-[var(--main-surface)]"
+                  >
                     Подтвердите пароль
                   </label>
                   <ErrorMessage name="confirmPassword">
@@ -182,17 +195,18 @@ export function RegisterFirstStep() {
                   </ErrorMessage>
                 </div>
 
-                <button
-                  className={`btn-primary col-span-2 ${load ? 'btn-loading' : ''}`}
+                <Button
+                  className="col-span-2"
+                  variant="primary"
                   type="submit"
                   disabled={load}
                 >
                   {load ? (
-                    <AiOutlineSync className="animate-spin" size={24} />
+                    <AiOutlineSync className="animate-spin" size={23} />
                   ) : (
                     <>Зарегистрироваться</>
                   )}
-                </button>
+                </Button>
                 <Link className="col-span-2 !w-fit mx-auto" to="/login">
                   Уже есть аккаунт?
                 </Link>

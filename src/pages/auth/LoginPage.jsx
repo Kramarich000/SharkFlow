@@ -151,17 +151,18 @@ export default function LoginPage() {
                         />
                       </div>
 
-                      <button
-                        className={`btn-primary sm:col-span-2 ${load || guestLoad ? 'btn-loading' : ''}`}
+                      <Button
+                        variant="primary"
+                        className="sm:col-span-2"
                         type="submit"
                         disabled={load || guestLoad}
                       >
                         {load ? (
-                          <AiOutlineSync size={24} className="animate-spin" />
+                          <AiOutlineSync size={23} className="animate-spin" />
                         ) : (
                           <>Войти</>
                         )}
-                      </button>
+                      </Button>
                       <Link className="text-blue-600" to="/register">
                         Нет аккаунта?
                       </Link>
@@ -169,19 +170,19 @@ export default function LoginPage() {
                         Забыли пароль?
                       </Link>
                     </Form>
-                    <button
-                      className={`btn-primary ${guestLoad || load ? 'btn-loading' : ''}`}
+                    <Button
+                      variant="primary"
                       onClick={() => {
                         createGuest();
                       }}
                       disabled={guestLoad || load}
                     >
                       {guestLoad ? (
-                        <AiOutlineSync size={24} className="animate-spin" />
+                        <AiOutlineSync size={23} className="animate-spin" />
                       ) : (
                         <>Войти как гость</>
                       )}
-                    </button>
+                    </Button>
                   </>
                 );
               }}

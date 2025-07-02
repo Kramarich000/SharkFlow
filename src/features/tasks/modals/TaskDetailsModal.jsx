@@ -18,6 +18,7 @@ import {
   TaskDescription,
   TaskTimestamps,
 } from '@features/tasks';
+import { Button } from '@common/ui/utilities/Button';
 
 export function TaskDetailsModal() {
   const { isDetailsTaskModalOpen, setIsDetailsTaskModalOpen } = useModalsStore(
@@ -104,9 +105,9 @@ export function TaskDetailsModal() {
 
                     <div className="flex-shrink-0 p-4 sm:p-6 pt-4 border-t border-gray-100">
                       <TaskTimestamps task={selectedTask} />
-                      <button className="btn-primary" onClick={handleClose}>
+                      <Button variant="primary" onClick={handleClose}>
                         Закрыть
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>

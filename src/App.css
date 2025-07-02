@@ -35,11 +35,14 @@
 }
 
 .board-card {
-  @apply relative overflow-auto rounded-xl border-l-8 border-2 box-content max-h-[269px] p-4 shadow-lg transition-transform;
+  @apply relative overflow-auto rounded-xl border-l-8 border-2 box-content max-h-[269px] p-4
+         shadow-lg 
+         transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
+         will-change-transform;
 }
 
 .board-card:hover {
-  transform: translateY(-10px);
+  @apply -translate-y-2 scale-102 shadow-2xl;
 }
 
 /* 

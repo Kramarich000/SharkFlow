@@ -3,3 +3,4 @@ export * from './authInterceptor';
 export * from './http';
 export * from './loggerInterceptor';
 export { default } from './http';
+export * from './cloudinary';

@@ -7,6 +7,7 @@ import { IoMdClose } from 'react-icons/io';
 import { navLinks } from '@features/home/data';
 import { useAuthStore } from '@features/auth';
 import { useModalsStore } from '@store/modalsStore';
+import { Button } from '@common/ui/utilities/Button';
 
 export function Header() {
   const token = useAuthStore((state) => state.accessToken);
@@ -17,10 +18,16 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navRef = useRef(null);
+  const toggleRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(e) {
-      if (navRef.current && !navRef.current.contains(e.target)) {
+      if (
+        navRef.current &&
+        !navRef.current.contains(e.target) &&
+        toggleRef.current &&
+        !toggleRef.current.contains(e.target)
+      ) {
         setIsOpen(false);
       }
     }
@@ -84,26 +91,32 @@ export function Header() {
               {link.label}
             </NavLink>
           ))}
-          <button
+          <Button
             title="Выйти из аккаунта"
+            variant="tertiary"
             onClick={() => setIsLogoutUserModalOpen(true)}
-            className={`!w-fit !p-3 !text-[24px] !font-normal !transition-colors !text-[var(--main-button-text)] hover:!text-[var(--main-text-hover)]  ${!token ? 'hidden pointer-events-none select-none' : null}`}
+            className={`!w-fit !p-3 !bg-transparent !text-[24px] !font-normal !transition-colors !text-[var(--main-button-text)] hover:!text-[var(--main-text-hover)]  ${!token ? 'hidden pointer-events-none select-none' : null}`}
           >
             Выход
-          </button>
+          </Button>
         </motion.nav>
 
         {role === 'guest' && <p className="text-2xl">Гостевой аккаунт</p>}
 
-        <button
-          className="sm:hidden z-50"
-          onClick={() => setIsOpen((prev) => !prev)}
+        <Button
+          ref={toggleRef}
+          className="sm:hidden z-50 !bg-transparent"
+          variant="tertiary"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpen((prev) => !prev);
+          }}
           aria-label={isOpen ? 'Закрыть меню' : 'Открыть меню'}
           aria-expanded={isOpen}
           title={isOpen ? 'Закрыть меню' : 'Открыть меню'}
         >
           {isOpen ? <IoMdClose size={28} /> : <GiHamburgerMenu size={28} />}
-        </button>
+        </Button>
       </div>
 
       <AnimatePresence mode="wait">
@@ -129,13 +142,14 @@ export function Header() {
                   {link.label}
                 </NavLink>
               ))}
-              <button
+              <Button
                 onClick={() => setIsLogoutUserModalOpen(true)}
                 title="Выйти из аккаунта"
-                className={`block sm:hidden !w-fit !p-3 !text-[18px] hover:!text-[#808080] !transition-colors ${!token ? 'hidden pointer-events-none select-none' : null}`}
+                variant="tertiary"
+                className={`block sm:hidden !bg-transparent hover:!text-[var(--main-text-hover))] !w-fit !p-3 !text-[20px] !transition-colors ${!token ? 'hidden pointer-events-none select-none' : null}`}
               >
                 Выход
-              </button>
+              </Button>
             </motion.nav>
           </>
         )}

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Button } from '@common/ui/utilities/Button';
 
 export function FallbackComponent() {
   return (
@@ -8,21 +9,22 @@ export function FallbackComponent() {
       </h1>
 
       <p className="text-lg text-gray-700 max-w-lg">
-        Возможно, произошла ошибка. Пожалуйста, попробуйте
-        ещё раз или вернитесь на главную.
+        Возможно, произошла ошибка. Пожалуйста, попробуйте ещё раз или вернитесь
+        на главную.
       </p>
 
       <div className="flex gap-4 mt-4 w-full ">
-        <button
-          onClick={() => window.location.reload()}
-          className="btn-primary"
-        >
+        <Button onClick={() => window.location.reload()} variant="primary">
           Попробовать снова
-        </button>
+        </Button>
 
-        <Link to="/" className="btn-primary !rounded-[8px] inline-block hover:!text-white">
-          На главную
-        </Link>
+        <Button
+          asChild
+          variant="primary"
+          className="!rounded-[8px] inline-block hover:!text-white"
+        >
+          <Link to="/">На главную</Link>
+        </Button>
       </div>
     </div>
   );

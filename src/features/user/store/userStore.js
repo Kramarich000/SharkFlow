@@ -5,5 +5,13 @@ export const useUserStore = create((set) => ({
 
   setUser: (user) => set({ user }),
 
+  updateUser: (updatedFields) =>
+    set((state) => ({
+      user: {
+        ...state.user,
+        ...updatedFields,
+      },
+    })),
+
   clearUser: () => set({ user: null }),
 }));

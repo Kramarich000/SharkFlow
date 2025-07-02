@@ -13,6 +13,7 @@ import { AiOutlineSync } from 'react-icons/ai';
 import { ColorSelector } from '@common/ui';
 import { useCreateBoard } from '@features/boards';
 import { useModalsStore } from '@store/modalsStore';
+import { Button } from '@common/ui/utilities/Button';
 
 export function CreateBoardModal() {
   const [title, setTitle] = useState('');
@@ -79,7 +80,7 @@ export function CreateBoardModal() {
                       disabled={isPending}
                       maxLength={64}
                     />
-                    <label className="label-styles">
+                    <label className="label-styles !bg-[var(--main-modal-bg)]">
                       Введите название доски
                     </label>
                   </div>
@@ -92,40 +93,39 @@ export function CreateBoardModal() {
                     disabled={isPending}
                   />
 
-                  <button
-                    className={`btn-primary !p-2 hidden lg:flex ${isPending ? ' btn-loading' : ''}`}
+                  <Button
+                    title="Создать"
+                    variant="primary"
                     onClick={handleCreateBoard}
-                    title="Сохранить"
                     disabled={isPending}
-                    aria-disabled={isPending}
-                    aria-busy={isPending}
                   >
                     {isPending ? (
-                      <AiOutlineSync size={24} className="animate-spin" />
+                      <AiOutlineSync size={23} className="animate-spin" />
                     ) : (
-                      'Создать'
+                      <>Создать</>
                     )}
-                  </button>
-                  <button
-                    type="button"
+                  </Button>
+                  <Button
+                    className="flex lg:hidden"
                     title="Закрыть"
-                    className="btn-primary !p-2 w-full flex lg:hidden"
+                    variant="primary"
                     onClick={() => {
                       setIsCreateBoardModalOpen(false);
                       setColor('transparent');
                     }}
+                    disabled={isPending}
                   >
                     Закрыть
-                  </button>
+                  </Button>
                   <div className="mt-6 hidden lg:inline-flex">
                     <button
-                      type="button"
                       title="Закрыть"
-                      className="!transition-transform absolute top-0 right-0 justify-center px-4 py-2 text-sm"
+                      className="!transition !text-[var(--main-text)] absolute top-0 right-0 justify-center px-4 py-2 text-sm hover:!text-[var(--main-primary-hover)]"
                       onClick={() => {
                         setIsCreateBoardModalOpen(false);
                         setColor('transparent');
                       }}
+                      disabled={isPending}
                     >
                       <IoClose size={40} />
                     </button>

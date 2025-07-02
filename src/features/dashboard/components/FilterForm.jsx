@@ -115,7 +115,7 @@ export function FilterForm({
                     }
                   },
                 }}
-                className="calendar-styles !border-0 !bg-[var(--main-button-bg)] !opacity-100 !text-[var(--main-button-text)] placeholder:!text-[var(--main-button-text)]"
+                className="calendar-styles !rounded-[8px] !border-0 !bg-[var(--main-button-bg)] !opacity-100 !text-[var(--main-button-text)] placeholder:!text-[var(--main-button-text)]"
                 placeholder="Период дат"
               />
               <FaCalendarAlt

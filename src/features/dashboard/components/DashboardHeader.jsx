@@ -40,7 +40,8 @@ export const DashboardHeader = ({ params, setParams, onOpenCreateBoard }) => {
           />
         </div>
         <Button
-          className="btn-primary !w-fit ml-0 sm:ml-auto gap-2"
+          variant="primary"
+          className="!w-fit ml-0 sm:ml-auto"
           onClick={onOpenCreateBoard}
         >
           Создать доску <FaPlus size={20} />

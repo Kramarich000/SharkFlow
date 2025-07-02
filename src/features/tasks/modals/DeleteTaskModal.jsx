@@ -12,6 +12,7 @@ import {
 import { useTaskStore } from '@features/tasks';
 import { useBoardStore } from '@features/boards';
 import { useModalsStore } from '@store/modalsStore';
+import { Button } from '@common/ui/utilities/Button';
 
 export function DeleteTaskModal() {
   const deleteTask = useTaskStore((state) => state.deleteTask);
@@ -61,27 +62,31 @@ export function DeleteTaskModal() {
                   Вы действительно хотите удалить задачу?
                 </p>
                 <div className="w-full flex gap-4">
-                  <button
-                    className="btn-primary !m-0 !p-2 !mt-auto"
+                  <Button
+                    variant="primary"
+                    className="!m-0 !mt-auto"
                     title="Отмена"
                     onClick={() => setIsDeleteTaskModalOpen(false)}
+                    disabled={load}
                   >
                     Отмена
-                  </button>
-                  <button
-                    className="btn-primary flex items-center justify-center !m-0 !p-2 !mt-auto"
+                  </Button>
+                  <Button
+                    variant="primary"
+                    className="!m-0 !mt-auto"
                     onClick={handleDeleteTask}
                     title="Удалить задачу"
+                    disabled={load}
                   >
                     {load ? (
                       <AiOutlineSync
                         className="animate-spin !text-white"
-                        size={24}
+                        size={23}
                       />
                     ) : (
                       <>Удалить</>
                     )}
-                  </button>
+                  </Button>
                 </div>
               </DialogPanel>
             </TransitionChild>

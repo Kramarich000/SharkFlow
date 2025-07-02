@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 import { partners } from '@features/home';
+import { Button } from '@common/ui/utilities/Button';
 
 export default function Partners() {
   return (
@@ -16,13 +17,13 @@ export default function Partners() {
               })`,
               opacity: 0,
             }}
-            whileInView={{ transform: 'translateY(0px)', opacity: 1 }}
+            whileInView={{ transform: 'translateX(0px)', opacity: 1 }}
             transition={{ delay: item.id * 0.12 }}
             viewport={{ once: true }}
             className="max-w-full w-30 hover:scale-110 duration-400 !transition-transform"
             key={item.id}
             href={item.link}
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
             target="_blank"
           >
             {item.icon}
@@ -36,12 +37,9 @@ export default function Partners() {
         transition={{ duration: 0.5, delay: 1.5 }}
         viewport={{ once: true }}
       >
-        <Link
-          className="btn-primary !text-[var(--main-button-text)] !no-underline !w-fit mx-auto"
-          to="/register"
-        >
-          Начать охоту
-        </Link>
+        <Button className="text-xl !w-fit mx-auto" variant="primary" asChild>
+          <Link to="/register">Начать охоту</Link>
+        </Button>
       </motion.div>
     </section>
   );

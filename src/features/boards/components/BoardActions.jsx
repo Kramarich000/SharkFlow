@@ -1,17 +1,17 @@
 import React from 'react';
+import { Button } from '@common/ui/utilities/Button';
 
 function BoardActionsComponent({ onClose, load }) {
   return (
     <div className="flex gap-2 mt-auto">
-      <button
-        type="button"
-        className={`btn-primary flex-1 ${load ? ' btn-loading' : ''}`}
+      <Button
+        variant="primary"
         onClick={onClose}
         disabled={load}
         title="Закрыть доску"
       >
         Закрыть
-      </button>
+      </Button>
     </div>
   );
 }

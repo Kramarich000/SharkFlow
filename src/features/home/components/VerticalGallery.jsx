@@ -94,7 +94,13 @@ export default function InfiniteVerticalScroll() {
     <section className="relative mx-auto py-12">
       <h2 className="text-3xl mb-8">Скриншоты</h2>
       {isDesktop ? (
-        <div className="flex gap-[20px] mx-auto justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, transform: 'translateY(50px)' }}
+          whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="flex gap-[20px] mx-auto justify-center p-4"
+        >
           <ScrollingColumn
             images={images}
             direction="up"
@@ -105,7 +111,7 @@ export default function InfiniteVerticalScroll() {
             direction="down"
             onImageClick={handleImageClick}
           />
-        </div>
+        </motion.div>
       ) : (
         <div className="flex max-h-[600px] pr-4 overflow-autogap-4 flex-col">
           {images.map((src, i) => (

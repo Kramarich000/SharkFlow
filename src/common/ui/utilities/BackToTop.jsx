@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FaArrowUp } from 'react-icons/fa';
 
+import { Button } from '@common/ui/utilities/Button';
+
 export function BackToTop() {
   const [visible, setVisible] = useState(false);
+  const MotionButton = motion(Button);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 0);
@@ -37,18 +40,19 @@ export function BackToTop() {
   return (
     <AnimatePresence>
       {visible && (
-        <motion.button
+        <MotionButton
           key="back-to-top"
           initial={{ opacity: 0, transform: 'translateY(20px)' }}
           animate={{ opacity: 1, transform: 'translateY(0px)' }}
           exit={{ opacity: 0, transform: 'translateY(20px)' }}
           transition={{ duration: 0.3 }}
           onClick={scrollUp}
-          className="btn-tertiary fixed flex items-center justify-center bottom-8 right-8 w-14 h-12 rounded-full shadow-lg z-50 !transition-colors"
+          variant="tertiary"
+          className="fixed flex items-center justify-center bottom-8 right-8 w-14 h-12 rounded-full shadow-lg z-50 !transition-colors"
           aria-label="Наверх"
         >
           <FaArrowUp />
-        </motion.button>
+        </MotionButton>
       )}
     </AnimatePresence>
   );

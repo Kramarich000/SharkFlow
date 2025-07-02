@@ -29,7 +29,7 @@ export function SharkFin() {
         }}
         transition={{
           duration: 10,
-          ease: 'easeInOut',
+          ease: 'linear',
         }}
         className="absolute bottom-0"
         style={{ width: size, height: size }}

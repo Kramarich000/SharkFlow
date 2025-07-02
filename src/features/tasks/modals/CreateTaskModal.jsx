@@ -13,6 +13,7 @@ import { useTaskStore } from '@features/tasks';
 import { useBoardStore } from '@features/boards';
 import { useModalsStore } from '@store/modalsStore';
 import { TaskFormInputs, TaskFormSelectors } from '@features/tasks';
+import { Button } from '@common/ui/utilities/Button';
 
 export function CreateTaskModal() {
   const [load, setLoad] = useState(false);
@@ -106,18 +107,19 @@ export function CreateTaskModal() {
                     dueDate={dueDate}
                     setDueDate={setDueDate}
                   />
-                  <button
-                    className={`btn-primary ${load ? '!bg-gray-700' : ''}`}
+
+                  <Button
+                    variant="primary"
                     onClick={handleCreateTask}
                     title="Создать задачу"
                     disabled={load}
                   >
                     {load ? (
-                      <AiOutlineSync className="animate-spin" size={24} />
+                      <AiOutlineSync className="animate-spin" size={23} />
                     ) : (
                       <>Создать</>
                     )}
-                  </button>
+                  </Button>
                 </div>
                 <button
                   type="button"

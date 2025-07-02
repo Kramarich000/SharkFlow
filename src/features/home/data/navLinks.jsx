@@ -3,7 +3,7 @@ export const navLinks = (token) =>
     ? [
         { path: '/', label: 'Главная' },
         { path: '/dashboard', label: 'Мои доски' },
-        { path: '/settings', label: 'Настройки' },
+        { path: '/profile', label: 'Профиль' },
       ]
     : [
         { path: '/', label: 'Главная' },

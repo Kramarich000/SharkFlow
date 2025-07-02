@@ -7,7 +7,9 @@ import { IoMdClose } from 'react-icons/io';
 import { navLinks } from '@features/home/data';
 import { useAuthStore } from '@features/auth';
 import { useModalsStore } from '@store/modalsStore';
+import { useUserStore } from '@features/user';
 import { Button } from '@common/ui/utilities/Button';
+import { AiOutlineSync } from 'react-icons/ai';
 
 export function Header() {
   const token = useAuthStore((state) => state.accessToken);
@@ -16,9 +18,18 @@ export function Header() {
     (state) => state.setIsLogoutUserModalOpen,
   );
   const [isOpen, setIsOpen] = useState(false);
+  const [avatarLoading, setAvatarLoading] = useState(false);
+
+  const user = useUserStore((state) => state.user);
 
   const navRef = useRef(null);
   const toggleRef = useRef(null);
+
+  useEffect(() => {
+    if (user?.avatarUrl) {
+      setAvatarLoading(true);
+    }
+  }, [user?.avatarUrl]);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -99,6 +110,23 @@ export function Header() {
           >
             Выход
           </Button>
+          <div className="relative">
+            {user?.avatarUrl && token ? (
+              <img
+                key={user?.avatarUrl}
+                src={user?.avatarUrl}
+                alt=""
+                className="w-10 h-10 object-cover border-2 !border-[var(--main-primary)] rounded-full"
+                onLoad={() => setAvatarLoading(false)}
+                onError={() => setAvatarLoading(false)}
+              />
+            ) : null}
+            {avatarLoading && (
+              <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-full">
+                <AiOutlineSync className="animate-spin text-white" size={20} />
+              </div>
+            )}
+          </div>
         </motion.nav>
 
         {role === 'guest' && <p className="text-2xl">Гостевой аккаунт</p>}

@@ -9,7 +9,7 @@ import { ToggleTheme } from '@features/user/components/ToggleTheme';
 import { Button } from '@common/ui/utilities/Button';
 import { UserAvatarUploader } from '@features/user/components/UserAvatarUploader';
 
-export default function SettingsPage() {
+export default function Profile() {
   const [loading, setLoading] = useState(true);
 
   const setIsDeleteUserModalOpen = useModalsStore(
@@ -20,10 +20,7 @@ export default function SettingsPage() {
     (state) => state.setIsUpdateUserModalOpen,
   );
 
-  const {
-    setIsSetupTotpModalOpen,
-    setIsDisableTotpModalOpen,
-  } = useModalsStore(
+  const { setIsSetupTotpModalOpen, setIsDisableTotpModalOpen } = useModalsStore(
     useShallow((state) => ({
       setIsSetupTotpModalOpen: state.setIsSetupTotpModalOpen,
       setIsDisableTotpModalOpen: state.setIsDisableTotpModalOpen,
@@ -77,6 +74,7 @@ export default function SettingsPage() {
             </Button>
             <Button
               variant="primary"
+              className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
               onClick={() => setIsDeleteUserModalOpen(true)}
             >
               Удалить аккаунт

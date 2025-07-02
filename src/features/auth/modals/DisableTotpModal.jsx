@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState } from 'react';
 import {
   Dialog,
   DialogPanel,
@@ -7,23 +7,16 @@ import {
 } from '@headlessui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useShallow } from 'zustand/shallow';
-import { showToast } from '@utils/toast';
 import { AiOutlineSync } from 'react-icons/ai';
 
 import { useModalsStore } from '@store/modalsStore';
 import {
-  updateUser,
-  confirmUpdate,
-  updateSchema,
   UpdateForm,
   UpdateConfirmation,
-  useUserStore,
 } from '@features/user';
 
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import { Button } from '@common/ui/utilities/Button';
-import { verifySecret } from '@features/auth/api/verifySecret';
-import { sendConfirmationCode } from '@features/auth/api/confirmCode';
 import { disableTotp } from '@features/auth/api/disableTotp';
 import { sendDisableTotpEmail } from '@features/auth/api/sendDisableTotpEmail';
 import { useAuthStore } from '@features/auth/store';
@@ -104,7 +97,7 @@ export function DisableTotpModal() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-none sm:backdrop-blur-sm" />
+          <div className="fixed inset-0 bg-black/50" />
         </TransitionChild>
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <TransitionChild

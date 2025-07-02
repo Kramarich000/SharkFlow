@@ -11,6 +11,7 @@ import { registerSchema } from '@features/user';
 import { FormikCheckbox } from '@common/ui';
 import { useRegisterStore } from '@features/auth';
 import { Button } from '@common/ui/utilities/Button';
+import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 
 export function RegisterFirstStep() {
   const { setStep, passwordVisible, togglePasswordVisible } =
@@ -207,6 +208,9 @@ export function RegisterFirstStep() {
                     <>Зарегистрироваться</>
                   )}
                 </Button>
+                <div className="col-span-2 w-full">
+                  <GoogleAuthButton />
+                </div>
                 <Link className="col-span-2 !w-fit mx-auto" to="/login">
                   Уже есть аккаунт?
                 </Link>

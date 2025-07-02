@@ -48,6 +48,7 @@ function App() {
           login: data.login,
           email: data.email,
           avatarUrl: data.avatarUrl,
+          role: data.role,
         });
         setTwoFactorEnabled(data.twoFactorEnabled);
       } catch (error) {

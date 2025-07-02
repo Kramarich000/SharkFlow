@@ -67,6 +67,9 @@
 
 /* ====== ТЕМНАЯ ТЕМА ====== */
 [data-theme='dark'] {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   /* === Основа === */
   --main-bg: #1e293b;
   --main-surface: #273449;
@@ -109,7 +112,7 @@
   --main-btn-cancel-bg: #374151;
   --main-btn-cancel-hover-bg: #4b5563;
 
-  --main-btn-delete-bg: #f87171; 
+  --main-btn-delete-bg: #f87171;
   --main-btn-delete-hover-bg: #ef4444;
 
   /* === Инпуты и рамки === */

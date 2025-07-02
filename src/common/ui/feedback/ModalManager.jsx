@@ -2,6 +2,8 @@ import {
   LogoutUserModal,
   DeleteUserModal,
   UpdateUserModal,
+  AvatarCropModal,
+  DeleteAvatarModal
 } from '@features/user';
 import {
   CreateBoardModal,
@@ -16,27 +18,66 @@ import {
 
 import { SetupTotpModal } from '@features/auth';
 import { DisableTotpModal } from '@features/auth/modals/DisableTotpModal';
+import { useModalsStore } from '@store/modalsStore';
+import { useShallow } from 'zustand/shallow';
+import { useDelayedUnmount } from './useDelayedUnmount';
 
-const modalConfig = {
-  isLogoutUserModalOpen: LogoutUserModal,
-  isDeleteUserModalOpen: DeleteUserModal,
-  isUpdateUserModalOpen: UpdateUserModal,
-  isCreateBoardModalOpen: CreateBoardModal,
-  isDeleteBoardModalOpen: DeleteBoardModal,
-  isDetailsBoardModalOpen: BoardDetailsModal,
-  isCreateTaskModalOpen: CreateTaskModal,
-  isDetailsTaskModalOpen: TaskDetailsModal,
-  isDeleteTaskModalOpen: DeleteTaskModal,
-  isSetupTotpModalOpen: SetupTotpModal,
-  isDisableTotpModalOpen: DisableTotpModal,
-};
+const modalList = [
+  { flag: 'isLogoutUserModalOpen', Component: LogoutUserModal },
+  { flag: 'isDeleteUserModalOpen', Component: DeleteUserModal },
+  { flag: 'isUpdateUserModalOpen', Component: UpdateUserModal },
+  { flag: 'isCreateBoardModalOpen', Component: CreateBoardModal },
+  { flag: 'isDeleteBoardModalOpen', Component: DeleteBoardModal },
+  { flag: 'isDetailsBoardModalOpen', Component: BoardDetailsModal },
+  { flag: 'isCreateTaskModalOpen', Component: CreateTaskModal },
+  { flag: 'isDetailsTaskModalOpen', Component: TaskDetailsModal },
+  { flag: 'isDeleteTaskModalOpen', Component: DeleteTaskModal },
+  { flag: 'isSetupTotpModalOpen', Component: SetupTotpModal },
+  { flag: 'isDisableTotpModalOpen', Component: DisableTotpModal },
+  { flag: 'isAvatarCropModalOpen', Component: AvatarCropModal },
+  { flag: 'isDeleteAvatarModalOpen', Component: DeleteAvatarModal },
+];
 
 export function ModalManager() {
+  const modalFlags = useModalsStore(
+    useShallow((state) =>
+      modalList.reduce((acc, { flag }) => {
+        acc[flag] = state[flag];
+        return acc;
+      }, {})
+    )
+  );
+
+  // Для каждого модального окна вызываем useDelayedUnmount отдельно
+  const shouldRenderLogout = useDelayedUnmount(modalFlags.isLogoutUserModalOpen, 300);
+  const shouldRenderDeleteUser = useDelayedUnmount(modalFlags.isDeleteUserModalOpen, 300);
+  const shouldRenderUpdateUser = useDelayedUnmount(modalFlags.isUpdateUserModalOpen, 300);
+  const shouldRenderCreateBoard = useDelayedUnmount(modalFlags.isCreateBoardModalOpen, 300);
+  const shouldRenderDeleteBoard = useDelayedUnmount(modalFlags.isDeleteBoardModalOpen, 300);
+  const shouldRenderDetailsBoard = useDelayedUnmount(modalFlags.isDetailsBoardModalOpen, 300);
+  const shouldRenderCreateTask = useDelayedUnmount(modalFlags.isCreateTaskModalOpen, 300);
+  const shouldRenderDetailsTask = useDelayedUnmount(modalFlags.isDetailsTaskModalOpen, 300);
+  const shouldRenderDeleteTask = useDelayedUnmount(modalFlags.isDeleteTaskModalOpen, 300);
+  const shouldRenderSetupTotp = useDelayedUnmount(modalFlags.isSetupTotpModalOpen, 300);
+  const shouldRenderDisableTotp = useDelayedUnmount(modalFlags.isDisableTotpModalOpen, 300);
+  const shouldRenderAvatarCrop = useDelayedUnmount(modalFlags.isAvatarCropModalOpen, 300);
+  const shouldRenderDeleteAvatar = useDelayedUnmount(modalFlags.isDeleteAvatarModalOpen, 300);
+
   return (
     <>
-      {Object.values(modalConfig).map((ModalComponent, index) => (
-        <ModalComponent key={index} />
-      ))}
+      {shouldRenderLogout && <LogoutUserModal open={modalFlags.isLogoutUserModalOpen} />}
+      {shouldRenderDeleteUser && <DeleteUserModal open={modalFlags.isDeleteUserModalOpen} />}
+      {shouldRenderUpdateUser && <UpdateUserModal open={modalFlags.isUpdateUserModalOpen} />}
+      {shouldRenderCreateBoard && <CreateBoardModal open={modalFlags.isCreateBoardModalOpen} />}
+      {shouldRenderDeleteBoard && <DeleteBoardModal open={modalFlags.isDeleteBoardModalOpen} />}
+      {shouldRenderDetailsBoard && <BoardDetailsModal open={modalFlags.isDetailsBoardModalOpen} />}
+      {shouldRenderCreateTask && <CreateTaskModal open={modalFlags.isCreateTaskModalOpen} />}
+      {shouldRenderDetailsTask && <TaskDetailsModal open={modalFlags.isDetailsTaskModalOpen} />}
+      {shouldRenderDeleteTask && <DeleteTaskModal open={modalFlags.isDeleteTaskModalOpen} />}
+      {shouldRenderSetupTotp && <SetupTotpModal open={modalFlags.isSetupTotpModalOpen} />}
+      {shouldRenderDisableTotp && <DisableTotpModal open={modalFlags.isDisableTotpModalOpen} />}
+      {shouldRenderAvatarCrop && <AvatarCropModal open={modalFlags.isAvatarCropModalOpen} />}
+      {shouldRenderDeleteAvatar && <DeleteAvatarModal open={modalFlags.isDeleteAvatarModalOpen} />}
     </>
   );
 }

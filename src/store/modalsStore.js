@@ -35,6 +35,12 @@ export const useModalsStore = create((set) => ({
   isDisableTotpModalOpen: false,
   setIsDisableTotpModalOpen: (value) => set({ isDisableTotpModalOpen: value }),
 
+  isAvatarCropModalOpen: false,
+  setIsAvatarCropModalOpen: (value) => set({ isAvatarCropModalOpen: value }),
+
+  isDeleteAvatarModalOpen: false,
+  setIsDeleteAvatarModalOpen: (value) => set({ isDeleteAvatarModalOpen: value }),
+
   contextMenu: {
     visible: false,
     x: 0,
@@ -63,6 +69,8 @@ export const useModalsStore = create((set) => ({
       isDeleteTaskModalOpen: false,
       isSetupTotpModalOpen: false,
       isDisableTotpModalOpen: false,
+      isAvatarCropModalOpen: false,
+      isDeleteAvatarModalOpen: false,
       contextMenu: { visible: false, x: 0, y: 0, board: null },
     }),
 }));

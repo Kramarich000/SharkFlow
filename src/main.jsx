@@ -5,6 +5,7 @@ import 'highlight.js/styles/github-dark.css';
 import App from './App.jsx';
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,7 +18,7 @@ const queryClient = new QueryClient({
       keepPreviousData: true,
       refetchIntervalInBackground: false,
       refetchOnWindowFocus: true,
-      suspense: false, 
+      suspense: false,
       useErrorBoundary: false,
     },
   },
@@ -27,7 +28,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+          <App />
+        </GoogleOAuthProvider>
       </QueryClientProvider>
     </HelmetProvider>
   </StrictMode>,

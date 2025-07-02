@@ -11,6 +11,8 @@ import { guestLogin } from '@features/auth';
 import { getUser } from '@features/user';
 import { FormikCheckbox, AnimatedError } from '@common/ui';
 import { Button } from '@common/ui/utilities/Button';
+import { googleAuth } from '@features/auth/api/googleAuth';
+import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 
 export default function LoginPage() {
   const formikRef = useRef(null);
@@ -163,6 +165,23 @@ export default function LoginPage() {
                           <>Войти</>
                         )}
                       </Button>
+                      <div className="flex col-span-2 item-center justify-center gap-3">
+                        <Button
+                          variant="primary"
+                          type="button"
+                          onClick={() => {
+                            createGuest();
+                          }}
+                          disabled={guestLoad || load}
+                        >
+                          {guestLoad || load ? (
+                            <AiOutlineSync size={23} className="animate-spin" />
+                          ) : (
+                            <>Войти как гость</>
+                          )}
+                        </Button>
+                        <GoogleAuthButton />
+                      </div>
                       <Link className="text-blue-600" to="/register">
                         Нет аккаунта?
                       </Link>
@@ -170,19 +189,6 @@ export default function LoginPage() {
                         Забыли пароль?
                       </Link>
                     </Form>
-                    <Button
-                      variant="primary"
-                      onClick={() => {
-                        createGuest();
-                      }}
-                      disabled={guestLoad || load}
-                    >
-                      {guestLoad ? (
-                        <AiOutlineSync size={23} className="animate-spin" />
-                      ) : (
-                        <>Войти как гость</>
-                      )}
-                    </Button>
                   </>
                 );
               }}

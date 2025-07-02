@@ -50,6 +50,7 @@ export function DeleteUserModal() {
     setLoad(true);
     try {
       await deleteUser(confirmationCode.confirmationCode);
+      setIsDeleteUserModalOpen(false);
     } catch (error) {
       console.error('Ошибка при удалении аккаунта:', error);
     } finally {
@@ -82,7 +83,7 @@ export function DeleteUserModal() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-none sm:backdrop-blur-sm" />
+          <div className="fixed inset-0 bg-black/50" />
         </TransitionChild>
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <TransitionChild

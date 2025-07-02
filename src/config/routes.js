@@ -6,7 +6,7 @@ const LoginPage = lazy(() => import('@pages/auth/LoginPage'));
 
 const DashboardPage = lazy(() => import('@pages/dashboard/DashboardPage'));
 
-const SettingsPage = lazy(() => import('@pages/settings/SettingsPage'));
+const ProfilePage = lazy(() => import('@pages/profile/ProfilePage'));
 
 const HomePage = lazy(() => import('@pages/home/HomePage'));
 
@@ -43,11 +43,11 @@ export const routes = [
     private: true,
   },
   {
-    path: '/settings',
-    component: SettingsPage,
-    title: 'Настройки',
-    description: 'Регистрация',
-    url: `${baseURL}/settings`,
+    path: '/profile',
+    component: ProfilePage,
+    title: 'Профиль',
+    description: 'Профиль',
+    url: `${baseURL}/profile`,
     private: true,
   },
   {

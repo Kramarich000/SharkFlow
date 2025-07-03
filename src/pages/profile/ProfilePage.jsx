@@ -8,6 +8,7 @@ import { useAuthStore } from '@features/auth';
 import { ToggleTheme } from '@features/user/components/ToggleTheme';
 import { Button } from '@common/ui/utilities/Button';
 import { UserAvatarUploader } from '@features/user/components/UserAvatarUploader';
+import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 
 export default function Profile() {
   const [loading, setLoading] = useState(true);
@@ -72,13 +73,10 @@ export default function Profile() {
             >
               Изменить данные
             </Button>
-            <Button
-              variant="primary"
-              className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
-              onClick={() => setIsDeleteUserModalOpen(true)}
-            >
-              Удалить аккаунт
-            </Button>
+            <GoogleAuthButton
+              btnText="Подключить авторизацию через Google"
+              isNavigated={false}
+            />
             {!twoFactorEnabled ? (
               <Button
                 variant="primary"
@@ -96,6 +94,13 @@ export default function Profile() {
                 <TbAuth2Fa size={24} /> Отключить двуфакторную аутентификацию
               </Button>
             )}
+            <Button
+              variant="primary"
+              className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+              onClick={() => setIsDeleteUserModalOpen(true)}
+            >
+              Удалить аккаунт
+            </Button>
           </div>
           <ToggleTheme />
         </div>

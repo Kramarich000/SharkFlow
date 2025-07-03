@@ -1,7 +1,11 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
 
-export default function RegisterThirdStep() {
+export default function RegisterThirdStep({ onMount }) {
+  useEffect(() => {
+    onMount?.();
+  }, [onMount]);
   return (
     <motion.div
       key="step3"

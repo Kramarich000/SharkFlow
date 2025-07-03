@@ -12,7 +12,7 @@ import {
 } from '@utils/theme/toggleTheme';
 import { Button } from '@common/ui/utilities/Button';
 
-export function ToggleTheme() {
+export function ToggleTheme({ className = '' }) {
   const [mode, setMode] = useState(() => getThemeMode());
   const [dark, setDark] = useState(() => getDarkByMode(mode));
 
@@ -61,10 +61,15 @@ export function ToggleTheme() {
     idx === 0 ? 'translate-x-0' : idx === 1 ? 'translate-x-4' : 'translate-x-8';
   const Icon = mode === 'light' ? FaSun : mode === 'dark' ? FaMoon : FaRegClock;
 
+  let iconColorClass = '';
+  if (mode === 'light') iconColorClass = 'text-yellow-500';
+  else if (mode === 'dark') iconColorClass = 'text-slate-100';
+  else iconColorClass = 'text-blue-400';
+
   return (
     <Button
       onClick={handleClick}
-      className="flex items-center space-x-2 p-2 rounded-full bg-[var(--main-surface)] shadow hover:shadow-md transition"
+      className={`flex items-center space-x-2 p-2 rounded-full bg-[var(--main-surface)] shadow hover:shadow-md transition ${className}`}
       title={
         mode === 'auto'
           ? 'Авто: по времени суток'
@@ -78,7 +83,7 @@ export function ToggleTheme() {
           className={`absolute left-0.5 top-0.5 w-5 h-5 bg-[var(--main-button-text)] rounded-full shadow transform transition-transform ${translateClass}`}
         />
       </div>
-      <Icon className="text-xl text-[var(--main-text)] dark:text-[var(--main-text)]" />
+      <Icon className={`text-xl !transition-all ${iconColorClass}`} />
     </Button>
   );
 }

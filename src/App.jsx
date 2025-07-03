@@ -21,6 +21,7 @@ import { useUserStore, LogoutUserModal, getUser } from '@features/user';
 import { blockedPublicPaths } from '@config/blockedPublicPaths';
 import { FallbackComponent } from '@common/ui';
 import { getThemeMode, applyTheme } from '@utils/theme/toggleTheme';
+import { showToast } from '@utils/toast';
 
 function App() {
   const { setUser } = useUserStore.getState();
@@ -67,11 +68,11 @@ function App() {
   if (isAuthLoading) {
     return <Loader />;
   }
-
   return (
     <Router>
       <>
         <Header />
+
         <ErrorBoundary FallbackComponent={FallbackComponent}>
           <main className="p-5 w-full max-w-[1280px] mx-auto grow">
             <Routes>

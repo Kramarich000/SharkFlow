@@ -10,7 +10,11 @@ import { Button } from '@common/ui/utilities/Button';
 
 import { FcGoogle } from 'react-icons/fc';
 
-export function GoogleAuthButton({ type = 'button' }) {
+export function GoogleAuthButton({
+  type = 'button',
+  btnText = '',
+  isNavigated = true,
+}) {
   const navigate = useNavigate();
   const { setUser } = useUserStore.getState();
   const { setAccessToken } = useAuthStore.getState();
@@ -29,7 +33,9 @@ export function GoogleAuthButton({ type = 'button' }) {
         //   avatarUrl: result.avatarUrl,
         //   email: result.email,
         // });
-        navigate('/dashboard');
+        if (isNavigated) {
+          navigate('/dashboard');
+        }
       }
     } catch (error) {
       console.error(error);
@@ -45,7 +51,7 @@ export function GoogleAuthButton({ type = 'button' }) {
     if (btn) {
       btn.click();
     } else {
-      showToast('Подождите, загружается Google-кнопка...');
+      showToast('Подождите, загружается сервис Google...', 'info');
     }
   };
 
@@ -53,7 +59,7 @@ export function GoogleAuthButton({ type = 'button' }) {
     <div className="relative h-full w-full">
       <Button className="!bg-white !text-black" type={type} variant="primary">
         <FcGoogle size={23} />
-        Войти через Google
+        {btnText}
       </Button>
 
       <div className="absolute top-0 left-0 w-full h-full opacity-0 z-10">

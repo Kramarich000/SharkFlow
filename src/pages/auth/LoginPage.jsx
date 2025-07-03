@@ -55,6 +55,7 @@ export default function LoginPage() {
         ) : (
           <motion.div
             key="login"
+            className="w-full sm:w-auto"
             initial={{ opacity: 0, transform: 'translateX(50px)' }}
             animate={{ opacity: 1, transform: 'translateX(0)' }}
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
@@ -165,7 +166,7 @@ export default function LoginPage() {
                           <>Войти</>
                         )}
                       </Button>
-                      <div className="flex col-span-2 item-center justify-center gap-3">
+                      <div className="flex flex-col md:flex-row col-span-2 item-center justify-center gap-3">
                         <Button
                           variant="primary"
                           type="button"
@@ -180,7 +181,7 @@ export default function LoginPage() {
                             <>Войти как гость</>
                           )}
                         </Button>
-                        <GoogleAuthButton />
+                        <GoogleAuthButton btnText="Войти через Google" />
                       </div>
                       <Link className="text-blue-600" to="/register">
                         Нет аккаунта?

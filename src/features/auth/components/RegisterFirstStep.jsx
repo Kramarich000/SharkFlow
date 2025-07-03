@@ -209,7 +209,7 @@ export function RegisterFirstStep() {
                   )}
                 </Button>
                 <div className="col-span-2 w-full">
-                  <GoogleAuthButton />
+                  <GoogleAuthButton btnText="Войти через Google" />
                 </div>
                 <Link className="col-span-2 !w-fit mx-auto" to="/login">
                   Уже есть аккаунт?

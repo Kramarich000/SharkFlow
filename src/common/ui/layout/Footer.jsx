@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { navLinks, legalLinks } from '@features/home/data';
 import { useAuthStore } from '@features/auth';
+import { ToggleTheme } from '@features/user/components/ToggleTheme';
 
 export function Footer() {
   const token = useAuthStore((state) => state.accessToken);
@@ -89,6 +90,7 @@ export function Footer() {
             ),
           )}
         </div>
+        <ToggleTheme />
         <p className="text-center">© 2025 SharkFlow. Все права защищены.</p>
       </div>
     </footer>

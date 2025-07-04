@@ -7,7 +7,6 @@ export async function logoutUser() {
   return await apiResponsesHandler(() => api.post('/api/auth/logout'), {
     onSuccess: () => {
       useAuthStore.getState().clearAccessToken();
-      useAuthStore.getState().clearUserRole();
       useUserStore.getState().clearUser();
     },
   });

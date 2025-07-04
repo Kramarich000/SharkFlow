@@ -3,7 +3,7 @@ import {
   DeleteUserModal,
   UpdateUserModal,
   AvatarCropModal,
-  DeleteAvatarModal
+  DeleteAvatarModal,
 } from '@features/user';
 import {
   CreateBoardModal,
@@ -16,8 +16,13 @@ import {
   DeleteTaskModal,
 } from '@features/tasks';
 
-import { SetupTotpModal } from '@features/auth';
-import { DisableTotpModal } from '@features/auth/modals/DisableTotpModal';
+import {
+  ConnectGoogleModal,
+  SetupTotpModal,
+  DisableTotpModal,
+  DisableGoogleModal,
+} from '@features/auth';
+
 import { useModalsStore } from '@store/modalsStore';
 import { useShallow } from 'zustand/shallow';
 import { useDelayedUnmount } from './useDelayedUnmount';
@@ -36,6 +41,8 @@ const modalList = [
   { flag: 'isDisableTotpModalOpen', Component: DisableTotpModal },
   { flag: 'isAvatarCropModalOpen', Component: AvatarCropModal },
   { flag: 'isDeleteAvatarModalOpen', Component: DeleteAvatarModal },
+  { flag: 'isConnectGoogleModalOpen', Component: ConnectGoogleModal },
+  { flag: 'isDisableGoogleModalOpen', Component: DisableGoogleModal },
 ];
 
 export function ModalManager() {
@@ -44,40 +51,121 @@ export function ModalManager() {
       modalList.reduce((acc, { flag }) => {
         acc[flag] = state[flag];
         return acc;
-      }, {})
-    )
+      }, {}),
+    ),
   );
 
-  // Для каждого модального окна вызываем useDelayedUnmount отдельно
-  const shouldRenderLogout = useDelayedUnmount(modalFlags.isLogoutUserModalOpen, 300);
-  const shouldRenderDeleteUser = useDelayedUnmount(modalFlags.isDeleteUserModalOpen, 300);
-  const shouldRenderUpdateUser = useDelayedUnmount(modalFlags.isUpdateUserModalOpen, 300);
-  const shouldRenderCreateBoard = useDelayedUnmount(modalFlags.isCreateBoardModalOpen, 300);
-  const shouldRenderDeleteBoard = useDelayedUnmount(modalFlags.isDeleteBoardModalOpen, 300);
-  const shouldRenderDetailsBoard = useDelayedUnmount(modalFlags.isDetailsBoardModalOpen, 300);
-  const shouldRenderCreateTask = useDelayedUnmount(modalFlags.isCreateTaskModalOpen, 300);
-  const shouldRenderDetailsTask = useDelayedUnmount(modalFlags.isDetailsTaskModalOpen, 300);
-  const shouldRenderDeleteTask = useDelayedUnmount(modalFlags.isDeleteTaskModalOpen, 300);
-  const shouldRenderSetupTotp = useDelayedUnmount(modalFlags.isSetupTotpModalOpen, 300);
-  const shouldRenderDisableTotp = useDelayedUnmount(modalFlags.isDisableTotpModalOpen, 300);
-  const shouldRenderAvatarCrop = useDelayedUnmount(modalFlags.isAvatarCropModalOpen, 300);
-  const shouldRenderDeleteAvatar = useDelayedUnmount(modalFlags.isDeleteAvatarModalOpen, 300);
+  const shouldRenderLogout = useDelayedUnmount(
+    modalFlags.isLogoutUserModalOpen,
+    300,
+  );
+  const shouldRenderDeleteUser = useDelayedUnmount(
+    modalFlags.isDeleteUserModalOpen,
+    300,
+  );
+  const shouldRenderUpdateUser = useDelayedUnmount(
+    modalFlags.isUpdateUserModalOpen,
+    300,
+  );
+  const shouldRenderCreateBoard = useDelayedUnmount(
+    modalFlags.isCreateBoardModalOpen,
+    300,
+  );
+  const shouldRenderDeleteBoard = useDelayedUnmount(
+    modalFlags.isDeleteBoardModalOpen,
+    300,
+  );
+  const shouldRenderDetailsBoard = useDelayedUnmount(
+    modalFlags.isDetailsBoardModalOpen,
+    300,
+  );
+  const shouldRenderCreateTask = useDelayedUnmount(
+    modalFlags.isCreateTaskModalOpen,
+    300,
+  );
+  const shouldRenderDetailsTask = useDelayedUnmount(
+    modalFlags.isDetailsTaskModalOpen,
+    300,
+  );
+  const shouldRenderDeleteTask = useDelayedUnmount(
+    modalFlags.isDeleteTaskModalOpen,
+    300,
+  );
+  const shouldRenderSetupTotp = useDelayedUnmount(
+    modalFlags.isSetupTotpModalOpen,
+    300,
+  );
+  const shouldRenderDisableTotp = useDelayedUnmount(
+    modalFlags.isDisableTotpModalOpen,
+    300,
+  );
+  const shouldRenderAvatarCrop = useDelayedUnmount(
+    modalFlags.isAvatarCropModalOpen,
+    300,
+  );
+  const shouldRenderDeleteAvatar = useDelayedUnmount(
+    modalFlags.isDeleteAvatarModalOpen,
+    300,
+  );
+
+  const shouldRenderConnectGoogle = useDelayedUnmount(
+    modalFlags.isConnectGoogleModalOpen,
+    300,
+  );
+
+  const shouldRenderDisableGoogle = useDelayedUnmount(
+    modalFlags.isDisableGoogleModalOpen,
+    300,
+  );
 
   return (
     <>
-      {shouldRenderLogout && <LogoutUserModal open={modalFlags.isLogoutUserModalOpen} />}
-      {shouldRenderDeleteUser && <DeleteUserModal open={modalFlags.isDeleteUserModalOpen} />}
-      {shouldRenderUpdateUser && <UpdateUserModal open={modalFlags.isUpdateUserModalOpen} />}
-      {shouldRenderCreateBoard && <CreateBoardModal open={modalFlags.isCreateBoardModalOpen} />}
-      {shouldRenderDeleteBoard && <DeleteBoardModal open={modalFlags.isDeleteBoardModalOpen} />}
-      {shouldRenderDetailsBoard && <BoardDetailsModal open={modalFlags.isDetailsBoardModalOpen} />}
-      {shouldRenderCreateTask && <CreateTaskModal open={modalFlags.isCreateTaskModalOpen} />}
-      {shouldRenderDetailsTask && <TaskDetailsModal open={modalFlags.isDetailsTaskModalOpen} />}
-      {shouldRenderDeleteTask && <DeleteTaskModal open={modalFlags.isDeleteTaskModalOpen} />}
-      {shouldRenderSetupTotp && <SetupTotpModal open={modalFlags.isSetupTotpModalOpen} />}
-      {shouldRenderDisableTotp && <DisableTotpModal open={modalFlags.isDisableTotpModalOpen} />}
-      {shouldRenderAvatarCrop && <AvatarCropModal open={modalFlags.isAvatarCropModalOpen} />}
-      {shouldRenderDeleteAvatar && <DeleteAvatarModal open={modalFlags.isDeleteAvatarModalOpen} />}
+      {shouldRenderLogout && (
+        <LogoutUserModal open={modalFlags.isLogoutUserModalOpen} />
+      )}
+      {shouldRenderDeleteUser && (
+        <DeleteUserModal open={modalFlags.isDeleteUserModalOpen} />
+      )}
+      {shouldRenderUpdateUser && (
+        <UpdateUserModal open={modalFlags.isUpdateUserModalOpen} />
+      )}
+      {shouldRenderCreateBoard && (
+        <CreateBoardModal open={modalFlags.isCreateBoardModalOpen} />
+      )}
+      {shouldRenderDeleteBoard && (
+        <DeleteBoardModal open={modalFlags.isDeleteBoardModalOpen} />
+      )}
+      {shouldRenderDetailsBoard && (
+        <BoardDetailsModal open={modalFlags.isDetailsBoardModalOpen} />
+      )}
+      {shouldRenderCreateTask && (
+        <CreateTaskModal open={modalFlags.isCreateTaskModalOpen} />
+      )}
+      {shouldRenderDetailsTask && (
+        <TaskDetailsModal open={modalFlags.isDetailsTaskModalOpen} />
+      )}
+      {shouldRenderDeleteTask && (
+        <DeleteTaskModal open={modalFlags.isDeleteTaskModalOpen} />
+      )}
+      {shouldRenderSetupTotp && (
+        <SetupTotpModal open={modalFlags.isSetupTotpModalOpen} />
+      )}
+      {shouldRenderDisableTotp && (
+        <DisableTotpModal open={modalFlags.isDisableTotpModalOpen} />
+      )}
+      {shouldRenderAvatarCrop && (
+        <AvatarCropModal open={modalFlags.isAvatarCropModalOpen} />
+      )}
+      {shouldRenderDeleteAvatar && (
+        <DeleteAvatarModal open={modalFlags.isDeleteAvatarModalOpen} />
+      )}
+      {shouldRenderConnectGoogle && (
+        <ConnectGoogleModal open={modalFlags.isConnectGoogleModalOpen} />
+      )}
+
+      {shouldRenderDisableGoogle && (
+        <DisableGoogleModal open={modalFlags.isDisableGoogleModalOpen} />
+      )}
     </>
   );
 }

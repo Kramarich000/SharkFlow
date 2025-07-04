@@ -22,11 +22,10 @@ import {
 } from '@features/user';
 
 import { IoCheckmarkCircle, IoClose } from 'react-icons/io5';
-import { generateSecret } from '@features/auth/api/createSecret';
+import { generateSecret } from '@features/auth/api/totp/setup/createSecret';
 import { Button } from '@common/ui/utilities/Button';
-import { verifySecret } from '@features/auth/api/verifySecret';
-import { sendConfirmationCode } from '@features/auth/api/confirmCode';
-import { sendEmail } from '@features/auth/api/sendEmail';
+import { verifySecret } from '@features/auth/api/totp/setup/verifySecret';
+import { sendEmail } from '@features/auth/api/totp/setup/sendEmail';
 import { useAuthStore } from '@features/auth/store';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { QrCode } from '@utils/totp/QrCode';
@@ -47,9 +46,7 @@ export function SetupTotpModal() {
     })),
   );
 
-  const setTwoFactorEnabled = useAuthStore(
-    (state) => state.setTwoFactorEnabled,
-  );
+  const updateUser = useUserStore((state) => state.updateUser);
 
   const handleClose = () => {
     setIsSetupTotpModalOpen(false);
@@ -69,33 +66,17 @@ export function SetupTotpModal() {
     }
   };
 
-  const handleSendConfirmationCode = async () => {
-    setLoad(true);
-    try {
-      await confirmCodeSchema.validate({ confirmationCode });
-
-      const success = await sendConfirmationCode(confirmationCode);
-      if (success) {
-        setStep(3);
-        setLoad(false);
-        await handleGenerateSecret();
-      }
-    } catch (error) {
-      showToast(error.message || 'Ошибка валидации', 'error');
-    } finally {
-      setLoad(false);
-    }
-  };
-
   const handleGenerateSecret = async () => {
     setLoad(true);
     try {
-      const res = await generateSecret();
+      const res = await generateSecret(confirmationCode);
       if (res) {
+        setStep(3);
         setQrCode(res.otpauthUrl);
         setSecret(res.secret);
       }
     } catch (error) {
+      console.error(error);
     } finally {
       setLoad(false);
     }
@@ -114,12 +95,13 @@ export function SetupTotpModal() {
       const success = await verifySecret(totpCode);
       if (success) {
         setStep(4);
-        setTwoFactorEnabled(true);
+        updateUser({ twoFactorEnabled: true });
         setTimeout(() => {
           setIsSetupTotpModalOpen(false);
         }, 4000);
       }
     } catch (error) {
+      console.error(error);
     } finally {
       setLoad(false);
     }
@@ -249,7 +231,7 @@ export function SetupTotpModal() {
                     </div>
                     <Button
                       variant="primary"
-                      onClick={handleSendConfirmationCode}
+                      onClick={handleGenerateSecret}
                       disabled={load}
                     >
                       {load ? (

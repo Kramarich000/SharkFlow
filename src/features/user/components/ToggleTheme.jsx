@@ -1,60 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useThemeStore } from '@store/themeStore';
 import { FaMoon, FaSun, FaRegClock } from 'react-icons/fa';
-
-import { DAY_NIGHT_RANGES } from '@utils/theme/toggleTheme';
-
-import {
-  MODES,
-  isNight,
-  getDarkByMode,
-  getThemeMode,
-  applyTheme,
-} from '@utils/theme/toggleTheme';
+import { MODES } from '@utils/theme/toggleTheme';
 import { Button } from '@common/ui/utilities/Button';
 
 export function ToggleTheme({ className = '' }) {
-  const [mode, setMode] = useState(() => getThemeMode());
-  const [dark, setDark] = useState(() => getDarkByMode(mode));
-
-  useEffect(() => {
-    localStorage.setItem('themeMode', mode);
-    applyTheme(mode);
-    setDark(getDarkByMode(mode));
-
-    if (mode === 'auto') {
-      const now = new Date();
-      const hour = now.getHours();
-      const month = now.getMonth();
-      const { dayStart, dayEnd } = DAY_NIGHT_RANGES[month];
-
-      const next = new Date(now);
-
-      if (hour < dayStart) {
-        next.setHours(dayStart, 0, 0, 0);
-      } else if (hour < dayEnd) {
-        next.setHours(dayEnd, 0, 0, 0);
-      } else {
-        next.setDate(next.getDate() + 1);
-        next.setHours(0, 0, 0, 0);
-        const nextMonth = next.getMonth();
-        const { dayStart: nextStart } = DAY_NIGHT_RANGES[nextMonth];
-        next.setHours(nextStart, 0, 0, 0);
-      }
-      const ms = next.getTime() - now.getTime();
-      const timer = setTimeout(() => {
-        const nextDark = isNight();
-        setDark(nextDark);
-        applyTheme(nextDark ? 'dark' : 'light');
-      }, ms);
-
-      return () => clearTimeout(timer);
-    }
-  }, [mode]);
-
-  const handleClick = () => {
-    const next = MODES[(MODES.indexOf(mode) + 1) % MODES.length];
-    setMode(next);
-  };
+  const mode = useThemeStore((state) => state.mode);
+  const toggleMode = useThemeStore((state) => state.toggleMode);
 
   const idx = MODES.indexOf(mode);
   const translateClass =
@@ -64,11 +15,11 @@ export function ToggleTheme({ className = '' }) {
   let iconColorClass = '';
   if (mode === 'light') iconColorClass = 'text-yellow-500';
   else if (mode === 'dark') iconColorClass = 'text-slate-100';
-  else iconColorClass = 'text-blue-400';
+  else iconColorClass = 'text-blue-500';
 
   return (
     <Button
-      onClick={handleClick}
+      onClick={toggleMode}
       className={`flex items-center space-x-2 p-2 rounded-full bg-[var(--main-surface)] shadow hover:shadow-md transition ${className}`}
       title={
         mode === 'auto'

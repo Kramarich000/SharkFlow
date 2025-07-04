@@ -1,10 +1,9 @@
 import api from '@lib/http';
-import { useAuthStore } from '@features/auth';
 import { apiResponsesHandler } from '@utils/responsesHandler';
 
-export async function googleAuth(idToken) {
+export async function sendDisableGoogleEmail() {
   return await apiResponsesHandler(
-    () => api.post('/api/auth/google', { idToken }),
+    () => api.post('/api/auth/google/confirm-disable', {}, {}),
     {},
   );
 }

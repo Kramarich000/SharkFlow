@@ -48,28 +48,34 @@ const buttonVariants = cva(
   },
 );
 
-function Button({
-  className,
-  variant,
-  size,
-  loading = false,
-  asChild = false,
-  disabled,
-  ...props
-}) {
+const Button = React.forwardRef(function Button(
+  {
+    className,
+    variant,
+    size,
+    loading = false,
+    asChild = false,
+    disabled,
+    ...props
+  },
+  ref
+) {
   const Comp = asChild ? Slot : 'button';
   const isDisabled = loading || disabled;
 
   return (
     <Comp
+      ref={ref}
       data-slot="button"
       className={cn(buttonVariants({ variant, size, loading, className }))}
-      disabled={loading || props.disabled || isDisabled}
+      disabled={isDisabled}
       aria-disabled={isDisabled ? true : undefined}
       aria-busy={loading ? true : undefined}
       {...props}
     />
   );
-}
+});
+
+Button.displayName = 'Button';
 
 export { Button, buttonVariants };

@@ -1,82 +1,86 @@
-import { googleAuth } from '@features/auth/api/googleAuth';
-import { GoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
+import { googleAuth } from '@features/auth/api/google/connect/googleAuth';
 import { useUserStore } from '@features/user';
 import { useAuthStore } from '@features/auth/store';
 import { showToast } from '@utils/toast';
-
-import { useRef } from 'react';
-import { Button } from '@common/ui/utilities/Button';
-
 import { FcGoogle } from 'react-icons/fc';
+import { Button } from '@common/ui/utilities/Button';
+import { useState } from 'react';
+import { AiOutlineSync } from 'react-icons/ai';
+import { useModalsStore } from '@store/modalsStore';
+import { googleConnect } from '@features/auth/api/google/connect/googleConnect';
 
 export function GoogleAuthButton({
-  type = 'button',
   btnText = '',
+  isAuth = true,
   isNavigated = true,
+  googleLoad,
+  setGoogleLoad,
+  disabled,
 }) {
   const navigate = useNavigate();
   const { setUser } = useUserStore.getState();
   const { setAccessToken } = useAuthStore.getState();
 
-  const googleRef = useRef(null);
+  const setIsConnectGoogleModalOpen = useModalsStore(
+    (state) => state.setIsConnectGoogleModalOpen,
+  );
 
-  const handleSuccess = async (credentialResponse) => {
-    const idToken = credentialResponse.credential;
-    try {
-      const result = await googleAuth(idToken);
-      if (result.accessToken) {
-        setAccessToken(result.accessToken);
-        // setUser({
-        //   login: result.login,
-        //   role: result.role,
-        //   avatarUrl: result.avatarUrl,
-        //   email: result.email,
-        // });
-        if (isNavigated) {
-          navigate('/dashboard');
+  const login = useGoogleLogin({
+    flow: 'auth-code',
+    scope: 'openid profile email',
+    redirect_uri: 'postmessage',
+    onError: () => showToast('Ошибка входа через Google'),
+    onSuccess: async (codeResponse) => {
+      setGoogleLoad(true);
+      try {
+        const { code } = codeResponse;
+        if (!code) {
+          showToast('Не удалось получить код от Google');
+          return;
         }
+
+        const response = isAuth
+          ? await googleAuth(code)
+          : await googleConnect(code);
+
+        const result = response?.data ?? response;
+
+        if (result.accessToken) {
+          setAccessToken(result.accessToken);
+          // setUser({ login: result.login, email: result.email, avatarUrl: result.avatarUrl });
+          if (isNavigated) navigate('/dashboard');
+        } else if (result.requireEmailConfirmed) {
+          console.log("ifasfaafa")
+          setIsConnectGoogleModalOpen(true);
+        } else {
+          showToast('Сервер не вернул токен');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Ошибка при обработке Google-кода');
+      } finally {
+        setGoogleLoad(false);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleError = () => {
-    showToast('Ошибка входа через Google');
-  };
-
-  const handleClick = () => {
-    const btn = googleRef.current?.querySelector < HTMLButtonElement > 'button';
-    if (btn) {
-      btn.click();
-    } else {
-      showToast('Подождите, загружается сервис Google...', 'info');
-    }
-  };
+    },
+  });
 
   return (
-    <div className="relative h-full w-full">
-      <Button className="!bg-white !text-black" type={type} variant="primary">
-        <FcGoogle size={23} />
-        {btnText}
-      </Button>
-
-      <div className="absolute top-0 left-0 w-full h-full opacity-0 z-10">
-        <GoogleLogin
-          onSuccess={handleSuccess}
-          onError={handleError}
-          containerProps={{
-            className: `
-              w-[75.47%]        
-              h-[75.47%]
-              origin-top-left
-              transform
-              scale-[1.325]
-            `,
-          }}
-        />
-      </div>
-    </div>
+    <Button
+      onClick={() => login()}
+      variant="primary"
+      type="button"
+      disabled={disabled}
+    >
+      {googleLoad ? (
+        <AiOutlineSync size={23} className="animate-spin" />
+      ) : (
+        <>
+          <FcGoogle size={20} className="!bg-white !rounded-full" />
+          {btnText || 'Войти через Google'}
+        </>
+      )}
+    </Button>
   );
 }

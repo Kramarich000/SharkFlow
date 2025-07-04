@@ -106,7 +106,7 @@ export function Header() {
             title="Выйти из аккаунта"
             variant="tertiary"
             onClick={() => setIsLogoutUserModalOpen(true)}
-            className={`!w-fit !p-3 !bg-transparent !text-[24px] !font-normal !transition-colors !text-[var(--main-button-text)] hover:!text-[var(--main-text-hover)]  ${!token ? 'hidden pointer-events-none select-none' : null}`}
+            className={`!w-fit !p-3 !bg-transparent hover:!bg-transparent !text-[24px] !font-normal !transition-colors !text-[var(--main-button-text)] hover:!text-[var(--main-text-hover)]  ${!token ? 'hidden pointer-events-none select-none' : null}`}
           >
             Выход
           </Button>
@@ -174,7 +174,7 @@ export function Header() {
                 onClick={() => setIsLogoutUserModalOpen(true)}
                 title="Выйти из аккаунта"
                 variant="tertiary"
-                className={`block sm:hidden !bg-transparent hover:!text-[var(--main-text-hover))] !w-fit !p-3 !text-[20px] !transition-colors ${!token ? 'hidden pointer-events-none select-none' : null}`}
+                className={`!w-fit !p-3 !bg-transparent !text-[24px] !font-normal !transition-colors !text-[var(--main-button-text)] hover:!text-[var(--main-text-hover)]  ${!token ? 'hidden pointer-events-none select-none' : null}`}
               >
                 Выход
               </Button>

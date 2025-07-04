@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LuEye, LuEyeClosed } from 'react-icons/lu';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,8 +11,8 @@ import { guestLogin } from '@features/auth';
 import { getUser } from '@features/user';
 import { FormikCheckbox, AnimatedError } from '@common/ui';
 import { Button } from '@common/ui/utilities/Button';
-import { googleAuth } from '@features/auth/api/googleAuth';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
+import { checkTwoFactor } from '@features/auth/api/totp/verification/verificationTotp';
 
 export default function LoginPage() {
   const formikRef = useRef(null);
@@ -21,6 +21,11 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [load, setLoad] = useState(false);
   const [guestLoad, setGuestLoad] = useState(false);
+  const [googleLoad, setGoogleLoad] = useState(false);
+  const [totpLoad, setTotpLoad] = useState(false);
+  const [step, setStep] = useState('login');
+  const [totpCode, setTotpCode] = useState('');
+  const [sessionKey, setSessionKey] = useState(null);
 
   const createGuest = async () => {
     try {
@@ -28,8 +33,47 @@ export default function LoginPage() {
       await guestLogin();
       setGuestLoad(false);
     } catch (error) {
+      console.log(error);
     } finally {
       setGuestLoad(false);
+    }
+  };
+
+  const handleLoginUser = async (values) => {
+    setLoad(true);
+    try {
+      const success = await login(values);
+      if (success.accessToken) {
+        setLoading(true);
+        navigate('/dashboard');
+        await getUser();
+      } else {
+        setSessionKey(success.sessionKey);
+        setStep('twoFactor');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+      setLoad(false);
+    }
+  };
+
+  const handleLoginUserAfter2FA = async (values) => {
+    setTotpLoad(true);
+    try {
+      const success = await checkTwoFactor(totpCode, sessionKey);
+      if (success) {
+        setLoading(true);
+        navigate('/dashboard');
+        await getUser();
+      } else {
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+      setTotpLoad(false);
     }
   };
 
@@ -60,140 +104,179 @@ export default function LoginPage() {
             animate={{ opacity: 1, transform: 'translateX(0)' }}
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
           >
-            <Formik
-              innerRef={formikRef}
-              validationSchema={loginSchema}
-              initialValues={{
-                email: '',
-                password: '',
-                rememberMe: false,
-              }}
-              onSubmit={async (values) => {
-                setLoad(true);
-                try {
-                  const successfullyLogged = await login(values);
-                  if (successfullyLogged) {
-                    await getUser();
-                    navigate('/dashboard');
-                    setLoading(true);
-                  }
-                } finally {
-                  setLoading(false);
-                  setLoad(false);
-                }
-              }}
-            >
-              {({ handleChange, handleBlur }) => {
-                return (
-                  <>
-                    <Form className="flex flex-col sm:grid grid-cols-2 gap-6 p-8 rounded-2xl border-2 border-[var(--main-primary)] shadow-glow">
-                      <h2 className="sm:col-span-2 text-3xl">Вход</h2>
+            {step === 'login' && (
+              <Formik
+                innerRef={formikRef}
+                validationSchema={loginSchema}
+                initialValues={{
+                  email: '',
+                  password: '',
+                  rememberMe: false,
+                }}
+                onSubmit={handleLoginUser}
+              >
+                {({ handleChange, handleBlur }) => {
+                  return (
+                    <>
+                      <Form className="flex flex-col sm:grid grid-cols-2 gap-6 p-8 rounded-2xl border-2 border-[var(--main-primary)] shadow-glow">
+                        <h2 className="sm:col-span-2 text-3xl">Вход</h2>
 
-                      <div className="relative">
-                        <Field
-                          type="email"
-                          name="email"
-                          autoComplete="email"
-                          placeholder=" "
-                          required
-                          className="peer input-styles input-primary"
-                        />
-                        <label htmlFor="email" className="label-styles">
-                          Введите почту
-                        </label>
+                        <div className="relative">
+                          <Field
+                            type="email"
+                            name="email"
+                            autoComplete="email"
+                            placeholder=" "
+                            required
+                            autoFocus
+                            className="peer input-styles input-primary"
+                          />
+                          <label htmlFor="email" className="label-styles">
+                            Введите почту
+                          </label>
 
-                        <ErrorMessage name="email">
-                          {(msg) => (
-                            <AnimatedError msg={msg} variant="register" />
-                          )}
-                        </ErrorMessage>
-                      </div>
-
-                      <div className="relative">
-                        <Field
-                          type={!passwordVisible ? 'password' : 'text'}
-                          name="password"
-                          autoComplete="password"
-                          placeholder=" "
-                          autoFocus
-                          required
-                          onChange={(e) => {
-                            handleChange(e);
-                          }}
-                          onBlur={handleBlur}
-                          className="peer input-styles input-primary !pr-8"
-                        />
-                        <label htmlFor="password" className="label-styles">
-                          Введите пароль
-                        </label>
-                        <div
-                          className="absolute right-1 bottom-2.5 !p-2 cursor-pointer"
-                          onClick={() => {
-                            setPasswordVisible(!passwordVisible);
-                          }}
-                        >
-                          {!passwordVisible ? (
-                            <LuEyeClosed size={20} />
-                          ) : (
-                            <LuEye size={20} />
-                          )}
+                          <ErrorMessage name="email">
+                            {(msg) => (
+                              <AnimatedError msg={msg} variant="register" />
+                            )}
+                          </ErrorMessage>
                         </div>
-                        <ErrorMessage name="password">
-                          {(msg) => (
-                            <AnimatedError msg={msg} variant="register" />
-                          )}
-                        </ErrorMessage>
-                      </div>
 
-                      <div className="col-span-2 text-sm">
-                        <FormikCheckbox
-                          name="rememberMe"
-                          id="rememberMe"
-                          label="Запомнить меня"
-                          className="relative"
-                        />
-                      </div>
+                        <div className="relative">
+                          <Field
+                            type={!passwordVisible ? 'password' : 'text'}
+                            name="password"
+                            autoComplete="password"
+                            placeholder=" "
+                            autoFocus
+                            required
+                            onChange={(e) => {
+                              handleChange(e);
+                            }}
+                            onBlur={handleBlur}
+                            className="peer input-styles input-primary !pr-8"
+                          />
+                          <label htmlFor="password" className="label-styles">
+                            Введите пароль
+                          </label>
+                          <div
+                            className="absolute right-1 bottom-2.5 !p-2 cursor-pointer"
+                            onClick={() => {
+                              setPasswordVisible(!passwordVisible);
+                            }}
+                          >
+                            {!passwordVisible ? (
+                              <LuEyeClosed size={20} />
+                            ) : (
+                              <LuEye size={20} />
+                            )}
+                          </div>
+                          <ErrorMessage name="password">
+                            {(msg) => (
+                              <AnimatedError msg={msg} variant="register" />
+                            )}
+                          </ErrorMessage>
+                        </div>
 
-                      <Button
-                        variant="primary"
-                        className="sm:col-span-2"
-                        type="submit"
-                        disabled={load || guestLoad}
-                      >
-                        {load ? (
-                          <AiOutlineSync size={23} className="animate-spin" />
-                        ) : (
-                          <>Войти</>
-                        )}
-                      </Button>
-                      <div className="flex flex-col md:flex-row col-span-2 item-center justify-center gap-3">
+                        <div className="col-span-2 text-sm">
+                          <FormikCheckbox
+                            name="rememberMe"
+                            id="rememberMe"
+                            label="Запомнить меня"
+                            className="relative"
+                          />
+                        </div>
+
                         <Button
                           variant="primary"
-                          type="button"
-                          onClick={() => {
-                            createGuest();
-                          }}
-                          disabled={guestLoad || load}
+                          className="sm:col-span-2"
+                          type="submit"
+                          disabled={guestLoad || load || googleLoad}
                         >
-                          {guestLoad || load ? (
+                          {load ? (
                             <AiOutlineSync size={23} className="animate-spin" />
                           ) : (
-                            <>Войти как гость</>
+                            <>Войти</>
                           )}
                         </Button>
-                        <GoogleAuthButton btnText="Войти через Google" />
-                      </div>
-                      <Link className="text-blue-600" to="/register">
-                        Нет аккаунта?
-                      </Link>
-                      <Link className="text-blue-600" to="/reset-password">
-                        Забыли пароль?
-                      </Link>
-                    </Form>
-                  </>
-                );
-              }}
-            </Formik>
+                        <div className="flex flex-col md:flex-row col-span-2 item-center justify-center gap-3">
+                          <Button
+                            variant="primary"
+                            type="button"
+                            onClick={() => {
+                              createGuest();
+                            }}
+                            disabled={
+                              guestLoad || load || googleLoad || totpLoad
+                            }
+                          >
+                            {guestLoad ? (
+                              <AiOutlineSync
+                                size={23}
+                                className="animate-spin"
+                              />
+                            ) : (
+                              <>Войти как гость</>
+                            )}
+                          </Button>
+                          <GoogleAuthButton
+                            btnText="Войти через Google"
+                            googleLoad={googleLoad}
+                            setGoogleLoad={setGoogleLoad}
+                            disabled={
+                              guestLoad || load || googleLoad || totpLoad
+                            }
+                          />
+                        </div>
+                        <Link className="text-blue-600" to="/register">
+                          Нет аккаунта?
+                        </Link>
+                        <Link className="text-blue-600" to="/reset-password">
+                          Забыли пароль?
+                        </Link>
+                      </Form>
+                    </>
+                  );
+                }}
+              </Formik>
+            )}
+          </motion.div>
+        )}
+        {step === 'twoFactor' && (
+          <motion.div
+            key="twoFactor"
+            initial={{ opacity: 0, transform: 'translateX(50px)' }}
+            animate={{ opacity: 1, transform: 'translateX(0)' }}
+            exit={{ opacity: 0, transform: 'translateX(-50px)' }}
+          >
+            <div className="flex flex-col gap-4 mt-6">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={totpCode}
+                  onChange={(e) => setTotpCode(e.target.value)}
+                  className="peer input-styles input-primary"
+                  autoFocus
+                  placeholder=" "
+                />
+
+                <label className="label-styles">
+                  Введите код из приложения
+                </label>
+              </div>
+
+              <Button
+                variant="primary"
+                onClick={handleLoginUserAfter2FA}
+                disabled={guestLoad || load || googleLoad || totpLoad}
+              >
+                {totpLoad ? (
+                  <AiOutlineSync size={23} className="animate-spin" />
+                ) : (
+                  <>Отправить</>
+                )}
+              </Button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

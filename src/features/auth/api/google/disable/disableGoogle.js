@@ -1,9 +1,9 @@
 import api from '@lib/http';
 import { apiResponsesHandler } from '@utils/responsesHandler';
 
-export async function verifySecret(totpCode) {
+export async function disableGoogle(confirmationCode) {
   return await apiResponsesHandler(
-    () => api.post('/api/auth/totp', { totpCode }),
+    () => api.post('/api/auth/google/disable', { confirmationCode }),
     {},
   );
 }

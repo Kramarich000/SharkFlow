@@ -7,11 +7,12 @@ import { useUserStore } from '@features/user';
 import { useAuthStore } from '@features/auth';
 import { ToggleTheme } from '@features/user/components/ToggleTheme';
 import { Button } from '@common/ui/utilities/Button';
-import { UserAvatarUploader } from '@features/user/components/UserAvatarUploader';
+import { UserProfileData } from '@features/user/components/UserProfileData';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 
 export default function Profile() {
   const [loading, setLoading] = useState(true);
+  const [googleLoad, setGoogleLoad] = useState(false);
 
   const setIsDeleteUserModalOpen = useModalsStore(
     (state) => state.setIsDeleteUserModalOpen,
@@ -19,6 +20,10 @@ export default function Profile() {
 
   const setIsUpdateUserModalOpen = useModalsStore(
     (state) => state.setIsUpdateUserModalOpen,
+  );
+
+  const setIsDisableGoogleModalOpen = useModalsStore(
+    (state) => state.setIsDisableGoogleModalOpen,
   );
 
   const { setIsSetupTotpModalOpen, setIsDisableTotpModalOpen } = useModalsStore(
@@ -29,8 +34,8 @@ export default function Profile() {
   );
 
   const user = useUserStore((state) => state.user);
-  const role = useAuthStore((state) => state.userRole);
-  const twoFactorEnabled = useAuthStore((state) => state.twoFactorEnabled);
+  const role = user?.role;
+  const twoFactorEnabled = user?.twoFactorEnabled;
 
   useEffect(() => {
     if (user) {
@@ -65,7 +70,7 @@ export default function Profile() {
         </div>
       ) : (
         <div className="flex gap-8 items-center justify-center flex-col p-4 rounded-3xl h-full">
-          <UserAvatarUploader />
+          <UserProfileData />
           <div className="flex flex-col gap-4">
             <Button
               variant="primary"
@@ -73,10 +78,25 @@ export default function Profile() {
             >
               Изменить данные
             </Button>
-            <GoogleAuthButton
-              btnText="Подключить авторизацию через Google"
-              isNavigated={false}
-            />
+            {user?.googleOAuthEnabled ? (
+              <Button
+                variant="primary"
+                className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+                onClick={() => setIsDisableGoogleModalOpen(true)}
+              >
+                Отключить авторизацию через Google
+              </Button>
+            ) : (
+              <GoogleAuthButton
+                btnText="Подключить авторизацию через Google"
+                isNavigated={false}
+                isAuth={false}
+                googleLoad={googleLoad}
+                setGoogleLoad={setGoogleLoad}
+                disabled={googleLoad}
+              />
+            )}
+
             {!twoFactorEnabled ? (
               <Button
                 variant="primary"

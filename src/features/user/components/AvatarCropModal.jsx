@@ -212,7 +212,7 @@ export function AvatarCropModal() {
                     <img
                       src={previewUrl}
                       alt="Превью обрезки"
-                      className="w-32 h-32 object-cover rounded-lg mx-auto"
+                      className="w-48 h-48 sm:w-60 sm:h-60 object-cover border-2 !border-[var(--main-primary)] rounded-full mx-auto"
                     />
                     <div className="flex gap-2 w-full">
                       <Button

@@ -1,12 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
 import { AiOutlineSync } from 'react-icons/ai';
-import { FaCamera, FaRegEdit, FaTrash, FaEllipsisH } from 'react-icons/fa';
+import {
+  FaCamera,
+  FaRegEdit,
+  FaTrash,
+  FaEllipsisH,
+  FaCheckCircle,
+} from 'react-icons/fa';
 import { Button } from '@common/ui/utilities/Button';
 import { useUserStore } from '@features/user';
 import { useModalsStore } from '@store/modalsStore';
 import { AnimatePresence, motion } from 'framer-motion';
+import { CgProfile } from 'react-icons/cg';
+import { FaEnvelope, FaGoogle } from 'react-icons/fa';
 
-export function UserAvatarUploader() {
+export function UserProfileData() {
   const user = useUserStore((state) => state.user);
   const setIsAvatarCropModalOpen = useModalsStore(
     (state) => state.setIsAvatarCropModalOpen,
@@ -111,12 +119,12 @@ export function UserAvatarUploader() {
                     onClick={handleButtonClick}
                     variant="tertiary"
                     className="flex items-center gap-2 text-[var(--main-primary)] hover:text-[var(--main-hover)]"
-                    title={user.avatarUrl ? 'Изменить фото' : 'Загрузить фото'}
+                    title={user?.avatarUrl ? 'Изменить фото' : 'Загрузить фото'}
                   >
-                    {user.avatarUrl ? <FaRegEdit /> : <FaCamera />}
-                    {user.avatarUrl ? 'Изменить' : 'Загрузить'}
+                    {user?.avatarUrl ? <FaRegEdit /> : <FaCamera />}
+                    {user?.avatarUrl ? 'Изменить' : 'Загрузить'}
                   </Button>
-                  {user.avatarUrl && (
+                  {user?.avatarUrl && (
                     <Button
                       onClick={() => {
                         setIsDeleteAvatarModalOpen(true);
@@ -133,9 +141,40 @@ export function UserAvatarUploader() {
             </AnimatePresence>
           </div>
         </div>
-        <div className="text-center">
-          <p className="text-2xl font-semibold">{user?.login}</p>
-          <p className="text-lg">{user?.email}</p>
+        <div className="text-center flex flex-col items-start">
+          {user?.login && (
+            <p
+              className="text-lg flex items-center gap-2 justify-center"
+              title="Ваш логин"
+            >
+              <CgProfile />
+              {user?.login}
+            </p>
+          )}
+
+          {user?.email && (
+            <p
+              className="text-lg flex items-center gap-2 justify-center"
+              title="Ваша основная почта"
+            >
+              <FaEnvelope /> {user.email}
+            </p>
+          )}
+          {user?.googleOAuthEnabled &&
+            user?.googleEmail &&
+            user.googleEmail !== user.email && (
+              <p
+                className="text-lg flex items-center gap-2 justify-center"
+                title="Google почта"
+              >
+                <FaGoogle /> {user.googleEmail}
+              </p>
+            )}
+          {user?.googleOAuthEnabled && (
+            <p className="text-green-600 text-lg flex items-center gap-2 justify-center rounded-2xl ">
+              <FaCheckCircle /> Google-аккаунт привязан
+            </p>
+          )}
         </div>
       </div>
     </div>

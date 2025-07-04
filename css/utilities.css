@@ -1,31 +1,22 @@
 @import './colors.css';
 
 @layer utilities {
-  /* === Backgrounds === */
-
-  /* Основной акцентный фон (например, кнопки, выделенные блоки) */
   .bg-primary {
     background-color: var(--main-primary);
   }
 
-  /* Фон основных поверхностей (карточки, панели) */
   .bg-surface {
     background-color: var(--main-surface);
   }
 
-  /* Фон при наведении/активном состоянии (hover-фон) */
   .bg-hover {
     background-color: var(--main-hover-bg);
   }
 
-  /* Градиентный фон для крупных секций */
   .bg-gradient-main {
     background: var(--main-bg-gradient);
   }
 
-  /* === Text colors === */
-
-  /* Цвет основного текста/акцента в тексте */
   .text-primary {
     color: var(--main-primary);
   }
@@ -34,54 +25,22 @@
     color: var(--main-primary);
   }
 
-  /* Приглушённый цвет для второстепенного текста (подписи, метки) */
   .text-muted {
     color: var(--main-text-muted);
   }
 
-  /* Очень тонкий цвет для подсказок, placeholder'ов */
   .text-subtle {
     color: var(--main-text-subtle);
   }
 
-  /* Цвет заголовков, чтобы они выделялись сильнее обычного текста */
   .text-heading {
     color: var(--main-heading);
   }
 
-  /* === Border colors === */
-
-  /* Лёгкая рамка для разделителей, не слишком заметная */
   .border-subtle {
     border-color: var(--main-border);
   }
 
-  /* === Button utilities === */
-
-  /* 
-    Основной стиль для primary-кнопок:
-    - Полная ширина 
-    - Отступы по вертикали/горизонтали
-    - Скруглённые углы
-    - Плавное изменение цвета
-  */
-  /* .btn-primary {
-    @apply !transition-colors w-full py-3 px-6 rounded-4xl mt-2 flex items-center justify-center;
-    background-color: var(--main-button-bg);
-    color: var(--main-text);
-    border: 2px solid #fff;
-  }
-
-  .btn-primary:hover {
-    background-color: var(--main-button-hover);
-    color: var(--main-button-text);
-  } */
-
-  /*
-    Стиль для secondary-кнопок:
-    - Без фона, только нижняя бордер-линия
-    - Текст приглушённого оттенка
-  */
   .btn-secondary {
     @apply transition-colors border-0 w-full font-normal p-2 rounded-none border-b;
     border-bottom-color: var(--main-border);
@@ -92,69 +51,15 @@
     background-color: var(--main-hover-bg);
   }
 
-  /*
-    Стиль для tertiary-кнопок:
-    - Минимальный акцент
-    - Скругления и disabled-состояние
-  */
-  /* .btn-tertiary {
-    @apply !transition-colors px-4 py-2 rounded disabled:opacity-50;
-    background: var(--main-button-bg);
-    color: var(--main-button-text) !important;
-  }
-
-  .btn-tertiary:hover {
-    background: var(--main-button-hover);
-  } */
-
-  /* === Shadow utilities === */
-
-  /* Сильное «светящееся» сглаженное свечение вокруг элемента */
   .shadow-glow {
     box-shadow: var(--main-shadow-glow);
   }
-
-  /* === Card === */
-
-  /*
-    Базовый стиль карточек:
-    - Фон и цвет текста
-    - Мягкая тень для приподнятости
-    - Скругления и внутренние отступы
-  */
 
   .card-base,
   .modal-base {
     box-shadow: var(--main-shadow-soft);
     background-color: var(--main-modal-bg);
   }
-
-  /* === Modal === */
-
-  /*
-    Общий контейнер для модалок:
-    - Фон и тень для «парящего» окна
-    - Скругленные углы
-  */
-
-  /* .btn-save {
-    background-color: var(--main-btn-save-bg);
-  }
-  .btn-save:hover {
-    background-color: var(--main-btn-save-hover-bg);
-  } */
-  /* .btn-cancel {
-    background-color: var(--main-btn-cancel-bg);
-  } */
-  /* .btn-cancel:hover {
-    background-color: var(--main-btn-cancel-hover-bg);
-  } */
-  /* .btn-delete {
-    background-color: var(--main-btn-delete-bg);
-  } */
-  /* .btn-delete:hover {
-    background-color: var(--main-btn-delete-hover-bg);
-  } */
 
   .btn-loading {
     background-color: var(--main-disabled-btn) !important;

@@ -17,6 +17,7 @@ export function RegisterFirstStep() {
   const { setStep, passwordVisible, togglePasswordVisible } =
     useRegisterStore();
   const [load, setLoad] = useState(false);
+  const [googleLoad, setGoogleLoad] = useState(false);
 
   return (
     <motion.div
@@ -69,7 +70,7 @@ export function RegisterFirstStep() {
                     placeholder=" "
                     required
                     className="peer input-styles input-primary"
-                    disabled={load}
+                    disabled={load || googleLoad}
                   />
                   <label
                     htmlFor="login"
@@ -91,7 +92,7 @@ export function RegisterFirstStep() {
                     placeholder=" "
                     required
                     className="peer input-styles input-primary"
-                    disabled={load}
+                    disabled={load || googleLoad}
                   />
                   <label
                     htmlFor="email"
@@ -118,7 +119,7 @@ export function RegisterFirstStep() {
                     }}
                     onBlur={handleBlur}
                     className="peer input-styles input-primary !pr-8"
-                    disabled={load}
+                    disabled={load || googleLoad}
                   />
                   <label
                     htmlFor="password"
@@ -149,7 +150,7 @@ export function RegisterFirstStep() {
                     autoComplete="new-password"
                     placeholder=" "
                     required
-                    disabled={load}
+                    disabled={load || googleLoad}
                     className="peer input-styles input-primary"
                   />
                   <label
@@ -200,7 +201,7 @@ export function RegisterFirstStep() {
                   className="col-span-2"
                   variant="primary"
                   type="submit"
-                  disabled={load}
+                  disabled={load || googleLoad}
                 >
                   {load ? (
                     <AiOutlineSync className="animate-spin" size={23} />
@@ -209,7 +210,12 @@ export function RegisterFirstStep() {
                   )}
                 </Button>
                 <div className="col-span-2 w-full">
-                  <GoogleAuthButton btnText="Войти через Google" />
+                  <GoogleAuthButton
+                    btnText="Войти через Google"
+                    googleLoad={googleLoad}
+                    setGoogleLoad={setGoogleLoad}
+                    disabled={load || googleLoad}
+                  />
                 </div>
                 <Link className="col-span-2 !w-fit mx-auto" to="/login">
                   Уже есть аккаунт?

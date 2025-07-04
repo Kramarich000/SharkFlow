@@ -39,7 +39,16 @@ export const useModalsStore = create((set) => ({
   setIsAvatarCropModalOpen: (value) => set({ isAvatarCropModalOpen: value }),
 
   isDeleteAvatarModalOpen: false,
-  setIsDeleteAvatarModalOpen: (value) => set({ isDeleteAvatarModalOpen: value }),
+  setIsDeleteAvatarModalOpen: (value) =>
+    set({ isDeleteAvatarModalOpen: value }),
+
+  isConnectGoogleModalOpen: false,
+  setIsConnectGoogleModalOpen: (value) =>
+    set({ isConnectGoogleModalOpen: value }),
+
+  isDisableGoogleModalOpen: false,
+  setIsDisableGoogleModalOpen: (value) =>
+    set({ isDisableGoogleModalOpen: value }),
 
   contextMenu: {
     visible: false,
@@ -71,6 +80,8 @@ export const useModalsStore = create((set) => ({
       isDisableTotpModalOpen: false,
       isAvatarCropModalOpen: false,
       isDeleteAvatarModalOpen: false,
+      isConnectGoogleModalOpen: false,
+      isDisableGoogleModalOpen: false,
       contextMenu: { visible: false, x: 0, y: 0, board: null },
     }),
 }));

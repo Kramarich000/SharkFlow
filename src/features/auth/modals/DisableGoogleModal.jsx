@@ -14,31 +14,31 @@ import { UpdateForm, UpdateConfirmation, useUserStore } from '@features/user';
 
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import { Button } from '@common/ui/utilities/Button';
-import { disableTotp } from '@features/auth/api/totp/disable/disableTotp';
-import { sendDisableTotpEmail } from '@features/auth/api/totp/disable/sendDisableTotpEmail';
 import { useAuthStore } from '@features/auth/store';
+import { sendDisableGoogleEmail, disableGoogle } from '@features/auth/api';
 
-export function DisableTotpModal() {
+export function DisableGoogleModal() {
   const [load, setLoad] = useState(false);
   const [step, setStep] = useState(1);
   const [confirmationCode, setConfirmationCode] = useState('');
   const updateUser = useUserStore((state) => state.updateUser);
 
-  const { isDisableTotpModalOpen, setIsDisableTotpModalOpen } = useModalsStore(
-    useShallow((state) => ({
-      isDisableTotpModalOpen: state.isDisableTotpModalOpen,
-      setIsDisableTotpModalOpen: state.setIsDisableTotpModalOpen,
-    })),
-  );
+  const { isDisableGoogleModalOpen, setIsDisableGoogleModalOpen } =
+    useModalsStore(
+      useShallow((state) => ({
+        isDisableGoogleModalOpen: state.isDisableGoogleModalOpen,
+        setIsDisableGoogleModalOpen: state.setIsDisableGoogleModalOpen,
+      })),
+    );
 
   const handleClose = () => {
-    setIsDisableTotpModalOpen(false);
+    setIsDisableGoogleModalOpen(false);
   };
 
   const handleSendEmail = async () => {
     setLoad(true);
     try {
-      const success = await sendDisableTotpEmail();
+      const success = await sendDisableGoogleEmail();
       if (success) {
         setStep(2);
         setLoad(false);
@@ -49,15 +49,15 @@ export function DisableTotpModal() {
     }
   };
 
-  const handleDisableTotp = async () => {
+  const handleDisableGoogle = async () => {
     setLoad(true);
     try {
-      const res = await disableTotp(confirmationCode);
+      const res = await disableGoogle(confirmationCode);
       if (res) {
         setStep(3);
-        updateUser({ twoFactorEnabled: false });
+        updateUser({ googleOAuthEnabled: false, googleEmail: null });
         setTimeout(() => {
-          setIsDisableTotpModalOpen(false);
+          setIsDisableGoogleModalOpen(false);
         }, 4000);
       }
     } catch (error) {
@@ -73,7 +73,7 @@ export function DisableTotpModal() {
         setStep(1);
       }}
       appear
-      show={isDisableTotpModalOpen}
+      show={isDisableGoogleModalOpen}
       as={Fragment}
     >
       <Dialog
@@ -107,7 +107,7 @@ export function DisableTotpModal() {
               <h2
                 className={`text-3xl text-center mb-8 ${step === 3 && '!hidden'}`}
               >
-                Отключение 2FA
+                Отключение Google
               </h2>
               <AnimatePresence mode="wait">
                 {step === 1 && (
@@ -123,7 +123,7 @@ export function DisableTotpModal() {
                       className="flex flex-col items-center gap-6 h-full justify-center"
                     >
                       <h2 className="text-center text-2xl sm:text-3xl mb-4">
-                        Вы уверены что хотите отключить 2FA?
+                        Вы уверены что хотите отключить Google авторизацию?
                       </h2>
                       <div className="flex flex-col md:flex-row items-center w-full justify-center gap-2">
                         <Button
@@ -178,7 +178,7 @@ export function DisableTotpModal() {
                     </div>
                     <Button
                       variant="primary"
-                      onClick={handleDisableTotp}
+                      onClick={handleDisableGoogle}
                       disabled={load}
                     >
                       {load ? (
@@ -205,7 +205,7 @@ export function DisableTotpModal() {
                         size={100}
                         className="text-[var(--main-primary)]"
                       />
-                      <p className="text-[20px]">Вы успешно отключили 2FA</p>
+                      <p className="text-[20px]">Вы успешно отключили Google</p>
                     </div>
                   </motion.div>
                 )}

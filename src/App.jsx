@@ -22,37 +22,43 @@ import { blockedPublicPaths } from '@config/blockedPublicPaths';
 import { FallbackComponent } from '@common/ui';
 import { getThemeMode, applyTheme } from '@utils/theme/toggleTheme';
 import { showToast } from '@utils/toast';
+import { useThemeStore } from '@store/themeStore';
 
 function App() {
   const { setUser } = useUserStore.getState();
   const { isAuthLoading } = useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
-  const setTwoFactorEnabled = useAuthStore(
-    (state) => state.setTwoFactorEnabled,
-  );
+
+  const mode = useThemeStore((state) => state.mode);
+  const initAutoMode = useThemeStore((state) => state.initAutoMode);
 
   // console.log(accessToken);
-  // const greeted = useRef(false);
 
   useEffect(() => {
     applyTheme(getThemeMode());
   }, []);
 
   useEffect(() => {
-    // if (!accessToken || greeted.current) return;
+    if (mode === 'auto') {
+      initAutoMode(); 
+    }
+  }, [mode, initAutoMode]);
+
+  useEffect(() => {
     if (!accessToken) return;
 
     const fetchData = async () => {
       try {
         const data = await getUser();
-        // greeted.current = true;
         setUser({
           login: data.login,
           email: data.email,
+          googleEmail: data.googleEmail,
           avatarUrl: data.avatarUrl,
           role: data.role,
+          twoFactorEnabled: data.twoFactorEnabled,
+          googleOAuthEnabled: data.googleOAuthEnabled,
         });
-        setTwoFactorEnabled(data.twoFactorEnabled);
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
       }

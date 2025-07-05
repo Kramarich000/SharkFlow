@@ -17,15 +17,19 @@ const processQueue = (error, token = null) => {
 
 export function setupAuthInterceptor() {
   api.interceptors.request.use((config) => {
-    const token = useAuthStore.getState().accessToken;
+    const { accessToken, csrfToken } = useAuthStore.getState();
 
     const isPublic = ['/login', '/register', '/refresh', '/public'].some(
       (path) => config.url?.includes(path),
     );
 
-    if (token && !isPublic) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (accessToken && !isPublic) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+      if (csrfToken) {
+        config.headers['X-CSRF-Token'] = csrfToken;
+      }
     }
+
     return config;
   });
 
@@ -45,6 +49,10 @@ export function setupAuthInterceptor() {
             failedQueue.push({ resolve, reject }),
           ).then((token) => {
             originalRequest.headers.Authorization = `Bearer ${token}`;
+            const { csrfToken } = useAuthStore.getState();
+            if (csrfToken) {
+              originalRequest.headers['X-CSRF-Token'] = csrfToken;
+            }
             return api(originalRequest);
           });
         }
@@ -53,21 +61,31 @@ export function setupAuthInterceptor() {
         try {
           const refreshResp = await refreshClient.post('/api/auth/refresh');
 
-          const newToken = refreshResp?.data?.accessToken;
+          const newAccessToken = refreshResp?.data?.accessToken;
+          const newCsrfToken = refreshResp?.data?.csrfToken;
 
-          if (refreshResp.status === 200 && newToken) {
-            useAuthStore.getState().setAccessToken(newToken);
-            api.defaults.headers.common.Authorization = `Bearer ${newToken}`;
-            originalRequest.headers.Authorization = `Bearer ${newToken}`;
-            processQueue(null, newToken);
+          if (refreshResp.status === 200 && newAccessToken) {
+            const authStore = useAuthStore.getState();
+            authStore.setAccessToken(newAccessToken);
+            if (newCsrfToken) {
+              authStore.setCsrfToken(newCsrfToken);
+            }
+            api.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            if (newCsrfToken) {
+              originalRequest.headers['X-CSRF-Token'] = newCsrfToken;
+            }
+            processQueue(null, newAccessToken);
             return api(originalRequest);
           } else {
             useAuthStore.getState().clearAccessToken();
+            useAuthStore.getState().clearCsrfToken();
             processQueue(error, null);
             return Promise.reject(error);
           }
         } catch (e) {
           useAuthStore.getState().clearAccessToken();
+          useAuthStore.getState().clearCsrfToken();
           processQueue(e, null);
           return Promise.reject(e);
         } finally {

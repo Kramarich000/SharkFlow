@@ -16,7 +16,6 @@ import { IoCheckmarkCircle } from 'react-icons/io5';
 import { Button } from '@common/ui/utilities/Button';
 import { disableTotp } from '@features/auth/api/totp/disable/disableTotp';
 import { sendDisableTotpEmail } from '@features/auth/api/totp/disable/sendDisableTotpEmail';
-import { useAuthStore } from '@features/auth/store';
 
 export function DisableTotpModal() {
   const [load, setLoad] = useState(false);

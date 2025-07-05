@@ -26,7 +26,6 @@ import { generateSecret } from '@features/auth/api/totp/setup/createSecret';
 import { Button } from '@common/ui/utilities/Button';
 import { verifySecret } from '@features/auth/api/totp/setup/verifySecret';
 import { sendEmail } from '@features/auth/api/totp/setup/sendEmail';
-import { useAuthStore } from '@features/auth/store';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { QrCode } from '@utils/totp/QrCode';
 

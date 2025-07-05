@@ -6,7 +6,10 @@ export async function deleteUser(confirmationCode) {
   return await apiResponsesHandler(
     () => api.post('/api/users/delete', { confirmationCode }),
     {
-      onSuccess: () => useAuthStore.getState().clearAccessToken(),
+      onSuccess: () => {
+        useAuthStore.getState().clearAccessToken();
+        useAuthStore.getState().clearCsrfToken();
+      },
     },
   );
 }

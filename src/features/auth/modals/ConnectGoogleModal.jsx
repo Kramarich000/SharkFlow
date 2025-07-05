@@ -23,7 +23,6 @@ import {
 
 import { IoCheckmarkCircle, IoClose } from 'react-icons/io5';
 import { Button } from '@common/ui/utilities/Button';
-import { useAuthStore } from '@features/auth/store';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { googleVerify } from '@features/auth/api/google/connect/googleVerify';
 

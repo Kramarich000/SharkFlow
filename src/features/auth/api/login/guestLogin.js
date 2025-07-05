@@ -10,6 +10,7 @@ export async function guestLogin() {
       onSuccess: (data) => {
         if (data.accessToken) {
           useAuthStore.getState().setAccessToken(data.accessToken);
+          useAuthStore.getState().setCsrfToken(data.csrfToken);
           useUserStore.getState().updateUser({ role: data.role });
         }
       },

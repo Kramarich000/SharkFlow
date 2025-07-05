@@ -14,7 +14,6 @@ import { UpdateForm, UpdateConfirmation, useUserStore } from '@features/user';
 
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import { Button } from '@common/ui/utilities/Button';
-import { useAuthStore } from '@features/auth/store';
 import { sendDisableGoogleEmail, disableGoogle } from '@features/auth/api';
 
 export function DisableGoogleModal() {

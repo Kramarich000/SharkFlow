@@ -4,7 +4,6 @@ import { AiOutlineSync } from 'react-icons/ai';
 import { TbAuth2Fa } from 'react-icons/tb';
 import { useShallow } from 'zustand/shallow';
 import { useUserStore } from '@features/user';
-import { useAuthStore } from '@features/auth';
 import { ToggleTheme } from '@features/user/components/ToggleTheme';
 import { Button } from '@common/ui/utilities/Button';
 import { UserProfileData } from '@features/user/components/UserProfileData';
@@ -108,7 +107,6 @@ export default function Profile() {
                 onClick={() => setIsSetupTotpModalOpen(true)}
               >
                 <TbAuth2Fa size={24} /> Подключить двуфакторную аутентификацию
-                (приложение TOTP)
               </Button>
             ) : (
               <Button

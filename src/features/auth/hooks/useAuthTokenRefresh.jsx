@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAuthStore } from '@features/auth';
 import { refreshToken } from '@features/auth';
 
 export function useAuthTokenRefresh() {

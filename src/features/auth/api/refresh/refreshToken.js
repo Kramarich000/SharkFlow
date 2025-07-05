@@ -6,7 +6,7 @@ import { useUserStore } from '@features/user';
 const SESSION_EXPIRED_KEY = 'sessionExpired';
 
 export async function refreshToken() {
-  const { setAccessToken, setGuestUuid } = useAuthStore.getState();
+  const { setAccessToken, setCsrfToken } = useAuthStore.getState();
   const { updateUser, setUser } = useUserStore.getState();
 
   const result = await apiResponsesHandler(
@@ -14,6 +14,7 @@ export async function refreshToken() {
     {
       onSuccess: (data) => {
         setAccessToken(data.accessToken);
+        setCsrfToken(data.csrfToken);
         updateUser({ role: data.role });
         sessionStorage.removeItem(SESSION_EXPIRED_KEY);
       },

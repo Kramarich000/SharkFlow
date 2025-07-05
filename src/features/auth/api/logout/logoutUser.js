@@ -8,6 +8,7 @@ export async function logoutUser() {
     onSuccess: () => {
       useAuthStore.getState().clearAccessToken();
       useUserStore.getState().clearUser();
+      useAuthStore.getState().clearCsrfToken();
     },
   });
 }

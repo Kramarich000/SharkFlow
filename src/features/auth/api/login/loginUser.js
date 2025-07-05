@@ -18,6 +18,7 @@ export async function login(values) {
         console.log('data:', data);
         if (data.accessToken) {
           useAuthStore.getState().setAccessToken(data.accessToken);
+          useAuthStore.getState().setCsrfToken(data.csrfToken);
         }
         return data || null;
       },

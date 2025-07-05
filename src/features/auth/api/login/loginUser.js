@@ -19,7 +19,7 @@ export async function login(values) {
         if (data.accessToken) {
           useAuthStore.getState().setAccessToken(data.accessToken);
         }
-        return data;
+        return data || null;
       },
     },
   );

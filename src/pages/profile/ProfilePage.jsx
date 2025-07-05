@@ -13,23 +13,21 @@ import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [googleLoad, setGoogleLoad] = useState(false);
-
-  const setIsDeleteUserModalOpen = useModalsStore(
-    (state) => state.setIsDeleteUserModalOpen,
-  );
-
-  const setIsUpdateUserModalOpen = useModalsStore(
-    (state) => state.setIsUpdateUserModalOpen,
-  );
-
-  const setIsDisableGoogleModalOpen = useModalsStore(
-    (state) => state.setIsDisableGoogleModalOpen,
-  );
-
-  const { setIsSetupTotpModalOpen, setIsDisableTotpModalOpen } = useModalsStore(
+  const {
+    setIsDeleteUserModalOpen,
+    setIsUpdateUserModalOpen,
+    setIsDisableGoogleModalOpen,
+    setIsSetupTotpModalOpen,
+    setIsDisableTotpModalOpen,
+    setIsConnectTelegramModalOpen,
+  } = useModalsStore(
     useShallow((state) => ({
+      setIsDeleteUserModalOpen: state.setIsDeleteUserModalOpen,
+      setIsUpdateUserModalOpen: state.setIsUpdateUserModalOpen,
+      setIsDisableGoogleModalOpen: state.setIsDisableGoogleModalOpen,
       setIsSetupTotpModalOpen: state.setIsSetupTotpModalOpen,
       setIsDisableTotpModalOpen: state.setIsDisableTotpModalOpen,
+      setIsConnectTelegramModalOpen: state.setIsConnectTelegramModalOpen,
     })),
   );
 
@@ -96,6 +94,13 @@ export default function Profile() {
                 disabled={googleLoad}
               />
             )}
+
+            <Button
+              variant="primary"
+              onClick={() => setIsConnectTelegramModalOpen(true)}
+            >
+              Попробуйте нашего бота в Telegram!
+            </Button>
 
             {!twoFactorEnabled ? (
               <Button

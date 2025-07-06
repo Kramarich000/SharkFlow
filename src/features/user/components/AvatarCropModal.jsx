@@ -314,7 +314,7 @@ export function AvatarCropModal() {
                           />
                         </svg>
                         <p className="text-sm text-[var(--main-text)]">
-                          Перетащите фото сюда
+                          Перетащите фото сюда или просто нажмите
                         </p>
                         <p className="text-xs text-gray-400">
                           JPG, PNG, WEBP, GIF

@@ -53,6 +53,10 @@ export const useModalsStore = create((set) => ({
   isConnectTelegramModalOpen: false,
   setIsConnectTelegramModalOpen: (value) =>
     set({ isConnectTelegramModalOpen: value }),
+  
+  isDisableTelegramModalOpen: false,
+  setIsDisableTelegramModalOpen: (value) =>
+    set({ isDisableTelegramModalOpen: value }),
 
   contextMenu: {
     visible: false,
@@ -87,6 +91,7 @@ export const useModalsStore = create((set) => ({
       isConnectGoogleModalOpen: false,
       isDisableGoogleModalOpen: false,
       isConnectTelegramModalOpen: false,
+      isDisableTelegramModalOpen: false,
       contextMenu: { visible: false, x: 0, y: 0, board: null },
     }),
 }));

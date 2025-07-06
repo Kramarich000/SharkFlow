@@ -19,6 +19,7 @@ export default function Profile() {
     setIsSetupTotpModalOpen,
     setIsDisableTotpModalOpen,
     setIsConnectTelegramModalOpen,
+    setIsDisableTelegramModalOpen,
   } = useModalsStore(
     useShallow((state) => ({
       setIsDeleteUserModalOpen: state.setIsDeleteUserModalOpen,
@@ -27,6 +28,7 @@ export default function Profile() {
       setIsSetupTotpModalOpen: state.setIsSetupTotpModalOpen,
       setIsDisableTotpModalOpen: state.setIsDisableTotpModalOpen,
       setIsConnectTelegramModalOpen: state.setIsConnectTelegramModalOpen,
+      setIsDisableTelegramModalOpen: state.setIsDisableTelegramModalOpen,
     })),
   );
 
@@ -93,13 +95,22 @@ export default function Profile() {
                 disabled={googleLoad}
               />
             )}
-
-            <Button
-              variant="primary"
-              onClick={() => setIsConnectTelegramModalOpen(true)}
-            >
-              Попробуйте нашего бота в Telegram!
-            </Button>
+            {user?.telegramEnabled ? (
+              <Button
+                variant="primary"
+                className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+                onClick={() => setIsDisableTelegramModalOpen(true)}
+              >
+                Отвязать Telegram
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                onClick={() => setIsConnectTelegramModalOpen(true)}
+              >
+                Попробуйте наше бота в Telegram!
+              </Button>
+            )}
 
             {!twoFactorEnabled ? (
               <Button

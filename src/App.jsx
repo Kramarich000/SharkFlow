@@ -40,7 +40,7 @@ function App() {
 
   useEffect(() => {
     if (mode === 'auto') {
-      initAutoMode(); 
+      initAutoMode();
     }
   }, [mode, initAutoMode]);
 
@@ -58,6 +58,7 @@ function App() {
           role: data.role,
           twoFactorEnabled: data.twoFactorEnabled,
           googleOAuthEnabled: data.googleOAuthEnabled,
+          telegramEnabled: data.telegramEnabled,
         });
       } catch (error) {
         console.error('Ошибка при получении данных:', error);

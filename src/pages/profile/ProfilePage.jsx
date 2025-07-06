@@ -35,6 +35,7 @@ export default function Profile() {
   const user = useUserStore((state) => state.user);
   const role = user?.role;
   const twoFactorEnabled = user?.twoFactorEnabled;
+  console.log(user);
 
   useEffect(() => {
     if (user) {
@@ -108,7 +109,7 @@ export default function Profile() {
                 variant="primary"
                 onClick={() => setIsConnectTelegramModalOpen(true)}
               >
-                Попробуйте наше бота в Telegram!
+                Попробуйте нашего бота в Telegram!
               </Button>
             )}
 

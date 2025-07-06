@@ -1,7 +1,7 @@
-import api from "@lib/http";
-import { apiResponsesHandler } from "@utils/responsesHandler";
+import api from '@lib/http';
+import { apiResponsesHandler } from '@utils/responsesHandler';
 
-export async function register(values) {
+export async function register(values, captchaToken) {
   const payload = {
     user: {
       login: values.login,
@@ -10,6 +10,7 @@ export async function register(values) {
       confirmPassword: values.confirmPassword,
       acceptedPolicies: values.acceptedPolicies,
     },
+    captchaToken: captchaToken,
   };
 
   return await apiResponsesHandler(() =>

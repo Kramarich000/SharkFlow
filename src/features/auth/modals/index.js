@@ -3,3 +3,4 @@ export * from './DisableTotpModal';
 export * from './ConnectGoogleModal';
 export * from './DisableGoogleModal';
 export * from './ConnectTelegramModal';
+export * from './DisableTelegramModal';

@@ -21,7 +21,8 @@ import {
   SetupTotpModal,
   DisableTotpModal,
   DisableGoogleModal,
-  ConnectTelegramModal
+  ConnectTelegramModal,
+  DisableTelegramModal,
 } from '@features/auth';
 
 import { useModalsStore } from '@store/modalsStore';
@@ -45,6 +46,7 @@ const modalList = [
   { flag: 'isConnectGoogleModalOpen', Component: ConnectGoogleModal },
   { flag: 'isDisableGoogleModalOpen', Component: DisableGoogleModal },
   { flag: 'isConnectTelegramModalOpen', Component: ConnectTelegramModal },
+  { flag: 'isDisableTelegramModalOpen', Component: DisableTelegramModal },
 ];
 
 export function ModalManager() {
@@ -125,6 +127,11 @@ export function ModalManager() {
     300,
   );
 
+  const shouldRenderDisableTelegram = useDelayedUnmount(
+    modalFlags.isDisableTelegramModalOpen,
+    300,
+  );
+
   return (
     <>
       {shouldRenderLogout && (
@@ -176,6 +183,10 @@ export function ModalManager() {
 
       {shouldRenderConnectTelegram && (
         <ConnectTelegramModal open={modalFlags.isConnectTelegramModalOpen} />
+      )}
+
+      {shouldRenderDisableTelegram && (
+        <DisableTelegramModal open={modalFlags.isDisableTelegramModalOpen} />
       )}
     </>
   );

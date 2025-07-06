@@ -12,12 +12,22 @@ import { FormikCheckbox } from '@common/ui';
 import { useRegisterStore } from '@features/auth';
 import { Button } from '@common/ui/utilities/Button';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
+import TurnstileWidget from '@features/auth/components/TurnstileWidget';
+import { verifyCaptcha } from '@features/auth/api/captcha/checkCaptchaSuccess';
+import { showToast } from '@utils/toast';
 
 export function RegisterFirstStep() {
   const { setStep, passwordVisible, togglePasswordVisible } =
     useRegisterStore();
   const [load, setLoad] = useState(false);
   const [googleLoad, setGoogleLoad] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const [captchaKey, setCaptchaKey] = useState(0);
+
+  const handleCheckCaptcha = (token) => {
+    console.log('Токен капчи:', token);
+    setCaptchaToken(token);
+  };
 
   return (
     <motion.div
@@ -41,16 +51,26 @@ export function RegisterFirstStep() {
           email: '',
           password: '',
           confirmPassword: '',
-          acceptedPolicies: '',
+          acceptedPolicies: false,
         }}
-        onSubmit={async (values, actions) => {
-          setLoad(true);
-          const success = await register(values);
-          if (success) {
-            setStep(2);
-            setLoad(false);
-          } else {
-            actions.setSubmitting(false);
+        onSubmit={async (values) => {
+          if (!captchaToken) {
+            showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+            return;
+          }
+          try {
+            setLoad(true);
+
+            const success = await register(values, captchaToken);
+
+            if (success) {
+              setCaptchaToken(null);
+              setCaptchaKey((prev) => prev + 1);
+              setStep(2);
+            }
+          } catch (error) {
+            console.error('Ошибка регистрации:', error);
+          } finally {
             setLoad(false);
           }
         }}
@@ -114,9 +134,6 @@ export function RegisterFirstStep() {
                     autoComplete="new-password"
                     placeholder=" "
                     required
-                    onChange={(e) => {
-                      handleChange(e);
-                    }}
                     onBlur={handleBlur}
                     className="peer input-styles input-primary !pr-8"
                     disabled={load || googleLoad}
@@ -196,7 +213,11 @@ export function RegisterFirstStep() {
                     {(msg) => <AnimatedError msg={msg} centered />}
                   </ErrorMessage>
                 </div>
-
+                <TurnstileWidget
+                  key={captchaKey}
+                  action="register"
+                  onSuccess={handleCheckCaptcha}
+                />
                 <Button
                   className="col-span-2"
                   variant="primary"

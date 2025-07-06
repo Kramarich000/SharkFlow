@@ -3,9 +3,9 @@ import { apiResponsesHandler } from '@utils/responsesHandler';
 import { useAuthStore } from '@features/auth';
 import { useUserStore } from '@features/user';
 
-export async function guestLogin() {
+export async function guestLogin(captchaToken) {
   const result = await apiResponsesHandler(
-    () => api.post('/api/auth/guest-login', {}, {}),
+    () => api.post('/api/auth/guest-login', { captchaToken }, {}),
     {
       onSuccess: (data) => {
         if (data.accessToken) {

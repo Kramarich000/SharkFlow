@@ -2,13 +2,14 @@ import api from '@lib/http';
 import { useAuthStore } from '@features/auth';
 import { apiResponsesHandler } from '@utils/responsesHandler';
 
-export async function login(values) {
+export async function login(values, captchaToken) {
   const payload = {
     user: {
       email: values.email,
       password: values.password,
       rememberMe: values.rememberMe,
     },
+    captchaToken: captchaToken,
   };
 
   const result = await apiResponsesHandler(

@@ -36,15 +36,17 @@ export function DisableTelegramModal() {
   const handleDisableTelegram = async () => {
     setLoad(true);
     try {
-      const res = await disableTelegram();
-      if (res) {
-        setStep(3);
-        updateUser({ telegramEnabled: false });
+      const success = await disableTelegram();
+
+      if (success) {
+        setStep(2);
+        updateUser({ telegramEnabled: true });
         setTimeout(() => {
           setIsDisableTelegramModalOpen(false);
         }, 4000);
       }
     } catch (error) {
+      console.log(error);
     } finally {
       setLoad(false);
     }
@@ -113,7 +115,7 @@ export function DisableTelegramModal() {
                           variant="primary"
                           className="order-[-1] md:order-1"
                           onClick={() => {
-                            handleSendEmail();
+                            handleDisableTelegram();
                           }}
                           disabled={load}
                         >
@@ -127,7 +129,7 @@ export function DisableTelegramModal() {
                     </div>
                   </motion.div>
                 )}
-                {step === 3 && (
+                {step === 2 && (
                   <motion.div
                     key="step2-motion"
                     initial={{ opacity: 0, transform: 'translateX(50px)' }}

@@ -13,6 +13,7 @@ import { FormikCheckbox, AnimatedError } from '@common/ui';
 import { Button } from '@common/ui/utilities/Button';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 import { checkTwoFactor } from '@features/auth/api/totp/verification/verificationTotp';
+import TurnstileWidget from '@features/auth/components/TurnstileWidget';
 
 export default function LoginPage() {
   const formikRef = useRef(null);
@@ -26,12 +27,22 @@ export default function LoginPage() {
   const [step, setStep] = useState('login');
   const [totpCode, setTotpCode] = useState('');
   const [sessionKey, setSessionKey] = useState(null);
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const [captchaKey, setCaptchaKey] = useState(0);
 
   const createGuest = async () => {
+    if (!captchaToken) {
+      showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+      return;
+    }
     try {
       setGuestLoad(true);
-      await guestLogin();
-      setGuestLoad(false);
+      const success = await guestLogin(captchaToken);
+      if (success) {
+        setCaptchaToken(null);
+        setCaptchaKey((prev) => prev + 1);
+        setGuestLoad(false);
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -40,10 +51,16 @@ export default function LoginPage() {
   };
 
   const handleLoginUser = async (values) => {
+    if (!captchaToken) {
+      showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+      return;
+    }
     setLoad(true);
     try {
-      const success = await login(values);
+      const success = await login(values, captchaToken);
       if (success.accessToken) {
+        setCaptchaToken(null);
+        setCaptchaKey((prev) => prev + 1);
         setLoading(true);
         navigate('/dashboard');
         await getUser();
@@ -75,6 +92,11 @@ export default function LoginPage() {
       setLoading(false);
       setTotpLoad(false);
     }
+  };
+
+  const handleCheckCaptcha = (token) => {
+    console.log('Токен капчи:', token);
+    setCaptchaToken(token);
   };
 
   return (
@@ -150,9 +172,6 @@ export default function LoginPage() {
                             placeholder=" "
                             autoFocus
                             required
-                            onChange={(e) => {
-                              handleChange(e);
-                            }}
                             onBlur={handleBlur}
                             className="peer input-styles input-primary !pr-8"
                           />
@@ -186,6 +205,12 @@ export default function LoginPage() {
                             className="relative"
                           />
                         </div>
+
+                        <TurnstileWidget
+                          action="login"
+                          key={captchaKey}
+                          onSuccess={handleCheckCaptcha}
+                        />
 
                         <Button
                           variant="primary"

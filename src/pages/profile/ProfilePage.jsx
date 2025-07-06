@@ -100,7 +100,10 @@ export default function Profile() {
               <Button
                 variant="primary"
                 className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
-                onClick={() => setIsDisableTelegramModalOpen(true)}
+                onClick={() => {
+                  setIsDisableTelegramModalOpen(true);
+                  console.log('asd');
+                }}
               >
                 Отвязать Telegram
               </Button>

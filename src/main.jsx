@@ -17,7 +17,6 @@ const queryClient = new QueryClient({
       refetchOnReconnect: true,
       keepPreviousData: true,
       refetchIntervalInBackground: false,
-      refetchOnWindowFocus: true,
       suspense: false,
       useErrorBoundary: false,
     },

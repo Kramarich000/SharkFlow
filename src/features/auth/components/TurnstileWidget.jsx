@@ -47,7 +47,6 @@ export default function TurnstileWidget({ action, onSuccess }) {
       className="cf-turnstile col-span-2"
       data-sitekey={sitekey}
       data-theme="auto"
-      data-size="flexible"
       data-size={widgetSize}
       data-language="auto"
       data-callback="handleTurnstileSuccess"

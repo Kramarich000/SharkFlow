@@ -4,8 +4,8 @@ import {
   FaCamera,
   FaRegEdit,
   FaTrash,
-  FaEllipsisH,
   FaCheckCircle,
+  FaEllipsisH,
 } from 'react-icons/fa';
 import { Button } from '@common/ui/utilities/Button';
 import { useUserStore } from '@features/user';
@@ -13,6 +13,7 @@ import { useModalsStore } from '@store/modalsStore';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CgProfile } from 'react-icons/cg';
 import { FaEnvelope, FaGoogle } from 'react-icons/fa';
+import { MdAccountCircle } from 'react-icons/md';
 
 export function UserProfileData() {
   const user = useUserStore((state) => state.user);
@@ -70,6 +71,13 @@ export function UserProfileData() {
           ref={avatarRef}
         >
           <div className="relative">
+            <div
+              className={`
+                absolute inset-0 rounded-full pointer-events-none
+                !transition duration-300
+                ${isImgOptionsVisible ? 'opacity-100 bg-[rgba(0,0,0,0.4)]' : 'opacity-0'}
+              `}
+            ></div>
             {user.avatarUrl ? (
               <img
                 src={user?.avatarUrl}
@@ -79,9 +87,7 @@ export function UserProfileData() {
                 onError={() => setAvatarLoading(false)}
               />
             ) : (
-              <p className="w-48 h-48 sm:w-60 sm:h-60 text-center select-none flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full">
-                Фото профиля
-              </p>
+              <MdAccountCircle className="w-48 h-48 sm:w-60 sm:h-60 text-center select-none flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full" />
             )}
             {avatarLoading && (
               <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-full">
@@ -96,12 +102,13 @@ export function UserProfileData() {
                   animate={{ opacity: 1, transform: 'translateY(0px)' }}
                   exit={{ opacity: 0, transform: 'translateY(-10px)' }}
                   onClick={handleMenuToggle}
-                  className="absolute top-4 right-4 rounded-full p-2 group/avatarbtn !transition"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                    flex items-center justify-center rounded-full !p-0"
                   title="Опции"
                 >
                   <FaEllipsisH
-                    size={28}
-                    className="group-hover/avatarbtn:text-[var(--main-button-bg)] !transition"
+                    size={70}
+                    className="!transition !p-0 text-white hover:!text-[var(--main-button-bg)]"
                   />
                 </motion.button>
               )}

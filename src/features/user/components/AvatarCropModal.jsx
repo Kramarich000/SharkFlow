@@ -16,6 +16,7 @@ import { getCloudinarySignature } from '@features/user/api/cloudinary/getCloudin
 import { uploadUrl } from '@features/user/api/cloudinary/uploadUrl';
 import { uploadImgToCloudinary } from '@features/user/api/cloudinary/uploadImgToCloudinary';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useDropzone } from 'react-dropzone';
 
 export function AvatarCropModal() {
   const isAvatarCropModalOpen = useModalsStore(
@@ -31,14 +32,10 @@ export function AvatarCropModal() {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [imgLoading, setImgLoading] = useState(false);
+  const [error, setError] = useState(null);
   const isProcessing = useRef(false);
-  const fileInputRef = useRef(null);
 
   const step = !selectedImage ? 'empty' : previewUrl ? 'preview' : 'cropper';
-
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
-  };
 
   const onSelectFile = (event) => {
     const file = event.target.files?.[0];
@@ -110,6 +107,52 @@ export function AvatarCropModal() {
     setPreviewUrl(null);
     setImgLoading(false);
   }, [setIsAvatarCropModalOpen]);
+
+  const onDrop = useCallback(
+    async (acceptedFiles) => {
+      if (acceptedFiles.length === 0) return;
+
+      const file = acceptedFiles[0];
+
+      const fakeEvent = {
+        target: {
+          files: [file],
+          value: file.name,
+        },
+      };
+
+      onSelectFile(fakeEvent);
+    },
+    [onSelectFile],
+  );
+
+  const onDropRejected = useCallback((rejectedFiles) => {
+    if (rejectedFiles.length > 0) {
+      const file = rejectedFiles[0];
+
+      if (file.errors && file.errors[0].code === 'file-invalid-type') {
+        showToast(
+          'Недопустимый формат файла. Разрешены: JPG, PNG, WEBP, GIF.',
+          'error',
+        );
+      } else {
+        showToast('Произошла ошибка при загрузке файла.', 'error');
+      }
+    }
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    onDropRejected,
+    accept: {
+      'image/jpeg': [],
+      'image/jpg': [],
+      'image/png': [],
+      'image/webp': [],
+      'image/gif': [],
+    },
+    multiple: false,
+  });
 
   return (
     <Transition appear show={isAvatarCropModalOpen} as={Fragment}>
@@ -244,16 +287,40 @@ export function AvatarCropModal() {
                     exit={{ opacity: 0, transform: 'translateX(-50px)' }}
                     className="flex flex-col items-center gap-4"
                   >
-                    <input
-                      type="file"
-                      accept="image/*"
-                      ref={fileInputRef}
-                      onChange={onSelectFile}
-                      className="hidden"
-                    />
-                    <Button variant="primary" onClick={handleButtonClick}>
-                      Выбрать фото
-                    </Button>
+                    <div
+                      {...getRootProps()}
+                      className={`border-2 border-dashed rounded-lg p-20 text-center cursor-pointer transition-colors
+                      ${
+                        isDragActive
+                          ? 'border-blue-500 bg-blue-50'
+                          : 'border-gray-300 hover:border-gray-400'
+                      }`}
+                    >
+                      <input {...getInputProps()} />
+
+                      <div className="flex flex-col items-center justify-center space-y-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-10 h-10 text-gray-400"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                          />
+                        </svg>
+                        <p className="text-sm text-[var(--main-text)]">
+                          Перетащите фото сюда
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          JPG, PNG, WEBP, GIF
+                        </p>
+                      </div>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>

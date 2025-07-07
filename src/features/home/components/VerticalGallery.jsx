@@ -1,5 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import { animate, AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import {
+  AnimatePresence,
+  motion,
+  useAnimation,  
+  useMotionValue, 
+} from 'framer-motion';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import Captions from 'yet-another-react-lightbox/plugins/captions';
@@ -23,23 +28,50 @@ function ScrollingColumn({ images, direction = 'up', onImageClick }) {
   const count = images.length;
   const listHeight = count * imgHeight + (count - 1) * gap;
 
+  const controls = useAnimation();
+  const y = useMotionValue(0);
+
+  useEffect(() => {
+    controls.start({
+      y: direction === 'up' ? [0, -listHeight] : [-listHeight, 0],
+      transition: {
+        duration: 60,
+        ease: 'linear',
+        repeat: Infinity,
+        repeatType: 'loop',
+      },
+    });
+  }, [controls, direction, listHeight]);
+
+  const handleTouchStart = () => {
+    controls.stop();
+  };
+  const handleTouchEnd = () => {
+    controls.start({
+      y: direction === 'up' ? [y.get(), -listHeight] : [-listHeight, y.get()],
+      transition: {
+        duration: 60,
+        ease: 'linear',
+        repeat: Infinity,
+        repeatType: 'loop',
+      },
+    });
+  };
+
   return (
     <div className="overflow-hidden h-[500px] w-[400px]">
       <motion.div
         style={{
           gap,
           height: listHeight * 2,
+          position: 'relative',
+          pointerEvents: 'auto',
+          WebkitTapHighlightColor: 'transparent',
+          touchAction: 'manipulation',
+          y,
         }}
         className="flex flex-col"
-        animate={{
-          y: direction === 'up' ? [0, -listHeight] : [-listHeight, 0],
-        }}
-        transition={{
-          duration: 60,
-          ease: 'linear',
-          repeat: Infinity,
-          repeatType: 'loop',
-        }}
+        animate={controls}
       >
         {[...images, ...images].map((src, i) => (
           <img
@@ -47,10 +79,15 @@ function ScrollingColumn({ images, direction = 'up', onImageClick }) {
             src={src}
             alt=""
             draggable={false}
-            className="w-full object-cover rounded-2xl hover:scale-110 cursor-pointer !transition-transform"
+            className="w-full object-cover rounded-2xl hover:scale-110 cursor-pointer transition-transform"
             style={{
               height: imgHeight,
+              pointerEvents: 'auto',
+              WebkitTapHighlightColor: 'transparent',
+              touchAction: 'manipulation',
             }}
+            onTouchStart={handleTouchStart} // ← добавили
+            onTouchEnd={handleTouchEnd} // ← добавили
             onClick={() => onImageClick(i % count)}
           />
         ))}
@@ -64,7 +101,6 @@ export default function InfiniteVerticalScroll() {
 
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
-  const lightboxRef = useRef(null);
 
   const slides = images.map((src) => ({ src }));
 
@@ -91,8 +127,9 @@ export default function InfiniteVerticalScroll() {
   }, [open]);
 
   return (
-    <section className="relative mx-auto py-12">
+    <section className="relative mx-auto py-12 z-99">
       <h2 className="text-3xl mb-8">Скриншоты</h2>
+
       {isDesktop ? (
         <motion.div
           initial={{ opacity: 0, transform: 'translateY(50px)' }}
@@ -113,19 +150,20 @@ export default function InfiniteVerticalScroll() {
           />
         </motion.div>
       ) : (
-        <div className="flex max-h-[600px] pr-4 overflow-autogap-4 flex-col">
+        <div className="flex max-h-[600px] pr-4 gap-4 flex-col overflow-y-auto">
           {images.map((src, i) => (
             <img
               key={i}
               src={src}
               alt={`Screenshot ${i + 1}`}
-              className="inline object-contain rounded-2xl hover:scale-110 cursor-pointer !transition-transform"
+              className="inline object-contain rounded-2xl hover:scale-110 cursor-pointer transition-transform"
               draggable={false}
               onClick={() => handleImageClick(i)}
             />
           ))}
         </div>
       )}
+
       <AnimatePresence>
         {open && (
           <motion.div
@@ -136,6 +174,7 @@ export default function InfiniteVerticalScroll() {
           />
         )}
       </AnimatePresence>
+
       <Lightbox
         open={open}
         close={() => setOpen(false)}

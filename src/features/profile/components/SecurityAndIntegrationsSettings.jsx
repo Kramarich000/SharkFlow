@@ -41,7 +41,7 @@ export const SecurityAndIntegrationsSettings = () => {
 
   return (
     <AccordionItem value="security" className="border-0">
-      <AccordionTrigger className="flex !px-1 items-center gap-4 hover:no-underline hover:bg-[var(--main-button-hover)]">
+      <AccordionTrigger className="flex !px-1 items-center gap-4 bg-[var(--main-button-bg)] hover:no-underline hover:bg-[var(--main-button-hover)]">
         <FaShieldAlt size={30} className="!rotate-0" />
         <p>Безопасность и интеграции</p>
       </AccordionTrigger>
@@ -56,7 +56,7 @@ export const SecurityAndIntegrationsSettings = () => {
           {user?.googleOAuthEnabled ? (
             <Button
               variant="primary"
-              className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+              className="!flex !flex-col !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
               onClick={() => setIsDisableGoogleModalOpen(true)}
             >
               <GoUnlock size={20} /> Отключить авторизацию через Google
@@ -64,6 +64,7 @@ export const SecurityAndIntegrationsSettings = () => {
           ) : (
             <GoogleAuthButton
               btnText="Подключить авторизацию через Google"
+              className="!flex !flex-col"
               isNavigated={false}
               isAuth={false}
               googleLoad={googleLoad}
@@ -75,7 +76,7 @@ export const SecurityAndIntegrationsSettings = () => {
           {user?.telegramEnabled ? (
             <Button
               variant="primary"
-              className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+              className="!flex !flex-col !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
               onClick={() => setIsDisableTelegramModalOpen(true)}
             >
               <MdOutlineNearMeDisabled size={20} /> Отвязать Telegram
@@ -83,6 +84,7 @@ export const SecurityAndIntegrationsSettings = () => {
           ) : (
             <Button
               variant="primary"
+              className="!flex !flex-col"
               onClick={() => setIsConnectTelegramModalOpen(true)}
             >
               <RiRobot2Line size={20} /> Попробуйте нашего бота в Telegram!
@@ -92,6 +94,7 @@ export const SecurityAndIntegrationsSettings = () => {
           {!twoFactorEnabled ? (
             <Button
               variant="primary"
+              className="!flex !flex-col"
               onClick={() => setIsSetupTotpModalOpen(true)}
             >
               <TbAuth2Fa size={20} /> Подключить 2FA
@@ -99,7 +102,7 @@ export const SecurityAndIntegrationsSettings = () => {
           ) : (
             <Button
               variant="primary"
-              className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+              className="!flex !flex-col !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
               onClick={() => setIsDisableTotpModalOpen(true)}
             >
               <TbAuth2Fa size={20} /> Отключить 2FA

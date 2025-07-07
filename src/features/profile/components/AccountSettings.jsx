@@ -20,7 +20,7 @@ export const AccountSettings = () => {
 
   return (
     <AccordionItem value="account" className="border-0">
-      <AccordionTrigger className="flex !px-1 items-center gap-4 hover:no-underline hover:bg-[var(--main-button-hover)]">
+      <AccordionTrigger className="flex !px-1 items-center gap-4 bg-[var(--main-button-bg)] hover:no-underline hover:bg-[var(--main-button-hover)]">
         <MdManageAccounts size={30} className="!rotate-0" />
         <p>Управление аккаунтом</p>
       </AccordionTrigger>
@@ -30,16 +30,17 @@ export const AccountSettings = () => {
           Здесь вы можете изменить имя, email или удалить аккаунт
         </h2>
 
-        <div className="flex flex-col gap-4 mt-4">
+        <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4 mt-4 items-center justify-between">
           <Button
             variant="primary"
             onClick={() => setIsUpdateUserModalOpen(true)}
+            className="!flex !flex-col"
           >
             <FaPen size={20} /> Изменить данные
           </Button>
           <Button
             variant="primary"
-            className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+            className="!flex !flex-col !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
             onClick={() => setIsDeleteUserModalOpen(true)}
           >
             <FaTrash size={20} /> Удалить аккаунт

@@ -30,12 +30,12 @@ export function UserProfileData() {
   const avatarRef = useRef(null);
 
   useEffect(() => {
-    if (!user.avatarUrl) return;
+    if (!user?.avatarUrl) return;
 
     setAvatarLoading(true);
 
     const img = new Image();
-    img.src = user.avatarUrl;
+    img.src = user?.avatarUrl;
 
     const handleDone = () => setAvatarLoading(false);
     img.onload = handleDone;
@@ -45,7 +45,7 @@ export function UserProfileData() {
       img.onload = null;
       img.onerror = null;
     };
-  }, [user.avatarUrl]);
+  }, [user?.avatarUrl]);
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -93,7 +93,7 @@ export function UserProfileData() {
                 ${isImgOptionsVisible ? 'opacity-100 bg-[rgba(0,0,0,0.4)]' : 'opacity-0'}
               `}
             ></div>
-            {user.avatarUrl ? (
+            {user?.avatarUrl ? (
               <img
                 src={user?.avatarUrl}
                 alt=""

@@ -27,12 +27,12 @@ export function Header() {
   const toggleRef = useRef(null);
 
   useEffect(() => {
-    if (!user.avatarUrl) return;
+    if (!user?.avatarUrl) return;
 
     setAvatarLoading(true);
 
     const img = new Image();
-    img.src = user.avatarUrl;
+    img.src = user?.avatarUrl;
 
     const handleDone = () => setAvatarLoading(false);
     img.onload = handleDone;
@@ -42,7 +42,7 @@ export function Header() {
       img.onload = null;
       img.onerror = null;
     };
-  }, [user.avatarUrl]);
+  }, [user?.avatarUrl]);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -132,6 +132,7 @@ export function Header() {
                 className="w-10 h-10 object-cover border-2 !border-[var(--main-primary)] rounded-full"
                 onLoad={() => setAvatarLoading(false)}
                 onError={() => setAvatarLoading(false)}
+                // onClick={}
               />
             ) : (
               <MdAccountCircle className="w-10 h-10 text-center select-none flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full" />

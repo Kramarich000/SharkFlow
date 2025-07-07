@@ -13,6 +13,7 @@ import { googleConnect } from '@features/auth/api/google/connect/googleConnect';
 
 export function GoogleAuthButton({
   btnText = '',
+  className = '',
   isAuth = true,
   isNavigated = true,
   googleLoad,
@@ -71,6 +72,7 @@ export function GoogleAuthButton({
     <Button
       onClick={() => login()}
       variant="primary"
+      className={className}
       type="button"
       disabled={disabled}
     >

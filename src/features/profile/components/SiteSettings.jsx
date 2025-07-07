@@ -11,7 +11,7 @@ import { ToggleTheme } from '@features/user/components/ToggleTheme';
 export const SiteSettings = () => {
   return (
     <AccordionItem value="settings" className="border-0">
-      <AccordionTrigger className="flex !px-1 items-center gap-4 hover:no-underline hover:bg-[var(--main-button-hover)]">
+      <AccordionTrigger className="flex !px-1 items-center gap-4 bg-[var(--main-button-bg)] hover:no-underline hover:bg-[var(--main-button-hover)]">
         <IoMdSettings size={30} className="!rotate-0" />
         <p className="">Настройки</p>
       </AccordionTrigger>

@@ -43,6 +43,8 @@ img {
   user-select: none;
   pointer-events: none;
   display: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 img[src] {

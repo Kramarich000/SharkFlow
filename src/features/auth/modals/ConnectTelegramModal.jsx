@@ -41,7 +41,6 @@ export function ConnectTelegramModal() {
         const response = await getTelegramLink();
         if (mounted) {
           setLink(response.link);
-          console.log(response);
         }
       } catch (error) {
         if (mounted) {

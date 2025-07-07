@@ -25,8 +25,6 @@ export async function updateUser(confirmationCode, updatedFields = {}) {
     return null;
   }
 
-  console.log(updatedFields);
-
   return await apiResponsesHandler(
     () => api.patch('/api/users', { confirmationCode, updatedFields }),
     {

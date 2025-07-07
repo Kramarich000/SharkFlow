@@ -15,7 +15,7 @@
 
 html {
   background-color: var(--main-bg);
-  /* scrollbar-gutter: stable; */
+  scrollbar-gutter: stable;
   scroll-behavior: smooth;
   /* overflow: auto !important; */
   /* padding-right: 6px !important; */

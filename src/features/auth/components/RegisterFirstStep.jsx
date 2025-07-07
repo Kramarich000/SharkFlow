@@ -25,7 +25,6 @@ export function RegisterFirstStep() {
   const [captchaKey, setCaptchaKey] = useState(0);
 
   const handleCheckCaptcha = (token) => {
-    console.log('Токен капчи:', token);
     setCaptchaToken(token);
   };
 
@@ -54,7 +53,7 @@ export function RegisterFirstStep() {
           acceptedPolicies: false,
         }}
         onSubmit={async (values) => {
-          if (!captchaToken) {
+          if (!captchaToken && process.env.NODE_ENV === 'production') {
             showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
             return;
           }

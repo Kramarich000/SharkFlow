@@ -71,7 +71,6 @@ export function UpdateUserModal() {
   };
 
   const updateUserHandler = async () => {
-    console.log('updateUserHandler called');
     const code = confirmationCode.confirmationCode;
     if (newLogin === originalLogin && newEmail === originalEmail) {
       showToast('Нет изменений для сохранения', 'info');

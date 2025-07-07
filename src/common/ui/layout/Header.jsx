@@ -10,6 +10,7 @@ import { useModalsStore } from '@store/modalsStore';
 import { useUserStore } from '@features/user';
 import { Button } from '@common/ui/utilities/Button';
 import { AiOutlineSync } from 'react-icons/ai';
+import { MdAccountCircle } from 'react-icons/md';
 
 export function Header() {
   const token = useAuthStore((state) => state.accessToken);
@@ -26,10 +27,22 @@ export function Header() {
   const toggleRef = useRef(null);
 
   useEffect(() => {
-    if (user?.avatarUrl) {
-      setAvatarLoading(true);
-    }
-  }, [user?.avatarUrl]);
+    if (!user.avatarUrl) return;
+
+    setAvatarLoading(true);
+
+    const img = new Image();
+    img.src = user.avatarUrl;
+
+    const handleDone = () => setAvatarLoading(false);
+    img.onload = handleDone;
+    img.onerror = handleDone;
+
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [user.avatarUrl]);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -120,7 +133,9 @@ export function Header() {
                 onLoad={() => setAvatarLoading(false)}
                 onError={() => setAvatarLoading(false)}
               />
-            ) : null}
+            ) : (
+              <MdAccountCircle className="w-10 h-10 text-center select-none flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full" />
+            )}
             {avatarLoading && (
               <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-full">
                 <AiOutlineSync className="animate-spin text-white" size={20} />

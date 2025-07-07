@@ -22,5 +22,5 @@
       "@lib/*": ["lib/*"]
     }
   },
-  "include": ["src/**/*", "src/metrics", "public/disableErrors.js"]
+  "include": ["src", "public/disableErrors.js"]
 }

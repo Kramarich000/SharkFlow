@@ -219,7 +219,6 @@ export const useTaskStore = create((set, get) => ({
 
   deleteTask: async () => {
     const { selectedTask, selectedBoardUuid } = get();
-    console.log(selectedTask);
     if (!selectedTask?.uuid || !selectedBoardUuid) {
       return false;
     }

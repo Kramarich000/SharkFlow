@@ -23,16 +23,41 @@ import { FallbackComponent } from '@common/ui';
 import { getThemeMode, applyTheme } from '@utils/theme/toggleTheme';
 import { showToast } from '@utils/toast';
 import { useThemeStore } from '@store/themeStore';
+import { getWarnings } from '@utils/browser/browserWarningsMap';
+import { detectBrowserInfo } from '@utils/browser/detectBrowserInfo';
 
 function App() {
   const { setUser } = useUserStore.getState();
   const { isAuthLoading } = useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const hasWarned = sessionStorage.getItem('browserWarningShown');
+    if (hasWarned) return;
+
+    async function checkBrowser() {
+      const browserInfo = await detectBrowserInfo();
+      if (!isMounted) return;
+
+      const warnings = getWarnings(browserInfo);
+      if (warnings.length > 0) {
+        showToast(warnings[0], 'warning', 10000);
+        sessionStorage.setItem('browserWarningShown', true);
+      }
+    }
+
+    checkBrowser();
+
+    return () => {
+      isMounted = false;
+      sessionStorage.removeItem('browserWarningShown');
+    };
+  }, []);
+
   const mode = useThemeStore((state) => state.mode);
   const initAutoMode = useThemeStore((state) => state.initAutoMode);
-
-  // console.log(accessToken);
 
   useEffect(() => {
     applyTheme(getThemeMode());

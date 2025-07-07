@@ -16,7 +16,6 @@ export async function login(values, captchaToken) {
     () => api.post('/api/auth/login', payload, {}),
     {
       onSuccess: (data) => {
-        console.log('data:', data);
         if (data.accessToken) {
           useAuthStore.getState().setAccessToken(data.accessToken);
           useAuthStore.getState().setCsrfToken(data.csrfToken);

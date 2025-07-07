@@ -25,6 +25,7 @@ export async function refreshToken() {
         setAccessToken(null);
         updateUser({ role: null });
       },
+      silent: true,
     },
   );
 

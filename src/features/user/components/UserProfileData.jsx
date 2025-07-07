@@ -6,6 +6,7 @@ import {
   FaTrash,
   FaCheckCircle,
   FaEllipsisH,
+  FaTelegramPlane,
 } from 'react-icons/fa';
 import { Button } from '@common/ui/utilities/Button';
 import { useUserStore } from '@features/user';
@@ -29,7 +30,21 @@ export function UserProfileData() {
   const avatarRef = useRef(null);
 
   useEffect(() => {
-    if (user.avatarUrl) setAvatarLoading(true);
+    if (!user.avatarUrl) return;
+
+    setAvatarLoading(true);
+
+    const img = new Image();
+    img.src = user.avatarUrl;
+
+    const handleDone = () => setAvatarLoading(false);
+    img.onload = handleDone;
+    img.onerror = handleDone;
+
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
   }, [user.avatarUrl]);
 
   useEffect(() => {
@@ -62,8 +77,8 @@ export function UserProfileData() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-4 p-6 rounded-full bg-surface shadow-lg overflow-hidden">
-      <div className="flex items-center justify-center gap-6">
+    <div className="flex flex-col max-w-2xl mx-auto items-center gap-4 p-3 sm:p-6 rounded-[50px] lg:rounded-full bg-surface shadow-lg overflow-hidden">
+      <div className="flex flex-col lg:flex-row items-center justify-center gap-6">
         <div
           className="relative group"
           onMouseEnter={handleMouseEnter}
@@ -83,8 +98,6 @@ export function UserProfileData() {
                 src={user?.avatarUrl}
                 alt=""
                 className="w-48 h-48 sm:w-60 sm:h-60 object-cover border-2 !border-[var(--main-primary)] rounded-full"
-                onLoad={() => setAvatarLoading(false)}
-                onError={() => setAvatarLoading(false)}
               />
             ) : (
               <MdAccountCircle className="w-48 h-48 sm:w-60 sm:h-60 text-center select-none flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full" />
@@ -137,7 +150,7 @@ export function UserProfileData() {
                         setIsDeleteAvatarModalOpen(true);
                       }}
                       variant="tertiary"
-                      className="flex items-center gap-2 text-red-500 hover:text-red-700"
+                      className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
                       title="Удалить фото"
                     >
                       <FaTrash /> Удалить
@@ -178,8 +191,13 @@ export function UserProfileData() {
               </p>
             )}
           {user?.googleOAuthEnabled && (
-            <p className="text-green-600 text-lg flex items-center gap-2 justify-center rounded-2xl ">
-              <FaCheckCircle /> Google-аккаунт привязан
+            <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
+              <FaGoogle /> Google-аккаунт привязан
+            </p>
+          )}
+          {user?.telegramEnabled && (
+            <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
+              <FaTelegramPlane /> Telegram-аккаунт привязан
             </p>
           )}
         </div>

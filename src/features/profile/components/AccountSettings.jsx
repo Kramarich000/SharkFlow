@@ -1,0 +1,51 @@
+import { Button } from '@common/ui/utilities/Button';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@common/ui/utilities/Accordion';
+import { FaPen, FaTrash } from 'react-icons/fa';
+import { useModalsStore } from '@store/modalsStore';
+import { useShallow } from 'zustand/shallow';
+import { MdManageAccounts } from 'react-icons/md';
+
+export const AccountSettings = () => {
+  const { setIsDeleteUserModalOpen, setIsUpdateUserModalOpen } = useModalsStore(
+    useShallow((state) => ({
+      setIsDeleteUserModalOpen: state.setIsDeleteUserModalOpen,
+      setIsUpdateUserModalOpen: state.setIsUpdateUserModalOpen,
+    })),
+  );
+
+  return (
+    <AccordionItem value="account" className="border-0">
+      <AccordionTrigger className="flex !px-1 items-center gap-4 hover:no-underline hover:bg-[var(--main-button-hover)]">
+        <MdManageAccounts size={30} className="!rotate-0" />
+        <p>Управление аккаунтом</p>
+      </AccordionTrigger>
+
+      <AccordionContent>
+        <h2 className="text-sm mt-1 text-[var(--main-text-muted)]">
+          Здесь вы можете изменить имя, email или удалить аккаунт
+        </h2>
+
+        <div className="flex flex-col gap-4 mt-4">
+          <Button
+            variant="primary"
+            onClick={() => setIsUpdateUserModalOpen(true)}
+          >
+            <FaPen size={20} /> Изменить данные
+          </Button>
+          <Button
+            variant="primary"
+            className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+            onClick={() => setIsDeleteUserModalOpen(true)}
+          >
+            <FaTrash size={20} /> Удалить аккаунт
+          </Button>
+        </div>
+      </AccordionContent>
+    </AccordionItem>
+  );
+};

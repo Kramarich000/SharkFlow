@@ -9,8 +9,6 @@ export async function getUser() {
   await apiResponsesHandler(() => api.get('/api/users'), {
     onSuccess: (data) => {
       if (!sessionStorage.getItem(GREETED_USER_KEY)) {
-        console.log(data);
-        console.log(data?.role?.trim().toLowerCase());
         if (data?.role?.trim().toLowerCase() !== 'guest') {
           showToast(`Добро пожаловать ${data.login}!`);
         } else {

@@ -22,6 +22,7 @@ export function GoogleAuthButton({
   const navigate = useNavigate();
   const { setUser } = useUserStore.getState();
   const { setAccessToken } = useAuthStore.getState();
+  const { setCsrfToken } = useAuthStore.getState();
 
   const setIsConnectGoogleModalOpen = useModalsStore(
     (state) => state.setIsConnectGoogleModalOpen,
@@ -49,10 +50,10 @@ export function GoogleAuthButton({
 
         if (result.accessToken) {
           setAccessToken(result.accessToken);
+          setCsrfToken(result.csrfToken);
           // setUser({ login: result.login, email: result.email, avatarUrl: result.avatarUrl });
           if (isNavigated) navigate('/dashboard');
         } else if (result.requireEmailConfirmed) {
-          console.log("ifasfaafa")
           setIsConnectGoogleModalOpen(true);
         } else {
           showToast('Сервер не вернул токен');

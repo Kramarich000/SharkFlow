@@ -14,6 +14,7 @@ import { Button } from '@common/ui/utilities/Button';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 import { checkTwoFactor } from '@features/auth/api/totp/verification/verificationTotp';
 import TurnstileWidget from '@features/auth/components/TurnstileWidget';
+import { showToast } from '@utils/toast';
 
 export default function LoginPage() {
   const formikRef = useRef(null);
@@ -31,7 +32,7 @@ export default function LoginPage() {
   const [captchaKey, setCaptchaKey] = useState(0);
 
   const createGuest = async () => {
-    if (!captchaToken) {
+    if (!captchaToken && process.env.NODE_ENV === 'production') {
       showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
       return;
     }
@@ -44,14 +45,14 @@ export default function LoginPage() {
         setGuestLoad(false);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setGuestLoad(false);
     }
   };
 
   const handleLoginUser = async (values) => {
-    if (!captchaToken) {
+    if (!captchaToken && process.env.NODE_ENV === 'production') {
       showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
       return;
     }
@@ -69,7 +70,7 @@ export default function LoginPage() {
         setStep('twoFactor');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
       setLoad(false);
@@ -87,7 +88,7 @@ export default function LoginPage() {
       } else {
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
       setTotpLoad(false);
@@ -95,7 +96,6 @@ export default function LoginPage() {
   };
 
   const handleCheckCaptcha = (token) => {
-    console.log('Токен капчи:', token);
     setCaptchaToken(token);
   };
 

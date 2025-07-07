@@ -1,12 +1,18 @@
 import { useEffect, useRef } from 'react';
 import { showToast } from '@utils/toast';
 import { useMediaQuery } from '@common/hooks';
+import { useThemeStore } from '@store/themeStore';
 
 export default function TurnstileWidget({ action, onSuccess }) {
   const widgetRef = useRef(null);
-  const sitekey = import.meta.env.VITE_SITE_KEY;
+  const mode = useThemeStore((state) => state.mode);
+  const sitekey =
+    process.env.NODE_ENV === 'production'
+      ? import.meta.env.VITE_SITE_KEY
+      : import.meta.env.VITE_TEST_SITE_KEY;
   const isMobile = useMediaQuery('(max-width: 400px)');
-  const widgetSize = isMobile ? 'compact' : 'Normal';
+  const widgetSize = isMobile ? 'compact' : 'normal';
+  const widgetTheme = mode === 'dark' ? 'dark' : 'light';
 
   useEffect(() => {
     const scriptId = 'cf-turnstile-script';
@@ -46,7 +52,7 @@ export default function TurnstileWidget({ action, onSuccess }) {
       ref={widgetRef}
       className="cf-turnstile col-span-2"
       data-sitekey={sitekey}
-      data-theme="auto"
+      data-theme={widgetTheme}
       data-size={widgetSize}
       data-language="auto"
       data-callback="handleTurnstileSuccess"
@@ -56,7 +62,7 @@ export default function TurnstileWidget({ action, onSuccess }) {
       //   data-cdata="custom_meta"
       data-response-field="true"
       data-response-field-name="cf-turnstile-response"
-      data-execution="on-render"
+      data-execution="render"
       data-appearance="always"
       data-retry="auto"
       data-retry-interval="8000"

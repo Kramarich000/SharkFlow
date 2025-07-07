@@ -5,7 +5,6 @@ if (typeof window !== 'undefined') {
     'pointerdown',
     () => {
       userHasInteracted = true;
-      console.log('User interacted — can play sound now');
     },
     { once: true },
   );

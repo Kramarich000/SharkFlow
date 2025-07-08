@@ -13,13 +13,14 @@ import { useRegisterStore } from '@features/auth';
 import { Button } from '@common/ui/utilities/Button';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 import TurnstileWidget from '@features/auth/components/TurnstileWidget';
-import { verifyCaptcha } from '@features/auth/api/captcha/checkCaptchaSuccess';
 import { showToast } from '@utils/toast';
 
 export function RegisterFirstStep() {
   const setStep = useRegisterStore((state) => state.setStep);
   const passwordVisible = useRegisterStore((state) => state.passwordVisible);
-  const togglePasswordVisible = useRegisterStore((state) => state.togglePasswordVisible);
+  const togglePasswordVisible = useRegisterStore(
+    (state) => state.togglePasswordVisible,
+  );
   const [load, setLoad] = useState(false);
   const [googleLoad, setGoogleLoad] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
@@ -54,10 +55,10 @@ export function RegisterFirstStep() {
           acceptedPolicies: false,
         }}
         onSubmit={async (values) => {
-          // if (!captchaToken && process.env.NODE_ENV === 'production') {
-          //   showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
-          //   return;
-          // }
+          if (!captchaToken && process.env.NODE_ENV === 'production') {
+            showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+            return;
+          }
           try {
             setLoad(true);
 

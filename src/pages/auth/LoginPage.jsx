@@ -26,10 +26,10 @@ export default function LoginPage() {
   const [captchaKey, setCaptchaKey] = useState(0);
 
   const createGuest = async () => {
-    // if (!captchaToken && process.env.NODE_ENV === 'production') {
-    //   showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
-    //   return;
-    // }
+    if (!captchaToken && process.env.NODE_ENV === 'production') {
+      showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+      return;
+    }
     try {
       setGuestLoad(true);
       const success = await guestLogin(captchaToken);
@@ -46,16 +46,17 @@ export default function LoginPage() {
   };
 
   const handleLoginUser = async (values) => {
-    // if (!captchaToken && process.env.NODE_ENV === 'production') {
-    //   showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
-    //   return;
-    // }
+    if (!captchaToken && process.env.NODE_ENV === 'production') {
+      showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+      return;
+    }
     setLoad(true);
     try {
       const success = await login(values, captchaToken);
       if (success && success?.accessToken) {
         setCaptchaToken(null);
-        setCaptchaKey((prev) => prev + 1);
+        const sck = setCaptchaKey((prev) => prev + 1);
+        console.info('sck', sck);
         setLoading(true);
         navigate('/dashboard');
         await getUser();
@@ -89,7 +90,8 @@ export default function LoginPage() {
   };
 
   const handleCheckCaptcha = (token) => {
-    setCaptchaToken(token);
+   const sct = setCaptchaToken(token);
+   console.info('sct', sct)
   };
 
   return (

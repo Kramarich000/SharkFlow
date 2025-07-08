@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function TurnstileWidget() {
+export default function TurnstileWidget({ onSuccess }) {
   const widgetRef = useRef(null);
 
   useEffect(() => {
@@ -10,7 +10,9 @@ export default function TurnstileWidget() {
         theme: "auto",
         size: "normal",
         language: "auto",
-        callback: "handleTurnstileSuccess",
+        callback: (token) => {
+          if (onSuccess) onSuccess(token);
+        },
         "error-callback": "handleTurnstileError",
         "expired-callback": "handleTurnstileExpired",
         action: "login",
@@ -22,7 +24,7 @@ export default function TurnstileWidget() {
         "feedback-enabled": true,
       });
     }
-  }, []);
+  }, [onSuccess]);
 
   return <div ref={widgetRef} className="cf-turnstile col-span-2"></div>;
 }

@@ -2,21 +2,18 @@ import { useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { AiOutlineSync } from 'react-icons/ai';
 import { useModalsStore } from '@store/modalsStore';
 import { deleteUser } from '@features/user';
-import { emailSchema } from '@validators/emailSchema';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { userVerify } from '@features/user';
-import { Button } from '@common/ui/utilities/Button';
 import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { Step1 } from './DeleteUserModal/Step1';
+import { Step2 } from './DeleteUserModal/Step2';
 
 export function DeleteUserModal() {
   const [load, setLoad] = useState(false);
   const [step, setStep] = useState(1);
-  const [confirmationCode, setConfirmationCode] = useState({
-    confirmationCode: '',
-  });
+  const [confirmationCode, setConfirmationCode] = useState('');
 
   const isDeleteUserModalOpen = useModalsStore(
     (state) => state.isDeleteUserModalOpen,
@@ -39,11 +36,11 @@ export function DeleteUserModal() {
     }
   };
 
-  const deleteUserHandler = async (confirmationCode) => {
-    await confirmCodeSchema.validate(confirmationCode);
+  const deleteUserHandler = async () => {
+    await confirmCodeSchema.validate({ confirmationCode });
     setLoad(true);
     try {
-      await deleteUser(confirmationCode.confirmationCode);
+      await deleteUser(confirmationCode);
       setIsDeleteUserModalOpen(false);
     } catch (error) {
       console.error('Ошибка при удалении аккаунта:', error);
@@ -56,8 +53,8 @@ export function DeleteUserModal() {
     setIsDeleteUserModalOpen(false);
     setTimeout(() => {
       setStep(1);
-      setConfirmationCode({ confirmationCode: '' });
-    }, 300); // синхронизировано с анимацией закрытия
+      setConfirmationCode('');
+    }, 300);
   };
 
   return (
@@ -73,35 +70,7 @@ export function DeleteUserModal() {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="flex flex-col gap-6 justify-center h-full"
           >
-            <h2 className="text-center text-2xl md:text-3xl mb-4">
-              Вы уверены что хотите удалить аккаунт?
-            </h2>
-            <div className="flex flex-col md:flex-row items-center w-full justify-center gap-2">
-              <Button
-                variant="primary"
-                disabled={load}
-                onClick={() => {
-                  setIsDeleteUserModalOpen(false);
-                  setStep(1);
-                }}
-              >
-                Нет
-              </Button>
-              <Button
-                variant="primary"
-                className="order-[-1] md:order-1"
-                onClick={() => {
-                  sendEmailHandler();
-                }}
-                disabled={load}
-              >
-                {load ? (
-                  <AiOutlineSync className="animate-spin" size={23} />
-                ) : (
-                  <>Да, отправить код на почту</>
-                )}
-              </Button>
-            </div>
+            <Step1 loading={load} onNo={handleClose} onYes={sendEmailHandler} />
           </motion.div>
         )}
         {step === 2 && (
@@ -112,51 +81,13 @@ export function DeleteUserModal() {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="flex flex-col gap-6 h-full justify-center"
           >
-            <h2 className="text-center text-3xl mb-4">Введите код:</h2>
-            <div className="relative">
-              <input
-                type="text"
-                required
-                className="peer input-styles input-primary"
-                value={confirmationCode.confirmationCode}
-                onChange={(e) =>
-                  setConfirmationCode({
-                    confirmationCode: e.target.value,
-                  })
-                }
-                disabled={load}
-                placeholder=" "
-              />
-              <label className="label-styles !bg-[var(--main-modal-bg)]">
-                Введите код подтверждения
-              </label>
-            </div>
-            <div className="flex gap-2 flex-col md:flex-rowflex-col md:flex-row items-center justify-center">
-              <Button
-                variant="primary"
-                disabled={load}
-                onClick={() => {
-                  setIsDeleteUserModalOpen(false);
-                }}
-              >
-                Отмена
-              </Button>
-              <Button
-                variant="primary"
-                className="order-[-1] md:order-1 !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
-                onClick={() => deleteUserHandler(confirmationCode)}
-                disabled={load}
-              >
-                {load ? (
-                  <AiOutlineSync
-                    className="animate-spin !text-white"
-                    size={23}
-                  />
-                ) : (
-                  <>Подтвердить удаление</>
-                )}
-              </Button>
-            </div>
+            <Step2
+              loading={load}
+              confirmationCode={confirmationCode}
+              onCodeChange={e => setConfirmationCode(e.target.value)}
+              onDelete={deleteUserHandler}
+              onCancel={handleClose}
+            />
           </motion.div>
         )}
       </AnimatePresence>

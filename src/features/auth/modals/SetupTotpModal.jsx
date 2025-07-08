@@ -1,34 +1,27 @@
-import { Fragment, useState, useEffect } from 'react';
+import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useShallow } from 'zustand/shallow';
 import { showToast } from '@utils/toast';
 import { AiOutlineSync } from 'react-icons/ai';
-import { IoCopy, IoCheckmarkCircle, IoClose } from 'react-icons/io5';
+import { IoClose } from 'react-icons/io5';
 
 import { useModalsStore } from '@store/modalsStore';
-import {
-  updateUser,
-  confirmUpdate,
-  updateSchema,
-  UpdateForm,
-  UpdateConfirmation,
-  useUserStore,
-} from '@features/user';
-
+import { useUserStore } from '@features/user';
 import { generateSecret } from '@features/auth/api/totp/setup/createSecret';
 import { Button } from '@common/ui/utilities/Button';
 import { verifySecret } from '@features/auth/api/totp/setup/verifySecret';
 import { sendEmail } from '@features/auth/api/totp/setup/sendEmail';
-import { confirmCodeSchema } from '@validators/confirmCodeSchema';
-import { QrCode } from '@utils/totp/QrCode';
 import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { Step1 } from './SetupTotpModal/Step1';
+import { Step2 } from './SetupTotpModal/Step2';
+import { Step3 } from './SetupTotpModal/Step3';
+import { Step4 } from './SetupTotpModal/Step4';
 
 export function SetupTotpModal() {
   const [load, setLoad] = useState(false);
   const [step, setStep] = useState(1);
   const [totpCode, setTotpCode] = useState('');
   const [confirmationCode, setConfirmationCode] = useState('');
-
   const [qrCode, setQrCode] = useState('');
   const [secret, setSecret] = useState('');
 
@@ -127,35 +120,7 @@ export function SetupTotpModal() {
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div
-              key="step1"
-              className="flex flex-col items-center gap-6 h-full justify-center"
-            >
-              <h2 className="text-center text-2xl sm:text-3xl mb-4">
-                Вы уверены что хотите подключить 2FA?
-              </h2>
-              <div className="flex flex-col md:flex-row items-center w-full justify-center gap-2">
-                <Button
-                  variant="primary"
-                  disabled={load}
-                  onClick={handleClose}
-                >
-                  Нет
-                </Button>
-                <Button
-                  variant="primary"
-                  className="order-[-1] md:order-1"
-                  onClick={handleSendEmail}
-                  disabled={load}
-                >
-                  {load ? (
-                    <AiOutlineSync className="animate-spin" size={23} />
-                  ) : (
-                    <>Да</>
-                  )}
-                </Button>
-              </div>
-            </div>
+            <Step1 loading={load} onNo={handleClose} onYes={handleSendEmail} />
           </motion.div>
         )}
         {step === 2 && (
@@ -170,35 +135,17 @@ export function SetupTotpModal() {
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div className="relative w-full">
-              <input
-                className="peer input-styles input-primary"
-                value={confirmationCode}
-                onChange={(e) => setConfirmationCode(e.target.value)}
-                placeholder=" "
-                required
-                maxLength={6}
-              />
-              <label className="label-styles !bg-[var(--main-modal-bg)]">
-                Введите код подтверждения из почты
-              </label>
-            </div>
-            <Button
-              variant="primary"
-              onClick={handleGenerateSecret}
-              disabled={load}
-            >
-              {load ? (
-                <AiOutlineSync size={23} className="animate-spin" />
-              ) : (
-                <>Отправить</>
-              )}
-            </Button>
+            <Step2
+              loading={load}
+              confirmationCode={confirmationCode}
+              onChange={e => setConfirmationCode(e.target.value)}
+              onSubmit={handleGenerateSecret}
+            />
           </motion.div>
         )}
         {step === 3 && (
           <motion.div
-            key="step2-motion"
+            key="step3-motion"
             initial={{
               opacity: 0,
               transform: 'translateX(50px)',
@@ -208,71 +155,25 @@ export function SetupTotpModal() {
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <QrCode value={qrCode} />
-            <div className="flex items-center w-full justify-center gap-2 mt-2 select-all cursor-pointer">
-              <code
-                onClick={copySecretToClipboard}
-                className="text-lg text-center font-mono p-2 break-all rounded cursor-pointer select-all border-2 border-[var(--main-primary)] hover:bg-[var(--main-primary)] !text-[var(--main-text)] hover:!text-[var(--main-button-text)] !transition-colors"
-                title="Кликните, чтобы скопировать"
-                aria-label="Скопировать секрет в буфер обмена"
-              >
-                {secret}
-              </code>
-              <Button
-                onClick={copySecretToClipboard}
-                variant="tertiary"
-                className="p-2 rounded !bg-transparent hover:!bg-transparent group"
-                aria-label="Скопировать секретный код"
-              >
-                <IoCopy
-                  size={24}
-                  className="text-[var(--main-text)] group-hover:text-[var(--main-primary)] !transition-colors"
-                />
-              </Button>
-            </div>
-            <div className="relative w-full">
-              <input
-                className="peer input-styles input-primary"
-                value={totpCode}
-                onChange={(e) => setTotpCode(e.target.value)}
-                placeholder=" "
-                required
-              />
-              <label className="label-styles !bg-[var(--main-modal-bg)]">
-                Введите код из приложения
-              </label>
-            </div>
-            <Button
-              variant="primary"
-              onClick={handleVerifySecret}
-              disabled={load}
-            >
-              {load ? (
-                <AiOutlineSync size={23} className="animate-spin" />
-              ) : (
-                <>Подтвердить</>
-              )}
-            </Button>
+            <Step3
+              loading={load}
+              qrCode={qrCode}
+              secret={secret}
+              totpCode={totpCode}
+              onTotpChange={e => setTotpCode(e.target.value)}
+              onCopySecret={copySecretToClipboard}
+              onSubmit={handleVerifySecret}
+            />
           </motion.div>
         )}
         {step === 4 && (
           <motion.div
-            key="step3-motion"
+            key="step4-motion"
             initial={{ opacity: 0, transform: 'translateX(50px)' }}
             animate={{ opacity: 1, transform: 'translateX(0)' }}
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
           >
-            <div
-              className={`p-12 border-2 border-[var(--main-primary)] text-center rounded-2xl flex flex-col items-center justify-center gap-4 bg-surface shadow-glow ${
-                step === 3 ? 'mt-0' : 'mt-8'
-              }`}
-            >
-              <IoCheckmarkCircle
-                size={100}
-                className="text-[var(--main-primary)]"
-              />
-              <p className="text-[20px]">Вы успешно подключили 2FA</p>
-            </div>
+            <Step4 step={step} />
           </motion.div>
         )}
       </AnimatePresence>

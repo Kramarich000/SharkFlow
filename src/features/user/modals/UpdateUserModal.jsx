@@ -9,19 +9,17 @@ import {
   updateUser,
   confirmUpdate,
   updateSchema,
-  UpdateForm,
-  UpdateConfirmation,
   useUserStore,
 } from '@features/user';
 
-import { IoCheckmarkCircle } from 'react-icons/io5';
+import { Step1 } from './UpdateUserModal/Step1';
+import { Step2 } from './UpdateUserModal/Step2';
+import { Step3 } from './UpdateUserModal/Step3';
 
 export function UpdateUserModal() {
   const [load, setLoad] = useState(false);
   const [step, setStep] = useState(1);
-  const [confirmationCode, setConfirmationCode] = useState({
-    confirmationCode: '',
-  });
+  const [confirmationCode, setConfirmationCode] = useState('');
 
   const [newLogin, setNewLogin] = useState('');
   const [newEmail, setNewEmail] = useState('');
@@ -66,7 +64,7 @@ export function UpdateUserModal() {
   };
 
   const updateUserHandler = async () => {
-    const code = confirmationCode.confirmationCode;
+    const code = confirmationCode;
     if (newLogin === originalLogin && newEmail === originalEmail) {
       showToast('Нет изменений для сохранения', 'info');
       return;
@@ -113,11 +111,7 @@ export function UpdateUserModal() {
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <UpdateConfirmation
-              onConfirm={sendEmailHandler}
-              onCancel={handleClose}
-              loading={load}
-            />
+            <Step1 loading={load} onCancel={handleClose} onConfirm={sendEmailHandler} />
           </motion.div>
         )}
         {step === 2 && (
@@ -131,16 +125,16 @@ export function UpdateUserModal() {
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <UpdateForm
+            <Step2
+              loading={load}
+              confirmationCode={confirmationCode}
+              onCodeChange={e => setConfirmationCode(e.target.value)}
               onUpdate={updateUserHandler}
               onCancel={handleClose}
-              isLoading={load}
-              confirmationCode={confirmationCode}
-              setConfirmationCode={setConfirmationCode}
               newLogin={newLogin}
-              setNewLogin={setNewLogin}
+              onLoginChange={e => setNewLogin(e.target.value)}
               newEmail={newEmail}
-              setNewEmail={setNewEmail}
+              onEmailChange={e => setNewEmail(e.target.value)}
             />
           </motion.div>
         )}
@@ -151,15 +145,7 @@ export function UpdateUserModal() {
             animate={{ opacity: 1, transform: 'translateX(0)' }}
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
           >
-            <div className="p-12 border-2 border-[var(--main-primary)] text-center mt-8 rounded-2xl flex flex-col items-center justify-center gap-4 bg-surface shadow-glow">
-              <IoCheckmarkCircle
-                size={100}
-                className="text-[var(--main-primary)]"
-              />
-              <p className="text-[20px]">
-                Вы успешно обновили данные аккаунта
-              </p>
-            </div>
+            <Step3 />
           </motion.div>
         )}
       </AnimatePresence>

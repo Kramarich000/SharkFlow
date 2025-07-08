@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useShallow } from 'zustand/shallow';
-import { AiOutlineSync } from 'react-icons/ai';
 
 import { useModalsStore } from '@store/modalsStore';
-import { UpdateForm, UpdateConfirmation, useUserStore } from '@features/user';
-
-import { IoCheckmarkCircle } from 'react-icons/io5';
-import { Button } from '@common/ui/utilities/Button';
+import { useUserStore } from '@features/user';
 import { sendDisableGoogleEmail, disableGoogle } from '@features/auth/api';
 import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { Step1 } from './DisableGoogleModal/Step1';
+import { Step2 } from './DisableGoogleModal/Step2';
+import { Step3 } from './DisableGoogleModal/Step3';
 
 export function DisableGoogleModal() {
   const [load, setLoad] = useState(false);
@@ -76,35 +75,7 @@ export function DisableGoogleModal() {
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div
-              key="step1"
-              className="flex flex-col items-center gap-6 h-full justify-center"
-            >
-              <h2 className="text-center text-2xl sm:text-3xl mb-4">
-                Вы уверены что хотите отключить Google авторизацию?
-              </h2>
-              <div className="flex flex-col md:flex-row items-center w-full justify-center gap-2">
-                <Button
-                  variant="primary"
-                  disabled={load}
-                  onClick={handleClose}
-                >
-                  Нет
-                </Button>
-                <Button
-                  variant="primary"
-                  className="order-[-1] md:order-1"
-                  onClick={handleSendEmail}
-                  disabled={load}
-                >
-                  {load ? (
-                    <AiOutlineSync className="animate-spin" size={23} />
-                  ) : (
-                    <>Да, отправить код на почту</>
-                  )}
-                </Button>
-              </div>
-            </div>
+            <Step1 loading={load} onNo={handleClose} onYes={handleSendEmail} />
           </motion.div>
         )}
         {step === 2 && (
@@ -119,30 +90,12 @@ export function DisableGoogleModal() {
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div className="relative w-full">
-              <input
-                className="peer input-styles input-primary"
-                value={confirmationCode}
-                onChange={(e) => setConfirmationCode(e.target.value)}
-                placeholder=" "
-                required
-                maxLength={6}
-              />
-              <label className="label-styles !bg-[var(--main-modal-bg)]">
-                Введите код подтверждения из почты
-              </label>
-            </div>
-            <Button
-              variant="primary"
-              onClick={handleDisableGoogle}
-              disabled={load}
-            >
-              {load ? (
-                <AiOutlineSync size={23} className="animate-spin" />
-              ) : (
-                <>Отправить</>
-              )}
-            </Button>
+            <Step2
+              loading={load}
+              confirmationCode={confirmationCode}
+              onChange={e => setConfirmationCode(e.target.value)}
+              onSubmit={handleDisableGoogle}
+            />
           </motion.div>
         )}
         {step === 3 && (
@@ -152,17 +105,7 @@ export function DisableGoogleModal() {
             animate={{ opacity: 1, transform: 'translateX(0)' }}
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
           >
-            <div
-              className={`p-12 border-2 border-[var(--main-primary)] text-center rounded-2xl flex flex-col items-center justify-center gap-4 bg-surface shadow-glow ${
-                step === 3 ? 'mt-0' : 'mt-8'
-              }`}
-            >
-              <IoCheckmarkCircle
-                size={100}
-                className="text-[var(--main-primary)]"
-              />
-              <p className="text-[20px]">Вы успешно отключили Google</p>
-            </div>
+            <Step3 />
           </motion.div>
         )}
       </AnimatePresence>

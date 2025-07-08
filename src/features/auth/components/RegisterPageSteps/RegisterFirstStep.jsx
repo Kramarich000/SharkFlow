@@ -216,8 +216,7 @@ export function RegisterFirstStep() {
                 </div>
                 <TurnstileWidget
                   key={captchaKey}
-                  action="register"
-                  onSuccess={handleCheckCaptcha}
+                  onVerify={handleCheckCaptcha}
                 />
                 <Button
                   className="col-span-2"

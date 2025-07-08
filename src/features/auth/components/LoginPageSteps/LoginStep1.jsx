@@ -98,9 +98,8 @@ export function LoginStep1({
             </div>
 
             <TurnstileWidget
-              action="login"
               key={captchaKey}
-              onSuccess={handleCheckCaptcha}
+              onVerify={handleCheckCaptcha}
             />
 
             <Button

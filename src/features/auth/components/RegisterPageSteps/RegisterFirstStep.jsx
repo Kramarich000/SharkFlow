@@ -54,10 +54,10 @@ export function RegisterFirstStep() {
           acceptedPolicies: false,
         }}
         onSubmit={async (values) => {
-          if (!captchaToken && process.env.NODE_ENV === 'production') {
-            showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
-            return;
-          }
+          // if (!captchaToken && process.env.NODE_ENV === 'production') {
+          //   showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+          //   return;
+          // }
           try {
             setLoad(true);
 

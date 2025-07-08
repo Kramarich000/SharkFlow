@@ -87,8 +87,8 @@ export function BoardDetailsModal() {
     <ModalBase
       open={isDetailsBoardModalOpen}
       onClose={handleClose}
-      maxWidth="w-full md:h-[99%] max-w-5xl"
-      className="h-full border-4 border-b-0 z-9998 flex flex-col rounded-b-none p-3 sm:p-6"
+      maxWidth="w-full md:h-[99%] max-w-full"
+      className="h-full border-4 z-9998 flex flex-col p-3 sm:p-6"
       style={{
         borderColor: selectedBoard?.color?.startsWith('#')
           ? selectedBoard?.color

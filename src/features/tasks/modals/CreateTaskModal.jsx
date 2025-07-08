@@ -71,7 +71,7 @@ export function CreateTaskModal() {
     <ModalBase
       open={isCreateTaskModalOpen}
       onClose={handleClose}
-      maxWidth="max-w-6xl h-full"
+      maxWidth="max-w-6xl"
     >
       <h2 className="text-[31px] text-center mb-4">Создание задачи</h2>
       <div className="w-full flex flex-col gap-8">

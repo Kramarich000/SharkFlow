@@ -49,8 +49,8 @@ export function TaskDetailsModal() {
     <ModalBase
       open={isDetailsTaskModalOpen}
       onClose={handleClose}
-      maxWidth="w-full xl:w-[95%] h-full"
-      className={`z-9998 flex flex-col !border-4 lg:!border-l-0 !border-b-0 rounded-b-none p-0 shadow-2xl !transition-all ${
+      maxWidth="w-full h-full"
+      className={`z-9998 flex flex-col !border-4 lg:!border-l-0 shadow-2xl !transition-all !p-0  ${
         statusCardStyles[selectedTask.status] || statusCardStyles.DEFAULT
       }`}
     >

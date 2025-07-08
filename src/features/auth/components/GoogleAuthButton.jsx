@@ -44,7 +44,7 @@ export function GoogleAuthButton({
         }
 
         const response = isAuth
-          ? await googleAuth(code)
+          ? await googleAuth(code, captchaToken)
           : await googleConnect(code);
 
         const result = response?.data ?? response;

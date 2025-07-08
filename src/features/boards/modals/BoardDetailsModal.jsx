@@ -1,11 +1,5 @@
-import { Fragment, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
-import {
-  Dialog,
-  DialogPanel,
-  Transition,
-  TransitionChild,
-} from '@headlessui/react';
 
 import {
   useBoardStore,
@@ -16,6 +10,7 @@ import {
 import { BoardContent } from '@features/boards/components/BoardContent';
 import { useModalsStore } from '@store/modalsStore';
 import { useTaskStore, useTaskSorter } from '@features/tasks';
+import { ModalBase } from '@common/ui/feedback/ModalBase';
 
 export function BoardDetailsModal() {
   const { selectedBoard } = useBoardStore(
@@ -89,60 +84,47 @@ export function BoardDetailsModal() {
   };
 
   return (
-    <Transition appear show={isDetailsBoardModalOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={handleClose}>
-        <div className="fixed inset-0">
-          <div className="flex h-full items-end justify-center p-4 pb-0">
-            <TransitionChild
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="translate-y-full"
-              leave="ease-in duration-200"
-              leaveTo="translate-y-full"
-            >
-              <DialogPanel
-                className="modal-base w-full h-full md:h-[99%] border-4 border-b-0 z-9998 flex flex-col transform overflow-hidden relative rounded-2xl rounded-b-none p-3 sm:p-6 text-left align-middle shadow-xl !transition-all"
-                style={{
-                  borderColor: selectedBoard?.color?.startsWith('#')
-                    ? selectedBoard?.color
-                    : `#${selectedBoard?.color}`,
-                }}
-              >
-                <div className="flex flex-col h-full">
-                  <BoardHeader
-                    isEditing={isEditing}
-                    newTitle={newTitle}
-                    setNewTitle={setNewTitle}
-                    saveUpdateBoard={handleSaveBoard}
-                    setisEditing={setIsEditing}
-                    selectedBoard={selectedBoard}
-                    load={isPending}
-                    saveDeleteBoard={handleDeleteBoard}
-                    newColor={newColor}
-                    setNewColor={setNewColor}
-                    setIsCreateTaskModalOpen={setIsCreateTaskModalOpen}
-                  />
+    <ModalBase
+      open={isDetailsBoardModalOpen}
+      onClose={handleClose}
+      maxWidth="w-full md:h-[99%] max-w-5xl"
+      className="h-full border-4 border-b-0 z-9998 flex flex-col rounded-b-none p-3 sm:p-6"
+      style={{
+        borderColor: selectedBoard?.color?.startsWith('#')
+          ? selectedBoard?.color
+          : `#${selectedBoard?.color}`,
+      }}
+    >
+      <div className="flex flex-col h-full">
+        <BoardHeader
+          isEditing={isEditing}
+          newTitle={newTitle}
+          setNewTitle={setNewTitle}
+          saveUpdateBoard={handleSaveBoard}
+          setisEditing={setIsEditing}
+          selectedBoard={selectedBoard}
+          load={isPending}
+          saveDeleteBoard={handleDeleteBoard}
+          newColor={newColor}
+          setNewColor={setNewColor}
+          setIsCreateTaskModalOpen={setIsCreateTaskModalOpen}
+        />
 
-                  <BoardContent
-                    isLoading={isLoading}
-                    taskSort={taskSorter.taskSort}
-                    setTaskSort={taskSorter.setTaskSort}
-                    sortOrder={taskSorter.sortOrder}
-                    setSortOrder={taskSorter.setSortOrder}
-                    activeId={taskSorter.activeId}
-                    sortedTasks={taskSorter.sortedTasks}
-                    handleDragStart={taskSorter.handleDragStart}
-                    handleDragEnd={taskSorter.handleDragEnd}
-                    handleDragCancel={taskSorter.handleDragCancel}
-                  />
+        <BoardContent
+          isLoading={isLoading}
+          taskSort={taskSorter.taskSort}
+          setTaskSort={taskSorter.setTaskSort}
+          sortOrder={taskSorter.sortOrder}
+          setSortOrder={taskSorter.setSortOrder}
+          activeId={taskSorter.activeId}
+          sortedTasks={taskSorter.sortedTasks}
+          handleDragStart={taskSorter.handleDragStart}
+          handleDragEnd={taskSorter.handleDragEnd}
+          handleDragCancel={taskSorter.handleDragCancel}
+        />
 
-                  <BoardActions load={isPending} onClose={handleClose} />
-                </div>
-              </DialogPanel>
-            </TransitionChild>
-          </div>
-        </div>
-      </Dialog>
-    </Transition>
+        <BoardActions load={isPending} onClose={handleClose} />
+      </div>
+    </ModalBase>
   );
 }

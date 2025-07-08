@@ -16,7 +16,6 @@ export default function Partners() {
               opacity: 0,
             }}
             whileInView={{ x: 0, opacity: 1 }}
-            whileInView={{ transform: 'translateX(0px)', opacity: 1 }}
             transition={{ delay: item.id * 0.12 }}
             viewport={{ once: true }}
             className="max-w-full w-30 hover:scale-110 duration-400 !transition-transform"

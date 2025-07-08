@@ -10,10 +10,8 @@ import { uploadUrl } from '@features/user/api/cloudinary/uploadUrl';
 import { uploadImgToCloudinary } from '@features/user/api/cloudinary/uploadImgToCloudinary';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useDropzone } from 'react-dropzone';
-import { StepEmpty } from './AvatarCropModal/StepEmpty';
-import { StepCropper } from './AvatarCropModal/StepCropper';
-import { StepPreview } from './AvatarCropModal/StepPreview';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { StepEmpty, StepCropper, StepPreview } from '@features/user';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 export function AvatarCropModal() {
   const isAvatarCropModalOpen = useModalsStore(

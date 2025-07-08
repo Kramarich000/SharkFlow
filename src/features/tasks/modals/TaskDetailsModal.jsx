@@ -12,7 +12,7 @@ import {
   TaskTimestamps,
 } from '@features/tasks';
 import { Button } from '@common/ui/utilities/Button';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 export function TaskDetailsModal() {
   const { isDetailsTaskModalOpen, setIsDetailsTaskModalOpen } = useModalsStore(

@@ -18,7 +18,7 @@ import {
 import { Button } from '@common/ui/utilities/Button';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { googleVerify } from '@features/auth/api/google/connect/googleVerify';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 export function ConnectGoogleModal() {
   const [load, setLoad] = useState(false);
@@ -61,8 +61,14 @@ export function ConnectGoogleModal() {
   };
 
   return (
-    <ModalBase open={isConnectGoogleModalOpen} onClose={handleClose} maxWidth="max-w-xl">
-      <h2 className={`text-3xl text-center mb-8 ${step === 4 && '!hidden'}`}>Подтверждение привязки Google</h2>
+    <ModalBase
+      open={isConnectGoogleModalOpen}
+      onClose={handleClose}
+      maxWidth="max-w-xl"
+    >
+      <h2 className={`text-3xl text-center mb-8 ${step === 4 && '!hidden'}`}>
+        Подтверждение привязки Google
+      </h2>
       <button
         title="Закрыть"
         className="!transition !text-[var(--main-text)] absolute top-0 right-0 justify-center px-4 py-2 text-sm hover:!text-[var(--main-primary-hover)]"
@@ -126,9 +132,7 @@ export function ConnectGoogleModal() {
                 size={100}
                 className="text-[var(--main-primary)]"
               />
-              <p className="text-[20px]">
-                Вы успешно подключили Google
-              </p>
+              <p className="text-[20px]">Вы успешно подключили Google</p>
             </div>
           </motion.div>
         )}

@@ -10,7 +10,7 @@ import { Button } from '@common/ui/utilities/Button';
 import { getTelegramLink } from '@features/auth/api/telegram/getTelegramLink';
 import { QrCode } from '@utils/totp/QrCode';
 import { AiOutlineSync } from 'react-icons/ai';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 export function ConnectTelegramModal() {
   const [load, setLoad] = useState(false);
@@ -57,11 +57,14 @@ export function ConnectTelegramModal() {
   }, [isConnectTelegramModalOpen]);
 
   return (
-    <ModalBase open={isConnectTelegramModalOpen} onClose={handleClose} maxWidth="max-w-xl">
+    <ModalBase
+      open={isConnectTelegramModalOpen}
+      onClose={handleClose}
+      maxWidth="max-w-xl"
+    >
       {link && (
         <h2 className="text-3xl text-center mb-8">
-          Перейдите по ссылке или сканируйте QR-код штатной камерой
-          телефона
+          Перейдите по ссылке или сканируйте QR-код штатной камерой телефона
         </h2>
       )}
       <button
@@ -100,7 +103,11 @@ export function ConnectTelegramModal() {
             ) : (
               <>
                 <QrCode value={link} />
-                <Button variant="primary" className="!border-0 !text-[16px]" asChild>
+                <Button
+                  variant="primary"
+                  className="!border-0 !text-[16px]"
+                  asChild
+                >
                   <a
                     href={link}
                     variant="primary"

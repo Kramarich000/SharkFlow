@@ -7,7 +7,7 @@ import { useBoardStore } from '@features/boards';
 import { useModalsStore } from '@store/modalsStore';
 import { TaskFormInputs, TaskFormSelectors } from '@features/tasks';
 import { Button } from '@common/ui/utilities/Button';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 export function CreateTaskModal() {
   const [load, setLoad] = useState(false);
@@ -68,10 +68,12 @@ export function CreateTaskModal() {
   const handleClose = () => setIsCreateTaskModalOpen(false);
 
   return (
-    <ModalBase open={isCreateTaskModalOpen} onClose={handleClose} maxWidth="max-w-6xl h-full">
-      <h2 className="text-[31px] text-center mb-4">
-        Создание задачи
-      </h2>
+    <ModalBase
+      open={isCreateTaskModalOpen}
+      onClose={handleClose}
+      maxWidth="max-w-6xl h-full"
+    >
+      <h2 className="text-[31px] text-center mb-4">Создание задачи</h2>
       <div className="w-full flex flex-col gap-8">
         <TaskFormInputs
           title={title}

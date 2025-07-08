@@ -11,11 +11,11 @@ import { generateSecret } from '@features/auth/api/totp/setup/createSecret';
 import { Button } from '@common/ui/utilities/Button';
 import { verifySecret } from '@features/auth/api/totp/setup/verifySecret';
 import { sendEmail } from '@features/auth/api/totp/setup/sendEmail';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
-import { Step1 } from './SetupTotpModal/Step1';
-import { Step2 } from './SetupTotpModal/Step2';
-import { Step3 } from './SetupTotpModal/Step3';
-import { Step4 } from './SetupTotpModal/Step4';
+import { ModalBase } from '@common/ui/layout/ModalBase';
+import { Step1 } from './Step1';
+import { Step2 } from './Step2';
+import { Step3 } from './Step3';
+import { Step4 } from './Step4';
 
 export function SetupTotpModal() {
   const [load, setLoad] = useState(false);
@@ -101,8 +101,15 @@ export function SetupTotpModal() {
   };
 
   return (
-    <ModalBase open={isSetupTotpModalOpen} onClose={handleClose} maxWidth="max-w-xl" disableOverlayClose={true}>
-      <h2 className={`text-3xl text-center mb-8 ${step === 4 && '!hidden'}`}>Подключение 2FA</h2>
+    <ModalBase
+      open={isSetupTotpModalOpen}
+      onClose={handleClose}
+      maxWidth="max-w-xl"
+      disableOverlayClose={true}
+    >
+      <h2 className={`text-3xl text-center mb-8 ${step === 4 && '!hidden'}`}>
+        Подключение 2FA
+      </h2>
       <button
         title="Закрыть"
         className="!transition !text-[var(--main-text)] absolute top-0 right-0 justify-center px-4 py-2 text-sm hover:!text-[var(--main-primary-hover)]"
@@ -138,7 +145,7 @@ export function SetupTotpModal() {
             <Step2
               loading={load}
               confirmationCode={confirmationCode}
-              onChange={e => setConfirmationCode(e.target.value)}
+              onChange={(e) => setConfirmationCode(e.target.value)}
               onSubmit={handleGenerateSecret}
             />
           </motion.div>
@@ -160,7 +167,7 @@ export function SetupTotpModal() {
               qrCode={qrCode}
               secret={secret}
               totpCode={totpCode}
-              onTotpChange={e => setTotpCode(e.target.value)}
+              onTotpChange={(e) => setTotpCode(e.target.value)}
               onCopySecret={copySecretToClipboard}
               onSubmit={handleVerifySecret}
             />

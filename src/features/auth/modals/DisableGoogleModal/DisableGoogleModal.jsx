@@ -5,10 +5,10 @@ import { useShallow } from 'zustand/shallow';
 import { useModalsStore } from '@store/modalsStore';
 import { useUserStore } from '@features/user';
 import { sendDisableGoogleEmail, disableGoogle } from '@features/auth/api';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
-import { Step1 } from './DisableGoogleModal/Step1';
-import { Step2 } from './DisableGoogleModal/Step2';
-import { Step3 } from './DisableGoogleModal/Step3';
+import { ModalBase } from '@common/ui/layout/ModalBase';
+import { Step1 } from './Step1';
+import { Step2 } from './Step2';
+import { Step3 } from './Step3';
 
 export function DisableGoogleModal() {
   const [load, setLoad] = useState(false);
@@ -64,8 +64,15 @@ export function DisableGoogleModal() {
   };
 
   return (
-    <ModalBase open={isDisableGoogleModalOpen} onClose={handleClose} maxWidth="max-w-xl" disableOverlayClose={true}>
-      <h2 className={`text-3xl text-center mb-8 ${step === 3 && '!hidden'}`}>Отключение Google</h2>
+    <ModalBase
+      open={isDisableGoogleModalOpen}
+      onClose={handleClose}
+      maxWidth="max-w-xl"
+      disableOverlayClose={true}
+    >
+      <h2 className={`text-3xl text-center mb-8 ${step === 3 && '!hidden'}`}>
+        Отключение Google
+      </h2>
       <AnimatePresence mode="wait">
         {step === 1 && (
           <motion.div
@@ -93,7 +100,7 @@ export function DisableGoogleModal() {
             <Step2
               loading={load}
               confirmationCode={confirmationCode}
-              onChange={e => setConfirmationCode(e.target.value)}
+              onChange={(e) => setConfirmationCode(e.target.value)}
               onSubmit={handleDisableGoogle}
             />
           </motion.div>

@@ -6,10 +6,11 @@ import { RegisterFirstStep, useRegisterStore } from '@features/auth';
 import { Loader } from '@common/ui';
 
 const RegisterSecondStep = lazy(
-  () => import('@features/auth/components/RegisterSecondStep'),
+  () =>
+    import('@features/auth/components/RegisterPageSteps/RegisterSecondStep'),
 );
 const RegisterThirdStep = lazy(
-  () => import('@features/auth/components/RegisterThirdStep'),
+  () => import('@features/auth/components/RegisterPageSteps/RegisterThirdStep'),
 );
 
 export default function RegisterPage() {

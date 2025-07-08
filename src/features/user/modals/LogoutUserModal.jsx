@@ -5,7 +5,7 @@ import { AiOutlineSync } from 'react-icons/ai';
 import { useModalsStore } from '@store/modalsStore';
 import { logoutUser } from '@features/auth';
 import { Button } from '@common/ui/utilities/Button';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 export function LogoutUserModal() {
   const [load, setLoad] = useState(false);

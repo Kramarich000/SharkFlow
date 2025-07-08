@@ -6,7 +6,7 @@ import { useTaskStore } from '@features/tasks';
 import { useBoardStore } from '@features/boards';
 import { useModalsStore } from '@store/modalsStore';
 import { Button } from '@common/ui/utilities/Button';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 export function DeleteTaskModal() {
   const deleteTask = useTaskStore((state) => state.deleteTask);
@@ -35,10 +35,12 @@ export function DeleteTaskModal() {
   const handleClose = () => setIsDeleteTaskModalOpen(false);
 
   return (
-    <ModalBase open={isDeleteTaskModalOpen} onClose={handleClose} maxWidth="max-w-3xl h-full">
-      <h2 className="text-[31px] text-center mb-4">
-        Удаление задачи
-      </h2>
+    <ModalBase
+      open={isDeleteTaskModalOpen}
+      onClose={handleClose}
+      maxWidth="max-w-3xl h-full"
+    >
+      <h2 className="text-[31px] text-center mb-4">Удаление задачи</h2>
       <p className="text-xl text-center mb-6">
         Вы действительно хотите удалить задачу?
       </p>
@@ -60,10 +62,7 @@ export function DeleteTaskModal() {
           disabled={load}
         >
           {load ? (
-            <AiOutlineSync
-              className="animate-spin !text-white"
-              size={23}
-            />
+            <AiOutlineSync className="animate-spin !text-white" size={23} />
           ) : (
             <>Удалить</>
           )}

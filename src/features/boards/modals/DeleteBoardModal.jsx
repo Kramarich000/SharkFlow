@@ -4,7 +4,7 @@ import { useBoardStore, useDeleteBoard } from '@features/boards';
 import { AiOutlineSync } from 'react-icons/ai';
 import { useModalsStore } from '@store/modalsStore';
 import { Button } from '@common/ui/utilities/Button';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 export function DeleteBoardModal() {
   const { selectedBoard } = useBoardStore(
@@ -47,7 +47,11 @@ export function DeleteBoardModal() {
     setIsDeleteBoardModalOpen(false);
   };
   return (
-    <ModalBase open={isDeleteBoardModalOpen} onClose={handleClose} maxWidth="max-w-3xl">
+    <ModalBase
+      open={isDeleteBoardModalOpen}
+      onClose={handleClose}
+      maxWidth="max-w-3xl"
+    >
       <h2 className="text-3xl text-center mb-8">Удаление доски</h2>
       <div className="flex flex-col items-center justify-between gap-4 sm:gap-10">
         <h2 className="text-2xl text-center">

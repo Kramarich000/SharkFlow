@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useShallow } from 'zustand/shallow';
 import { showToast } from '@utils/toast';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 import { useModalsStore } from '@store/modalsStore';
 import {
@@ -12,9 +12,9 @@ import {
   useUserStore,
 } from '@features/user';
 
-import { Step1 } from './UpdateUserModal/Step1';
-import { Step2 } from './UpdateUserModal/Step2';
-import { Step3 } from './UpdateUserModal/Step3';
+import { Step1 } from './Step1';
+import { Step2 } from './Step2';
+import { Step3 } from './Step3';
 
 export function UpdateUserModal() {
   const [load, setLoad] = useState(false);
@@ -100,7 +100,11 @@ export function UpdateUserModal() {
   };
 
   return (
-    <ModalBase open={isUpdateUserModalOpen} onClose={handleClose} disableOverlayClose={true}>
+    <ModalBase
+      open={isUpdateUserModalOpen}
+      onClose={handleClose}
+      disableOverlayClose={true}
+    >
       <h2 className="text-3xl text-center mb-8">Обновление данных</h2>
       <AnimatePresence mode="wait">
         {step === 1 && (
@@ -111,7 +115,11 @@ export function UpdateUserModal() {
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <Step1 loading={load} onCancel={handleClose} onConfirm={sendEmailHandler} />
+            <Step1
+              loading={load}
+              onCancel={handleClose}
+              onConfirm={sendEmailHandler}
+            />
           </motion.div>
         )}
         {step === 2 && (
@@ -128,13 +136,13 @@ export function UpdateUserModal() {
             <Step2
               loading={load}
               confirmationCode={confirmationCode}
-              onCodeChange={e => setConfirmationCode(e.target.value)}
+              onCodeChange={(e) => setConfirmationCode(e.target.value)}
               onUpdate={updateUserHandler}
               onCancel={handleClose}
               newLogin={newLogin}
-              onLoginChange={e => setNewLogin(e.target.value)}
+              onLoginChange={(e) => setNewLogin(e.target.value)}
               newEmail={newEmail}
-              onEmailChange={e => setNewEmail(e.target.value)}
+              onEmailChange={(e) => setNewEmail(e.target.value)}
             />
           </motion.div>
         )}

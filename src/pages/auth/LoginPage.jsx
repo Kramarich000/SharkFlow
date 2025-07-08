@@ -7,8 +7,8 @@ import { getUser } from '@features/user';
 import { checkTwoFactor } from '@features/auth/api/totp/verification/verificationTotp';
 import { showToast } from '@utils/toast';
 import { useNavigate } from 'react-router-dom';
-import { LoginStep1 } from './LoginPage/LoginStep1';
-import { LoginStep2 } from './LoginPage/LoginStep2';
+import { LoginStep1 } from '../../features/auth/components/LoginPageSteps/LoginStep1';
+import { LoginStep2 } from '../../features/auth/components/LoginPageSteps/LoginStep2';
 
 export default function LoginPage() {
   const formikRef = useRef(null);

@@ -6,10 +6,10 @@ import { useModalsStore } from '@store/modalsStore';
 import { useUserStore } from '@features/user';
 import { disableTotp } from '@features/auth/api/totp/disable/disableTotp';
 import { sendDisableTotpEmail } from '@features/auth/api/totp/disable/sendDisableTotpEmail';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
-import { Step1 } from './DisableTotpModal/Step1';
-import { Step2 } from './DisableTotpModal/Step2';
-import { Step3 } from './DisableTotpModal/Step3';
+import { ModalBase } from '@common/ui/layout/ModalBase';
+import { Step1 } from './Step1';
+import { Step2 } from './Step2';
+import { Step3 } from './Step3';
 
 export function DisableTotpModal() {
   const [load, setLoad] = useState(false);
@@ -64,8 +64,15 @@ export function DisableTotpModal() {
   };
 
   return (
-    <ModalBase open={isDisableTotpModalOpen} onClose={handleClose} maxWidth="max-w-xl" disableOverlayClose={true}>
-      <h2 className={`text-3xl text-center mb-8 ${step === 3 && '!hidden'}`}>Отключение 2FA</h2>
+    <ModalBase
+      open={isDisableTotpModalOpen}
+      onClose={handleClose}
+      maxWidth="max-w-xl"
+      disableOverlayClose={true}
+    >
+      <h2 className={`text-3xl text-center mb-8 ${step === 3 && '!hidden'}`}>
+        Отключение 2FA
+      </h2>
       <AnimatePresence mode="wait">
         {step === 1 && (
           <motion.div
@@ -93,7 +100,7 @@ export function DisableTotpModal() {
             <Step2
               loading={load}
               confirmationCode={confirmationCode}
-              onChange={e => setConfirmationCode(e.target.value)}
+              onChange={(e) => setConfirmationCode(e.target.value)}
               onSubmit={handleDisableTotp}
             />
           </motion.div>

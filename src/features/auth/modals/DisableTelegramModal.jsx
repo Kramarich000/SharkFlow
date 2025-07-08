@@ -9,7 +9,7 @@ import { UpdateForm, UpdateConfirmation, useUserStore } from '@features/user';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import { Button } from '@common/ui/utilities/Button';
 import { disableTelegram } from '@features/auth/api/telegram/disableTelegram';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 export function DisableTelegramModal() {
   const [load, setLoad] = useState(false);
@@ -51,7 +51,11 @@ export function DisableTelegramModal() {
   };
 
   return (
-    <ModalBase open={isDisableTelegramModalOpen} onClose={handleClose} maxWidth="max-w-xl">
+    <ModalBase
+      open={isDisableTelegramModalOpen}
+      onClose={handleClose}
+      maxWidth="max-w-xl"
+    >
       <h2 className="text-3xl text-center mb-8">Отключение Telegram</h2>
       <AnimatePresence mode="wait">
         {step === 1 && (
@@ -67,11 +71,7 @@ export function DisableTelegramModal() {
                 Вы уверены что хотите отвязать Telegram?
               </h2>
               <div className="flex flex-col md:flex-row items-center w-full justify-center gap-2">
-                <Button
-                  variant="primary"
-                  disabled={load}
-                  onClick={handleClose}
-                >
+                <Button variant="primary" disabled={load} onClick={handleClose}>
                   Нет
                 </Button>
                 <Button
@@ -106,9 +106,7 @@ export function DisableTelegramModal() {
                 size={100}
                 className="text-[var(--main-primary)]"
               />
-              <p className="text-[20px]">
-                Вы успешно отключили Telegram
-              </p>
+              <p className="text-[20px]">Вы успешно отключили Telegram</p>
             </div>
           </motion.div>
         )}

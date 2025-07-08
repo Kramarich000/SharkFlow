@@ -6,9 +6,9 @@ import { useModalsStore } from '@store/modalsStore';
 import { deleteUser } from '@features/user';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { userVerify } from '@features/user';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
-import { Step1 } from './DeleteUserModal/Step1';
-import { Step2 } from './DeleteUserModal/Step2';
+import { ModalBase } from '@common/ui/layout/ModalBase';
+import { Step1 } from './Step1';
+import { Step2 } from './Step2';
 
 export function DeleteUserModal() {
   const [load, setLoad] = useState(false);
@@ -58,7 +58,11 @@ export function DeleteUserModal() {
   };
 
   return (
-    <ModalBase open={isDeleteUserModalOpen} onClose={handleClose} disableOverlayClose={true}>
+    <ModalBase
+      open={isDeleteUserModalOpen}
+      onClose={handleClose}
+      disableOverlayClose={true}
+    >
       <h2 className="text-3xl text-center mb-8">Удаление аккаунта</h2>
       <AnimatePresence mode="wait">
         {step === 1 && (
@@ -84,7 +88,7 @@ export function DeleteUserModal() {
             <Step2
               loading={load}
               confirmationCode={confirmationCode}
-              onCodeChange={e => setConfirmationCode(e.target.value)}
+              onCodeChange={(e) => setConfirmationCode(e.target.value)}
               onDelete={deleteUserHandler}
               onCancel={handleClose}
             />

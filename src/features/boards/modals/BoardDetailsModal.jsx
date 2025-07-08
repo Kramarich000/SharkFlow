@@ -10,7 +10,7 @@ import {
 import { BoardContent } from '@features/boards/components/BoardContent';
 import { useModalsStore } from '@store/modalsStore';
 import { useTaskStore, useTaskSorter } from '@features/tasks';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 export function BoardDetailsModal() {
   const { selectedBoard } = useBoardStore(

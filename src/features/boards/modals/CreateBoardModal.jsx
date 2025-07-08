@@ -8,7 +8,7 @@ import { ColorSelector } from '@common/ui';
 import { useCreateBoard } from '@features/boards';
 import { useModalsStore } from '@store/modalsStore';
 import { Button } from '@common/ui/utilities/Button';
-import { ModalBase } from '@common/ui/feedback/ModalBase';
+import { ModalBase } from '@common/ui/layout/ModalBase';
 
 export function CreateBoardModal() {
   const [title, setTitle] = useState('');
@@ -43,7 +43,11 @@ export function CreateBoardModal() {
   };
 
   return (
-    <ModalBase open={isCreateBoardModalOpen} onClose={handleClose} maxWidth="max-w-2xl">
+    <ModalBase
+      open={isCreateBoardModalOpen}
+      onClose={handleClose}
+      maxWidth="max-w-2xl"
+    >
       <h2 className="text-[31px] text-center mb-4">Создание доски</h2>
       <div className="flex flex-col gap-3 items-center justify-center">
         <div className="relative w-full">

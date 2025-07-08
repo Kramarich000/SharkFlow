@@ -181,10 +181,10 @@ export default defineConfig({
     assetsInlineLimit: 4096,
     chunkSizeWarningLimit: 500,
     terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
+      // compress: {
+      //   drop_console: true,
+      //   drop_debugger: true,
+      // },
       output: {
         comments: false,
       },

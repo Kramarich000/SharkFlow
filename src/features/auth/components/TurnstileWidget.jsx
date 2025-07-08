@@ -1,10 +1,12 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { showToast } from '@utils/toast';
 import { useMediaQuery } from '@common/hooks';
 import { useThemeStore } from '@store/themeStore';
 
 export default function TurnstileWidget({ action, onSuccess }) {
   const widgetRef = useRef(null);
+  const [widgetLoaded, setWidgetLoaded] = useState(false);
+  const [widgetError, setWidgetError] = useState(false);
   const mode = useThemeStore((state) => state.mode);
   const sitekey =
     process.env.NODE_ENV === 'production'
@@ -24,6 +26,10 @@ export default function TurnstileWidget({ action, onSuccess }) {
       script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
       script.async = true;
       script.defer = true;
+      script.onerror = () => {
+        setWidgetError(true);
+        showToast('Ошибка загрузки скрипта капчи. Отключите блокировщик рекламы или попробуйте позже.', 'error');
+      };
       document.body.appendChild(script);
     }
 
@@ -33,19 +39,36 @@ export default function TurnstileWidget({ action, onSuccess }) {
 
     window.handleTurnstileError = function () {
       showToast('Произошла ошибка при прохождении captcha', 'error');
+      setWidgetError(true);
       console.error('CAPTCHA error');
     };
 
     window.handleTurnstileExpired = function () {
       showToast('Срок действия captcha истёк', 'error');
+      setWidgetError(true);
       console.warn('CAPTCHA expired');
     };
+
+    const checkWidget = setTimeout(() => {
+      if (widgetRef.current && widgetRef.current.querySelector('iframe')) {
+        setWidgetLoaded(true);
+      } else {
+        setWidgetError(true);
+        showToast('Не удалось загрузить капчу. Отключите блокировщик рекламы или попробуйте позже.', 'error');
+      }
+    }, 3000);
+
     return () => {
+      clearTimeout(checkWidget);
       delete window.handleTurnstileSuccess;
       delete window.handleTurnstileError;
       delete window.handleTurnstileExpired;
     };
   }, [onSuccess]);
+
+  if (widgetError) {
+    return <div className="text-red-500">Ошибка загрузки капчи. Попробуйте позже или отключите блокировщик рекламы.</div>;
+  }
 
   return (
     <div

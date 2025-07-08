@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoMdClose } from 'react-icons/io';
@@ -9,8 +9,7 @@ import { useAuthStore } from '@features/auth';
 import { useModalsStore } from '@store/modalsStore';
 import { useUserStore } from '@features/user';
 import { Button } from '@common/ui/utilities/Button';
-import { AiOutlineSync } from 'react-icons/ai';
-import { MdAccountCircle } from 'react-icons/md';
+import { HeaderMenu } from './HeaderMenu';
 
 export function Header() {
   const token = useAuthStore((state) => state.accessToken);
@@ -28,16 +27,12 @@ export function Header() {
 
   useEffect(() => {
     if (!user?.avatarUrl) return;
-
     setAvatarLoading(true);
-
     const img = new Image();
     img.src = user?.avatarUrl;
-
     const handleDone = () => setAvatarLoading(false);
     img.onload = handleDone;
     img.onerror = handleDone;
-
     return () => {
       img.onload = null;
       img.onerror = null;
@@ -60,11 +55,6 @@ export function Header() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-  const linkClasses = ({ isActive }) =>
-    `!transition-colors px-3 py-1 rounded-full ${
-      isActive ? '!text-[var(--main-primary)] !bg-[var(--main-bg)]' : ''
-    }`;
 
   return (
     <header className="py-4 px-5 w-full shadow-md">
@@ -103,47 +93,14 @@ export function Header() {
           </svg>
         </Link>
 
-        <motion.nav
-          key="desktop-nav"
-          className="hidden items-center sm:flex gap-4 text-[24px]"
-          initial={{ opacity: 0, transform: 'translateY(10px)' }}
-          animate={{ opacity: 1, transform: 'translateY(0px)' }}
-          transition={{ duration: 0.3 }}
-        >
-          {navLinks(token).map((link) => (
-            <NavLink key={link.path} to={link.path} end className={linkClasses}>
-              {link.label}
-            </NavLink>
-          ))}
-          <Button
-            title="Выйти из аккаунта"
-            variant="tertiary"
-            onClick={() => setIsLogoutUserModalOpen(true)}
-            className={`!w-fit !p-3 !bg-transparent hover:!bg-transparent !text-[24px] !font-normal !transition-colors !text-[var(--main-button-text)] hover:!text-[var(--main-text-hover)]  ${!token ? 'hidden pointer-events-none select-none' : null}`}
-          >
-            Выход
-          </Button>
-          <div className="relative">
-            {user?.avatarUrl && token ? (
-              <img
-                key={user?.avatarUrl}
-                src={user?.avatarUrl}
-                alt=""
-                className="w-10 h-10 object-cover border-2 !border-[var(--main-primary)] rounded-full"
-                onLoad={() => setAvatarLoading(false)}
-                onError={() => setAvatarLoading(false)}
-                // onClick={}
-              />
-            ) : (
-              <MdAccountCircle className="w-10 h-10 text-center select-none flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full" />
-            )}
-            {avatarLoading && (
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-full">
-                <AiOutlineSync className="animate-spin text-white" size={20} />
-              </div>
-            )}
-          </div>
-        </motion.nav>
+        <HeaderMenu
+          mode="desktop"
+          navLinks={navLinks(token)}
+          user={user}
+          token={token}
+          avatarLoading={avatarLoading}
+          onLogout={() => setIsLogoutUserModalOpen(true)}
+        />
 
         {role === 'guest' && <p className="text-2xl">Гостевой аккаунт</p>}
 
@@ -165,37 +122,16 @@ export function Header() {
 
       <AnimatePresence mode="wait">
         {isOpen && (
-          <>
-            <motion.nav
-              key="mobile-nav"
-              ref={navRef}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="sm:hidden z-50 left-0 absolute w-full py-4 rounded-md shadow-md flex flex-col gap-3 text-lg items-center bg-[var(--main-header-bg)]"
-            >
-              {navLinks(token).map((link) => (
-                <NavLink
-                  key={link.path}
-                  to={link.path}
-                  end
-                  className={linkClasses}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </NavLink>
-              ))}
-              <Button
-                onClick={() => setIsLogoutUserModalOpen(true)}
-                title="Выйти из аккаунта"
-                variant="tertiary"
-                className={`!w-fit !p-3 !bg-transparent !text-[24px] !font-normal !transition-colors !text-[var(--main-button-text)] hover:!text-[var(--main-text-hover)]  ${!token ? 'hidden pointer-events-none select-none' : null}`}
-              >
-                Выход
-              </Button>
-            </motion.nav>
-          </>
+          <HeaderMenu
+            mode="mobile"
+            navLinks={navLinks(token)}
+            user={user}
+            token={token}
+            avatarLoading={avatarLoading}
+            onLogout={() => setIsLogoutUserModalOpen(true)}
+            onLinkClick={() => setIsOpen(false)}
+            ref={navRef}
+          />
         )}
       </AnimatePresence>
     </header>

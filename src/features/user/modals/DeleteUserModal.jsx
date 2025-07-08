@@ -58,7 +58,7 @@ export function DeleteUserModal() {
   };
 
   return (
-    <ModalBase open={isDeleteUserModalOpen} onClose={handleClose}>
+    <ModalBase open={isDeleteUserModalOpen} onClose={handleClose} disableOverlayClose={true}>
       <h2 className="text-3xl text-center mb-8">Удаление аккаунта</h2>
       <AnimatePresence mode="wait">
         {step === 1 && (

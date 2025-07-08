@@ -7,11 +7,13 @@ export function ModalBase({
   children,
   maxWidth = 'max-w-xl',
   className = '',
+  disableOverlayClose = false,
   ...props
 }) {
+  const handleClose = disableOverlayClose ? () => {} : onClose;
   return (
     <Transition appear show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose} static>
+      <Dialog as="div" className="relative z-50" onClose={handleClose} static>
         <TransitionChild
           as={Fragment}
           enter="transition-opacity ease-out duration-300"

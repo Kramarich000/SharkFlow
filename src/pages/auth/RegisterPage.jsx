@@ -13,7 +13,8 @@ const RegisterThirdStep = lazy(
 );
 
 export default function RegisterPage() {
-  const { step, setStep } = useRegisterStore();
+  const step = useRegisterStore((state) => state.step);
+  const setStep = useRegisterStore((state) => state.setStep);
   const navigate = useNavigate();
   const [isThirdStepMounted, setThirdStepMounted] = useState(false);
 

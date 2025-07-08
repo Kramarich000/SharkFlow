@@ -17,8 +17,9 @@ import { verifyCaptcha } from '@features/auth/api/captcha/checkCaptchaSuccess';
 import { showToast } from '@utils/toast';
 
 export function RegisterFirstStep() {
-  const { setStep, passwordVisible, togglePasswordVisible } =
-    useRegisterStore();
+  const setStep = useRegisterStore((state) => state.setStep);
+  const passwordVisible = useRegisterStore((state) => state.passwordVisible);
+  const togglePasswordVisible = useRegisterStore((state) => state.togglePasswordVisible);
   const [load, setLoad] = useState(false);
   const [googleLoad, setGoogleLoad] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);

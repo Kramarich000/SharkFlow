@@ -64,7 +64,7 @@ export function DisableTotpModal() {
   };
 
   return (
-    <ModalBase open={isDisableTotpModalOpen} onClose={handleClose} maxWidth="max-w-xl">
+    <ModalBase open={isDisableTotpModalOpen} onClose={handleClose} maxWidth="max-w-xl" disableOverlayClose={true}>
       <h2 className={`text-3xl text-center mb-8 ${step === 3 && '!hidden'}`}>Отключение 2FA</h2>
       <AnimatePresence mode="wait">
         {step === 1 && (

@@ -101,7 +101,7 @@ export function SetupTotpModal() {
   };
 
   return (
-    <ModalBase open={isSetupTotpModalOpen} onClose={handleClose} maxWidth="max-w-xl">
+    <ModalBase open={isSetupTotpModalOpen} onClose={handleClose} maxWidth="max-w-xl" disableOverlayClose={true}>
       <h2 className={`text-3xl text-center mb-8 ${step === 4 && '!hidden'}`}>Подключение 2FA</h2>
       <button
         title="Закрыть"

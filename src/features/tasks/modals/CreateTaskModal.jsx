@@ -11,7 +11,7 @@ import { ModalBase } from '@common/ui/feedback/ModalBase';
 
 export function CreateTaskModal() {
   const [load, setLoad] = useState(false);
-  const { selectedBoard } = useBoardStore();
+  const selectedBoard = useBoardStore((state) => state.selectedBoard);
   const {
     title,
     dueDate,

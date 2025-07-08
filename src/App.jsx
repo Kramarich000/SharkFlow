@@ -25,6 +25,7 @@ import { showToast } from '@utils/toast';
 import { useThemeStore } from '@store/themeStore';
 import { getWarnings } from '@utils/browser/browserWarningsMap';
 import { detectBrowserInfo } from '@utils/browser/detectBrowserInfo';
+import React from 'react';
 
 function App() {
   const { setUser } = useUserStore.getState();
@@ -100,6 +101,7 @@ function App() {
   if (isAuthLoading) {
     return <Loader />;
   }
+  
   return (
     <Router>
       <>
@@ -108,41 +110,26 @@ function App() {
         <ErrorBoundary FallbackComponent={FallbackComponent}>
           <main className="p-5 w-full max-w-[1280px] mx-auto grow">
             <Routes>
-              {routes.map((route) => (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={
-                    <>
-                      {route.private ? (
-                        <>
-                          <PrivateRoute>
-                            <Page
-                              component={route.component}
-                              title={route.title}
-                              description={route.description}
-                            />
-                          </PrivateRoute>
-                        </>
-                      ) : blockedPublicPaths.includes(route.path) ? (
-                        <PublicRoute>
-                          <Page
-                            component={route.component}
-                            title={route.title}
-                            description={route.description}
-                          />
-                        </PublicRoute>
-                      ) : (
+              {routes.map((route) => {
+                let Wrapper = React.Fragment;
+                if (route.private) Wrapper = PrivateRoute;
+                else if (blockedPublicPaths.includes(route.path)) Wrapper = PublicRoute;
+                return (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={
+                      <Wrapper>
                         <Page
                           component={route.component}
                           title={route.title}
                           description={route.description}
                         />
-                      )}
-                    </>
-                  }
-                />
-              ))}
+                      </Wrapper>
+                    }
+                  />
+                );
+              })}
             </Routes>
             <BackToTop />
           </main>

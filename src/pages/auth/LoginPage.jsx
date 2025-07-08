@@ -1,20 +1,14 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LuEye, LuEyeClosed } from 'react-icons/lu';
-import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineSync } from 'react-icons/ai';
-
 import { loginSchema } from '@features/auth';
-import { login } from '@features/auth';
-import { guestLogin } from '@features/auth';
+import { login, guestLogin } from '@features/auth';
 import { getUser } from '@features/user';
-import { FormikCheckbox, AnimatedError } from '@common/ui';
-import { Button } from '@common/ui/utilities/Button';
-import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 import { checkTwoFactor } from '@features/auth/api/totp/verification/verificationTotp';
-import TurnstileWidget from '@features/auth/components/TurnstileWidget';
 import { showToast } from '@utils/toast';
+import { useNavigate } from 'react-router-dom';
+import { LoginStep1 } from './LoginPage/LoginStep1';
+import { LoginStep2 } from './LoginPage/LoginStep2';
 
 export default function LoginPage() {
   const formikRef = useRef(null);
@@ -59,13 +53,13 @@ export default function LoginPage() {
     setLoad(true);
     try {
       const success = await login(values, captchaToken);
-      if (success.accessToken) {
+      if (success && success?.accessToken) {
         setCaptchaToken(null);
         setCaptchaKey((prev) => prev + 1);
         setLoading(true);
         navigate('/dashboard');
         await getUser();
-      } else {
+      } else if (success && success?.sessionKey) {
         setSessionKey(success.sessionKey);
         setStep('twoFactor');
       }
@@ -77,7 +71,7 @@ export default function LoginPage() {
     }
   };
 
-  const handleLoginUserAfter2FA = async (values) => {
+  const handleLoginUserAfter2FA = async () => {
     setTotpLoad(true);
     try {
       const success = await checkTwoFactor(totpCode, sessionKey);
@@ -85,7 +79,6 @@ export default function LoginPage() {
         setLoading(true);
         navigate('/dashboard');
         await getUser();
-      } else {
       }
     } catch (error) {
       console.error(error);
@@ -118,7 +111,7 @@ export default function LoginPage() {
             </motion.div>
             <p className="text-4xl mt-4 animate-pulse">Вход в аккаунт</p>
           </>
-        ) : (
+        ) : step === 'login' ? (
           <motion.div
             key="login"
             className="w-full sm:w-auto"
@@ -126,184 +119,40 @@ export default function LoginPage() {
             animate={{ opacity: 1, transform: 'translateX(0)' }}
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
           >
-            {step === 'login' && (
-              <Formik
-                innerRef={formikRef}
-                validationSchema={loginSchema}
-                initialValues={{
-                  email: '',
-                  password: '',
-                  rememberMe: false,
-                }}
-                onSubmit={handleLoginUser}
-              >
-                {({ handleChange, handleBlur }) => {
-                  return (
-                    <>
-                      <Form className="flex flex-col sm:grid grid-cols-2 gap-6 p-8 rounded-2xl border-2 border-[var(--main-primary)] shadow-glow">
-                        <h2 className="sm:col-span-2 text-3xl">Вход</h2>
-
-                        <div className="relative">
-                          <Field
-                            type="email"
-                            name="email"
-                            autoComplete="email"
-                            placeholder=" "
-                            required
-                            autoFocus
-                            className="peer input-styles input-primary"
-                          />
-                          <label htmlFor="email" className="label-styles">
-                            Введите почту
-                          </label>
-
-                          <ErrorMessage name="email">
-                            {(msg) => (
-                              <AnimatedError msg={msg} variant="register" />
-                            )}
-                          </ErrorMessage>
-                        </div>
-
-                        <div className="relative">
-                          <Field
-                            type={!passwordVisible ? 'password' : 'text'}
-                            name="password"
-                            autoComplete="password"
-                            placeholder=" "
-                            autoFocus
-                            required
-                            onBlur={handleBlur}
-                            className="peer input-styles input-primary !pr-8"
-                          />
-                          <label htmlFor="password" className="label-styles">
-                            Введите пароль
-                          </label>
-                          <div
-                            className="absolute right-1 bottom-2.5 !p-2 cursor-pointer"
-                            onClick={() => {
-                              setPasswordVisible(!passwordVisible);
-                            }}
-                          >
-                            {!passwordVisible ? (
-                              <LuEyeClosed size={20} />
-                            ) : (
-                              <LuEye size={20} />
-                            )}
-                          </div>
-                          <ErrorMessage name="password">
-                            {(msg) => (
-                              <AnimatedError msg={msg} variant="register" />
-                            )}
-                          </ErrorMessage>
-                        </div>
-
-                        <div className="col-span-2 text-sm">
-                          <FormikCheckbox
-                            name="rememberMe"
-                            id="rememberMe"
-                            label="Запомнить меня"
-                            className="relative"
-                          />
-                        </div>
-
-                        <TurnstileWidget
-                          action="login"
-                          key={captchaKey}
-                          onSuccess={handleCheckCaptcha}
-                        />
-
-                        <Button
-                          variant="primary"
-                          className="sm:col-span-2"
-                          type="submit"
-                          disabled={guestLoad || load || googleLoad}
-                        >
-                          {load ? (
-                            <AiOutlineSync size={23} className="animate-spin" />
-                          ) : (
-                            <>Войти</>
-                          )}
-                        </Button>
-                        <div className="flex flex-col md:flex-row col-span-2 item-center justify-center gap-3">
-                          <Button
-                            variant="primary"
-                            type="button"
-                            onClick={() => {
-                              createGuest();
-                            }}
-                            disabled={
-                              guestLoad || load || googleLoad || totpLoad
-                            }
-                          >
-                            {guestLoad ? (
-                              <AiOutlineSync
-                                size={23}
-                                className="animate-spin"
-                              />
-                            ) : (
-                              <>Войти как гость</>
-                            )}
-                          </Button>
-                          <GoogleAuthButton
-                            btnText="Войти через Google"
-                            googleLoad={googleLoad}
-                            setGoogleLoad={setGoogleLoad}
-                            disabled={
-                              guestLoad || load || googleLoad || totpLoad
-                            }
-                          />
-                        </div>
-                        <Link className="text-blue-600" to="/register">
-                          Нет аккаунта?
-                        </Link>
-                        <Link className="text-blue-600" to="/reset-password">
-                          Забыли пароль?
-                        </Link>
-                      </Form>
-                    </>
-                  );
-                }}
-              </Formik>
-            )}
+            <LoginStep1
+              formikRef={formikRef}
+              loginSchema={loginSchema}
+              handleLoginUser={handleLoginUser}
+              passwordVisible={passwordVisible}
+              setPasswordVisible={setPasswordVisible}
+              guestLoad={guestLoad}
+              load={load}
+              googleLoad={googleLoad}
+              totpLoad={totpLoad}
+              createGuest={createGuest}
+              setGoogleLoad={setGoogleLoad}
+              captchaKey={captchaKey}
+              handleCheckCaptcha={handleCheckCaptcha}
+            />
           </motion.div>
-        )}
-        {step === 'twoFactor' && (
+        ) : step === 'twoFactor' ? (
           <motion.div
             key="twoFactor"
             initial={{ opacity: 0, transform: 'translateX(50px)' }}
             animate={{ opacity: 1, transform: 'translateX(0)' }}
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
           >
-            <div className="flex flex-col gap-4 mt-6">
-              <div className="relative">
-                <input
-                  type="text"
-                  value={totpCode}
-                  onChange={(e) => setTotpCode(e.target.value)}
-                  className="peer input-styles input-primary"
-                  autoFocus
-                  placeholder=" "
-                />
-
-                <label className="label-styles">
-                  Введите код из приложения
-                </label>
-              </div>
-
-              <Button
-                variant="primary"
-                onClick={handleLoginUserAfter2FA}
-                disabled={guestLoad || load || googleLoad || totpLoad}
-              >
-                {totpLoad ? (
-                  <AiOutlineSync size={23} className="animate-spin" />
-                ) : (
-                  <>Отправить</>
-                )}
-              </Button>
-            </div>
+            <LoginStep2
+              totpCode={totpCode}
+              setTotpCode={setTotpCode}
+              handleLoginUserAfter2FA={handleLoginUserAfter2FA}
+              guestLoad={guestLoad}
+              load={load}
+              googleLoad={googleLoad}
+              totpLoad={totpLoad}
+            />
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </div>
   );

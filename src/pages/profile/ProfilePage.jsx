@@ -6,6 +6,7 @@ import { SecurityAndIntegrationsSettings } from '@features/profile/components/Se
 import { SiteSettings } from '@features/profile/components/SiteSettings';
 import { ProfileLoader } from '@features/profile/components/ProfileLoader';
 import { useUserStore } from '@features/user';
+import { GuestAccount } from '@features/profile/components/GuestAccount';
 
 export default function Profile() {
   const [loading, setLoading] = useState(true);

@@ -3,7 +3,7 @@ import DOMPurify from 'dompurify';
 import { useTaskStore } from '@features/tasks';
 
 export const useTaskUpdate = (selectedTask) => {
-  const { updateTask } = useTaskStore();
+  const updateTask = useTaskStore((state) => state.updateTask);
 
   const [newTitle, setNewTitle] = useState('');
   const [newDueDate, setNewDueDate] = useState('');

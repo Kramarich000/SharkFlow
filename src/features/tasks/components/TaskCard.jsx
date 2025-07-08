@@ -12,7 +12,7 @@ import { useModalsStore } from '@store/modalsStore';
 import { useTaskStore } from '@features/tasks';
 
 function TaskCardComponent({ task, dragHandleProps }) {
-  const { setIsDetailsTaskModalOpen } = useModalsStore();
+  const setIsDetailsTaskModalOpen = useModalsStore((state) => state.setIsDetailsTaskModalOpen);
   const handleTaskSelect = useTaskStore((state) => state.handleTaskSelect);
 
   const descriptionAsText = (html) => {

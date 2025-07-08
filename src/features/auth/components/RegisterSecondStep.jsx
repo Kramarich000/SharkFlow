@@ -1,8 +1,3 @@
-// import AnimatedError from 'common/ui/feedback/AnimatedError';
-// import { confirmCode } from 'features/user/api/createUser';
-// import { useRegisterStore } from 'features/auth/store/registerStore';
-// import { confirmCodeSchema } from '@validators/confirmCodeSchema';
-
 import { useState } from 'react';
 import { AiOutlineSync } from 'react-icons/ai';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -15,7 +10,7 @@ import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { Button } from '@common/ui/utilities/Button';
 
 export default function RegisterSecondStep() {
-  const { setStep } = useRegisterStore();
+  const setStep = useRegisterStore((state) => state.setStep);
   const [load, setLoad] = useState(false);
 
   return (

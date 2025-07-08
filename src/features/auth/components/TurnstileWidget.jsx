@@ -4,7 +4,6 @@ import { useMediaQuery } from '@common/hooks';
 import { useThemeStore } from '@store/themeStore';
 
 export default function TurnstileWidget({ action, onSuccess }) {
-  const widgetRef = useRef(null);
   const containerRef = useRef(null);
   const mode = useThemeStore((state) => state.mode);
   const sitekey =
@@ -57,9 +56,8 @@ export default function TurnstileWidget({ action, onSuccess }) {
 
   useEffect(() => {
     setLoadError(false);
-    if (containerRef.current) {
-      containerRef.current.innerHTML = '';
-    }
+    if (!containerRef.current) return;
+    if (containerRef.current.__turnstileRendered) return;
     const tryRender = () => {
       if (window.turnstile && containerRef.current) {
         try {
@@ -72,6 +70,8 @@ export default function TurnstileWidget({ action, onSuccess }) {
             'expired-callback': 'handleTurnstileExpired',
             action,
           });
+          containerRef.current.__turnstileRendered = true;
+          console.log('TurnstileWidget rendered');
         } catch (e) {
           setLoadError(true);
           showToast('Ошибка инициализации капчи', 'error');
@@ -86,6 +86,7 @@ export default function TurnstileWidget({ action, onSuccess }) {
         try {
           window.turnstile.reset(containerRef.current);
         } catch {}
+        containerRef.current.__turnstileRendered = false;
       }
     };
   }, [sitekey, widgetTheme, widgetSize, action, reloadKey]);

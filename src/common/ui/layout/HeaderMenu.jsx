@@ -21,7 +21,6 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
     user,
     token,
     avatarLoading,
-    onLogout,
     onLinkClick,
     className = '',
   },
@@ -32,10 +31,12 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
   const menuRef = useRef(null);
   const divRef = useRef(null);
 
-  const { setIsConnectTelegramModalOpen } = useModalsStore(
-    useShallow((state) => ({
-      setIsConnectTelegramModalOpen: state.setIsConnectTelegramModalOpen,
-    })),
+  const setIsConnectTelegramModalOpen = useModalsStore(
+    (state) => state.setIsConnectTelegramModalOpen,
+  );
+
+  const setIsLogoutUserModalOpen = useModalsStore(
+    (state) => state.setIsLogoutUserModalOpen,
   );
 
   useEffect(() => {
@@ -115,7 +116,6 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
           </div>
         ) : (
           <div className="flex items-center justify-center gap-2">
-            {' '}
             <MdAccountCircle className="w-10 h-10 flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full text-[var(--main-button-text)]" />
             <IoMdArrowDropdown
               size={30}
@@ -158,7 +158,7 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
                     <MdAccountCircle className="w-20 h-20 mx-auto flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full text-[var(--main-button-text)]" />
                   )}
                   <p className="text-center">{user?.login}</p>
-                  <p className="text-sm mx-auto border-b-2 border-white w-[80%] py-1 mb-4">
+                  <p className="text-sm mx-auto border-b-2 border-white w-[80%] py-1 pb-4 mb-4">
                     {user?.email}
                   </p>
                   {navLinks.map((link) => (
@@ -179,7 +179,10 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
                   {token && (
                     <Button
                       variant="tertiary"
-                      onClick={onLogout}
+                      onClick={() => {
+                        setIsOpen(false);
+                        setIsConnectTelegramModalOpen(true);
+                      }}
                       className="!w-full flex justify-start !py-2 !px-4 !bg-[var(--main-header-bg)] !rounded-none !rounded-b-[5px] hover:!bg-black/60 hover:!text-[var(--main-header-text)]"
                     >
                       <div className="flex items-center gap-2">
@@ -259,7 +262,10 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
                   <Button
                     variant="primary"
                     className="!flex items-center !mb-4 !bg-black/20 hover:!bg-black/60 !rounded-full"
-                    onClick={() => setIsConnectTelegramModalOpen(true)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      setIsConnectTelegramModalOpen(true);
+                    }}
                   >
                     <FaTelegram size={20} />
                     Наш бот в Telegram!
@@ -268,7 +274,10 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
                 {token && (
                   <Button
                     variant="primary"
-                    onClick={onLogout}
+                    onClick={() => {
+                      setIsOpen(false);
+                      setIsLogoutUserModalOpen(true);
+                    }}
                     className="mt-auto !py-3 !px-4 !bg-black/20 hover:!bg-black/60 !rounded-full"
                   >
                     <div className="flex items-center gap-2">

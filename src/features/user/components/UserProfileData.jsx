@@ -16,6 +16,7 @@ import { CgProfile } from 'react-icons/cg';
 import { FaEnvelope, FaGoogle } from 'react-icons/fa';
 import { MdAccountCircle } from 'react-icons/md';
 import { FcRemoveImage } from 'react-icons/fc';
+import { showToast } from '@utils/toast';
 
 export function UserProfileData() {
   const user = useUserStore((state) => state.user);
@@ -108,7 +109,10 @@ export function UserProfileData() {
                   alt=""
                   className="w-48 h-48 sm:w-60 sm:h-60 object-cover border-2 !border-[var(--main-primary)] rounded-full"
                   onError={() => {
-                    showToast("Не удалось загрузить фото профиля. Пожалуйста проверьте подключение к интернету")
+                    showToast(
+                      'Не удалось загрузить фото профиля. Пожалуйста проверьте подключение к интернету',
+                      'error',
+                    );
                     setError(true);
                   }}
                 />

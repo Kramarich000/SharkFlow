@@ -1,3 +1,4 @@
+import { Button } from '@common/ui/utilities/Button';
 import { showToast } from '@utils/toast';
 import { QRCodeSVG } from 'qrcode.react';
 import { useRef } from 'react';
@@ -124,18 +125,20 @@ export function QrCode({ value }) {
         </div>
       </div>
       <div className="flex gap-2">
-        <button
+        <Button
+          variant="primary"
           onClick={handleDownloadSVG}
           className="px-4 py-2 bg-main-primary text-[var(--main-button-text)] bg-[var(--main-button-bg)] hover:bg-[var(--main-button-hover)] rounded-md shadow-md !transition"
         >
           Скачать SVG
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="primary"
           onClick={handleDownloadPNG}
           className="px-4 py-2 bg-main-primary text-[var(--main-button-text)] bg-[var(--main-button-bg)] hover:bg-[var(--main-button-hover)] rounded-md shadow-md !transition"
         >
           Скачать PNG
-        </button>
+        </Button>
       </div>
     </div>
   );

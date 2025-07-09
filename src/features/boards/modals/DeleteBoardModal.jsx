@@ -5,6 +5,7 @@ import { AiOutlineSync } from 'react-icons/ai';
 import { useModalsStore } from '@store/modalsStore';
 import { Button } from '@common/ui/utilities/Button';
 import { ModalBase } from '@common/ui/layout/ModalBase';
+import { showToast } from '@utils/toast';
 
 export function DeleteBoardModal() {
   const { selectedBoard } = useBoardStore(
@@ -31,7 +32,7 @@ export function DeleteBoardModal() {
   const handleDeleteBoard = async () => {
     if (isPending || !selectedBoard) return;
 
-    if (inputValue.trim() === selectedBoard?.title.trim()) {
+    if (inputValue.trim() === 'Удалить') {
       deleteBoard(selectedBoard.uuid, {
         onSuccess: () => {
           setInputValue('');
@@ -39,6 +40,8 @@ export function DeleteBoardModal() {
           setIsDetailsBoardModalOpen(false);
         },
       });
+    } else {
+      showToast("Пожалуйста введите 'Удалить'", 'info');
     }
   };
 
@@ -59,11 +62,7 @@ export function DeleteBoardModal() {
           <span className="text-red-700">необратимо</span>
         </h2>
         <p className="text-xl w-full flex flex-col gap-4 text-center break-words whitespace-normal">
-          Введите название доски ниже для удаления:
-          <br />
-          <b className="max-w-3xl break-words whitespace-normal block">
-            '{selectedBoard?.title}'
-          </b>
+          Введите 'Удалить' для удаления доски:
         </p>
         <div className="relative w-full">
           <input
@@ -82,7 +81,7 @@ export function DeleteBoardModal() {
             maxLength={64}
           />
           <label className="label-styles !bg-[var(--main-modal-bg)]">
-            Введите название доски для удаления
+            Введите 'Удалить' для удаления
           </label>
         </div>
         <Button

@@ -10,9 +10,12 @@ import {
 
 import { useModalsStore } from '@store/modalsStore';
 import { useTaskStore } from '@features/tasks';
+import { motion } from 'framer-motion';
 
 function TaskCardComponent({ task, dragHandleProps }) {
-  const setIsDetailsTaskModalOpen = useModalsStore((state) => state.setIsDetailsTaskModalOpen);
+  const setIsDetailsTaskModalOpen = useModalsStore(
+    (state) => state.setIsDetailsTaskModalOpen,
+  );
   const handleTaskSelect = useTaskStore((state) => state.handleTaskSelect);
 
   const descriptionAsText = (html) => {
@@ -27,7 +30,11 @@ function TaskCardComponent({ task, dragHandleProps }) {
   const statusClass = statusCardStyles[task.status] || statusCardStyles.DEFAULT;
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, transform: 'translateY(50px)' }}
+      whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
+      transition={{ duration: 0.7 }}
+      viewport={{ once: true }}
       className={`w-full relative !h-fit text-center flex flex-col justify-around p-4 border-l-8 rounded-xl hover:translate-y-[-8px] transition ${statusClass}`}
     >
       <div className="flex !items-start justify-between">
@@ -108,7 +115,7 @@ function TaskCardComponent({ task, dragHandleProps }) {
           </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

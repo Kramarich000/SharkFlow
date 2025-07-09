@@ -14,9 +14,7 @@ import { HeaderMenu } from './HeaderMenu';
 export function Header() {
   const token = useAuthStore((state) => state.accessToken);
   const role = useAuthStore((state) => state.userRole);
-  const setIsLogoutUserModalOpen = useModalsStore(
-    (state) => state.setIsLogoutUserModalOpen,
-  );
+
   const [avatarLoading, setAvatarLoading] = useState(false);
 
   const user = useUserStore((state) => state.user);
@@ -81,7 +79,9 @@ export function Header() {
           user={user}
           token={token}
           avatarLoading={avatarLoading}
-          onLogout={() => setIsLogoutUserModalOpen(true)}
+          onLogout={() => {
+            setIsLogoutUserModalOpen(true);
+          }}
         />
 
         {role === 'guest' && <p className="text-2xl">Гостевой аккаунт</p>}

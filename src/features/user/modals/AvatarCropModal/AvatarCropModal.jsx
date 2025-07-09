@@ -12,6 +12,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useDropzone } from 'react-dropzone';
 import { StepEmpty, StepCropper, StepPreview } from '@features/user';
 import { ModalBase } from '@common/ui/layout/ModalBase';
+import { IoClose } from 'react-icons/io5';
+import { useResponsive } from '@common/hooks';
 
 export function AvatarCropModal() {
   const isAvatarCropModalOpen = useModalsStore(
@@ -29,6 +31,8 @@ export function AvatarCropModal() {
   const [imgLoading, setImgLoading] = useState(false);
   const [error, setError] = useState(null);
   const isProcessing = useRef(false);
+
+  const { isMobile } = useResponsive();
 
   const step = !selectedImage ? 'empty' : previewUrl ? 'preview' : 'cropper';
 
@@ -149,9 +153,19 @@ export function AvatarCropModal() {
     <ModalBase
       open={isAvatarCropModalOpen}
       onClose={handleClose}
-      maxWidth="max-w-md"
+      // maxWidth="max-w-md"
       disableOverlayClose={true}
+      className="!pt-12"
     >
+      {isMobile && (
+        <Button
+          variant="tertiary"
+          className="absolute !bg-transparent hover:!text-[var(--main-primary-hover)] hover:!bg-transparent top-0 right-0"
+          onClick={() => setIsAvatarCropModalOpen(false)}
+        >
+          <IoClose size={30} />
+        </Button>
+      )}
       <AnimatePresence mode="wait">
         {step === 'cropper' && (
           <motion.div
@@ -207,6 +221,13 @@ export function AvatarCropModal() {
           </motion.div>
         )}
       </AnimatePresence>
+      <Button
+        variant="primary"
+        className="!mt-4"
+        onClick={() => setIsAvatarCropModalOpen(false)}
+      >
+        Закрыть
+      </Button>
     </ModalBase>
   );
 }

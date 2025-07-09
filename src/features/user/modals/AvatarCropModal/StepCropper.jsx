@@ -58,14 +58,7 @@ export function StepCropper({
         >
           Выбрать другое фото
         </Button>
-        <Button
-          variant="primary"
-          onClick={handleClose}
-          disabled={!croppedAreaPixels}
-        >
-          Отмена
-        </Button>
       </div>
     </div>
   );
-} 
+}

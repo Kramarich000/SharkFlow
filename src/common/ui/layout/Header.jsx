@@ -17,7 +17,6 @@ export function Header() {
   const setIsLogoutUserModalOpen = useModalsStore(
     (state) => state.setIsLogoutUserModalOpen,
   );
-  const [isOpen, setIsOpen] = useState(false);
   const [avatarLoading, setAvatarLoading] = useState(false);
 
   const user = useUserStore((state) => state.user);
@@ -38,23 +37,6 @@ export function Header() {
       img.onerror = null;
     };
   }, [user?.avatarUrl]);
-
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (
-        navRef.current &&
-        !navRef.current.contains(e.target) &&
-        toggleRef.current &&
-        !toggleRef.current.contains(e.target)
-      ) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   return (
     <header className="py-4 px-5 w-full shadow-md">
@@ -103,25 +85,10 @@ export function Header() {
         />
 
         {role === 'guest' && <p className="text-2xl">Гостевой аккаунт</p>}
-
-        <Button
-          ref={toggleRef}
-          className="sm:hidden z-50 !bg-transparent"
-          variant="tertiary"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsOpen((prev) => !prev);
-          }}
-          aria-label={isOpen ? 'Закрыть меню' : 'Открыть меню'}
-          aria-expanded={isOpen}
-          title={isOpen ? 'Закрыть меню' : 'Открыть меню'}
-        >
-          {isOpen ? <IoMdClose size={28} /> : <GiHamburgerMenu size={28} />}
-        </Button>
       </div>
 
-      <AnimatePresence mode="wait">
-        {isOpen && (
+      <div className="sm:hidden">
+        <AnimatePresence>
           <HeaderMenu
             mode="mobile"
             navLinks={navLinks(token)}
@@ -129,11 +96,11 @@ export function Header() {
             token={token}
             avatarLoading={avatarLoading}
             onLogout={() => setIsLogoutUserModalOpen(true)}
-            onLinkClick={() => setIsOpen(false)}
+            onLinkClick={() => {}}
             ref={navRef}
           />
-        )}
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
     </header>
   );
 }

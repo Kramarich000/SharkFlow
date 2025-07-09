@@ -15,6 +15,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { CgProfile } from 'react-icons/cg';
 import { FaEnvelope, FaGoogle } from 'react-icons/fa';
 import { MdAccountCircle } from 'react-icons/md';
+import { FcRemoveImage } from 'react-icons/fc';
 
 export function UserProfileData() {
   const user = useUserStore((state) => state.user);
@@ -27,6 +28,8 @@ export function UserProfileData() {
   const [avatarLoading, setAvatarLoading] = useState(false);
   const [isImgOptionsVisible, setIsImgOptionsVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [error, setError] = useState(false);
+
   const avatarRef = useRef(null);
 
   useEffect(() => {
@@ -94,11 +97,22 @@ export function UserProfileData() {
               `}
             ></div>
             {user?.avatarUrl ? (
-              <img
-                src={user?.avatarUrl}
-                alt=""
-                className="w-48 h-48 sm:w-60 sm:h-60 object-cover border-2 !border-[var(--main-primary)] rounded-full"
-              />
+              <div className="relative">
+                <>
+                  {error && (
+                    <FcRemoveImage className="w-28 h-28 sm:w-36 sm:h-36 absolute right-1/2 translate-y-1/3 translate-x-1/2" />
+                  )}
+                </>
+                <img
+                  src={user?.avatarUrl}
+                  alt=""
+                  className="w-48 h-48 sm:w-60 sm:h-60 object-cover border-2 !border-[var(--main-primary)] rounded-full"
+                  onError={() => {
+                    showToast("Не удалось загрузить фото профиля. Пожалуйста проверьте подключение к интернету")
+                    setError(true);
+                  }}
+                />
+              </div>
             ) : (
               <MdAccountCircle className="w-48 h-48 sm:w-60 sm:h-60 text-center select-none flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full" />
             )}

@@ -134,7 +134,9 @@ export function LoginStep1({
                 disabled={guestLoad || load || googleLoad || totpLoad}
                 captchaToken={captchaToken}
               />
-              <GitHubAuthButton captchaToken={captchaToken} />
+              <GitHubAuthButton
+               captchaToken={captchaToken}
+              />
             </div>
             <Link className="text-blue-600" to="/register">
               Нет аккаунта?

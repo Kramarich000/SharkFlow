@@ -14,20 +14,23 @@ function generateRandomState(length = 16) {
 
 export function GitHubAuthButton({ captchaToken }) {
   const handleClick = () => {
-    const clientId = import.meta.env.VITE_CLIENT_GITHUB_ID;
-    const redirectUri = window.location.origin + window.location.pathname;
+    const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
+    const redirectUri = window.location.origin;
     const scope = 'read:user user:email';
-    const state = generateRandomState();
 
+    const state = generateRandomState();
     sessionStorage.setItem('github_oauth_state', state);
 
     if (captchaToken) {
       sessionStorage.setItem('captchaToken', captchaToken);
     }
 
-    const githubUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}&state=${state}`;
-
-    window.location.href = githubUrl;
+    window.location.href =
+      `https://github.com/login/oauth/authorize` +
+      `?client_id=${clientId}` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&scope=${encodeURIComponent(scope)}` +
+      `&state=${state}`;
   };
 
   return (

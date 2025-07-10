@@ -106,7 +106,6 @@ function App() {
   return (
     <Router>
       <>
-        <GitHubOAuthProvider />
         <Header />
 
         <ErrorBoundary FallbackComponent={FallbackComponent}>
@@ -148,6 +147,7 @@ function App() {
         />
       </Suspense>
       <ModalManager />
+      <GitHubOAuthProvider />
     </Router>
   );
 }

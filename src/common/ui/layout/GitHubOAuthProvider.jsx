@@ -9,39 +9,40 @@ export function GitHubOAuthProvider() {
   const { setAccessToken, setCsrfToken } = useAuthStore.getState();
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const code = url.searchParams.get('code');
-    const returnedState = url.searchParams.get('state');
-    const storedState = sessionStorage.getItem('github_oauth_state');
-
-    if (code) {
-      if (!returnedState || returnedState !== storedState) {
-        showToast('Ошибка безопасности: некорректный state');
-        return;
-      }
-      sessionStorage.removeItem('github_oauth_state');
-
-      const captchaToken = sessionStorage.getItem('captchaToken');
-      if (captchaToken) {
-        sessionStorage.removeItem('captchaToken');
-      }
-
-      navigate(window.location.pathname, { replace: true });
-
-      githubAuth(code, captchaToken)
-        .then((res) => {
-          const data = res.data;
-          setAccessToken(data.accessToken);
-          setCsrfToken(data.csrfToken);
-          showToast('Успешный вход через GitHub');
-          navigate('/dashboard');
-        })
-        .catch((err) => {
-          console.error(err);
-          showToast('Ошибка при входе через GitHub');
-        });
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    if (!code) {
+      return;
     }
-  }, []);
+
+    const returnedState = params.get('state');
+    const storedState = sessionStorage.getItem('github_oauth_state');
+    if (!returnedState || returnedState !== storedState) {
+      showToast('Ошибка безопасности: некорректный state');
+      return;
+    }
+
+    sessionStorage.removeItem('github_oauth_state');
+    const captchaToken = sessionStorage.getItem('captchaToken');
+    if (captchaToken) {
+      sessionStorage.removeItem('captchaToken');
+    }
+
+    navigate(window.location.pathname, { replace: true });
+
+    githubAuth(code, captchaToken)
+      .then((res) => {
+        const { accessToken, csrfToken } = res.data;
+        setAccessToken(accessToken);
+        setCsrfToken(csrfToken);
+        showToast('Успешный вход через GitHub');
+        navigate('/dashboard', { replace: true });
+      })
+      .catch((err) => {
+        console.error(err);
+        showToast('Не удалось войти через GitHub');
+      });
+  }, [navigate, setAccessToken, setCsrfToken]);
 
   return null;
 }

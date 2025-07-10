@@ -75,6 +75,14 @@ export const routes = [
     private: false,
   },
   {
+    path: '/github/callback',
+    component: PrivacyPage,
+    title: 'GithubAuth',
+    description: 'GithubAuth',
+    url: `${baseURL}/github/callback`,
+    private: true,
+  },
+  {
     path: '*',
     component: Error404,
     title: 'Ошибка - 404',

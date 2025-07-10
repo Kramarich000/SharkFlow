@@ -13,7 +13,7 @@ export default function TurnstileWidget({ onVerify, action }) {
 
   const [hasError, setHasError] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
-  const turnstileRef = useRef(null);
+  const [widgetKey, setWidgetKey] = useState(0);
 
   const size = isMobile ? 'compact' : 'normal';
 
@@ -25,24 +25,13 @@ export default function TurnstileWidget({ onVerify, action }) {
   const handleReset = () => {
     setIsResetting(true);
     setHasError(false);
-    try {
-      if (turnstileRef.current?.reset) {
-        turnstileRef.current.reset();
-      } else {
-        throw new Error('Reset not available');
-      }
-    } catch (err) {
-      console.error(err);
-      showToast('Не удалось сбросить проверку', 'error');
-    } finally {
-      setTimeout(() => setIsResetting(false), 300); 
-    }
+    setWidgetKey((prev) => prev + 1);
+    setTimeout(() => setIsResetting(false), 300);
   };
-
   return (
     <div className="col-span-2 min-h-[146px] sm:min-h-[71px]">
       <Turnstile
-        ref={turnstileRef}
+        key={widgetKey}
         sitekey={siteKey}
         className={hasError ? 'hidden' : ''}
         onVerify={(token) => {
@@ -62,6 +51,7 @@ export default function TurnstileWidget({ onVerify, action }) {
         action={action}
         tabIndex={0}
       />
+
       {hasError && (
         <Button
           variant="primary"

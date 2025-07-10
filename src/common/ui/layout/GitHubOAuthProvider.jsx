@@ -11,14 +11,22 @@ export function GitHubOAuthProvider() {
   useEffect(() => {
     const url = new URL(window.location.href);
     const code = url.searchParams.get('code');
+    const returnedState = url.searchParams.get('state');
+    const storedState = sessionStorage.getItem('github_oauth_state');
 
     if (code) {
-      navigate(window.location.pathname, { replace: true });
+      if (!returnedState || returnedState !== storedState) {
+        showToast('Ошибка безопасности: некорректный state');
+        return;
+      }
+      sessionStorage.removeItem('github_oauth_state');
 
       const captchaToken = sessionStorage.getItem('captchaToken');
       if (captchaToken) {
         sessionStorage.removeItem('captchaToken');
       }
+
+      navigate(window.location.pathname, { replace: true });
 
       githubAuth(code, captchaToken)
         .then((res) => {

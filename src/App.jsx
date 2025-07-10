@@ -85,6 +85,7 @@ function App() {
           twoFactorEnabled: data.twoFactorEnabled,
           googleOAuthEnabled: data.googleOAuthEnabled,
           telegramEnabled: data.telegramEnabled,
+          githubOAuthEnabled: data.githubOAuthEnabled,
         });
       } catch (error) {
         console.error('Ошибка при получении данных:', error);

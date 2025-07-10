@@ -17,6 +17,7 @@ import { FaEnvelope, FaGoogle } from 'react-icons/fa';
 import { MdAccountCircle } from 'react-icons/md';
 import { FcRemoveImage } from 'react-icons/fc';
 import { showToast } from '@utils/toast';
+import { AiFillGithub } from 'react-icons/ai';
 
 export function UserProfileData() {
   const user = useUserStore((state) => state.user);
@@ -208,6 +209,16 @@ export function UserProfileData() {
                 <FaGoogle /> {user.googleEmail}
               </p>
             )}
+          {user?.githubOAuthEnabled &&
+            user?.githubEmail &&
+            user.githubEmail !== user.email && (
+              <p
+                className="text-lg flex items-center gap-2 justify-center"
+                title="Google почта"
+              >
+                <AiFillGithub /> {user.githubEmail}
+              </p>
+            )}
           {user?.googleOAuthEnabled && (
             <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
               <FaGoogle /> Google-аккаунт привязан
@@ -216,6 +227,11 @@ export function UserProfileData() {
           {user?.telegramEnabled && (
             <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
               <FaTelegramPlane /> Telegram-аккаунт привязан
+            </p>
+          )}
+          {user?.githubOAuthEnabled && (
+            <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
+              <AiFillGithub /> GitHub-аккаунт привязан
             </p>
           )}
         </div>

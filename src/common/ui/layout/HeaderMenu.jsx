@@ -155,7 +155,7 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
                       className="mx-auto"
                     />
                   ) : (
-                    <MdAccountCircle className="w-20 h-20 mx-auto flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full text-[var(--main-button-text)]" />
+                    <MdAccountCircle className="w-20 h-20 mx-auto flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full text-[var(--main-button-text)] mb-2" />
                   )}
 
                   {user?.role === 'user' && (

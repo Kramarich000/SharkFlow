@@ -90,8 +90,8 @@ export default function LoginPage() {
   };
 
   const handleCheckCaptcha = (token) => {
-   const sct = setCaptchaToken(token);
-   console.info('sct', sct)
+    const sct = setCaptchaToken(token);
+    console.info('sct', sct);
   };
 
   return (
@@ -130,6 +130,7 @@ export default function LoginPage() {
               guestLoad={guestLoad}
               load={load}
               googleLoad={googleLoad}
+              captchaToken={captchaToken}
               totpLoad={totpLoad}
               createGuest={createGuest}
               setGoogleLoad={setGoogleLoad}

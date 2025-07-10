@@ -181,7 +181,7 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
                       variant="tertiary"
                       onClick={() => {
                         setIsOpen(false);
-                        setIsConnectTelegramModalOpen(true);
+                        setIsLogoutUserModalOpen(true);
                       }}
                       className="!w-full flex justify-start !py-2 !px-4 !bg-[var(--main-header-bg)] !rounded-none !rounded-b-[5px] hover:!bg-black/60 hover:!text-[var(--main-header-text)]"
                     >

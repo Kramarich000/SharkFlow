@@ -19,6 +19,7 @@ export function GoogleAuthButton({
   googleLoad,
   setGoogleLoad,
   disabled,
+  captchaToken,
 }) {
   const navigate = useNavigate();
   const { setUser } = useUserStore.getState();

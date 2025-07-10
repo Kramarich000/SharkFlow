@@ -26,6 +26,7 @@ import { useThemeStore } from '@store/themeStore';
 import { getWarnings } from '@utils/browser/browserWarningsMap';
 import { detectBrowserInfo } from '@utils/browser/detectBrowserInfo';
 import React from 'react';
+import { GitHubOAuthProvider } from '@common/ui/layout/GitHubOAuthProvider';
 
 function App() {
   const { setUser } = useUserStore.getState();
@@ -101,10 +102,11 @@ function App() {
   if (isAuthLoading) {
     return <Loader />;
   }
-  
+
   return (
     <Router>
       <>
+        <GitHubOAuthProvider />
         <Header />
 
         <ErrorBoundary FallbackComponent={FallbackComponent}>
@@ -113,7 +115,8 @@ function App() {
               {routes.map((route) => {
                 let Wrapper = React.Fragment;
                 if (route.private) Wrapper = PrivateRoute;
-                else if (blockedPublicPaths.includes(route.path)) Wrapper = PublicRoute;
+                else if (blockedPublicPaths.includes(route.path))
+                  Wrapper = PublicRoute;
                 return (
                   <Route
                     key={route.path}

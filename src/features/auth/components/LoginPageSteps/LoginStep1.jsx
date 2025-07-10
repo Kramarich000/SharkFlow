@@ -6,6 +6,7 @@ import { FormikCheckbox, AnimatedError } from '@common/ui';
 import { Button } from '@common/ui/utilities/Button';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 import TurnstileWidget from '@features/auth/components/TurnstileWidget';
+import { GitHubAuthButton } from '@features/auth/components/GitHubAuthButton';
 
 export function LoginStep1({
   formikRef,
@@ -20,6 +21,7 @@ export function LoginStep1({
   createGuest,
   setGoogleLoad,
   captchaKey,
+  captchaToken,
   handleCheckCaptcha,
 }) {
   return (
@@ -97,24 +99,20 @@ export function LoginStep1({
               />
             </div>
 
-            <TurnstileWidget
-              key={captchaKey}
-              onVerify={handleCheckCaptcha}
-            />
-
-            <Button
-              variant="primary"
-              className="sm:col-span-2"
-              type="submit"
-              disabled={guestLoad || load || googleLoad}
-            >
-              {load ? (
-                <AiOutlineSync size={23} className="animate-spin" />
-              ) : (
-                <>Войти</>
-              )}
-            </Button>
-            <div className="flex flex-col md:flex-row col-span-2 item-center justify-center gap-3">
+            <TurnstileWidget key={captchaKey} onVerify={handleCheckCaptcha} />
+            <div className="flex flex-col col-span-2 item-center justify-center gap-3">
+              <Button
+                variant="primary"
+                // className="sm:col-span-2"
+                type="submit"
+                disabled={guestLoad || load || googleLoad}
+              >
+                {load ? (
+                  <AiOutlineSync size={23} className="animate-spin" />
+                ) : (
+                  <>Войти</>
+                )}
+              </Button>
               <Button
                 variant="primary"
                 type="button"
@@ -127,12 +125,16 @@ export function LoginStep1({
                   <>Войти как гость</>
                 )}
               </Button>
+            </div>
+            <div className="flex flex-col md:flex-row col-span-2 item-center justify-center gap-3">
               <GoogleAuthButton
                 btnText="Войти через Google"
                 googleLoad={googleLoad}
                 setGoogleLoad={setGoogleLoad}
                 disabled={guestLoad || load || googleLoad || totpLoad}
+                captchaToken={captchaToken}
               />
+              <GitHubAuthButton captchaToken={captchaToken} />
             </div>
             <Link className="text-blue-600" to="/register">
               Нет аккаунта?
@@ -145,4 +147,4 @@ export function LoginStep1({
       )}
     </Formik>
   );
-} 
+}

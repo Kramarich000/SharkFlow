@@ -30,11 +30,6 @@ export function GoogleAuthButton({
     (state) => state.setIsConnectGoogleModalOpen,
   );
 
-  if (!captchaToken && process.env.NODE_ENV === 'production') {
-    showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
-    return;
-  }
-
   const login = useGoogleLogin({
     flow: 'auth-code',
     scope: 'openid profile email',
@@ -74,9 +69,18 @@ export function GoogleAuthButton({
     },
   });
 
+  const handleClick = () => {
+    if (!captchaToken && process.env.NODE_ENV === 'production') {
+      showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+      return;
+    }
+
+    login();
+  };
+
   return (
     <Button
-      onClick={() => login()}
+      onClick={handleClick}
       variant="primary"
       className={className}
       type="button"

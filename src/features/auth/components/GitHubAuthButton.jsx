@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@common/ui/utilities/Button';
 import { AiFillGithub } from 'react-icons/ai';
+import { showToast } from '@utils/toast';
 
 function generateRandomState(length = 16) {
   const chars =

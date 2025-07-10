@@ -14,7 +14,7 @@ function generateRandomState(length = 16) {
 
 export function GitHubAuthButton({ captchaToken }) {
   const handleClick = () => {
-    const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
+    const clientId = import.meta.env.VITE_CLIENT_GITHUB_ID;
     const redirectUri = window.location.origin;
     const scope = 'read:user user:email';
 

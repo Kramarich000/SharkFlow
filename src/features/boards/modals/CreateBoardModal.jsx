@@ -29,7 +29,7 @@ export function CreateBoardModal() {
       { title, color },
       {
         onSuccess: () => {
-          // setIsCreateBoardModalOpen(false);
+          setIsCreateBoardModalOpen(false);
           setTitle('');
           setColor('transparent');
         },

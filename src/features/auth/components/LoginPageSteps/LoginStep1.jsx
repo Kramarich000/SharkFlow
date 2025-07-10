@@ -17,6 +17,8 @@ export function LoginStep1({
   guestLoad,
   load,
   googleLoad,
+  githubLoad,
+  setGithubLoad,
   totpLoad,
   createGuest,
   setGoogleLoad,
@@ -45,11 +47,18 @@ export function LoginStep1({
                 googleLoad={googleLoad}
                 setGoogleLoad={setGoogleLoad}
                 captchaToken={captchaToken}
-                disabled={guestLoad || load || googleLoad || totpLoad}
+                disabled={
+                  guestLoad || load || googleLoad || totpLoad || githubLoad
+                }
               />
               <GitHubAuthButton
                 nextPath="/dashboard"
+                githubLoad={githubLoad}
+                setGithubLoad={setGithubLoad}
                 captchaToken={captchaToken}
+                disabled={
+                  guestLoad || load || googleLoad || totpLoad || githubLoad
+                }
               />
             </div>
 
@@ -69,7 +78,10 @@ export function LoginStep1({
                 autoFocus
                 className="peer input-styles input-primary"
               />
-              <label htmlFor="email" className="label-styles !bg-[var(--main-surface)]">
+              <label
+                htmlFor="email"
+                className="label-styles !bg-[var(--main-surface)]"
+              >
                 Введите почту
               </label>
 
@@ -89,7 +101,10 @@ export function LoginStep1({
                 onBlur={handleBlur}
                 className="peer input-styles input-primary !pr-8"
               />
-              <label htmlFor="password" className="label-styles !bg-[var(--main-surface)]">
+              <label
+                htmlFor="password"
+                className="label-styles !bg-[var(--main-surface)]"
+              >
                 Введите пароль
               </label>
               <div

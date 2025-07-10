@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@common/ui/utilities/Button';
 import { AiFillGithub } from 'react-icons/ai';
 import { showToast } from '@utils/toast';
+import { AiOutlineSync } from 'react-icons/ai';
 
 function generateRandomState(length = 16) {
   const chars =
@@ -13,12 +14,19 @@ function generateRandomState(length = 16) {
   return result;
 }
 
-export function GitHubAuthButton({ nextPath = '/dashboard', captchaToken }) {
+export function GitHubAuthButton({
+  nextPath = '/dashboard',
+  captchaToken,
+  githubLoad,
+  setGithubLoad,
+  disabled,
+}) {
   const handleClick = () => {
     if (!captchaToken && process.env.NODE_ENV === 'production') {
       showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
       return;
     }
+    setGithubLoad(true);
     const clientId = import.meta.env.VITE_CLIENT_GITHUB_ID;
     const redirectUri = `${window.location.origin}/oauth/github/callback`;
     const scope = 'read:user user:email';
@@ -39,8 +47,22 @@ export function GitHubAuthButton({ nextPath = '/dashboard', captchaToken }) {
   };
 
   return (
-    <Button onClick={handleClick} variant="primary" type="button">
-      <AiFillGithub size={20} /> Войти через GitHub
-    </Button>
+    <>
+      <Button
+        onClick={handleClick}
+        variant="primary"
+        type="button"
+        disabled={disabled}
+      >
+        {githubLoad ? (
+          <AiOutlineSync size={23} className="animate-spin" />
+        ) : (
+          <>
+            <AiFillGithub size={20} className="!bg-white !rounded-full" />
+            {btnText || 'Войти через GitHub'}
+          </>
+        )}
+      </Button>
+    </>
   );
 }

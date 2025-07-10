@@ -26,6 +26,7 @@ export function RegisterFirstStep() {
   const [googleLoad, setGoogleLoad] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
   const [captchaKey, setCaptchaKey] = useState(0);
+  const [githubLoad, setGithubLoad] = useState(false);
 
   const handleCheckCaptcha = (token) => {
     setCaptchaToken(token);
@@ -88,12 +89,15 @@ export function RegisterFirstStep() {
                     btnText="Войти через Google"
                     googleLoad={googleLoad}
                     setGoogleLoad={setGoogleLoad}
-                    disabled={load || googleLoad}
+                    disabled={load || googleLoad || githubLoad}
                     captchaToken={captchaToken}
                   />
                   <GitHubAuthButton
                     nextPath="/dashboard"
+                    githubLoad={githubLoad}
+                    setGithubLoad={setGithubLoad}
                     captchaToken={captchaToken}
+                    disabled={load || googleLoad || githubLoad}
                   />
                 </div>
 

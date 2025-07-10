@@ -53,7 +53,7 @@ export function LoginStep1({
               />
             </div>
 
-            <div className="col-span-2 relative bg-white w-full h-[1px] my-2">
+            <div className="col-span-2 relative bg-[var(--main-text)] w-full h-[1px] my-2">
               <p className="absolute top-[-14px] left-1/2 -translate-x-1/2 px-2 bg-surface">
                 Или
               </p>
@@ -69,7 +69,7 @@ export function LoginStep1({
                 autoFocus
                 className="peer input-styles input-primary"
               />
-              <label htmlFor="email" className="label-styles">
+              <label htmlFor="email" className="label-styles !bg-[var(--main-surface)]">
                 Введите почту
               </label>
 
@@ -89,7 +89,7 @@ export function LoginStep1({
                 onBlur={handleBlur}
                 className="peer input-styles input-primary !pr-8"
               />
-              <label htmlFor="password" className="label-styles">
+              <label htmlFor="password" className="label-styles !bg-[var(--main-surface)]">
                 Введите пароль
               </label>
               <div

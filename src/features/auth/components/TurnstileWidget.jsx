@@ -50,7 +50,7 @@ export default function TurnstileWidget({ onVerify, action }) {
         action={action}
         tabIndex={0}
       />
-      {!hasError && (
+      {hasError && (
         <Button
           variant="primary"
           type="button"

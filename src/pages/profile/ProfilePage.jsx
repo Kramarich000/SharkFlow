@@ -13,7 +13,6 @@ export default function Profile() {
 
   const user = useUserStore((state) => state.user);
   const role = user?.role;
-  const twoFactorEnabled = user?.twoFactorEnabled;
 
   useEffect(() => {
     if (user) {

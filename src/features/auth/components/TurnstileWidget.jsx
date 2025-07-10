@@ -18,9 +18,12 @@ export default function TurnstileWidget({ onVerify, action }) {
     <Turnstile
       sitekey={siteKey}
       onVerify={onVerify}
-      onError={() => showToast('Ошибка проверки капчи')}
+      onError={() => showToast('Ошибка проверки капчи', 'error')}
       onExpire={() =>
-        showToast('Время проверки капчи истекло, пожалуйста, повторите')
+        showToast(
+          'Время проверки капчи истекло, пожалуйста, повторите попытку',
+          'error',
+        )
       }
       theme={mode}
       size={size}

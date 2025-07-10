@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { githubAuth } from '@features/auth/api/github/connect/githubAuth';
 import { useAuthStore } from '@features/auth/store';
 import { showToast } from '@utils/toast';
+import { motion } from 'framer-motion';
 
 export default function GitHubOAuthProvider() {
   const navigate = useNavigate();

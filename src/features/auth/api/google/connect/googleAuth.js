@@ -11,7 +11,6 @@ export async function googleAuth(code) {
     () => api.post('/api/auth/google', { code }, {}),
     {
       onSuccess: (data) => {
-        console.log(data);
         if (data.accessToken) {
           setAccessToken(data.accessToken);
           setCsrfToken(data.csrfToken);
@@ -20,6 +19,5 @@ export async function googleAuth(code) {
       },
     },
   );
-  console.info('result', result);
   return result;
 }

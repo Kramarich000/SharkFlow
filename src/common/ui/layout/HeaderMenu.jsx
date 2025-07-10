@@ -148,7 +148,7 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
                   className="absolute top-[-20px] right-5 text-[var(--main-header-bg)] "
                 />
                 <div className="flex flex-col pt-2">
-                  {user?.avatarUrl && token ? (
+                  {user?.avatarUrl && user?.role === 'user' && token ? (
                     <Avatar
                       src={user?.avatarUrl}
                       size={100}
@@ -157,10 +157,24 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
                   ) : (
                     <MdAccountCircle className="w-20 h-20 mx-auto flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full text-[var(--main-button-text)]" />
                   )}
-                  <p className="text-center">{user?.login}</p>
-                  <p className="text-sm mx-auto border-b-2 border-white w-[80%] py-1 pb-4 mb-4">
-                    {user?.email}
-                  </p>
+
+                  {user?.role === 'user' && (
+                    <>
+                      <p className="text-center">{user?.login}</p>
+                      <p className="text-sm mx-auto border-b-2 border-white w-[80%] py-1 pb-4 mb-4">
+                        {user?.email}
+                      </p>
+                    </>
+                  )}
+
+                  {user?.role === 'guest' && (
+                    <>
+                      <p className="mx-auto border-b-2 border-white w-[80%] py-1 pb-4 mb-4">
+                        Гость
+                      </p>
+                    </>
+                  )}
+
                   {navLinks.map((link) => (
                     <NavLink
                       key={link.path}
@@ -224,7 +238,7 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
                           </div>
                         </>
                       )}
-                      {token && (
+                      {user?.role === 'user' && token && (
                         <div>
                           <p className="font-semibold">{user?.login}</p>
                           <p className="text-sm text-gray-200">{user?.email}</p>
@@ -258,7 +272,7 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
                     </NavLink>
                   ))}
                 </div>
-                {!user?.telegramEnabled && token && (
+                {!user?.telegramEnabled && user?.role === 'user' && token && (
                   <Button
                     variant="primary"
                     className="!flex items-center !mb-4 !bg-black/20 hover:!bg-black/60 !rounded-full"

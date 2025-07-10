@@ -187,7 +187,7 @@ export function RegisterFirstStep() {
                   <FormikCheckbox
                     name="acceptedPolicies"
                     id="acceptedPolicies"
-                    className={`${load ? 'pointer-events-none' : null}`}
+                    className={`${load ? 'pointer-events-none' : ''}`}
                     label={
                       <>
                         Я принимаю{' '}
@@ -218,7 +218,7 @@ export function RegisterFirstStep() {
                 <TurnstileWidget
                   key={captchaKey}
                   onVerify={handleCheckCaptcha}
-                  action='register'
+                  action="register"
                 />
                 <Button
                   className="col-span-2"
@@ -238,8 +238,12 @@ export function RegisterFirstStep() {
                     googleLoad={googleLoad}
                     setGoogleLoad={setGoogleLoad}
                     disabled={load || googleLoad}
+                    captchaToken={captchaToken}
                   />
-                  <GitHubAuthButton nextPath="/dashboard" />
+                  <GitHubAuthButton
+                    nextPath="/dashboard"
+                    captchaToken={captchaToken}
+                  />
                 </div>
                 <Link className="col-span-2 !w-fit mx-auto" to="/login">
                   Уже есть аккаунт?

@@ -98,7 +98,7 @@ export function UserProfileData() {
                 ${isImgOptionsVisible ? 'opacity-100 bg-[rgba(0,0,0,0.4)]' : 'opacity-0'}
               `}
             ></div>
-            {user?.avatarUrl ? (
+            {user?.avatarUrl && user?.role === 'user' ? (
               <div className="relative">
                 <>
                   {error && (
@@ -160,8 +160,14 @@ export function UserProfileData() {
                     className="flex items-center gap-2 text-[var(--main-primary)] hover:text-[var(--main-hover)]"
                     title={user?.avatarUrl ? 'Изменить фото' : 'Загрузить фото'}
                   >
-                    {user?.avatarUrl ? <FaRegEdit /> : <FaCamera />}
-                    {user?.avatarUrl ? 'Изменить' : 'Загрузить'}
+                    {user?.avatarUrl && user?.role === 'user' ? (
+                      <FaRegEdit />
+                    ) : (
+                      <FaCamera />
+                    )}
+                    {user?.avatarUrl && user?.role === 'user'
+                      ? 'Изменить'
+                      : 'Загрузить'}
                   </Button>
                   {user?.avatarUrl && (
                     <Button
@@ -181,7 +187,7 @@ export function UserProfileData() {
           </div>
         </div>
         <div className="text-center flex flex-col items-start">
-          {user?.login && (
+          {user?.login && user?.role === 'user' && (
             <p
               className="text-lg flex items-center gap-2 justify-center"
               title="Ваш логин"
@@ -191,7 +197,7 @@ export function UserProfileData() {
             </p>
           )}
 
-          {user?.email && (
+          {user?.email && user?.role === 'user' && (
             <p
               className="text-lg flex items-center gap-2 justify-center"
               title="Ваша основная почта"
@@ -200,6 +206,7 @@ export function UserProfileData() {
             </p>
           )}
           {user?.googleOAuthEnabled &&
+            user?.role === 'user' &&
             user?.googleEmail &&
             user.googleEmail !== user.email && (
               <p
@@ -210,6 +217,7 @@ export function UserProfileData() {
               </p>
             )}
           {user?.githubOAuthEnabled &&
+            user?.role === 'user' &&
             user?.githubEmail &&
             user.githubEmail !== user.email && (
               <p
@@ -220,17 +228,17 @@ export function UserProfileData() {
               </p>
             )}
 
-          {user?.googleOAuthEnabled && (
+          {user?.googleOAuthEnabled && user?.role === 'user' && (
             <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
               <FaGoogle /> Google-аккаунт привязан
             </p>
           )}
-          {user?.telegramEnabled && (
+          {user?.telegramEnabled && user?.role === 'user' && (
             <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
               <FaTelegramPlane /> Telegram-аккаунт привязан
             </p>
           )}
-          {user?.githubOAuthEnabled && (
+          {user?.githubOAuthEnabled && user?.role === 'user' && (
             <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
               <AiFillGithub /> GitHub-аккаунт привязан
             </p>

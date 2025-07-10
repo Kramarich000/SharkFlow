@@ -18,6 +18,7 @@ export function GoogleAuthButton({
   isNavigated = true,
   googleLoad,
   setGoogleLoad,
+  captchaToken,
   disabled,
 }) {
   const navigate = useNavigate();
@@ -28,6 +29,11 @@ export function GoogleAuthButton({
   const setIsConnectGoogleModalOpen = useModalsStore(
     (state) => state.setIsConnectGoogleModalOpen,
   );
+
+  if (!captchaToken && process.env.NODE_ENV === 'production') {
+    showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+    return;
+  }
 
   const login = useGoogleLogin({
     flow: 'auth-code',
@@ -44,7 +50,7 @@ export function GoogleAuthButton({
         }
 
         const response = isAuth
-          ? await googleAuth(code)
+          ? await googleAuth(code, captchaToken)
           : await googleConnect(code);
 
         const result = response?.data ?? response;

@@ -25,6 +25,7 @@ export default function GitHubOAuthProvider() {
       nextPathRaw && nextPathRaw.trim() !== '' ? nextPathRaw : '/dashboard';
 
     const storedState = sessionStorage.getItem('github_oauth_state');
+    const storedCaptchaToken = sessionStorage.getItem('captchaToken');
     const [storedValue] = (storedState || '').split('|');
 
     if (stateValue !== storedValue) {
@@ -32,9 +33,15 @@ export default function GitHubOAuthProvider() {
       return;
     }
 
-    sessionStorage.removeItem('github_oauth_state');
+    if (!storedCaptchaToken) {
+      showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+      return;
+    }
 
-    githubAuth(code, stateRaw)
+    sessionStorage.removeItem('github_oauth_state');
+    sessionStorage.removeItem('captchaToken');
+
+    githubAuth(code, stateRaw, captchaToken)
       .then((res) => {
         if (!res) {
           throw new Error(

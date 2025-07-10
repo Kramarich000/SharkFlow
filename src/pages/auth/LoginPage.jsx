@@ -90,8 +90,7 @@ export default function LoginPage() {
   };
 
   const handleCheckCaptcha = (token) => {
-    const sct = setCaptchaToken(token);
-    console.info('sct', sct);
+    setCaptchaToken(token);
   };
 
   return (
@@ -135,6 +134,7 @@ export default function LoginPage() {
               setGoogleLoad={setGoogleLoad}
               captchaKey={captchaKey}
               handleCheckCaptcha={handleCheckCaptcha}
+              captchaToken={captchaToken}
             />
           </motion.div>
         ) : step === 'twoFactor' ? (

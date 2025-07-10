@@ -22,6 +22,7 @@ export function LoginStep1({
   setGoogleLoad,
   captchaKey,
   handleCheckCaptcha,
+  captchaToken,
 }) {
   return (
     <Formik
@@ -134,9 +135,13 @@ export function LoginStep1({
                 btnText="Войти через Google"
                 googleLoad={googleLoad}
                 setGoogleLoad={setGoogleLoad}
+                captchaToken={captchaToken}
                 disabled={guestLoad || load || googleLoad || totpLoad}
               />
-              <GitHubAuthButton nextPath="/dashboard" />
+              <GitHubAuthButton
+                nextPath="/dashboard"
+                captchaToken={captchaToken}
+              />
             </div>
             <Link className="text-blue-600" to="/register">
               Нет аккаунта?

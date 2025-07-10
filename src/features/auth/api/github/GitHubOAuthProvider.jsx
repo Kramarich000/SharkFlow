@@ -34,7 +34,17 @@ export default function GitHubOAuthProvider() {
 
     githubAuth(code)
       .then((res) => {
-        const { accessToken, csrfToken } = res.data;
+        if (!res) {
+          throw new Error(
+            'Сервер не вернул данные. Возможна ошибка авторизации',
+          );
+        }
+        const { accessToken, csrfToken } = res;
+
+        if (!accessToken || !csrfToken) {
+          throw new Error('Некорректный ответ от сервера: отсутствуют токены');
+        }
+
         setAccessToken(accessToken);
         setCsrfToken(csrfToken);
         showToast('Успешный вход через GitHub');

@@ -12,7 +12,7 @@ function generateRandomState(length = 16) {
   return result;
 }
 
-export function GitHubAuthButton({ captchaToken, nextPath = '/dashboard' }) {
+export function GitHubAuthButton({ nextPath = '/dashboard' }) {
   const handleClick = () => {
     const clientId = import.meta.env.VITE_CLIENT_GITHUB_ID;
     const redirectUri = `${window.location.origin}/oauth/github/callback`;
@@ -21,10 +21,6 @@ export function GitHubAuthButton({ captchaToken, nextPath = '/dashboard' }) {
     const randomState = generateRandomState();
     const fullState = `${randomState}|${nextPath}`;
     sessionStorage.setItem('github_oauth_state', fullState);
-
-    if (captchaToken) {
-      sessionStorage.setItem('captchaToken', captchaToken);
-    }
 
     const githubUrl =
       `https://github.com/login/oauth/authorize` +

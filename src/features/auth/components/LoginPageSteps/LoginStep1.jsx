@@ -21,7 +21,6 @@ export function LoginStep1({
   createGuest,
   setGoogleLoad,
   captchaKey,
-  captchaToken,
   handleCheckCaptcha,
 }) {
   return (
@@ -132,12 +131,8 @@ export function LoginStep1({
                 googleLoad={googleLoad}
                 setGoogleLoad={setGoogleLoad}
                 disabled={guestLoad || load || googleLoad || totpLoad}
-                captchaToken={captchaToken}
               />
-              <GitHubAuthButton
-                captchaToken={captchaToken}
-                nextPath="/dashboard"
-              />
+              <GitHubAuthButton nextPath="/dashboard" />
             </div>
             <Link className="text-blue-600" to="/register">
               Нет аккаунта?

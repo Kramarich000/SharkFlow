@@ -19,7 +19,6 @@ export function GoogleAuthButton({
   googleLoad,
   setGoogleLoad,
   disabled,
-  captchaToken,
 }) {
   const navigate = useNavigate();
   const { setUser } = useUserStore.getState();
@@ -45,7 +44,7 @@ export function GoogleAuthButton({
         }
 
         const response = isAuth
-          ? await googleAuth(code, captchaToken)
+          ? await googleAuth(code)
           : await googleConnect(code);
 
         const result = response?.data ?? response;

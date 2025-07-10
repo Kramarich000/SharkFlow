@@ -32,10 +32,7 @@ export default function GitHubOAuthProvider() {
 
     sessionStorage.removeItem('github_oauth_state');
 
-    const captchaToken = sessionStorage.getItem('captchaToken');
-    if (captchaToken) sessionStorage.removeItem('captchaToken');
-
-    githubAuth(code, captchaToken)
+    githubAuth(code)
       .then((res) => {
         const { accessToken, csrfToken } = res.data;
         setAccessToken(accessToken);

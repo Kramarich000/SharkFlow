@@ -130,7 +130,6 @@ export default function LoginPage() {
               guestLoad={guestLoad}
               load={load}
               googleLoad={googleLoad}
-              captchaToken={captchaToken}
               totpLoad={totpLoad}
               createGuest={createGuest}
               setGoogleLoad={setGoogleLoad}

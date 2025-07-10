@@ -14,6 +14,7 @@ import { Button } from '@common/ui/utilities/Button';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 import TurnstileWidget from '@features/auth/components/TurnstileWidget';
 import { showToast } from '@utils/toast';
+import { GitHubAuthButton } from '@features/auth/components/GitHubAuthButton';
 
 export function RegisterFirstStep() {
   const setStep = useRegisterStore((state) => state.setStep);
@@ -237,6 +238,7 @@ export function RegisterFirstStep() {
                     setGoogleLoad={setGoogleLoad}
                     disabled={load || googleLoad}
                   />
+                  <GitHubAuthButton nextPath="/dashboard" />
                 </div>
                 <Link className="col-span-2 !w-fit mx-auto" to="/login">
                   Уже есть аккаунт?

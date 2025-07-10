@@ -41,7 +41,7 @@ export default function GitHubOAuthProvider() {
     sessionStorage.removeItem('github_oauth_state');
     sessionStorage.removeItem('captchaToken');
 
-    githubAuth(code, stateRaw, captchaToken)
+    githubAuth(code, stateRaw, storedCaptchaToken)
       .then((res) => {
         if (!res) {
           throw new Error(

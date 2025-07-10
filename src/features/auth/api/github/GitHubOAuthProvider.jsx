@@ -32,7 +32,7 @@ export default function GitHubOAuthProvider() {
 
     sessionStorage.removeItem('github_oauth_state');
 
-    githubAuth(code)
+    githubAuth(code, state)
       .then((res) => {
         if (!res) {
           throw new Error(

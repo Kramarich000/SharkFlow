@@ -135,7 +135,8 @@ export function LoginStep1({
                 captchaToken={captchaToken}
               />
               <GitHubAuthButton
-               captchaToken={captchaToken}
+                captchaToken={captchaToken}
+                nextPath="/dashboard"
               />
             </div>
             <Link className="text-blue-600" to="/register">

@@ -18,7 +18,8 @@ export function GitHubOAuthProvider() {
       return;
     }
 
-    const [stateValue, nextPath = '/dashboard'] = stateRaw.split('|');
+    const [stateValue, nextPathRaw = '/dashboard'] = stateRaw.split('|');
+    const nextPath = nextPathRaw || '/dashboard';
     const storedState = sessionStorage.getItem('github_oauth_state');
     const [storedValue] = (storedState || '').split('|');
 

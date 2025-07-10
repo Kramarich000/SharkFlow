@@ -8,11 +8,7 @@ export function Step1({ loading, onNo, onYes }) {
         Вы уверены что хотите удалить аккаунт?
       </h2>
       <div className="flex flex-col md:flex-row items-center w-full justify-center gap-2">
-        <Button
-          variant="primary"
-          disabled={loading}
-          onClick={onNo}
-        >
+        <Button variant="primary" disabled={loading} onClick={onNo}>
           Нет
         </Button>
         <Button
@@ -30,4 +26,4 @@ export function Step1({ loading, onNo, onYes }) {
       </div>
     </div>
   );
-} 
+}

@@ -12,6 +12,7 @@ export default function TurnstileWidget({ onVerify, action }) {
   const { isMobile } = useResponsive();
 
   const [hasError, setHasError] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
   const turnstileRef = useRef(null);
 
   const size = isMobile ? 'compact' : 'normal';
@@ -22,9 +23,19 @@ export default function TurnstileWidget({ onVerify, action }) {
   };
 
   const handleReset = () => {
-    if (turnstileRef.current?.reset) {
-      turnstileRef.current.reset();
-      setHasError(false);
+    setIsResetting(true);
+    setHasError(false);
+    try {
+      if (turnstileRef.current?.reset) {
+        turnstileRef.current.reset();
+      } else {
+        throw new Error('Reset not available');
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Не удалось сбросить проверку', 'error');
+    } finally {
+      setTimeout(() => setIsResetting(false), 300); 
     }
   };
 
@@ -33,6 +44,7 @@ export default function TurnstileWidget({ onVerify, action }) {
       <Turnstile
         ref={turnstileRef}
         sitekey={siteKey}
+        className={hasError ? 'hidden' : ''}
         onVerify={(token) => {
           setHasError(false);
           onVerify(token);
@@ -56,8 +68,13 @@ export default function TurnstileWidget({ onVerify, action }) {
           type="button"
           onClick={handleReset}
           className="!bg-red-400 !w-fit hover:!bg-red-500 !transition col-span-2 mx-auto"
+          disabled={isResetting}
         >
-          <AiOutlineSync size={23} /> Повторить проверку
+          {isResetting ? (
+            <AiOutlineSync className="animate-spin" size={23} />
+          ) : (
+            <>Повторить проверку</>
+          )}
         </Button>
       )}
     </div>

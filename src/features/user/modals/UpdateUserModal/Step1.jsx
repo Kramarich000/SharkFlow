@@ -8,11 +8,7 @@ export function Step1({ loading, onCancel, onConfirm }) {
         Подтвердите обновление данных аккаунта
       </h2>
       <div className="flex flex-col md:flex-row items-center w-full justify-center gap-2">
-        <Button
-          variant="primary"
-          disabled={loading}
-          onClick={onCancel}
-        >
+        <Button variant="primary" disabled={loading} onClick={onCancel}>
           Отмена
         </Button>
         <Button
@@ -22,12 +18,12 @@ export function Step1({ loading, onCancel, onConfirm }) {
           disabled={loading}
         >
           {loading ? (
-                <AiOutlineSync className="animate-spin" size={23} />
-              ) : (
-                <>Подтвердить</>
-              )}
+            <AiOutlineSync className="animate-spin" size={23} />
+          ) : (
+            <>Подтвердить</>
+          )}
         </Button>
       </div>
     </div>
   );
-} 
+}

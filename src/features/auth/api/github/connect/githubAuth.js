@@ -4,7 +4,7 @@ import { apiResponsesHandler } from '@utils/responsesHandler';
 
 export async function githubAuth(code, state) {
   const result = await apiResponsesHandler(
-    () => api.post('/api/auth/github', { code, state }),
+    () => api.post('/api/auth/github', { code, state }, {}),
     {
       onSuccess: (data) => {
         if (data.accessToken) {
@@ -17,6 +17,5 @@ export async function githubAuth(code, state) {
       },
     },
   );
-
   return result;
 }

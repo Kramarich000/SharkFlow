@@ -16,6 +16,5 @@ export async function guestLogin(captchaToken) {
       },
     },
   );
-
   return result;
 }

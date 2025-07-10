@@ -4,18 +4,22 @@ import { useAuthStore } from '@features/auth/store';
 import { apiResponsesHandler } from '@utils/responsesHandler';
 
 export async function googleAuth(code) {
+  const { setAccessToken, setCsrfToken } = useAuthStore.getState();
+  const { updateUser, setUser } = useUserStore.getState();
+
   const result = await apiResponsesHandler(
-    () => api.post('/api/auth/google', { code }),
+    () => api.post('/api/auth/google', { code }, {}),
     {
       onSuccess: (data) => {
+        console.log(data);
         if (data.accessToken) {
-          useAuthStore.getState().setAccessToken(data.accessToken);
-          useAuthStore.getState().setCsrfToken(data.csrfToken);
-          useUserStore.getState().updateUser({ googleOAuthEnabled: data.googleOAuthEnabled });
+          setAccessToken(data.accessToken);
+          setCsrfToken(data.csrfToken);
+          updateUser({ googleOAuthEnabled: data.googleOAuthEnabled });
         }
       },
     },
   );
-
+  console.info('result', result);
   return result;
 }

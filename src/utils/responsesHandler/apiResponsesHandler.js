@@ -16,7 +16,11 @@ export async function apiResponsesHandler(requestFn, options = {}) {
       if (message && !silent) {
         showToast(message, 'success');
       }
-      if (onSuccess) return onSuccess(response.data);
+      if (onSuccess) {
+        const maybe = onSuccess(response.data);
+        if (maybe !== undefined) return maybe;
+        return response.data;
+      }
       return response.data;
     }
 

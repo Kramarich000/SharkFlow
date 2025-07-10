@@ -28,7 +28,7 @@ export default function GitHubOAuthProvider() {
     const [storedValue] = (storedState || '').split('|');
 
     if (stateValue !== storedValue) {
-      showToast('Ошибка безопасности: некорректный state');
+      showToast('Ошибка безопасности: некорректный state', 'error');
       return;
     }
 

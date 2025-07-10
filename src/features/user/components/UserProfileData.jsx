@@ -219,6 +219,7 @@ export function UserProfileData() {
                 <AiFillGithub /> {user.githubEmail}
               </p>
             )}
+
           {user?.googleOAuthEnabled && (
             <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
               <FaGoogle /> Google-аккаунт привязан

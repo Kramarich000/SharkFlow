@@ -14,10 +14,12 @@ export async function githubAuth(code, state) {
         if (data.accessToken) {
           setAccessToken(data.accessToken);
           setCsrfToken(data.csrfToken);
+          console.log('asd', data.githubOAuthEnabled)
           updateUser({ githubOAuthEnabled: data.githubOAuthEnabled });
         }
       },
     },
   );
+  console.log(result);
   return result;
 }

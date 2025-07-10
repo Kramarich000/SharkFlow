@@ -11,24 +11,26 @@ export function GitHubOAuthProvider() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
-    if (!code) {
+    const stateRaw = params.get('state');
+
+    if (!code || !stateRaw) {
+      showToast('Ошибка OAuth: отсутствует code или state');
       return;
     }
 
-    const returnedState = params.get('state');
+    const [stateValue, nextPath = '/dashboard'] = stateRaw.split('|');
     const storedState = sessionStorage.getItem('github_oauth_state');
-    if (!returnedState || returnedState !== storedState) {
+    const [storedValue] = (storedState || '').split('|');
+
+    if (stateValue !== storedValue) {
       showToast('Ошибка безопасности: некорректный state');
       return;
     }
 
     sessionStorage.removeItem('github_oauth_state');
-    const captchaToken = sessionStorage.getItem('captchaToken');
-    if (captchaToken) {
-      sessionStorage.removeItem('captchaToken');
-    }
 
-    navigate(window.location.pathname, { replace: true });
+    const captchaToken = sessionStorage.getItem('captchaToken');
+    if (captchaToken) sessionStorage.removeItem('captchaToken');
 
     githubAuth(code, captchaToken)
       .then((res) => {
@@ -36,7 +38,7 @@ export function GitHubOAuthProvider() {
         setAccessToken(accessToken);
         setCsrfToken(csrfToken);
         showToast('Успешный вход через GitHub');
-        navigate('/dashboard', { replace: true });
+        navigate(nextPath, { replace: true });
       })
       .catch((err) => {
         console.error(err);

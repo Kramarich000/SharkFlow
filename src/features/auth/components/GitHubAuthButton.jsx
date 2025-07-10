@@ -12,25 +12,28 @@ function generateRandomState(length = 16) {
   return result;
 }
 
-export function GitHubAuthButton({ captchaToken }) {
+export function GitHubAuthButton({ captchaToken, nextPath = '/dashboard' }) {
   const handleClick = () => {
     const clientId = import.meta.env.VITE_CLIENT_GITHUB_ID;
-    const redirectUri = window.location.origin;
+    const redirectUri = `${window.location.origin}/oauth/github/callback`;
     const scope = 'read:user user:email';
 
-    const state = generateRandomState();
-    sessionStorage.setItem('github_oauth_state', state);
+    const randomState = generateRandomState();
+    const fullState = `${randomState}|${nextPath}`;
+    sessionStorage.setItem('github_oauth_state', fullState);
 
     if (captchaToken) {
       sessionStorage.setItem('captchaToken', captchaToken);
     }
 
-    window.location.href =
+    const githubUrl =
       `https://github.com/login/oauth/authorize` +
       `?client_id=${clientId}` +
       `&redirect_uri=${encodeURIComponent(redirectUri)}` +
       `&scope=${encodeURIComponent(scope)}` +
-      `&state=${state}`;
+      `&state=${encodeURIComponent(fullState)}`;
+
+    window.location.href = githubUrl;
   };
 
   return (

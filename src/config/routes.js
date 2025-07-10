@@ -16,6 +16,10 @@ const PrivacyPage = lazy(() => import('@pages/policy/PrivacyPage'));
 
 const Error404 = lazy(() => import('@pages/errors/Error404'));
 
+const GitHubOAuthProvider = lazy(
+  () => import('@features/auth/api/github/GitHubOAuthProvider'),
+);
+
 import { baseURL } from '@lib/http';
 
 export const routes = [
@@ -75,13 +79,14 @@ export const routes = [
     private: false,
   },
   {
-    path: '/github/callback',
-    component: PrivacyPage,
-    title: 'GithubAuth',
-    description: 'GithubAuth',
-    url: `${baseURL}/github/callback`,
-    private: true,
+    path: '/oauth/github/callback',
+    component: GitHubOAuthProvider,
+    title: 'Авторизация через GitHub',
+    description: 'GitHub OAuth обработчик',
+    url: `${baseURL}/oauth/github/callback`,
+    private: false,
   },
+
   {
     path: '*',
     component: Error404,

@@ -29,7 +29,7 @@ export default function TurnstileWidget({ onVerify, action }) {
     setTimeout(() => setIsResetting(false), 300);
   };
   return (
-    <div className="col-span-2 min-h-[146px] sm:min-h-[71px]">
+    <div className="col-span-2 min-h-[146px] sm:min-h-[71px] flex items-center justify-center">
       <Turnstile
         key={widgetKey}
         sitekey={siteKey}

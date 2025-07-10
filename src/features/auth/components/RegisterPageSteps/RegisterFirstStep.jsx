@@ -15,6 +15,7 @@ import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 import TurnstileWidget from '@features/auth/components/TurnstileWidget';
 import { showToast } from '@utils/toast';
 import { GitHubAuthButton } from '@features/auth/components/GitHubAuthButton';
+import { guestLogin } from '@features/auth';
 
 export function RegisterFirstStep() {
   const setStep = useRegisterStore((state) => state.setStep);
@@ -24,6 +25,7 @@ export function RegisterFirstStep() {
   );
   const [load, setLoad] = useState(false);
   const [googleLoad, setGoogleLoad] = useState(false);
+  const [guestLoad, setGuestLoad] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
   const [captchaKey, setCaptchaKey] = useState(0);
   const [githubLoad, setGithubLoad] = useState(false);
@@ -31,6 +33,28 @@ export function RegisterFirstStep() {
   const handleCheckCaptcha = (token) => {
     setCaptchaToken(token);
   };
+
+  const createGuest = async () => {
+    if (!captchaToken && process.env.NODE_ENV === 'production') {
+      showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+      return;
+    }
+    try {
+      setGuestLoad(true);
+      const success = await guestLogin(captchaToken);
+      if (success) {
+        setCaptchaToken(null);
+        setCaptchaKey((prev) => prev + 1);
+        setGuestLoad(false);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setGuestLoad(false);
+    }
+  };
+
+  const isDisabled = guestLoad || load || googleLoad || githubLoad;
 
   return (
     <motion.div
@@ -89,7 +113,7 @@ export function RegisterFirstStep() {
                     btnText="Войти через Google"
                     googleLoad={googleLoad}
                     setGoogleLoad={setGoogleLoad}
-                    disabled={load || googleLoad || githubLoad}
+                    disabled={isDisabled}
                     captchaToken={captchaToken}
                   />
                   <GitHubAuthButton
@@ -97,7 +121,7 @@ export function RegisterFirstStep() {
                     githubLoad={githubLoad}
                     setGithubLoad={setGithubLoad}
                     captchaToken={captchaToken}
-                    disabled={load || googleLoad || githubLoad}
+                    disabled={isDisabled}
                   />
                 </div>
 
@@ -116,11 +140,11 @@ export function RegisterFirstStep() {
                     placeholder=" "
                     required
                     className="peer input-styles input-primary !pr-8"
-                    disabled={load || googleLoad}
+                    disabled={isDisabled}
                   />
                   <label
                     htmlFor="login"
-                    className="label-styles !bg-[var(--main-surface)]"
+                    className={`label-styles !bg-[var(--main-surface)] !transition-all !pr-8 ${isDisabled ? 'opacity-60 cursor-not-allowed select-none' : ''}`}
                   >
                     Введите логин
                   </label>
@@ -138,11 +162,11 @@ export function RegisterFirstStep() {
                     placeholder=" "
                     required
                     className="peer input-styles input-primary !pr-8"
-                    disabled={load || googleLoad}
+                    disabled={isDisabled}
                   />
                   <label
                     htmlFor="email"
-                    className="label-styles !bg-[var(--main-surface)]"
+                    className={`label-styles !bg-[var(--main-surface)] !transition-all !pr-8 ${isDisabled ? 'opacity-60 cursor-not-allowed select-none' : ''}`}
                   >
                     Введите почту
                   </label>
@@ -162,11 +186,11 @@ export function RegisterFirstStep() {
                     required
                     onBlur={handleBlur}
                     className="peer input-styles input-primary !pr-8"
-                    disabled={load || googleLoad}
+                    disabled={isDisabled}
                   />
                   <label
                     htmlFor="password"
-                    className="label-styles !bg-[var(--main-surface)]"
+                    className={`label-styles !bg-[var(--main-surface)] !transition-all !pr-8 ${isDisabled ? 'opacity-60 cursor-not-allowed select-none' : ''}`}
                   >
                     Введите пароль
                   </label>
@@ -193,12 +217,12 @@ export function RegisterFirstStep() {
                     autoComplete="new-password"
                     placeholder=" "
                     required
-                    disabled={load || googleLoad}
+                    disabled={isDisabled}
                     className="peer input-styles input-primary !pr-8"
                   />
                   <label
                     htmlFor="confirmPassword"
-                    className="label-styles !bg-[var(--main-surface)]"
+                    className={`label-styles !bg-[var(--main-surface)] !transition-all !pr-8 ${isDisabled ? 'opacity-60 cursor-not-allowed select-none' : ''}`}
                   >
                     Подтвердите пароль
                   </label>
@@ -211,6 +235,7 @@ export function RegisterFirstStep() {
                   <FormikCheckbox
                     name="acceptedPolicies"
                     id="acceptedPolicies"
+                    disabled={isDisabled}
                     className={`${load ? 'pointer-events-none' : ''}`}
                     label={
                       <>
@@ -248,12 +273,25 @@ export function RegisterFirstStep() {
                   className="col-span-2"
                   variant="primary"
                   type="submit"
-                  disabled={load || googleLoad}
+                  disabled={isDisabled}
                 >
                   {load ? (
                     <AiOutlineSync className="animate-spin" size={23} />
                   ) : (
                     <>Зарегистрироваться</>
+                  )}
+                </Button>
+                <Button
+                  variant="primary"
+                  className="col-span-2"
+                  type="button"
+                  onClick={createGuest}
+                  disabled={isDisabled}
+                >
+                  {guestLoad ? (
+                    <AiOutlineSync size={23} className="animate-spin" />
+                  ) : (
+                    <>Войти как гость</>
                   )}
                 </Button>
                 <Link className="col-span-2 !w-fit mx-auto" to="/login">

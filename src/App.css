@@ -10,7 +10,7 @@
 }
 
 .input-styles {
-  @apply w-full p-4 outline-0 rounded-[8px] rounded-b-[0px] focus:rounded-[8px] transition-all;
+  @apply w-full p-4 outline-0 rounded-[8px] rounded-b-[0px] focus:rounded-[8px] !transition-all disabled:opacity-60 disabled:cursor-not-allowed;
 }
 
 .calendar-styles {

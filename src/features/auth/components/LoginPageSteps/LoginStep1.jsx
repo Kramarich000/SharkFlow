@@ -26,6 +26,7 @@ export function LoginStep1({
   handleCheckCaptcha,
   captchaToken,
 }) {
+  const isDisabled = guestLoad || load || googleLoad || totpLoad || githubLoad;
   return (
     <Formik
       innerRef={formikRef}
@@ -47,18 +48,14 @@ export function LoginStep1({
                 googleLoad={googleLoad}
                 setGoogleLoad={setGoogleLoad}
                 captchaToken={captchaToken}
-                disabled={
-                  guestLoad || load || googleLoad || totpLoad || githubLoad
-                }
+                disabled={isDisabled}
               />
               <GitHubAuthButton
                 nextPath="/dashboard"
                 githubLoad={githubLoad}
                 setGithubLoad={setGithubLoad}
                 captchaToken={captchaToken}
-                disabled={
-                  guestLoad || load || googleLoad || totpLoad || githubLoad
-                }
+                disabled={isDisabled}
               />
             </div>
 
@@ -77,10 +74,11 @@ export function LoginStep1({
                 required
                 autoFocus
                 className="peer input-styles input-primary"
+                disabled={isDisabled}
               />
               <label
                 htmlFor="email"
-                className="label-styles !bg-[var(--main-surface)]"
+                className={`label-styles !bg-[var(--main-surface)] !transition-all ${isDisabled ? 'opacity-60 cursor-not-allowed select-none' : ''}`}
               >
                 Введите почту
               </label>
@@ -100,10 +98,11 @@ export function LoginStep1({
                 required
                 onBlur={handleBlur}
                 className="peer input-styles input-primary !pr-8"
+                disabled={isDisabled}
               />
               <label
                 htmlFor="password"
-                className="label-styles !bg-[var(--main-surface)]"
+                className={`label-styles !bg-[var(--main-surface)] !transition-all ${isDisabled ? 'opacity-60 cursor-not-allowed select-none' : ''}`}
               >
                 Введите пароль
               </label>
@@ -143,7 +142,7 @@ export function LoginStep1({
                 variant="primary"
                 // className="sm:col-span-2"
                 type="submit"
-                disabled={guestLoad || load || googleLoad}
+                disabled={isDisabled}
               >
                 {load ? (
                   <AiOutlineSync size={23} className="animate-spin" />
@@ -155,7 +154,7 @@ export function LoginStep1({
                 variant="primary"
                 type="button"
                 onClick={createGuest}
-                disabled={guestLoad || load || googleLoad || totpLoad}
+                disabled={isDisabled}
               >
                 {guestLoad ? (
                   <AiOutlineSync size={23} className="animate-spin" />

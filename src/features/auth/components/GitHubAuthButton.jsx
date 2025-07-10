@@ -19,6 +19,7 @@ export function GitHubAuthButton({
   captchaToken,
   githubLoad,
   setGithubLoad,
+  btnText,
   disabled,
 }) {
   const handleClick = () => {
@@ -58,7 +59,7 @@ export function GitHubAuthButton({
           <AiOutlineSync size={23} className="animate-spin" />
         ) : (
           <>
-            <AiFillGithub size={20} className="!bg-white !rounded-full" />
+            <AiFillGithub size={20} />
             {btnText || 'Войти через GitHub'}
           </>
         )}

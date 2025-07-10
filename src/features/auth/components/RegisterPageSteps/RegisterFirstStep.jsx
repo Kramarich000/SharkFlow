@@ -80,7 +80,7 @@ export function RegisterFirstStep() {
         {({ handleChange, handleBlur }) => {
           return (
             <>
-              <Form className="sm:grid mt-4 sm:mt-12 flex flex-col gap-4 p-8 rounded-2xl border-2 bg-surface border-[var(--main-primary)] shadow-glow transition-colors">
+              <Form className="sm:grid mt-4 sm:mt-12 flex flex-col gap-4 p-8 px-4 sm:px-8 rounded-2xl border-2 bg-surface border-[var(--main-primary)] shadow-glow transition-colors">
                 <h2 className="col-span-2 text-3xl">Регистрация</h2>
 
                 <div className="relative">
@@ -218,6 +218,7 @@ export function RegisterFirstStep() {
                 <TurnstileWidget
                   key={captchaKey}
                   onVerify={handleCheckCaptcha}
+                  action='register'
                 />
                 <Button
                   className="col-span-2"
@@ -231,7 +232,7 @@ export function RegisterFirstStep() {
                     <>Зарегистрироваться</>
                   )}
                 </Button>
-                <div className="col-span-2 w-full">
+                <div className="col-span-2 w-full md:flex gap-3">
                   <GoogleAuthButton
                     btnText="Войти через Google"
                     googleLoad={googleLoad}

@@ -26,7 +26,6 @@ import { useThemeStore } from '@store/themeStore';
 import { getWarnings } from '@utils/browser/browserWarningsMap';
 import { detectBrowserInfo } from '@utils/browser/detectBrowserInfo';
 import React from 'react';
-import { GitHubOAuthProvider } from '@features/auth/api/github/GitHubOAuthProvider';
 
 function App() {
   const { setUser } = useUserStore.getState();

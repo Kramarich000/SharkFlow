@@ -98,7 +98,11 @@ export function LoginStep1({
               />
             </div>
 
-            <TurnstileWidget key={captchaKey} onVerify={handleCheckCaptcha} />
+            <TurnstileWidget
+              key={captchaKey}
+              onVerify={handleCheckCaptcha}
+              action="login"
+            />
             <div className="flex flex-col col-span-2 item-center justify-center gap-3">
               <Button
                 variant="primary"

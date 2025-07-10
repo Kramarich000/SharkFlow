@@ -33,7 +33,7 @@ export function FormikCheckbox({ label, className = '', id, ...props }) {
       </div>
       <label
         htmlFor={id}
-        className="select-none cursor-pointer text-[12px] sm:text-[14px] ml-6 text-left sm:text-center"
+        className="select-none cursor-pointer text-[12px] sm:text-[14px] ml-8 sm:ml-6 text-left sm:text-center"
       >
         {label}
       </label>

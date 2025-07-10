@@ -4,7 +4,7 @@ import { githubAuth } from '@features/auth/api/github/connect/githubAuth';
 import { useAuthStore } from '@features/auth/store';
 import { showToast } from '@utils/toast';
 
-export function GitHubOAuthProvider() {
+export default function GitHubOAuthProvider() {
   const navigate = useNavigate();
   const { setAccessToken, setCsrfToken } = useAuthStore.getState();
 

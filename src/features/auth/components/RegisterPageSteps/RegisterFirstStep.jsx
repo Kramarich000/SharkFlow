@@ -80,8 +80,28 @@ export function RegisterFirstStep() {
         {({ handleChange, handleBlur }) => {
           return (
             <>
-              <Form className="sm:grid mt-4 sm:mt-12 flex flex-col gap-4 p-8 px-4 sm:px-8 rounded-2xl border-2 bg-surface border-[var(--main-primary)] shadow-glow transition-colors">
+              <Form className="sm:grid mt-2 sm:mt-6 flex flex-col gap-4 p-8 px-4 sm:px-8 rounded-2xl border-2 bg-surface border-[var(--main-primary)] shadow-glow transition-colors">
                 <h2 className="col-span-2 text-3xl">Регистрация</h2>
+
+                <div className="flex flex-col md:flex-row col-span-2 gap-3">
+                  <GoogleAuthButton
+                    btnText="Войти через Google"
+                    googleLoad={googleLoad}
+                    setGoogleLoad={setGoogleLoad}
+                    disabled={load || googleLoad}
+                    captchaToken={captchaToken}
+                  />
+                  <GitHubAuthButton
+                    nextPath="/dashboard"
+                    captchaToken={captchaToken}
+                  />
+                </div>
+
+                <div className="col-span-2 relative bg-white w-full h-[1px] my-2">
+                  <p className="absolute top-[-14px] left-1/2 -translate-x-1/2 px-2 bg-surface">
+                    Или
+                  </p>
+                </div>
 
                 <div className="relative">
                   <Field
@@ -91,7 +111,7 @@ export function RegisterFirstStep() {
                     autoComplete="username"
                     placeholder=" "
                     required
-                    className="peer input-styles input-primary"
+                    className="peer input-styles input-primary !pr-8"
                     disabled={load || googleLoad}
                   />
                   <label
@@ -113,7 +133,7 @@ export function RegisterFirstStep() {
                     autoComplete="email"
                     placeholder=" "
                     required
-                    className="peer input-styles input-primary"
+                    className="peer input-styles input-primary !pr-8"
                     disabled={load || googleLoad}
                   />
                   <label
@@ -170,7 +190,7 @@ export function RegisterFirstStep() {
                     placeholder=" "
                     required
                     disabled={load || googleLoad}
-                    className="peer input-styles input-primary"
+                    className="peer input-styles input-primary !pr-8"
                   />
                   <label
                     htmlFor="confirmPassword"
@@ -232,19 +252,6 @@ export function RegisterFirstStep() {
                     <>Зарегистрироваться</>
                   )}
                 </Button>
-                <div className="col-span-2 w-full md:flex gap-3">
-                  <GoogleAuthButton
-                    btnText="Войти через Google"
-                    googleLoad={googleLoad}
-                    setGoogleLoad={setGoogleLoad}
-                    disabled={load || googleLoad}
-                    captchaToken={captchaToken}
-                  />
-                  <GitHubAuthButton
-                    nextPath="/dashboard"
-                    captchaToken={captchaToken}
-                  />
-                </div>
                 <Link className="col-span-2 !w-fit mx-auto" to="/login">
                   Уже есть аккаунт?
                 </Link>

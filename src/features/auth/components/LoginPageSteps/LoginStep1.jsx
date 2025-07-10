@@ -37,8 +37,27 @@ export function LoginStep1({
     >
       {({ handleBlur }) => (
         <>
-          <Form className="flex flex-col sm:grid grid-cols-2 gap-6 p-8 rounded-2xl border-2 border-[var(--main-primary)] shadow-glow">
+          <Form className="flex flex-col sm:grid grid-cols-2 gap-6 p-8 rounded-2xl bg-surface border-2 border-[var(--main-primary)] shadow-glow">
             <h2 className="sm:col-span-2 text-3xl">Вход</h2>
+            <div className="flex flex-col md:flex-row col-span-2 gap-3">
+              <GoogleAuthButton
+                btnText="Войти через Google"
+                googleLoad={googleLoad}
+                setGoogleLoad={setGoogleLoad}
+                captchaToken={captchaToken}
+                disabled={guestLoad || load || googleLoad || totpLoad}
+              />
+              <GitHubAuthButton
+                nextPath="/dashboard"
+                captchaToken={captchaToken}
+              />
+            </div>
+
+            <div className="col-span-2 relative bg-white w-full h-[1px] my-2">
+              <p className="absolute top-[-14px] left-1/2 -translate-x-1/2 px-2 bg-surface">
+                Или
+              </p>
+            </div>
 
             <div className="relative">
               <Field
@@ -130,19 +149,7 @@ export function LoginStep1({
                 )}
               </Button>
             </div>
-            <div className="flex flex-col md:flex-row col-span-2 item-center justify-center gap-3">
-              <GoogleAuthButton
-                btnText="Войти через Google"
-                googleLoad={googleLoad}
-                setGoogleLoad={setGoogleLoad}
-                captchaToken={captchaToken}
-                disabled={guestLoad || load || googleLoad || totpLoad}
-              />
-              <GitHubAuthButton
-                nextPath="/dashboard"
-                captchaToken={captchaToken}
-              />
-            </div>
+
             <Link className="text-blue-600" to="/register">
               Нет аккаунта?
             </Link>

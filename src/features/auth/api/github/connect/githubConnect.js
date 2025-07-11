@@ -3,7 +3,7 @@ import { useUserStore } from '@features/user';
 import { useAuthStore } from '@features/auth/store';
 import { apiResponsesHandler } from '@utils/responsesHandler';
 
-export async function githubAuth(code, state, captchaToken) {
+export async function githubConnect(code, state, captchaToken) {
   const { updateUser } = useUserStore.getState();
 
   const result = await apiResponsesHandler(

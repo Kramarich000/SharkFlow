@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { githubAuth } from '@features/auth/api/github/connect/githubAuth';
+import { githubConnect } from '@features/auth/api/github/connect/githubConnect';
 import { useAuthStore } from '@features/auth/store';
 import { showToast } from '@utils/toast';
 import { AiOutlineSync } from 'react-icons/ai';

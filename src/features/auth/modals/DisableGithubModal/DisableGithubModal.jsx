@@ -4,7 +4,8 @@ import { useShallow } from 'zustand/shallow';
 
 import { useModalsStore } from '@store/modalsStore';
 import { useUserStore } from '@features/user';
-import { sendDisableGithubEmail, disableGithub } from '@features/auth/api';
+import { sendDisableGithubEmail } from '@features/auth/api/github/disable/sendDisableGithub';
+import { disableGithub } from '@features/auth/api/github/disable/disableGithub';
 import { ModalBase } from '@common/ui/layout/ModalBase';
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';

@@ -1,0 +1,9 @@
+import api from '@lib/http';
+import { apiResponsesHandler } from '@utils/responsesHandler';
+
+export async function disableGithub(confirmationCode) {
+  return await apiResponsesHandler(
+    () => api.post('/api/auth/github/disable', { confirmationCode }),
+    {},
+  );
+}

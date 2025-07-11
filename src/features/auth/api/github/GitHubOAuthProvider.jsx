@@ -20,7 +20,9 @@ export default function GitHubOAuthProvider() {
       return;
     }
 
-    const [stateValue, nextPathRaw = '/dashboard'] = stateRaw.split('|');
+    const [stateValue, nextPathRaw = '/dashboard', mode = 'auth'] =
+      stateRaw.split('|');
+
     const nextPath =
       nextPathRaw && nextPathRaw.trim() !== '' ? nextPathRaw : '/dashboard';
 
@@ -41,23 +43,33 @@ export default function GitHubOAuthProvider() {
     sessionStorage.removeItem('github_oauth_state');
     sessionStorage.removeItem('captchaToken');
 
-    githubAuth(code, stateRaw, storedCaptchaToken)
+    const handler = mode === 'connect' ? githubConnect : githubAuth;
+
+    handler(code, stateRaw, storedCaptchaToken)
       .then((res) => {
         if (!res) {
           throw new Error(
             'Сервер не вернул данные. Возможна ошибка авторизации',
           );
         }
+
         const { accessToken, csrfToken } = res;
 
-        if (!accessToken || !csrfToken) {
-          throw new Error('Некорректный ответ от сервера: отсутствуют токены');
-        }
+        if (mode === 'auth') {
+          if (!accessToken || !csrfToken) {
+            throw new Error(
+              'Некорректный ответ от сервера: отсутствуют токены',
+            );
+          }
 
-        setAccessToken(accessToken);
-        setCsrfToken(csrfToken);
-        showToast('Успешный вход через GitHub');
-        navigate(nextPath, { replace: true });
+          setAccessToken(accessToken);
+          setCsrfToken(csrfToken);
+          showToast('Успешный вход через GitHub');
+          navigate(nextPath, { replace: true });
+        } else if (mode === 'connect') {
+          showToast('GitHub успешно привязан');
+          navigate(nextPath, { replace: true });
+        }
       })
       .catch((err) => {
         console.error(err);

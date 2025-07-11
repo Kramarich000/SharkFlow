@@ -51,6 +51,7 @@ export function LoginStep1({
                 disabled={isDisabled}
               />
               <GitHubAuthButton
+                mode="auth"
                 nextPath="/dashboard"
                 githubLoad={githubLoad}
                 setGithubLoad={setGithubLoad}
@@ -61,7 +62,7 @@ export function LoginStep1({
 
             <div className="col-span-2 relative bg-[var(--main-text)] w-full h-[1px] my-2">
               <p className="absolute top-[-14px] left-1/2 -translate-x-1/2 px-2 bg-surface">
-                Или
+                или
               </p>
             </div>
 

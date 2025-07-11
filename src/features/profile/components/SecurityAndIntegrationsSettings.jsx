@@ -17,9 +17,12 @@ import { MdOutlineNearMeDisabled } from 'react-icons/md';
 import { RiRobot2Line } from 'react-icons/ri';
 import { GoUnlock } from 'react-icons/go';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
+import { GitHubAuthButton } from '@features/auth/components/GitHubAuthButton';
 
 export const SecurityAndIntegrationsSettings = () => {
   const [googleLoad, setGoogleLoad] = useState(false);
+  const [githubLoad, setGithubLoad] = useState(false);
+
   const {
     setIsDisableGoogleModalOpen,
     setIsSetupTotpModalOpen,
@@ -72,6 +75,15 @@ export const SecurityAndIntegrationsSettings = () => {
               disabled={googleLoad}
             />
           )}
+
+          <GitHubAuthButton
+            mode="connect"
+            nextPath="/profile"
+            githubLoad={githubLoad}
+            setGithubLoad={setGithubLoad}
+            captchaToken={null}
+            disabled={githubLoad}
+          />
 
           {user?.telegramEnabled ? (
             <Button

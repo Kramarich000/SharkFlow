@@ -86,7 +86,6 @@ export const routes = [
     url: `${baseURL}/oauth/github/callback`,
     private: false,
   },
-
   {
     path: '*',
     component: Error404,

@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { AiOutlineSync } from 'react-icons/ai';
 import { useModalsStore } from '@store/modalsStore';
 import { googleConnect } from '@features/auth/api/google/connect/googleConnect';
+import { useShallow } from 'zustand/shallow';
 
 export function GoogleAuthButton({
   btnText = '',
@@ -22,9 +23,14 @@ export function GoogleAuthButton({
   disabled,
 }) {
   const navigate = useNavigate();
-  const { setUser } = useUserStore.getState();
-  const { setAccessToken } = useAuthStore.getState();
-  const { setCsrfToken } = useAuthStore.getState();
+
+  const { setUser, setAccessToken, setCsrfToken } = useUserStore(
+    useShallow((state) => ({
+      setUser: state.setUser,
+      setAccessToken: state.setAccessToken,
+      setCsrfToken: state.setCsrfToken,
+    })),
+  );
 
   const setIsConnectGoogleModalOpen = useModalsStore(
     (state) => state.setIsConnectGoogleModalOpen,

@@ -4,16 +4,13 @@ import { useAuthStore } from '@features/auth/store';
 import { apiResponsesHandler } from '@utils/responsesHandler';
 
 export async function githubAuth(code, state, captchaToken) {
-  const { setAccessToken, setCsrfToken } = useAuthStore.getState();
-  const { updateUser, setUser } = useUserStore.getState();
+  const { updateUser } = useUserStore.getState();
 
   const result = await apiResponsesHandler(
-    () => api.post('/api/auth/github', { code, state, captchaToken }, {}),
+    () => api.post('/api/auth/github/connect', { code, state }, {}),
     {
       onSuccess: (data) => {
         if (data.accessToken) {
-          setAccessToken(data.accessToken);
-          setCsrfToken(data.csrfToken);
           updateUser({ githubOAuthEnabled: data.githubOAuthEnabled });
         }
       },

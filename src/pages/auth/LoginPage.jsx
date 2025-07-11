@@ -57,7 +57,6 @@ export default function LoginPage() {
       if (success && success?.accessToken) {
         setCaptchaToken(null);
         const sck = setCaptchaKey((prev) => prev + 1);
-        console.info('sck', sck);
         setLoading(true);
         navigate('/dashboard');
         await getUser();

@@ -88,7 +88,6 @@ function App() {
           githubOAuthEnabled: data.githubOAuthEnabled,
           githubEmail: data.githubEmail,
         });
-        console.log(data);
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
       }

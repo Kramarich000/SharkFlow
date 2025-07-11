@@ -28,6 +28,7 @@ import {
 import { useModalsStore } from '@store/modalsStore';
 import { useShallow } from 'zustand/shallow';
 import { useDelayedUnmount } from './useDelayedUnmount';
+import { ConnectGithubModal } from '@features/auth/modals/ConnectGithubModal';
 
 const modalList = [
   { flag: 'isLogoutUserModalOpen', Component: LogoutUserModal },
@@ -47,6 +48,7 @@ const modalList = [
   { flag: 'isDisableGoogleModalOpen', Component: DisableGoogleModal },
   { flag: 'isConnectTelegramModalOpen', Component: ConnectTelegramModal },
   { flag: 'isDisableTelegramModalOpen', Component: DisableTelegramModal },
+  { flag: 'isConnectGithubModalOpen', Component: ConnectGithubModal },
 ];
 
 export function ModalManager() {
@@ -132,6 +134,11 @@ export function ModalManager() {
     300,
   );
 
+  const shouldRenderConnectGithub = useDelayedUnmount(
+    modalFlags.isConnectGithubModalOpen,
+    300,
+  );
+
   return (
     <>
       {shouldRenderLogout && (
@@ -187,6 +194,10 @@ export function ModalManager() {
 
       {shouldRenderDisableTelegram && (
         <DisableTelegramModal open={modalFlags.isDisableTelegramModalOpen} />
+      )}
+
+      {shouldRenderConnectGithub && (
+        <ConnectGithubModal open={modalFlags.isConnectGithubModalOpen} />
       )}
     </>
   );

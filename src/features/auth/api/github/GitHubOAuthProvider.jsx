@@ -81,7 +81,6 @@ export default function GitHubOAuthProvider() {
           }
           setAccessToken(accessToken);
           setCsrfToken(csrfToken);
-          showToast('Успешный вход через GitHub');
           navigate(nextPath, { replace: true });
         } else if (mode === 'connect') {
           if (res.requireEmailConfirmed) {
@@ -93,7 +92,6 @@ export default function GitHubOAuthProvider() {
       })
       .catch((err) => {
         console.error(err);
-        showToast('Не удалось войти через GitHub');
       });
   }, [navigate, setAccessToken, setCsrfToken]);
 

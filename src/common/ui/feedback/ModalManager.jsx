@@ -29,6 +29,7 @@ import { useModalsStore } from '@store/modalsStore';
 import { useShallow } from 'zustand/shallow';
 import { useDelayedUnmount } from './useDelayedUnmount';
 import { ConnectGithubModal } from '@features/auth/modals/ConnectGithubModal';
+import { DisableGithubModal } from '@features/auth/modals/DisableGithubModal';
 
 const modalList = [
   { flag: 'isLogoutUserModalOpen', Component: LogoutUserModal },

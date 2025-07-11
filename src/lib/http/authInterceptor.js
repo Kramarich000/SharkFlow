@@ -17,7 +17,7 @@ const processQueue = (error, token = null) => {
 
 export function setupAuthInterceptor() {
   api.interceptors.request.use((config) => {
-    const { accessToken, csrfToken } = useAuthStore.getState();
+    const { accessToken, csrfToken, deviceId } = useAuthStore.getState();
 
     const isPublic = ['/login', '/register', '/refresh', '/public'].some(
       (path) => config.url?.includes(path),
@@ -28,6 +28,10 @@ export function setupAuthInterceptor() {
       if (csrfToken) {
         config.headers['X-CSRF-Token'] = csrfToken;
       }
+    }
+
+    if (deviceId) {
+      config.headers['X-Device-Id'] = deviceId;
     }
 
     return config;

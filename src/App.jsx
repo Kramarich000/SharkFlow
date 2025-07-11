@@ -26,11 +26,13 @@ import { useThemeStore } from '@store/themeStore';
 import { getWarnings } from '@utils/browser/browserWarningsMap';
 import { detectBrowserInfo } from '@utils/browser/detectBrowserInfo';
 import React from 'react';
+import { generateDeviceId } from '@utils/generators/generateDeviceId';
 
 function App() {
   const { setUser } = useUserStore.getState();
   const { isAuthLoading } = useAuthTokenRefresh();
   const accessToken = useAuthStore((state) => state.accessToken);
+  const setDeviceId = useAuthStore((state) => state.setDeviceId);
 
   useEffect(() => {
     let isMounted = true;
@@ -69,6 +71,11 @@ function App() {
       initAutoMode();
     }
   }, [mode, initAutoMode]);
+
+  useEffect(() => {
+    const deviceId = generateDeviceId();
+    setDeviceId(deviceId);
+  }, [setDeviceId]);
 
   useEffect(() => {
     if (!accessToken) return;

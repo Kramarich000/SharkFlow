@@ -96,10 +96,10 @@ export function UserSessionsModal() {
             )}
             {devices.map((device) => (
               <div key={device.deviceId}>
-                <p className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-4">
                   <b>
                     {device.deviceType === 'desktop' ? (
-                      <FaComputer size={38} />
+                      <FaComputer size={68} />
                     ) : (
                       <FaMobileAlt size={38} />
                     )}
@@ -111,13 +111,18 @@ export function UserSessionsModal() {
                       Текущее устройство
                     </p>
                   )}
-                </p>
-                <p>
+                </div>
+                <div>
                   IP: {device.ipAddress} {device.geoLocation?.city}{' '}
                   {device.geoLocation?.country}
-                  Локация |{device.geoLocation}| Бренд |{device.deviceBrand}|
-                  Тип |{device.deviceModel}|
-                </p>
+                  Локация |
+                  <pre>{JSON.stringify(device.geoLocation, null, 2)}</pre>|
+                  {device.deviceType !== 'desktop' && (
+                    <p>
+                      {device.deviceBrand} {device.deviceModel}
+                    </p>
+                  )}
+                </div>
                 <p>
                   Последняя активность:{' '}
                   {device.lastUsedAt

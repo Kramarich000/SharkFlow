@@ -29,6 +29,7 @@ export const SecurityAndIntegrationsSettings = () => {
     setIsDisableTotpModalOpen,
     setIsConnectTelegramModalOpen,
     setIsDisableTelegramModalOpen,
+    setIsDisableGithubModalOpen,
   } = useModalsStore(
     useShallow((state) => ({
       setIsDisableGoogleModalOpen: state.setIsDisableGoogleModalOpen,
@@ -36,6 +37,7 @@ export const SecurityAndIntegrationsSettings = () => {
       setIsDisableTotpModalOpen: state.setIsDisableTotpModalOpen,
       setIsConnectTelegramModalOpen: state.setIsConnectTelegramModalOpen,
       setIsDisableTelegramModalOpen: state.setIsDisableTelegramModalOpen,
+      setIsDisableGithubModalOpen: state.setIsDisableGithubModalOpen,
     })),
   );
 
@@ -62,11 +64,11 @@ export const SecurityAndIntegrationsSettings = () => {
               className="!flex !flex-col !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
               onClick={() => setIsDisableGoogleModalOpen(true)}
             >
-              <GoUnlock size={20} /> Отключить авторизацию через Google
+              <GoUnlock size={20} /> Отвязать Google
             </Button>
           ) : (
             <GoogleAuthButton
-              btnText="Подключить авторизацию через Google"
+              btnText="Привязать Google"
               className="!flex !flex-col"
               isNavigated={false}
               isAuth={false}
@@ -76,14 +78,25 @@ export const SecurityAndIntegrationsSettings = () => {
             />
           )}
 
-          <GitHubAuthButton
-            mode="connect"
-            nextPath="/profile"
-            githubLoad={githubLoad}
-            setGithubLoad={setGithubLoad}
-            captchaToken={null}
-            disabled={githubLoad}
-          />
+          {user?.githubOAuthEnabled ? (
+            <Button
+              variant="primary"
+              className="!flex !flex-col !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+              onClick={() => setIsDisableGithubModalOpen(true)}
+            >
+              <GoUnlock size={20} /> Отвязать Github
+            </Button>
+          ) : (
+            <GitHubAuthButton
+              btnText="Привязать Github"
+              mode="connect"
+              nextPath="/profile"
+              githubLoad={githubLoad}
+              setGithubLoad={setGithubLoad}
+              captchaToken={null}
+              disabled={githubLoad}
+            />
+          )}
 
           {user?.telegramEnabled ? (
             <Button
@@ -99,7 +112,7 @@ export const SecurityAndIntegrationsSettings = () => {
               className="!flex !flex-col"
               onClick={() => setIsConnectTelegramModalOpen(true)}
             >
-              <RiRobot2Line size={20} /> Попробуйте нашего бота в Telegram!
+              <RiRobot2Line size={20} /> Наш бот в Telegram!
             </Button>
           )}
 

@@ -49,6 +49,7 @@ const modalList = [
   { flag: 'isConnectTelegramModalOpen', Component: ConnectTelegramModal },
   { flag: 'isDisableTelegramModalOpen', Component: DisableTelegramModal },
   { flag: 'isConnectGithubModalOpen', Component: ConnectGithubModal },
+  { flag: 'isDisableGithubModalOpen', Component: DisableGithubModal },
 ];
 
 export function ModalManager() {
@@ -139,6 +140,11 @@ export function ModalManager() {
     300,
   );
 
+  const shouldRenderDisableGithub = useDelayedUnmount(
+    modalFlags.isDisableGithubModalOpen,
+    300,
+  );
+
   return (
     <>
       {shouldRenderLogout && (
@@ -198,6 +204,10 @@ export function ModalManager() {
 
       {shouldRenderConnectGithub && (
         <ConnectGithubModal open={modalFlags.isConnectGithubModalOpen} />
+      )}
+
+      {shouldRenderDisableGithub && (
+        <DisableGithubModal open={modalFlags.isDisableGithubModalOpen} />
       )}
     </>
   );

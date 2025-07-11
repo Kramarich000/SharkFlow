@@ -62,6 +62,10 @@ export const useModalsStore = create((set) => ({
   setIsConnectGithubModalOpen: (value) =>
     set({ isConnectGithubModalOpen: value }),
 
+  isDisableGithubModalOpen: false,
+  setIsDisableGithubModalOpen: (value) =>
+    set({ isDisableGithubModalOpen: value }),
+
   contextMenu: {
     visible: false,
     x: 0,
@@ -97,6 +101,7 @@ export const useModalsStore = create((set) => ({
       isConnectTelegramModalOpen: false,
       isDisableTelegramModalOpen: false,
       isConnectGithubModalOpen: false,
+      isDisableGithubModalOpen: false,
       contextMenu: { visible: false, x: 0, y: 0, board: null },
     }),
 }));

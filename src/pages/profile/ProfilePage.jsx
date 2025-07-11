@@ -33,7 +33,7 @@ export default function Profile() {
 
           <Accordion
             type="multiple"
-            className="w-full flex flex-col md:grid grid-cols-2 gap-x-20 gap-y-4 auto-rows-[400px] xl:grid-cols-3"
+            className="w-full flex flex-col md:grid grid-cols-2 gap-x-20 gap-y-4 auto-rows-[470px] xl:grid-cols-3"
           >
             <AccountSettings />
             <SecurityAndIntegrationsSettings />

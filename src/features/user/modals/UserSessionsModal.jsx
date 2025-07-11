@@ -11,6 +11,12 @@ import { FaComputer } from 'react-icons/fa6';
 import { FaMobileAlt } from 'react-icons/fa';
 import { logoutUserDevice } from '@features/auth/api/logout/logoutUserDevice';
 import { logoutAllUserDevices } from '@features/auth/api/logout/logoutAllUserDevices';
+import { TbWorld } from 'react-icons/tb';
+import { BsGeoAltFill } from 'react-icons/bs';
+import { LuClock } from 'react-icons/lu';
+import { GrSatellite } from 'react-icons/gr';
+import { FaCompass } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
 
 export function UserSessionsModal() {
   const [load, setLoad] = useState(false);
@@ -21,6 +27,13 @@ export function UserSessionsModal() {
   );
   const setIsUserSessionsModalOpen = useModalsStore(
     (state) => state.setIsUserSessionsModalOpen,
+  );
+
+  const isConfirmLogoutDevicesModalOpen = useModalsStore(
+    (state) => state.isConfirmLogoutDevicesModalOpen,
+  );
+  const setIsConfirmLogoutDevicesModalOpen = useModalsStore(
+    (state) => state.setIsConfirmLogoutDevicesModalOpen,
   );
 
   const myDeviceId =
@@ -74,105 +87,217 @@ export function UserSessionsModal() {
   };
 
   return (
-    <ModalBase open={isUserSessionsModalOpen} onClose={handleClose}>
-      <h2 className="text-center text-3xl mb-4">Ваши устройства</h2>
-      {load ? (
-        <div className="h-full mt-4 mb-4 flex-col flex items-center justify-center">
-          <div
-            key="loader"
-            className="text-7xl flex gap-8 text-center animate-spin"
-          >
-            <AiOutlineSync />
+    <ModalBase
+      maxWidth="max-w-full"
+      className="max-h-full"
+      open={isUserSessionsModalOpen}
+      onClose={handleClose}
+    >
+      <div className="flex flex-col max-h-[80vh]">
+        <h2 className="text-center text-3xl mb-4">Ваши устройства</h2>
+        {load ? (
+          <div className="mt-4 mb-4 flex-col flex items-center h-full justify-center">
+            <div className="text-7xl flex gap-8 text-center animate-spin">
+              <AiOutlineSync />
+            </div>
+            <p className="text-4xl mt-4 animate-pulse text-center">
+              Обработка запроса
+            </p>
           </div>
-          <p className="text-4xl mt-4 animate-pulse text-center">
-            Обработка запроса
-          </p>
-        </div>
-      ) : (
-        <div className="flex !flex-col sm:flex-row gap-3 border-b-1 pb-2">
-          <div className="w-full">
-            {devices.length === 0 && (
-              <p className="text-center">Нет активных устройств</p>
-            )}
-            {devices.map((device) => (
-              <div key={device.deviceId}>
-                <div className="flex items-center gap-3 mb-4">
-                  <b>
-                    {device.deviceType === 'desktop' ? (
-                      <FaComputer size={68} />
-                    ) : (
-                      <FaMobileAlt size={38} />
-                    )}
-                  </b>{' '}
-                  {device.osName} {device.osVersion} {device.clientName}{' '}
-                  {device.clientVersion}
-                  {myDeviceId && (
-                    <p className="bg-[var(--main-button-bg)] p-1 px-2 text-white rounded-4xl">
-                      Текущее устройство
-                    </p>
-                  )}
-                </div>
-                <div>
-                  IP: {device.ipAddress} {device.geoLocation?.city}{' '}
-                  {device.geoLocation?.country}
-                  Локация |
-                  <pre>{JSON.stringify(device.geoLocation, null, 2)}</pre>|
-                  {device.deviceType !== 'desktop' && (
-                    <p>
-                      {device.deviceBrand} {device.deviceModel}
-                    </p>
-                  )}
-                </div>
-                <p>
-                  Последняя активность:{' '}
-                  {device.lastUsedAt
-                    ? new Date(device.lastUsedAt).toLocaleDateString('ru-RU', {
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })
-                    : '—'}
-                </p>
-                <p>
-                  Вход:{' '}
-                  {device.lastLoginAt
-                    ? new Date(device.lastLoginAt).toLocaleDateString('ru-RU', {
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })
-                    : '—'}
-                </p>
-                <p>
-                  {device.isActive ? (
-                    <span className="text-green-500">Активно</span>
-                  ) : (
-                    <span className="text-red-500">Неактивно</span>
-                  )}
-                </p>
-                {!myDeviceId && (
-                  <Button
-                    variant="primary"
-                    className="!w-fit !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
-                    onClick={() => handleLogoutDevice(device.deviceId)}
+        ) : (
+          <div className="overflow-auto grow pr-2">
+            <div className="flex flex-col justify-center lg:grid grid-cols-2 w-full gap-3 pb-2">
+              {devices.length === 0 && (
+                <p className="text-center mx-auto">Нет активных устройств</p>
+              )}
+              {devices.map((device) => {
+                const geo = device.geoLocation || {};
+                const flagImg = geo.flag?.img || null;
+                const flagEmoji = geo.flag?.emoji || '';
+                const timezoneAbbr = geo.timezone?.abbr || null;
+                const timezoneUTC = geo.timezone?.utc || null;
+                const ispDomain = geo.connection?.domain || null;
+                const ispName = geo.connection?.isp || '—';
+                const latitude = geo.latitude || null;
+                const longitude = geo.longitude || null;
+
+                const ip = geo.ip || '—';
+                const city = geo.city || '—';
+                const region = geo.region || '—';
+                const country = geo.country || '—';
+                const postal = geo.postal || '—';
+
+                const locationParts = [city, region, country].filter(
+                  (part) => part !== '—',
+                );
+                const locationDisplay =
+                  locationParts.length > 0 ? locationParts.join(', ') : '—';
+
+                const timezoneDisplay =
+                  timezoneAbbr && timezoneUTC
+                    ? `${timezoneAbbr} (${timezoneUTC})`
+                    : '—';
+
+                return (
+                  <div
+                    key={device.deviceId}
+                    className="text-center items-center lg:items-start border flex flex-col h-full justify-between rounded-xl p-4 mb-6 shadow-sm hover:shadow-md transition-shadow"
                   >
-                    Выйти
-                  </Button>
-                )}
-              </div>
-            ))}
+                    <div className="flex flex-col sm:flex-row mx-auto gap-3 mb-4 items-center justify-center">
+                      <b>
+                        {device.deviceType === 'desktop' ? (
+                          <FaComputer size={68} />
+                        ) : (
+                          <FaMobileAlt size={38} />
+                        )}
+                      </b>{' '}
+                      <p>
+                        {device.osName || 'Неизвестная ОС'}{' '}
+                        {device.osVersion || ''}{' '}
+                        {device.clientName || 'Неизвестный клиент'}{' '}
+                        {device.clientVersion || ''}
+                      </p>
+                      {device.deviceId === myDeviceId && (
+                        <p className="bg-[var(--main-button-bg)] p-1 px-2 text-white rounded-4xl">
+                          Вы
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="rounded p-4 mt-1 flex flex-col gap-3">
+                      <div className="flex flex-col sm:flex-row items-center gap-3">
+                        <TbWorld className="hidden sm:block" size={23} />{' '}
+                        <b>IP:</b> {ip}
+                      </div>
+                      <div className="flex flex-col sm:flex-row items-center gap-3">
+                        <BsGeoAltFill className="hidden sm:block" size={23} />{' '}
+                        <b>Местоположение:</b> {locationDisplay}{' '}
+                        {flagImg && (
+                          <img
+                            src={flagImg}
+                            alt="flag"
+                            className="inline w-5 h-4 mr-1 rounded-sm border"
+                            onError={(e) =>
+                              (e.currentTarget.style.display = 'none')
+                            }
+                          />
+                        )}
+                        {flagEmoji}
+                      </div>
+                      <div className="flex flex-col sm:flex-row items-center gap-3">
+                        <LuClock className="hidden sm:block" size={23} />{' '}
+                        <b>Часовой пояс:</b> {timezoneDisplay}
+                      </div>
+                      <div className="flex flex-col sm:flex-row items-center gap-3">
+                        <GrSatellite className="hidden sm:block" size={23} />{' '}
+                        <b>Провайдер:</b>{' '}
+                        {ispDomain ? (
+                          <>
+                            <img
+                              src={`https://www.google.com/s2/favicons?domain=${ispDomain}`}
+                              alt="favicon"
+                              className="inline w-4 h-4 mr-1"
+                              onError={(e) =>
+                                (e.currentTarget.style.display = 'none')
+                              }
+                            />
+                            <a
+                              href={`https://${ispDomain}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 underline"
+                            >
+                              {ispName}
+                            </a>
+                          </>
+                        ) : (
+                          ispName
+                        )}
+                      </div>
+                      <div className="flex flex-col sm:flex-row items-center gap-3">
+                        <FaCompass className="hidden sm:block" size={23} />{' '}
+                        <b>Координаты:</b>{' '}
+                        {latitude && longitude ? (
+                          <a
+                            href={`https://www.google.com/maps?q=${latitude},${longitude}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="!text-blue-600 underline"
+                          >
+                            Смотреть на карте
+                          </a>
+                        ) : (
+                          '—'
+                        )}
+                      </div>
+                      <div className="flex flex-col sm:flex-row items-center gap-3">
+                        <MdEmail className="hidden sm:block" size={23} />{' '}
+                        <b>Почтовый индекс:</b> {postal}
+                      </div>
+                    </div>
+                    <p>
+                      Последняя активность:{' '}
+                      {device.lastUsedAt
+                        ? new Date(device.lastUsedAt).toLocaleDateString(
+                            'ru-RU',
+                            {
+                              day: '2-digit',
+                              month: 'long',
+                              year: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            },
+                          )
+                        : '—'}
+                    </p>
+                    <p>
+                      Вход:{' '}
+                      {device.lastLoginAt
+                        ? new Date(device.lastLoginAt).toLocaleDateString(
+                            'ru-RU',
+                            {
+                              day: '2-digit',
+                              month: 'long',
+                              year: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            },
+                          )
+                        : '—'}
+                    </p>
+                    <div className="flex mt-2 w-full gap-3 flex-col lg:flex-row items-center justify-between gap-y-3">
+                      {device.isActive ? (
+                        <span className="!text-white inline-block !bg-green-800 p-1 px-2 rounded-4xl mt-2">
+                          Активно
+                        </span>
+                      ) : (
+                        <span className="!text-white mt-auto inline-block !bg-red-800 p-1 px-2 rounded-4xl ">
+                          Неактивно
+                        </span>
+                      )}
+
+                      {device.deviceId !== myDeviceId && (
+                        <Button
+                          variant="primary"
+                          className="!w-full sm:!w-fit !m-0 !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+                          onClick={() => handleLogoutDevice(device.deviceId)}
+                        >
+                          Выйти
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       {devices.length > 1 && !load && (
         <Button
           variant="primary"
-          className="!bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
-          onClick={() => handleLogoutAllDevices()}
+          className="!bg-[var(--main-btn-delete-bg)] mx-auto !w-fit hover:!bg-[var(--main-btn-delete-hover-bg)]"
+          onClick={() => setIsConfirmLogoutDevicesModalOpen(true)}
         >
           Выйти со всех устройств
         </Button>

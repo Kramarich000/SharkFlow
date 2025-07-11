@@ -31,6 +31,7 @@ import { useDelayedUnmount } from './useDelayedUnmount';
 import { ConnectGithubModal } from '@features/auth/modals/ConnectGithubModal';
 import { DisableGithubModal } from '@features/auth/modals/DisableGithubModal';
 import { UserSessionsModal } from '@features/user/modals/UserSessionsModal';
+import { ConfirmLogoutDevicesModal } from '@features/user/modals/ConfirmLogoutDevicesModal';
 
 const modalList = [
   { flag: 'isLogoutUserModalOpen', Component: LogoutUserModal },
@@ -53,6 +54,10 @@ const modalList = [
   { flag: 'isConnectGithubModalOpen', Component: ConnectGithubModal },
   { flag: 'isDisableGithubModalOpen', Component: DisableGithubModal },
   { flag: 'isUserSessionsModalOpen', Component: UserSessionsModal },
+  {
+    flag: 'isConfirmLogoutDevicesModalOpen',
+    Component: ConfirmLogoutDevicesModal,
+  },
 ];
 
 export function ModalManager() {
@@ -153,6 +158,11 @@ export function ModalManager() {
     300,
   );
 
+  const shouldRenderConfirmLogoutDevices = useDelayedUnmount(
+    modalFlags.isConfirmLogoutDevicesModalOpen,
+    300,
+  );
+
   return (
     <>
       {shouldRenderLogout && (
@@ -220,6 +230,12 @@ export function ModalManager() {
 
       {shouldRenderUserSessions && (
         <UserSessionsModal open={modalFlags.isUserSessionsModalOpen} />
+      )}
+
+      {shouldRenderConfirmLogoutDevices && (
+        <ConfirmLogoutDevicesModal
+          open={modalFlags.isConfirmLogoutDevicesModalOpen}
+        />
       )}
     </>
   );

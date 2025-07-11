@@ -24,10 +24,6 @@ export function GoogleAuthButton({
 }) {
   const navigate = useNavigate();
 
-  const { setUser } = useUserStore((state) => ({
-    setUser: state.setUser,
-  }));
-
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const setCsrfToken = useAuthStore((state) => state.setCsrfToken);
 
@@ -58,7 +54,6 @@ export function GoogleAuthButton({
         if (result.accessToken) {
           setAccessToken(result.accessToken);
           setCsrfToken(result.csrfToken);
-          // setUser({ login: result.login, email: result.email, avatarUrl: result.avatarUrl });
           if (isNavigated) navigate('/dashboard');
         } else if (result.requireEmailConfirmed) {
           setIsConnectGoogleModalOpen(true);

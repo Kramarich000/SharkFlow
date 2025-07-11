@@ -13,10 +13,6 @@ import { useShallow } from 'zustand/shallow';
 export default function GitHubOAuthProvider() {
   const navigate = useNavigate();
 
-  const { setUser } = useUserStore((state) => ({
-    setUser: state.setUser,
-  }));
-
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const setCsrfToken = useAuthStore((state) => state.setCsrfToken);
 

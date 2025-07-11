@@ -19,11 +19,13 @@ import { Button } from '@common/ui/utilities/Button';
 import { confirmCodeSchema } from '@validators/confirmCodeSchema';
 import { githubVerify } from '@features/auth/api/github/connect/githubVerify';
 import { ModalBase } from '@common/ui/layout/ModalBase';
+import { useNavigate } from 'react-router-dom';
 
 export function ConnectGithubModal() {
   const [load, setLoad] = useState(false);
   const [step, setStep] = useState(1);
   const [confirmationCode, setConfirmationCode] = useState('');
+  const navigate = useNavigate();
 
   const { isConnectGithubModalOpen, setIsConnectGithubModalOpen } =
     useModalsStore(
@@ -51,6 +53,7 @@ export function ConnectGithubModal() {
         setStep(2);
         updateUser({ githubOAuthEnabled: true });
         setTimeout(() => {
+          navigate('/profile');
           setIsConnectGithubModalOpen(false);
         }, 4000);
       }

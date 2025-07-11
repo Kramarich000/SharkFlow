@@ -24,9 +24,12 @@ export function GoogleAuthButton({
 }) {
   const navigate = useNavigate();
 
-  const { setUser, setAccessToken, setCsrfToken } = useUserStore(
+  const { setUser } = useUserStore((state) => ({
+    setUser: state.setUser,
+  }));
+
+  const { setAccessToken, setCsrfToken } = useAuthStore(
     useShallow((state) => ({
-      setUser: state.setUser,
       setAccessToken: state.setAccessToken,
       setCsrfToken: state.setCsrfToken,
     })),

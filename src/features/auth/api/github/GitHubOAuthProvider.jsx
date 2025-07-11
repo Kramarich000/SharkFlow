@@ -3,13 +3,30 @@ import { useNavigate } from 'react-router-dom';
 import { githubAuth } from '@features/auth/api/github/connect/githubAuth';
 import { githubConnect } from '@features/auth/api/github/connect/githubConnect';
 import { useAuthStore } from '@features/auth/store';
+import { useUserStore } from '@features/user';
+import { useModalsStore } from '@store/modalsStore';
 import { showToast } from '@utils/toast';
 import { AiOutlineSync } from 'react-icons/ai';
 import { motion } from 'framer-motion';
+import { useShallow } from 'zustand/shallow';
 
 export default function GitHubOAuthProvider() {
   const navigate = useNavigate();
-  const { setAccessToken, setCsrfToken } = useAuthStore.getState();
+
+  const { setUser } = useUserStore((state) => ({
+    setUser: state.setUser,
+  }));
+
+  const { setAccessToken, setCsrfToken } = useAuthStore(
+    useShallow((state) => ({
+      setAccessToken: state.setAccessToken,
+      setCsrfToken: state.setCsrfToken,
+    })),
+  );
+
+  const setIsConnectGithubModalOpen = useModalsStore(
+    (state) => state.setIsConnectGithubModalOpen,
+  );
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -62,14 +79,16 @@ export default function GitHubOAuthProvider() {
               'Некорректный ответ от сервера: отсутствуют токены',
             );
           }
-
           setAccessToken(accessToken);
           setCsrfToken(csrfToken);
           showToast('Успешный вход через GitHub');
           navigate(nextPath, { replace: true });
         } else if (mode === 'connect') {
-          showToast('GitHub успешно привязан');
-          navigate(nextPath, { replace: true });
+          if (res.requireEmailConfirmed) {
+            setIsConnectGithubModalOpen(true);
+          } else {
+            navigate(nextPath, { replace: true });
+          }
         }
       })
       .catch((err) => {

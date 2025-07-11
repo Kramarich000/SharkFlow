@@ -62,7 +62,6 @@ export function GoogleAuthButton({
         }
       } catch (err) {
         console.error(err);
-        showToast('Ошибка при обработке Google-кода');
       } finally {
         setGoogleLoad(false);
       }

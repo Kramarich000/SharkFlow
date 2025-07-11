@@ -20,6 +20,9 @@ export async function login(values, captchaToken) {
           useAuthStore.getState().setAccessToken(data.accessToken);
           useAuthStore.getState().setCsrfToken(data.csrfToken);
         }
+        if (data.deviceId) {
+          localStorage.setItem('device_id', data.deviceId);
+        }
         return data || null;
       },
     },

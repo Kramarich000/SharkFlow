@@ -30,6 +30,7 @@ import { useShallow } from 'zustand/shallow';
 import { useDelayedUnmount } from './useDelayedUnmount';
 import { ConnectGithubModal } from '@features/auth/modals/ConnectGithubModal';
 import { DisableGithubModal } from '@features/auth/modals/DisableGithubModal';
+import { UserSessionsModal } from '@features/user/modals/UserSessionsModal';
 
 const modalList = [
   { flag: 'isLogoutUserModalOpen', Component: LogoutUserModal },
@@ -51,6 +52,7 @@ const modalList = [
   { flag: 'isDisableTelegramModalOpen', Component: DisableTelegramModal },
   { flag: 'isConnectGithubModalOpen', Component: ConnectGithubModal },
   { flag: 'isDisableGithubModalOpen', Component: DisableGithubModal },
+  { flag: 'isUserSessionsModalOpen', Component: UserSessionsModal },
 ];
 
 export function ModalManager() {
@@ -146,6 +148,11 @@ export function ModalManager() {
     300,
   );
 
+  const shouldRenderUserSessions = useDelayedUnmount(
+    modalFlags.isUserSessionsModalOpen,
+    300,
+  );
+
   return (
     <>
       {shouldRenderLogout && (
@@ -209,6 +216,10 @@ export function ModalManager() {
 
       {shouldRenderDisableGithub && (
         <DisableGithubModal open={modalFlags.isDisableGithubModalOpen} />
+      )}
+
+      {shouldRenderUserSessions && (
+        <UserSessionsModal open={modalFlags.isUserSessionsModalOpen} />
       )}
     </>
   );

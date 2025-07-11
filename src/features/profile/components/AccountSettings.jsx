@@ -9,12 +9,18 @@ import { FaPen, FaTrash } from 'react-icons/fa';
 import { useModalsStore } from '@store/modalsStore';
 import { useShallow } from 'zustand/shallow';
 import { MdManageAccounts } from 'react-icons/md';
+import { MdPhonelink } from 'react-icons/md';
 
 export const AccountSettings = () => {
-  const { setIsDeleteUserModalOpen, setIsUpdateUserModalOpen } = useModalsStore(
+  const {
+    setIsDeleteUserModalOpen,
+    setIsUpdateUserModalOpen,
+    setIsUserSessionsModalOpen,
+  } = useModalsStore(
     useShallow((state) => ({
       setIsDeleteUserModalOpen: state.setIsDeleteUserModalOpen,
       setIsUpdateUserModalOpen: state.setIsUpdateUserModalOpen,
+      setIsUserSessionsModalOpen: state.setIsUserSessionsModalOpen,
     })),
   );
 
@@ -46,6 +52,13 @@ export const AccountSettings = () => {
             <FaTrash size={20} /> Удалить аккаунт
           </Button>
         </div>
+        <Button
+          variant="primary"
+          className="!flex !flex-col"
+          onClick={() => setIsUserSessionsModalOpen(true)}
+        >
+          <MdPhonelink size={20} /> Просмотреть активные сессии
+        </Button>
       </AccordionContent>
     </AccordionItem>
   );

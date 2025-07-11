@@ -28,12 +28,8 @@ export function GoogleAuthButton({
     setUser: state.setUser,
   }));
 
-  const { setAccessToken, setCsrfToken } = useAuthStore(
-    useShallow((state) => ({
-      setAccessToken: state.setAccessToken,
-      setCsrfToken: state.setCsrfToken,
-    })),
-  );
+  const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const setCsrfToken = useAuthStore((state) => state.setCsrfToken);
 
   const setIsConnectGoogleModalOpen = useModalsStore(
     (state) => state.setIsConnectGoogleModalOpen,

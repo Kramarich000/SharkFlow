@@ -17,12 +17,8 @@ export default function GitHubOAuthProvider() {
     setUser: state.setUser,
   }));
 
-  const { setAccessToken, setCsrfToken } = useAuthStore(
-    useShallow((state) => ({
-      setAccessToken: state.setAccessToken,
-      setCsrfToken: state.setCsrfToken,
-    })),
-  );
+  const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const setCsrfToken = useAuthStore((state) => state.setCsrfToken);
 
   const setIsConnectGithubModalOpen = useModalsStore(
     (state) => state.setIsConnectGithubModalOpen,

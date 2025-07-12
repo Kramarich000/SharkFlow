@@ -30,7 +30,7 @@ import { useShallow } from 'zustand/shallow';
 import { useDelayedUnmount } from './useDelayedUnmount';
 import { ConnectGithubModal } from '@features/auth/modals/ConnectGithubModal';
 import { DisableGithubModal } from '@features/auth/modals/DisableGithubModal';
-import { UserSessionsModal } from '@features/user/modals/UserSessionsModal';
+import { UserSessionsModal } from '@features/user/modals/UserSessionsModal/UserSessionsModal';
 import { ConfirmLogoutDevicesModal } from '@features/user/modals/ConfirmLogoutDevicesModal';
 
 const modalList = [

@@ -27,6 +27,7 @@ import { GrSatellite } from 'react-icons/gr';
 import { FaCompass } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { IoClose } from 'react-icons/io5';
+import { ProviderLogo } from '@features/user/modals/UserSessionsModal/ProviderLogo';
 
 export function UserSessionsModal() {
   const [load, setLoad] = useState(false);
@@ -57,20 +58,6 @@ export function UserSessionsModal() {
     tv: <FaTv size={68} />,
     car: <FaCar size={68} />,
     watch: <IoWatch size={68} />,
-  };
-
-  const [step, setStep] = useState(0);
-
-  const sources = [
-    `https://besticon.net/icon?url=${domain}&size=${size}..${size * 2}..${size * 4}`,
-    `https://www.google.com/s2/favicons?sz=${size}&domain=${domain}`,
-    `https://api.faviconkit.com/${domain}/${size}`,
-  ];
-
-  const handleError = () => {
-    if (step < sources.length - 1) {
-      setStep(step + 1);
-    }
   };
 
   useEffect(() => {
@@ -254,21 +241,16 @@ export function UserSessionsModal() {
                               >
                                 {ispName}
                               </a>
-                              {step < sources.length ? (
-                                <img
-                                  src={sources[step]}
-                                  alt="favicon"
-                                  width={size}
-                                  height={size}
-                                  className="inline mr-1 align-text-bottom"
-                                  onError={handleError}
-                                />
-                              ) : (
-                                <FaGlobe
-                                  size={size}
-                                  className="inline mr-1 align-text-bottom text-gray-400"
-                                />
-                              )}
+                              <ProviderLogo domain={ispDomain} size={20} />
+
+                              {/* <img
+                                src={`https://icons.duckduckgo.com/ip2/${ispDomain}`}
+                                alt="favicon"
+                                className="inline w-5 h-5 mr-1"
+                                onError={(e) =>
+                                  (e.currentTarget.style.display = 'none')
+                                }
+                              /> */}
                             </>
                           ) : (
                             ispName

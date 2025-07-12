@@ -8,7 +8,16 @@ import { Button } from '@common/ui/utilities/Button';
 import { ModalBase } from '@common/ui/layout/ModalBase';
 import { getUserDevices } from '@features/user/api/get/getUserDevices';
 import { FaComputer } from 'react-icons/fa6';
-import { FaMobileAlt } from 'react-icons/fa';
+
+import {
+  FaMobileAlt,
+  FaTabletAlt,
+  FaGamepad,
+  FaTv,
+  FaCar,
+} from 'react-icons/fa';
+import { IoWatch } from 'react-icons/io5';
+
 import { logoutUserDevice } from '@features/auth/api/logout/logoutUserDevice';
 import { logoutAllUserDevices } from '@features/auth/api/logout/logoutAllUserDevices';
 import { TbWorld } from 'react-icons/tb';
@@ -39,6 +48,30 @@ export function UserSessionsModal() {
 
   const myDeviceId =
     typeof window !== 'undefined' ? localStorage.getItem('device_id') : null;
+
+  const deviceIcons = {
+    desktop: <FaComputer size={68} />,
+    smartphone: <FaMobileAlt size={68} />,
+    tablet: <FaTabletAlt size={68} />,
+    console: <FaGamepad size={68} />,
+    tv: <FaTv size={68} />,
+    car: <FaCar size={68} />,
+    watch: <IoWatch size={68} />,
+  };
+
+  const [step, setStep] = useState(0);
+
+  const sources = [
+    `https://besticon.net/icon?url=${domain}&size=${size}..${size * 2}..${size * 4}`,
+    `https://www.google.com/s2/favicons?sz=${size}&domain=${domain}`,
+    `https://api.faviconkit.com/${domain}/${size}`,
+  ];
+
+  const handleError = () => {
+    if (step < sources.length - 1) {
+      setStep(step + 1);
+    }
+  };
 
   useEffect(() => {
     setLoad(true);
@@ -167,9 +200,7 @@ export function UserSessionsModal() {
                     >
                       <div className="flex flex-col sm:flex-row mx-auto gap-3 items-center justify-center">
                         <b>
-                          {device.deviceType === 'desktop' ? (
-                            <FaComputer size={68} />
-                          ) : (
+                          {deviceIcons[device.deviceType] || (
                             <FaMobileAlt size={68} />
                           )}
                         </b>{' '}
@@ -223,14 +254,21 @@ export function UserSessionsModal() {
                               >
                                 {ispName}
                               </a>
-                              <img
-                                src={`https://besticon.net/icon?url=${ispDomain}&size=80..120..200`}
-                                alt="favicon"
-                                className="inline w-5 h-5 mr-1"
-                                onError={(e) =>
-                                  (e.currentTarget.style.display = 'none')
-                                }
-                              />
+                              {step < sources.length ? (
+                                <img
+                                  src={sources[step]}
+                                  alt="favicon"
+                                  width={size}
+                                  height={size}
+                                  className="inline mr-1 align-text-bottom"
+                                  onError={handleError}
+                                />
+                              ) : (
+                                <FaGlobe
+                                  size={size}
+                                  className="inline mr-1 align-text-bottom text-gray-400"
+                                />
+                              )}
                             </>
                           ) : (
                             ispName

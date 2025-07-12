@@ -118,7 +118,7 @@ export function UserSessionsModal() {
               <IoClose size={40} />
             </Button>
             <div className="overflow-y-auto max-h-[70vh] px-4 sm:px-8">
-              <div className="grid lg:grid-cols-2 gap-3">
+              <div className="grid lg:grid-cols-2 gap-3 pb-2">
                 {devices.length === 0 && (
                   <p className="text-center mx-auto col-span-2">
                     Нет активных устройств

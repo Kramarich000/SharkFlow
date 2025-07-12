@@ -54,7 +54,7 @@ export const AccountSettings = () => {
         </div>
         <Button
           variant="primary"
-          className="!flex !flex-col"
+          className="!flex !flex-col !mt-4"
           onClick={() => setIsUserSessionsModalOpen(true)}
         >
           <MdPhonelink size={20} /> Просмотреть активные сессии

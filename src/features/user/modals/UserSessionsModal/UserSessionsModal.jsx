@@ -193,8 +193,7 @@ export function UserSessionsModal() {
                         </b>{' '}
                         <p>
                           {device.osName || 'Неизвестная ОС'}{' '}
-                          {device.osVersion || ''} {device.deviceBrand || ''}{' '}
-                          {device.deviceModel || ''}{' '}
+                          {device.osVersion || ''}
                           {device.clientName || 'Неизвестный клиент'}{' '}
                           {device.clientVersion || ''}
                         </p>

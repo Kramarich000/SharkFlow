@@ -3,24 +3,32 @@ import { useShallow } from 'zustand/shallow';
 import { AiOutlineSync } from 'react-icons/ai';
 
 import { useModalsStore } from '@store/modalsStore';
-import { logoutUserDevice } from '@features/auth/api/logout/logoutUserDevice';
 import { Button } from '@common/ui/utilities/Button';
 import { ModalBase } from '@common/ui/layout/ModalBase';
+import { logoutAllUserDevices } from '@features/auth/api/logout/logoutAllUserDevices';
 
 export function ConfirmLogoutDevicesModal() {
   const [load, setLoad] = useState(false);
   const isConfirmLogoutDevicesModalOpen = useModalsStore(
     (state) => state.isConfirmLogoutDevicesModalOpen,
   );
+
   const setIsConfirmLogoutDevicesModalOpen = useModalsStore(
     (state) => state.setIsConfirmLogoutDevicesModalOpen,
+  );
+
+  const setIsUserSessionsModalOpen = useModalsStore(
+    (state) => state.setIsUserSessionsModalOpen,
   );
 
   const logoutDevicesHandler = async () => {
     setLoad(true);
     try {
-      await logoutUserDevice();
-      setIsConfirmLogoutDevicesModalOpen(false);
+      const success = await logoutAllUserDevices();
+      if (success) {
+        setIsConfirmLogoutDevicesModalOpen(false);
+        setIsUserSessionsModalOpen(false);
+      }
     } catch (error) {
       console.error('Ошибка при логауте:', error);
     } finally {

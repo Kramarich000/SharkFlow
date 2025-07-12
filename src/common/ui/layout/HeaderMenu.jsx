@@ -78,9 +78,7 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
         ref={divRef}
         className="cursor-pointer relative hover:bg-black/60 p-2 rounded-4xl transition-colors"
         onClick={() => {
-          if (!avatarLoading) {
-            setIsOpen(!isOpen);
-          }
+          setIsOpen(!isOpen);
         }}
       >
         {user?.avatarUrl && token ? (
@@ -121,11 +119,6 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
               size={30}
               className={`${isOpen ? 'rotate-180 !transition-all' : 'rotate-0'}`}
             />
-          </div>
-        )}
-        {avatarLoading && (
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-full">
-            <AiOutlineSync className="animate-spin text-white" size={20} />
           </div>
         )}
       </div>

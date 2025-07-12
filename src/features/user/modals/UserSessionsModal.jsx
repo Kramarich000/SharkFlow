@@ -120,7 +120,9 @@ export function UserSessionsModal() {
           <div className="overflow-auto grow pr-2">
             <div className="flex flex-col justify-center lg:grid grid-cols-2 w-full gap-3 pb-2">
               {devices.length === 0 && (
-                <p className="text-center mx-auto">Нет активных устройств</p>
+                <p className="text-center mx-auto col-span-2">
+                  Нет активных устройств
+                </p>
               )}
               {[...devices]
                 .sort((a, b) =>
@@ -213,14 +215,6 @@ export function UserSessionsModal() {
                           <b>Провайдер:</b>{' '}
                           {ispDomain ? (
                             <>
-                              <img
-                                src={`https://www.google.com/s2/favicons?domain=${ispDomain}`}
-                                alt="favicon"
-                                className="inline w-4 h-4 mr-1"
-                                onError={(e) =>
-                                  (e.currentTarget.style.display = 'none')
-                                }
-                              />
                               <a
                                 href={`https://${ispDomain}`}
                                 target="_blank"
@@ -229,6 +223,14 @@ export function UserSessionsModal() {
                               >
                                 {ispName}
                               </a>
+                              <img
+                                src={`https://besticon.net/icon?url=${ispDomain}&size=80..120..200`}
+                                alt="favicon"
+                                className="inline w-5 h-5 mr-1"
+                                onError={(e) =>
+                                  (e.currentTarget.style.display = 'none')
+                                }
+                              />
                             </>
                           ) : (
                             ispName

@@ -10,17 +10,20 @@ import { useModalsStore } from '@store/modalsStore';
 import { useShallow } from 'zustand/shallow';
 import { MdManageAccounts } from 'react-icons/md';
 import { MdPhonelink } from 'react-icons/md';
+import { AiOutlineSync } from 'react-icons/ai';
 
 export const AccountSettings = () => {
   const {
     setIsDeleteUserModalOpen,
     setIsUpdateUserModalOpen,
     setIsUserSessionsModalOpen,
+    isUserSessionsModalOpen,
   } = useModalsStore(
     useShallow((state) => ({
       setIsDeleteUserModalOpen: state.setIsDeleteUserModalOpen,
       setIsUpdateUserModalOpen: state.setIsUpdateUserModalOpen,
       setIsUserSessionsModalOpen: state.setIsUserSessionsModalOpen,
+      isUserSessionsModalOpen: state.isUserSessionsModalOpen,
     })),
   );
 
@@ -56,6 +59,7 @@ export const AccountSettings = () => {
           variant="primary"
           className="!flex !flex-col !mt-4"
           onClick={() => setIsUserSessionsModalOpen(true)}
+          disabled={isUserSessionsModalOpen}
         >
           <MdPhonelink size={20} /> Просмотреть активные сессии
         </Button>

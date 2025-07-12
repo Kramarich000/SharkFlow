@@ -18,6 +18,7 @@ import { RiRobot2Line } from 'react-icons/ri';
 import { GoUnlock } from 'react-icons/go';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 import { GitHubAuthButton } from '@features/auth/components/GitHubAuthButton';
+import { AiOutlineSync } from 'react-icons/ai';
 
 export const SecurityAndIntegrationsSettings = () => {
   const [googleLoad, setGoogleLoad] = useState(false);
@@ -28,6 +29,7 @@ export const SecurityAndIntegrationsSettings = () => {
     setIsSetupTotpModalOpen,
     setIsDisableTotpModalOpen,
     setIsConnectTelegramModalOpen,
+    isConnectTelegramModalOpen,
     setIsDisableTelegramModalOpen,
     setIsDisableGithubModalOpen,
   } = useModalsStore(
@@ -36,6 +38,7 @@ export const SecurityAndIntegrationsSettings = () => {
       setIsSetupTotpModalOpen: state.setIsSetupTotpModalOpen,
       setIsDisableTotpModalOpen: state.setIsDisableTotpModalOpen,
       setIsConnectTelegramModalOpen: state.setIsConnectTelegramModalOpen,
+      isConnectTelegramModalOpen: state.isConnectTelegramModalOpen,
       setIsDisableTelegramModalOpen: state.setIsDisableTelegramModalOpen,
       setIsDisableGithubModalOpen: state.setIsDisableGithubModalOpen,
     })),
@@ -111,6 +114,7 @@ export const SecurityAndIntegrationsSettings = () => {
               variant="primary"
               className="!flex !flex-col"
               onClick={() => setIsConnectTelegramModalOpen(true)}
+              disabled={isConnectTelegramModalOpen}
             >
               <RiRobot2Line size={20} /> Наш бот в Telegram!
             </Button>

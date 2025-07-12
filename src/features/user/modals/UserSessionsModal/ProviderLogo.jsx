@@ -36,7 +36,7 @@ export function ProviderLogo({ domain, size = 16 }) {
         alt={`Logo for ${domain}`}
         width={size}
         height={size}
-        className="inline mr-1 align-text-bottom"
+        className="inline mr-1 align-text-bottom !bg-white"
         onLoad={handleLoad}
         onError={handleError}
       />

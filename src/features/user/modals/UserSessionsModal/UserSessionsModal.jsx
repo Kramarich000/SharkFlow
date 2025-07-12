@@ -242,15 +242,6 @@ export function UserSessionsModal() {
                                 {ispName}
                               </a>
                               <ProviderLogo domain={ispDomain} size={20} />
-
-                              {/* <img
-                                src={`https://icons.duckduckgo.com/ip2/${ispDomain}`}
-                                alt="favicon"
-                                className="inline w-5 h-5 mr-1"
-                                onError={(e) =>
-                                  (e.currentTarget.style.display = 'none')
-                                }
-                              /> */}
                             </>
                           ) : (
                             ispName

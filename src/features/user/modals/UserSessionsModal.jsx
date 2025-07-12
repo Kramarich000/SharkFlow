@@ -98,11 +98,11 @@ export function UserSessionsModal() {
       open={isUserSessionsModalOpen}
       onClose={handleClose}
     >
-      <div className="flex flex-col max-h-[80vh] relative">
+      <div className="flex flex-col max-h-[70vh] sm:max-h-[85vh] relative">
         <h2 className="text-center text-3xl mb-4">Ваши устройства</h2>
         <Button
           variant="tertiary"
-          className="!transition !text-[var(--main-text)] !bg-transparent hover:!bg-transparent absolute top-[-15px] right-0 justify-center px-4 py-2 hover:!text-[var(--main-primary-hover)]"
+          className="!transition !hidden sm:!inline !text-[var(--main-text)] !bg-transparent hover:!bg-transparent absolute top-[-15px] right-0 justify-center px-4 py-2 hover:!text-[var(--main-primary-hover)]"
           onClick={handleClose}
         >
           <IoClose size={40} />
@@ -163,7 +163,7 @@ export function UserSessionsModal() {
                       key={device.deviceId}
                       className="text-center items-center lg:items-start border flex flex-col h-full justify-between rounded-xl p-4 mb-6"
                     >
-                      <div className="flex flex-col sm:flex-row mx-auto gap-3 mb-4 items-center justify-center">
+                      <div className="flex flex-col sm:flex-row mx-auto gap-3 items-center justify-center">
                         <b>
                           {device.deviceType === 'desktop' ? (
                             <FaComputer size={68} />
@@ -203,7 +203,6 @@ export function UserSessionsModal() {
                               }
                             />
                           )}
-                          {flagEmoji}
                         </div>
                         <div className="flex flex-col sm:flex-row items-center gap-3">
                           <LuClock className="hidden sm:block" size={23} />{' '}
@@ -298,13 +297,17 @@ export function UserSessionsModal() {
                         )}
 
                         {device.deviceId !== myDeviceId && (
-                          <Button
-                            variant="delete"
-                            className={`!w-full sm:!w-fit !m-0 !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)] ${device.isActive ? '' : 'pointer-events-none !bg-[#ffbbbb]'}`}
-                            onClick={() => handleLogoutDevice(device.deviceId)}
-                          >
-                            Выйти
-                          </Button>
+                          <>
+                            <Button
+                              variant="delete"
+                              className={`!w-full sm:!w-fit !m-0 !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)] ${device.isActive ? '' : 'pointer-events-none !bg-[#ffbbbb]'}`}
+                              onClick={() =>
+                                handleLogoutDevice(device.deviceId)
+                              }
+                            >
+                              Выйти
+                            </Button>
+                          </>
                         )}
                       </div>
                     </div>
@@ -315,13 +318,18 @@ export function UserSessionsModal() {
         )}
       </div>
       {devices.length > 1 && !load && (
-        <Button
-          variant="primary"
-          className="!bg-[var(--main-btn-delete-bg)] mx-auto !w-fit hover:!bg-[var(--main-btn-delete-hover-bg)]"
-          onClick={() => setIsConfirmLogoutDevicesModalOpen(true)}
-        >
-          Выйти со всех устройств
-        </Button>
+        <>
+          <Button
+            variant="primary"
+            className="!bg-[var(--main-btn-delete-bg)] !m-0 !mx-auto !w-fit hover:!bg-[var(--main-btn-delete-hover-bg)]"
+            onClick={() => setIsConfirmLogoutDevicesModalOpen(true)}
+          >
+            Выйти со всех устройств
+          </Button>
+          <Button className="sm:hidden" variant="primary" onClick={handleClose}>
+            Закрыть
+          </Button>
+        </>
       )}
     </ModalBase>
   );

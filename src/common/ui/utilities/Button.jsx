@@ -31,7 +31,7 @@ const buttonVariants = cva(
           'w-full mt-2 px-6 py-3 rounded-[2rem] flex items-center justify-center border-2 border-white !bg-[var(--main-btn-delete-bg)] !text-[var(--main-button-text)] cursor-pointer hover:!bg-[var(--main-btn-delete-hover-bg)] hover:!text-[var(--main-button-text)]',
       },
       loading: {
-        true: 'pointer-events-none opacity-70',
+        true: 'bg-[var(--main-disabled-btn)] pointer-events-none opacity-70',
         false: '',
       },
       size: {

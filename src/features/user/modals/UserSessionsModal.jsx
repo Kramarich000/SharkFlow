@@ -17,6 +17,7 @@ import { LuClock } from 'react-icons/lu';
 import { GrSatellite } from 'react-icons/gr';
 import { FaCompass } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
+import { IoClose } from 'react-icons/io5';
 
 export function UserSessionsModal() {
   const [load, setLoad] = useState(false);
@@ -97,8 +98,15 @@ export function UserSessionsModal() {
       open={isUserSessionsModalOpen}
       onClose={handleClose}
     >
-      <div className="flex flex-col max-h-[80vh]">
+      <div className="flex flex-col max-h-[80vh] relative">
         <h2 className="text-center text-3xl mb-4">Ваши устройства</h2>
+        <Button
+          variant="tertiary"
+          className="!transition !text-[var(--main-text)] !bg-transparent hover:!bg-transparent absolute top-[-15px] right-0 justify-center px-4 py-2 hover:!text-[var(--main-primary-hover)]"
+          onClick={handleClose}
+        >
+          <IoClose size={40} />
+        </Button>
         {load ? (
           <div className="mt-4 mb-4 flex-col flex items-center h-full justify-center">
             <div className="text-7xl flex gap-8 text-center animate-spin">

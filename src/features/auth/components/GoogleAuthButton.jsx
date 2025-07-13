@@ -85,14 +85,19 @@ export function GoogleAuthButton({
       type="button"
       disabled={disabled}
     >
-      {googleLoad ? (
+      {/* {googleLoad ? (
         <AiOutlineSync size={23} className="animate-spin" />
       ) : (
         <>
           <FcGoogle size={20} className="!bg-white !rounded-full" />
-          {btnText || 'Войти через Google'}
+          {btnText || 'Google'}
         </>
-      )}
+      )} */}
+
+      <>
+        <FcGoogle size={20} className="!bg-white !rounded-full" />
+        {btnText || 'Google'}
+      </>
     </Button>
   );
 }

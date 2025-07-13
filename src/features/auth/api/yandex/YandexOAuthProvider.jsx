@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { githubAuth } from '@features/auth/api/github/connect/githubAuth';
-import { githubConnect } from '@features/auth/api/github/connect/githubConnect';
+import { yandexAuth } from '@features/auth/api/yandex/connect/yandexAuth';
+import { yandexConnect } from '@features/auth/api/yandex/connect/yandexConnect';
 import { useAuthStore } from '@features/auth/store';
 import { useUserStore } from '@features/user';
 import { useModalsStore } from '@store/modalsStore';
@@ -10,15 +10,15 @@ import { AiOutlineSync } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 import { useShallow } from 'zustand/shallow';
 
-export default function GitHubOAuthProvider() {
+export default function YandexOAuthProvider() {
   const navigate = useNavigate();
   const didRun = useRef(false);
 
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const setCsrfToken = useAuthStore((state) => state.setCsrfToken);
 
-  const setIsConnectGithubModalOpen = useModalsStore(
-    (state) => state.setIsConnectGithubModalOpen,
+  const setIsConnectYandexModalOpen = useModalsStore(
+    (state) => state.setIsConnectYandexModalOpen,
   );
 
   useEffect(() => {
@@ -39,12 +39,22 @@ export default function GitHubOAuthProvider() {
     const nextPath =
       nextPathRaw && nextPathRaw.trim() !== '' ? nextPathRaw : '/dashboard';
 
-    const storedState = sessionStorage.getItem('github_oauth_state');
+    const storedState = sessionStorage.getItem('yandex_oauth_state');
     const storedCaptchaToken = sessionStorage.getItem('captchaToken');
     const [storedValue] = (storedState || '').split('|');
 
-    if (stateValue !== storedValue) {
-      showToast('Ошибка безопасности: некорректный state', 'error');
+    if (!storedState || storedState === 'null') {
+      showToast('Ошибка безопасности: отсутствует сохраненный state');
+      return;
+    }
+
+    if (!storedState) {
+      showToast('Ошибка безопасности: отсутствует сохраненный state');
+      return;
+    }
+
+    if (stateRaw.trim() !== storedState.trim()) {
+      showToast('Ошибка безопасности: повторите еще раз', 'error');
       return;
     }
 
@@ -52,11 +62,12 @@ export default function GitHubOAuthProvider() {
       showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
       return;
     }
+    console.log('About to remove yandex_oauth_state and captchaToken from LS');
 
-    sessionStorage.removeItem('github_oauth_state');
+    sessionStorage.removeItem('yandex_oauth_state');
     sessionStorage.removeItem('captchaToken');
 
-    const handler = mode === 'connect' ? githubConnect : githubAuth;
+    const handler = mode === 'connect' ? yandexConnect : yandexAuth;
 
     handler(code, stateRaw, storedCaptchaToken)
       .then((res) => {
@@ -79,7 +90,7 @@ export default function GitHubOAuthProvider() {
           navigate(nextPath, { replace: true });
         } else if (mode === 'connect') {
           if (res.requireEmailConfirmed) {
-            setIsConnectGithubModalOpen(true);
+            setIsConnectYandexModalOpen(true);
           } else {
             navigate(nextPath, { replace: true });
           }

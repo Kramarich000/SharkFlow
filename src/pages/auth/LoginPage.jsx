@@ -20,6 +20,7 @@ export default function LoginPage() {
   const [googleLoad, setGoogleLoad] = useState(false);
   const [totpLoad, setTotpLoad] = useState(false);
   const [githubLoad, setGithubLoad] = useState(false);
+  const [yandexLoad, setYandexLoad] = useState(false);
   const [step, setStep] = useState('login');
   const [totpCode, setTotpCode] = useState('');
   const [sessionKey, setSessionKey] = useState(null);
@@ -132,6 +133,8 @@ export default function LoginPage() {
               totpLoad={totpLoad}
               githubLoad={githubLoad}
               setGithubLoad={setGithubLoad}
+              yandexLoad={yandexLoad}
+              setYandexLoad={setYandexLoad}
               createGuest={createGuest}
               setGoogleLoad={setGoogleLoad}
               captchaKey={captchaKey}

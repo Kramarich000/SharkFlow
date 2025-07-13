@@ -1,17 +1,17 @@
 import React from 'react';
 import { Button } from '@common/ui/utilities/Button';
-import { AiFillGithub } from 'react-icons/ai';
 import { showToast } from '@utils/toast';
 import { AiOutlineSync } from 'react-icons/ai';
 import { generateSecureRandomState } from '@utils/generators/generateRandomState';
+import { FaYandex } from 'react-icons/fa';
 
-export function GitHubAuthButton({
+export function YandexAuthButton({
   mode = 'auth',
-  className,
   nextPath = '/dashboard',
   captchaToken,
-  githubLoad,
-  setGithubLoad,
+  yandexLoad,
+  className,
+  setYandexLoad,
   btnText,
   disabled,
 }) {
@@ -22,32 +22,35 @@ export function GitHubAuthButton({
       mode === 'auth'
     ) {
       showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
+      setYandexLoad(false);
       return;
     }
 
-    setGithubLoad(true);
-    const clientId = import.meta.env.VITE_CLIENT_GITHUB_ID;
-    const redirectUri = `${window.location.origin}/oauth/github/callback`;
-    const scope = 'read:user user:email';
+    setYandexLoad(true);
+    const clientId = import.meta.env.VITE_CLIENT_YANDEX_ID;
+    const redirectUri = `${window.location.origin}/oauth/yandex/callback`;
 
     if (!clientId) {
-      showToast('GitHub OAuth не настроен', 'error');
+      showToast('Yandex OAuth не настроен', 'error');
+      setYandexLoad(false);
       return;
     }
 
     const randomState = generateSecureRandomState();
     const fullState = `${randomState}|${nextPath}|${mode}`;
-    sessionStorage.setItem('github_oauth_state', fullState);
+    console.log('fullState', fullState);
+
+    sessionStorage.setItem('yandex_oauth_state', fullState);
     sessionStorage.setItem('captchaToken', captchaToken);
 
-    const githubUrl =
-      `https://github.com/login/oauth/authorize` +
-      `?client_id=${clientId}` +
+    const yandexUrl =
+      `https://oauth.yandex.ru/authorize` +
+      `?response_type=code` +
+      `&client_id=${clientId}` +
       `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-      `&scope=${encodeURIComponent(scope)}` +
       `&state=${encodeURIComponent(fullState)}`;
 
-    window.location.href = githubUrl;
+    window.location.href = yandexUrl;
   };
 
   return (
@@ -59,17 +62,18 @@ export function GitHubAuthButton({
         type="button"
         disabled={disabled}
       >
-        {/* {githubLoad && mode === 'auth' ? (
+        {/* {yandexLoad && mode === 'auth' ? (
           <AiOutlineSync size={23} className="animate-spin" />
         ) : (
           <>
-            <AiFillGithub size={20} />
-            {btnText || 'Войти через GitHub'}
+            <FaYandex size={20} />
+            {btnText || 'Войти через Yandex'}
           </>
         )} */}
+
         <>
-          <AiFillGithub size={20} />
-          {btnText || 'GitHub'}
+          <FaYandex size={20} />
+          {btnText || 'Yandex'}
         </>
       </Button>
     </>

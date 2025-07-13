@@ -16,6 +16,7 @@ import TurnstileWidget from '@features/auth/components/TurnstileWidget';
 import { showToast } from '@utils/toast';
 import { GitHubAuthButton } from '@features/auth/components/GitHubAuthButton';
 import { guestLogin } from '@features/auth';
+import { YandexAuthButton } from '@features/auth/components/YandexAuthButton';
 
 export function RegisterFirstStep() {
   const setStep = useRegisterStore((state) => state.setStep);
@@ -29,6 +30,7 @@ export function RegisterFirstStep() {
   const [captchaToken, setCaptchaToken] = useState(null);
   const [captchaKey, setCaptchaKey] = useState(0);
   const [githubLoad, setGithubLoad] = useState(false);
+  const [yandexLoad, setYandexLoad] = useState(false);
 
   const handleCheckCaptcha = (token) => {
     setCaptchaToken(token);
@@ -54,7 +56,30 @@ export function RegisterFirstStep() {
     }
   };
 
-  const isDisabled = guestLoad || load || googleLoad || githubLoad;
+  const isDisabled = guestLoad || load || googleLoad || githubLoad || yandexLoad;
+
+  const checkboxLabel = () => (
+    <>
+      Я принимаю{' '}
+      <Link
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600"
+        to="/privacy"
+      >
+        политику конфиденциальности
+      </Link>{' '}
+      и{' '}
+      <Link
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600"
+        to="/terms"
+      >
+        условия пользования
+      </Link>
+    </>
+  );
 
   return (
     <motion.div
@@ -108,19 +133,33 @@ export function RegisterFirstStep() {
               <Form className="sm:grid mt-2 sm:mt-6 flex flex-col gap-4 p-8 px-4 sm:px-8 rounded-2xl border-2 bg-surface border-[var(--main-primary)] shadow-glow transition-colors">
                 <h2 className="col-span-2 text-3xl">Регистрация</h2>
 
-                <div className="flex flex-col md:flex-row col-span-2 gap-3">
+                <div className="flex flex-col justify-center items-center md:flex-row col-span-2 gap-3">
+                  <p>Войти с помощью:</p>
                   <GoogleAuthButton
-                    btnText="Войти через Google"
+                    btnText="Google"
+                    className="!w-fit !p-1 !m-0"
                     googleLoad={googleLoad}
                     setGoogleLoad={setGoogleLoad}
-                    disabled={isDisabled}
                     captchaToken={captchaToken}
+                    disabled={isDisabled}
                   />
                   <GitHubAuthButton
                     mode="auth"
+                    btnText="Github"
+                    className="!w-fit !p-1 !m-0"
                     nextPath="/dashboard"
                     githubLoad={githubLoad}
                     setGithubLoad={setGithubLoad}
+                    captchaToken={captchaToken}
+                    disabled={isDisabled}
+                  />
+                  <YandexAuthButton
+                    mode="auth"
+                    btnText="Yandex"
+                    className="!w-fit !p-1 !m-0"
+                    nextPath="/dashboard"
+                    yandexLoad={yandexLoad}
+                    setYandexLoad={setYandexLoad}
                     captchaToken={captchaToken}
                     disabled={isDisabled}
                   />
@@ -238,28 +277,7 @@ export function RegisterFirstStep() {
                     id="acceptedPolicies"
                     disabled={isDisabled}
                     className={`${load ? 'pointer-events-none' : ''}`}
-                    label={
-                      <>
-                        Я принимаю{' '}
-                        <Link
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600"
-                          to="/privacy"
-                        >
-                          политику конфиденциальности
-                        </Link>{' '}
-                        и{' '}
-                        <Link
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600"
-                          to="/terms"
-                        >
-                          условия пользования
-                        </Link>
-                      </>
-                    }
+                    label={checkboxLabel()}
                   />
                   <ErrorMessage name="acceptedPolicies">
                     {(msg) => <AnimatedError msg={msg} centered />}
@@ -269,6 +287,7 @@ export function RegisterFirstStep() {
                   key={captchaKey}
                   onVerify={handleCheckCaptcha}
                   action="register"
+                  disabled={isDisabled}
                 />
                 <Button
                   className="col-span-2"

@@ -20,6 +20,10 @@ const GitHubOAuthProvider = lazy(
   () => import('@features/auth/api/github/GitHubOAuthProvider'),
 );
 
+const YandexOAuthProvider = lazy(
+  () => import('@features/auth/api/yandex/yandexOAuthProvider'),
+);
+
 import { baseURL } from '@lib/http';
 
 export const routes = [
@@ -84,6 +88,14 @@ export const routes = [
     title: 'Авторизация через GitHub',
     description: 'GitHub OAuth обработчик',
     url: `${baseURL}/oauth/github/callback`,
+    private: false,
+  },
+  {
+    path: '/oauth/yandex/callback',
+    component: YandexOAuthProvider,
+    title: 'Авторизация через Yandex',
+    description: 'Yandex OAuth обработчик',
+    url: `${baseURL}/oauth/yandex/callback`,
     private: false,
   },
   {

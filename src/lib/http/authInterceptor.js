@@ -15,6 +15,14 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
+refreshClient.interceptors.request.use((config) => {
+  const { deviceId } = useAuthStore.getState();
+  if (deviceId) {
+    config.headers['X-Device-Id'] = deviceId;
+  }
+  return config;
+});
+
 export function setupAuthInterceptor() {
   api.interceptors.request.use((config) => {
     const { accessToken, csrfToken, deviceId } = useAuthStore.getState();

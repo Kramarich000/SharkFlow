@@ -7,6 +7,7 @@ import { Button } from '@common/ui/utilities/Button';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 import TurnstileWidget from '@features/auth/components/TurnstileWidget';
 import { GitHubAuthButton } from '@features/auth/components/GitHubAuthButton';
+import { YandexAuthButton } from '@features/auth/components/YandexAuthButton';
 
 export function LoginStep1({
   formikRef,
@@ -19,6 +20,8 @@ export function LoginStep1({
   googleLoad,
   githubLoad,
   setGithubLoad,
+  yandexLoad,
+  setYandexLoad,
   totpLoad,
   createGuest,
   setGoogleLoad,
@@ -26,7 +29,8 @@ export function LoginStep1({
   handleCheckCaptcha,
   captchaToken,
 }) {
-  const isDisabled = guestLoad || load || googleLoad || totpLoad || githubLoad;
+  const isDisabled =
+    guestLoad || load || googleLoad || totpLoad || githubLoad || yandexLoad;
   return (
     <Formik
       innerRef={formikRef}
@@ -42,9 +46,11 @@ export function LoginStep1({
         <>
           <Form className="flex flex-col sm:grid grid-cols-2 gap-6 p-8 rounded-2xl bg-surface border-2 border-[var(--main-primary)] shadow-glow">
             <h2 className="sm:col-span-2 text-3xl">Вход</h2>
-            <div className="flex flex-col md:flex-row col-span-2 gap-3">
+            <div className="flex flex-col justify-center items-center md:flex-row col-span-2 gap-3">
+              <p>Войти с помощью:</p>
               <GoogleAuthButton
-                btnText="Войти через Google"
+                btnText="Google"
+                className="!w-fit !p-1 !m-0"
                 googleLoad={googleLoad}
                 setGoogleLoad={setGoogleLoad}
                 captchaToken={captchaToken}
@@ -52,9 +58,21 @@ export function LoginStep1({
               />
               <GitHubAuthButton
                 mode="auth"
+                btnText="Github"
+                className="!w-fit !p-1 !m-0"
                 nextPath="/dashboard"
                 githubLoad={githubLoad}
                 setGithubLoad={setGithubLoad}
+                captchaToken={captchaToken}
+                disabled={isDisabled}
+              />
+              <YandexAuthButton
+                mode="auth"
+                btnText="Yandex"
+                className="!w-fit !p-1 !m-0"
+                nextPath="/dashboard"
+                yandexLoad={yandexLoad}
+                setYandexLoad={setYandexLoad}
                 captchaToken={captchaToken}
                 disabled={isDisabled}
               />
@@ -130,6 +148,8 @@ export function LoginStep1({
                 id="rememberMe"
                 label="Запомнить меня"
                 className="relative"
+                className={`${isDisabled ? 'pointer-events-none' : ''}`}
+                disabled={isDisabled}
               />
             </div>
 
@@ -137,6 +157,7 @@ export function LoginStep1({
               key={captchaKey}
               onVerify={handleCheckCaptcha}
               action="login"
+              disabled={isDisabled}
             />
             <div className="flex flex-col col-span-2 item-center justify-center gap-3">
               <Button

@@ -315,7 +315,7 @@ export function UserSessionsModal() {
               </div>
             </div>
           </div>
-          <div className='flex gap-3 mt-4'>
+          <div className="flex gap-3 mt-4">
             <Button
               variant="primary"
               className="!bg-[var(--main-btn-delete-bg)]  !text-[13px] sm:!text-[16px] !m-0 !mx-auto !w-fit hover:!bg-[var(--main-btn-delete-hover-bg)]"

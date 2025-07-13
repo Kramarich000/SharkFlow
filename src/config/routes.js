@@ -20,6 +20,8 @@ const GitHubOAuthProvider = lazy(
   () => import('@features/auth/api/github/GitHubOAuthProvider'),
 );
 
+import YandexOAuthProvider from '@features/auth/api/yandex/temp';
+
 import { baseURL } from '@lib/http';
 
 export const routes = [

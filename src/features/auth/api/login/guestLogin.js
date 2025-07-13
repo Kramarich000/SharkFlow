@@ -5,7 +5,7 @@ import { useUserStore } from '@features/user';
 
 export async function guestLogin(captchaToken) {
   const result = await apiResponsesHandler(
-    () => api.post('/api/auth/guest-login', { captchaToken }, {}),
+    () => api.post('/auth/guest-login', { captchaToken }, {}),
     {
       onSuccess: (data) => {
         if (data.accessToken) {

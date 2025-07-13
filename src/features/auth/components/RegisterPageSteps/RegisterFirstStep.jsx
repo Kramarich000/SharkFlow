@@ -56,7 +56,8 @@ export function RegisterFirstStep() {
     }
   };
 
-  const isDisabled = guestLoad || load || googleLoad || githubLoad || yandexLoad;
+  const isDisabled =
+    guestLoad || load || googleLoad || githubLoad || yandexLoad;
 
   const checkboxLabel = () => (
     <>
@@ -132,37 +133,38 @@ export function RegisterFirstStep() {
             <>
               <Form className="sm:grid mt-2 sm:mt-6 flex flex-col gap-4 p-8 px-4 sm:px-8 rounded-2xl border-2 bg-surface border-[var(--main-primary)] shadow-glow transition-colors">
                 <h2 className="col-span-2 text-3xl">Регистрация</h2>
-
                 <div className="flex flex-col justify-center items-center md:flex-row col-span-2 gap-3">
                   <p>Войти с помощью:</p>
-                  <GoogleAuthButton
-                    btnText="Google"
-                    className="!w-fit !p-1 !m-0"
-                    googleLoad={googleLoad}
-                    setGoogleLoad={setGoogleLoad}
-                    captchaToken={captchaToken}
-                    disabled={isDisabled}
-                  />
-                  <GitHubAuthButton
-                    mode="auth"
-                    btnText="Github"
-                    className="!w-fit !p-1 !m-0"
-                    nextPath="/dashboard"
-                    githubLoad={githubLoad}
-                    setGithubLoad={setGithubLoad}
-                    captchaToken={captchaToken}
-                    disabled={isDisabled}
-                  />
-                  <YandexAuthButton
-                    mode="auth"
-                    btnText="Yandex"
-                    className="!w-fit !p-1 !m-0"
-                    nextPath="/dashboard"
-                    yandexLoad={yandexLoad}
-                    setYandexLoad={setYandexLoad}
-                    captchaToken={captchaToken}
-                    disabled={isDisabled}
-                  />
+                  <div className="flex items-center justify-center flex-wrap gap-3">
+                    <GoogleAuthButton
+                      btnText="Google"
+                      className="!w-fit !p-1 !m-0"
+                      googleLoad={googleLoad}
+                      setGoogleLoad={setGoogleLoad}
+                      captchaToken={captchaToken}
+                      disabled={isDisabled}
+                    />
+                    <GitHubAuthButton
+                      mode="auth"
+                      btnText="Github"
+                      className="!w-fit !p-1 !m-0"
+                      nextPath="/dashboard"
+                      githubLoad={githubLoad}
+                      setGithubLoad={setGithubLoad}
+                      captchaToken={captchaToken}
+                      disabled={isDisabled}
+                    />
+                    <YandexAuthButton
+                      mode="auth"
+                      btnText="Yandex"
+                      className="!w-fit !p-1 !m-0"
+                      nextPath="/dashboard"
+                      yandexLoad={yandexLoad}
+                      setYandexLoad={setYandexLoad}
+                      captchaToken={captchaToken}
+                      disabled={isDisabled}
+                    />
+                  </div>
                 </div>
 
                 <div className="col-span-2 relative bg-[var(--main-text)] w-full h-[1px] my-2">
@@ -271,7 +273,7 @@ export function RegisterFirstStep() {
                   </ErrorMessage>
                 </div>
 
-                <div className="text-[12px] sm:text-sm col-span-2">
+                <div className="items-center flex gap-2 justify-center col-span-2">
                   <FormikCheckbox
                     name="acceptedPolicies"
                     id="acceptedPolicies"
@@ -283,12 +285,14 @@ export function RegisterFirstStep() {
                     {(msg) => <AnimatedError msg={msg} centered />}
                   </ErrorMessage>
                 </div>
-                <TurnstileWidget
-                  key={captchaKey}
-                  onVerify={handleCheckCaptcha}
-                  action="register"
-                  disabled={isDisabled}
-                />
+                {process.env.NODE_ENV !== 'development' && (
+                  <TurnstileWidget
+                    key={captchaKey}
+                    onVerify={handleCheckCaptcha}
+                    action="register"
+                    disabled={isDisabled}
+                  />
+                )}
                 <Button
                   className="col-span-2"
                   variant="primary"

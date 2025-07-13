@@ -71,7 +71,7 @@ export function setupAuthInterceptor() {
 
         isRefreshing = true;
         try {
-          const refreshResp = await refreshClient.post('/api/auth/refresh');
+          const refreshResp = await refreshClient.post('/auth/refresh');
 
           const newAccessToken = refreshResp?.data?.accessToken;
           const newCsrfToken = refreshResp?.data?.csrfToken;

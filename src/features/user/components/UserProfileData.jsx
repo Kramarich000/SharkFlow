@@ -94,8 +94,8 @@ export function UserProfileData() {
             <div
               className={`
                 absolute inset-0 rounded-full pointer-events-none
-                !transition duration-300
-                ${isImgOptionsVisible ? 'opacity-100 bg-[rgba(0,0,0,0.4)]' : 'opacity-0'}
+                transition duration-300 z-1
+                ${isImgOptionsVisible ? 'opacity-100 bg-black/40' : 'opacity-0'}
               `}
             ></div>
             {user?.avatarUrl && user?.role === 'user' ? (
@@ -134,7 +134,7 @@ export function UserProfileData() {
                   animate={{ opacity: 1, transform: 'translateY(0px)' }}
                   exit={{ opacity: 0, transform: 'translateY(-10px)' }}
                   onClick={handleMenuToggle}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                  className="absolute top-1/2 left-1/2 z-2 -translate-x-1/2 -translate-y-1/2 
                     flex items-center justify-center rounded-full !p-0"
                   title="Опции"
                 >

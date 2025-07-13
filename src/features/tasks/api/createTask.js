@@ -44,7 +44,7 @@ export async function createTask({
   };
 
   return await apiResponsesHandler(
-    () => api.post(`/api/boards/${boardUuid}/tasks`, payload),
+    () => api.post(`/boards/${boardUuid}/tasks`, payload),
     {
       successMessage: `Задача "${title}" успешно создана`,
       onSuccess: (data) => data.task,

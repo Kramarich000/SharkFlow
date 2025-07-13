@@ -35,12 +35,12 @@ export function FormikCheckbox({
       id={id}
       onClick={handleToggle}
       onKeyDown={handleKeyDown}
-      className={`flex items-center !w-fit mx-auto justify-center gap-2
+      className={`flex items-center gap-2 !w-fit justify-center
         ${disabled ? 'opacity-60 cursor-not-allowed select-none' : 'cursor-pointer outline-none'}
       `}
     >
       <div
-        className={`w-5 h-5 absolute sm:relative left-6 flex items-center justify-center rounded border transition
+        className={`w-5 h-5 left-6 flex items-center justify-center rounded border transition
           ${className} 
           ${
             checked
@@ -53,7 +53,7 @@ export function FormikCheckbox({
       </div>
       <label
         htmlFor={id}
-        className={`select-none text-[12px] sm:text-[14px] ml-8 sm:ml-6 text-left sm:text-center
+        className={`select-none text-[14px] w-full text-left sm:text-center
           ${disabled ? 'cursor-not-allowed select-none' : 'cursor-pointer'}
         `}
       >

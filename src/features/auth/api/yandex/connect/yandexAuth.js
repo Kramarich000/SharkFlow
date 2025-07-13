@@ -8,7 +8,7 @@ export async function yandexAuth(code, state, captchaToken) {
   const { updateUser, setUser } = useUserStore.getState();
 
   const result = await apiResponsesHandler(
-    () => api.post('/api/auth/yandex', { code, state, captchaToken }, {}),
+    () => api.post('/auth/yandex', { code, state, captchaToken }, {}),
     {
       onSuccess: (data) => {
         if (data.accessToken) {

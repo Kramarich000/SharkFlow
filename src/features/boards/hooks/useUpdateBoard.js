@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateBoard as updateBoardApi } from '../api';
+import { updateBoard as updateBoardApi } from '..';
 import { useBoardStore } from '../store';
 
 export const useBoardUpdate = () => {
@@ -40,4 +40,4 @@ export const useBoardUpdate = () => {
       }
     },
   });
-}; 
+};

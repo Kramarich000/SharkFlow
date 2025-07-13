@@ -3,7 +3,7 @@ import { apiResponsesHandler } from '@utils/responsesHandler';
 
 export async function sendEmail() {
   return await apiResponsesHandler(
-    () => api.post('/api/auth/totp/confirm-setup', {}, {}),
+    () => api.post('/auth/totp/confirm-setup', {}, {}),
     {},
   );
 }

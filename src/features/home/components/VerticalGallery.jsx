@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import {
   AnimatePresence,
   motion,
-  useAnimation,  
-  useMotionValue, 
+  useAnimation,
+  useMotionValue,
 } from 'framer-motion';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
@@ -127,7 +127,7 @@ export default function InfiniteVerticalScroll() {
   }, [open]);
 
   return (
-    <section className="relative mx-auto py-12 z-99">
+    <section className="relative mx-auto py-12">
       <h2 className="text-3xl mb-8">Скриншоты</h2>
 
       {isDesktop ? (

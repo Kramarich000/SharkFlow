@@ -4,7 +4,7 @@ import { apiResponsesHandler } from '@utils/responsesHandler';
 import { useUserStore } from '@features/user';
 
 export async function logoutAllUserDevices() {
-  return await apiResponsesHandler(() => api.post('/api/auth/logout/all'), {
+  return await apiResponsesHandler(() => api.post('/auth/logout/all'), {
     onSuccess: () => {
       useAuthStore.getState().clearAccessToken();
       useUserStore.getState().clearUser();

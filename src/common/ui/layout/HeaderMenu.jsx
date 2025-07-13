@@ -214,28 +214,32 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
                 <div className="flex items-center justify-center mb-8 pb-8 border-b-1 border-b-white">
                   <div className="flex justify-between items-center w-full bg-black/20 p-2 rounded-full">
                     <div className="flex items-center gap-3">
-                      {user?.avatarUrl && token ? (
-                        <Avatar
-                          src={user?.avatarUrl}
-                          size={40}
-                          className="mx-auto"
-                        />
+                      {user?.role === 'user' ? (
+                        <>
+                          {user.avatarUrl ? (
+                            <Avatar
+                              src={user.avatarUrl}
+                              size={40}
+                              className="mx-auto"
+                            />
+                          ) : (
+                            <MdAccountCircle className="w-12 h-12 text-[var(--main-button-text)]" />
+                          )}
+                          <div>
+                            <p className="font-semibold">{user.login}</p>
+                            <p className="text-sm text-gray-200">
+                              {user.email}
+                            </p>
+                          </div>
+                        </>
                       ) : (
                         <>
                           <MdAccountCircle className="w-12 h-12 text-[var(--main-button-text)]" />
                           <div>
-                            <p className="text-left font-semibold">Логин</p>
-                            <p className="text-left text-sm text-gray-200">
-                              Почта
-                            </p>
+                            <p className="font-semibold">Логин</p>
+                            <p className="text-sm text-gray-200">Почта</p>
                           </div>
                         </>
-                      )}
-                      {user?.role === 'user' && token && (
-                        <div>
-                          <p className="font-semibold">{user?.login}</p>
-                          <p className="text-sm text-gray-200">{user?.email}</p>
-                        </div>
                       )}
                     </div>
                   </div>

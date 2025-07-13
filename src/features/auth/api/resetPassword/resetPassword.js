@@ -7,6 +7,6 @@
 //   };
 
 //   return await apiResponsesHandler(() =>
-//     api.post('/api/auth/reset-password', payload, {}),
+//     api.post('/auth/reset-password', payload, {}),
 //   );
 // }

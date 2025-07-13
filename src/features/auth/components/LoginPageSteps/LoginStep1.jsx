@@ -48,36 +48,37 @@ export function LoginStep1({
             <h2 className="sm:col-span-2 text-3xl">Вход</h2>
             <div className="flex flex-col justify-center items-center md:flex-row col-span-2 gap-3">
               <p>Войти с помощью:</p>
-              <GoogleAuthButton
-                btnText="Google"
-                className="!w-fit !p-1 !m-0"
-                googleLoad={googleLoad}
-                setGoogleLoad={setGoogleLoad}
-                captchaToken={captchaToken}
-                disabled={isDisabled}
-              />
-              <GitHubAuthButton
-                mode="auth"
-                btnText="Github"
-                className="!w-fit !p-1 !m-0"
-                nextPath="/dashboard"
-                githubLoad={githubLoad}
-                setGithubLoad={setGithubLoad}
-                captchaToken={captchaToken}
-                disabled={isDisabled}
-              />
-              <YandexAuthButton
-                mode="auth"
-                btnText="Yandex"
-                className="!w-fit !p-1 !m-0"
-                nextPath="/dashboard"
-                yandexLoad={yandexLoad}
-                setYandexLoad={setYandexLoad}
-                captchaToken={captchaToken}
-                disabled={isDisabled}
-              />
+              <div className="flex items-center justify-center flex-wrap gap-3">
+                <GoogleAuthButton
+                  btnText="Google"
+                  className="!w-fit !p-1 !m-0"
+                  googleLoad={googleLoad}
+                  setGoogleLoad={setGoogleLoad}
+                  captchaToken={captchaToken}
+                  disabled={isDisabled}
+                />
+                <GitHubAuthButton
+                  mode="auth"
+                  btnText="Github"
+                  className="!w-fit !p-1 !m-0"
+                  nextPath="/dashboard"
+                  githubLoad={githubLoad}
+                  setGithubLoad={setGithubLoad}
+                  captchaToken={captchaToken}
+                  disabled={isDisabled}
+                />
+                <YandexAuthButton
+                  mode="auth"
+                  btnText="Yandex"
+                  className="!w-fit !p-1 !m-0"
+                  nextPath="/dashboard"
+                  yandexLoad={yandexLoad}
+                  setYandexLoad={setYandexLoad}
+                  captchaToken={captchaToken}
+                  disabled={isDisabled}
+                />
+              </div>
             </div>
-
             <div className="col-span-2 relative bg-[var(--main-text)] w-full h-[1px] my-2">
               <p className="absolute top-[-14px] left-1/2 -translate-x-1/2 px-2 bg-surface">
                 или
@@ -113,7 +114,6 @@ export function LoginStep1({
                 name="password"
                 autoComplete="password"
                 placeholder=" "
-                autoFocus
                 required
                 onBlur={handleBlur}
                 className="peer input-styles input-primary !pr-8"
@@ -142,24 +142,25 @@ export function LoginStep1({
               </ErrorMessage>
             </div>
 
-            <div className="col-span-2 text-sm">
+            <div className="col-span-2 text-sm flex items-center justify-center">
               <FormikCheckbox
                 name="rememberMe"
                 id="rememberMe"
                 label="Запомнить меня"
-                className="relative"
                 className={`${isDisabled ? 'pointer-events-none' : ''}`}
                 disabled={isDisabled}
               />
             </div>
 
-            <TurnstileWidget
-              key={captchaKey}
-              onVerify={handleCheckCaptcha}
-              action="login"
-              disabled={isDisabled}
-            />
-            <div className="flex flex-col col-span-2 item-center justify-center gap-3">
+            {process.env.NODE_ENV !== 'development' && (
+              <TurnstileWidget
+                key={captchaKey}
+                onVerify={handleCheckCaptcha}
+                action="login"
+                disabled={isDisabled}
+              />
+            )}
+            <div className="flex flex-col col-span-2 item-center justify-center gap-1">
               <Button
                 variant="primary"
                 // className="sm:col-span-2"

@@ -18,7 +18,6 @@ export function LoginStep2({
           value={totpCode}
           onChange={e => setTotpCode(e.target.value)}
           className="peer input-styles input-primary"
-          autoFocus
           placeholder=" "
         />
         <label className="label-styles">Введите код из приложения</label>

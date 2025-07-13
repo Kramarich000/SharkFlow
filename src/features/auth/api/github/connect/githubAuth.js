@@ -8,7 +8,7 @@ export async function githubAuth(code, state, captchaToken) {
   const { updateUser, setUser } = useUserStore.getState();
 
   const result = await apiResponsesHandler(
-    () => api.post('/api/auth/github', { code, state, captchaToken }, {}),
+    () => api.post('/auth/github', { code, state, captchaToken }, {}),
     {
       onSuccess: (data) => {
         if (data.accessToken) {

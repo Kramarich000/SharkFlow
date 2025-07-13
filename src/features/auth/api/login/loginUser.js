@@ -13,7 +13,7 @@ export async function login(values, captchaToken) {
   };
 
   const result = await apiResponsesHandler(
-    () => api.post('/api/auth/login', payload, {}),
+    () => api.post('/auth/login', payload, {}),
     {
       onSuccess: (data) => {
         if (data.accessToken) {

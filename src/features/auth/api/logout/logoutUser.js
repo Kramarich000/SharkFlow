@@ -4,7 +4,7 @@ import { apiResponsesHandler } from '@utils/responsesHandler';
 import { useUserStore } from '@features/user';
 
 export async function logoutUser() {
-  return await apiResponsesHandler(() => api.post('/api/auth/logout'), {
+  return await apiResponsesHandler(() => api.post('/auth/logout'), {
     onSuccess: () => {
       useAuthStore.getState().clearAccessToken();
       useUserStore.getState().clearUser();

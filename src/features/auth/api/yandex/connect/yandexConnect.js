@@ -7,7 +7,7 @@ export async function yandexConnect(code, state, captchaToken) {
   const { updateUser } = useUserStore.getState();
 
   const result = await apiResponsesHandler(
-    () => api.post('/api/auth/yandex/connect', { code, state }, {}),
+    () => api.post('/auth/yandex/connect', { code, state }, {}),
     {
       onSuccess: (data) => {
         if (data.accessToken) {

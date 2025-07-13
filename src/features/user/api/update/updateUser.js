@@ -26,7 +26,7 @@ export async function updateUser(confirmationCode, updatedFields = {}) {
   }
 
   return await apiResponsesHandler(
-    () => api.patch('/api/users', { confirmationCode, updatedFields }),
+    () => api.patch('/users', { confirmationCode, updatedFields }),
     {
       onSuccess: (data) => {
         const { user } = data;

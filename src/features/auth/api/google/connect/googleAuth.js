@@ -8,7 +8,7 @@ export async function googleAuth(code, captchaToken, state) {
   const { updateUser, setUser } = useUserStore.getState();
 
   const result = await apiResponsesHandler(
-    () => api.post('/api/auth/google', { code, captchaToken, state }, {}),
+    () => api.post('/auth/google', { code, captchaToken, state }, {}),
     {
       onSuccess: (data) => {
         if (data.accessToken) {

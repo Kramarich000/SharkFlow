@@ -3,6 +3,6 @@ import { apiResponsesHandler } from '@utils/responsesHandler';
 
 export async function confirmUpdate() {
   return await apiResponsesHandler(() =>
-    api.post('/api/users/confirm-update', {}, {}),
+    api.post('/users/confirm-update', {}, {}),
   );
 }

@@ -14,6 +14,6 @@ export async function register(values, captchaToken) {
   };
 
   return await apiResponsesHandler(() =>
-    api.post('/api/users/confirm-registration', payload, {}),
+    api.post('/users/confirm-registration', payload, {}),
   );
 }

@@ -7,7 +7,7 @@ export async function githubConnect(code, state, captchaToken) {
   const { updateUser } = useUserStore.getState();
 
   const result = await apiResponsesHandler(
-    () => api.post('/api/auth/github/connect', { code, state }, {}),
+    () => api.post('/auth/github/connect', { code, state }, {}),
     {
       onSuccess: (data) => {
         if (data.accessToken) {

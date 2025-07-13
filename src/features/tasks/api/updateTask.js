@@ -22,8 +22,7 @@ export async function updateTask(boardUuid, taskUuid, updatedFields = {}) {
   }
 
   return await apiResponsesHandler(
-    () =>
-      api.patch(`/api/boards/${boardUuid}/tasks/${taskUuid}`, updatedFields),
+    () => api.patch(`/boards/${boardUuid}/tasks/${taskUuid}`, updatedFields),
     {
       onSuccess: (data) => {
         return data.updated || null;

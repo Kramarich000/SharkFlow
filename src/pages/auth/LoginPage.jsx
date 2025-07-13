@@ -75,6 +75,10 @@ export default function LoginPage() {
 
   const handleLoginUserAfter2FA = async () => {
     setTotpLoad(true);
+    if (totpCode < 6) {
+      showToast('Код должен состоять из 6 цифр');
+      return;
+    }
     try {
       const success = await checkTwoFactor(totpCode, sessionKey);
       if (success) {

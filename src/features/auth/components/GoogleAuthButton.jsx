@@ -69,7 +69,7 @@ export function GoogleAuthButton({
   });
 
   const handleClick = () => {
-    if (!captchaToken && process.env.NODE_ENV === 'production') {
+    if (!captchaToken && process.env.NODE_ENV === 'production' && isAuth) {
       showToast('Пожалуйста, подтвердите, что вы не робот!', 'error');
       return;
     }

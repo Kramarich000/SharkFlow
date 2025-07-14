@@ -1,9 +1,9 @@
 import api from '@lib/http';
 import { apiResponsesHandler } from '@utils/responsesHandler';
 
-export async function googleVerify(confirmationCode) {
+export async function sendDisableYandexEmail() {
   return await apiResponsesHandler(
-    () => api.post('/auth/oauth/google/confirm-connect', { confirmationCode }),
+    () => api.post('/auth/oauth/yandex/confirm-disable', {}, {}),
     {},
   );
 }

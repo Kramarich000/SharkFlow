@@ -62,15 +62,6 @@ export function YandexAuthButton({
         type="button"
         disabled={disabled}
       >
-        {/* {yandexLoad && mode === 'auth' ? (
-          <AiOutlineSync size={23} className="animate-spin" />
-        ) : (
-          <>
-            <FaYandex size={20} />
-            {btnText || 'Войти через Yandex'}
-          </>
-        )} */}
-
         <>
           <FaYandex size={20} />
           {btnText || 'Yandex'}

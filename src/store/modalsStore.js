@@ -74,6 +74,14 @@ export const useModalsStore = create((set) => ({
   setIsConfirmLogoutDevicesModalOpen: (value) =>
     set({ isConfirmLogoutDevicesModalOpen: value }),
 
+  isConnectYandexModalOpen: false,
+  setIsConnectYandexModalOpen: (value) =>
+    set({ isConnectYandexModalOpen: value }),
+
+  isDisableYandexModalOpen: false,
+  setIsDisableYandexModalOpen: (value) =>
+    set({ isDisableYandexModalOpen: value }),
+
   contextMenu: {
     visible: false,
     x: 0,
@@ -112,6 +120,8 @@ export const useModalsStore = create((set) => ({
       isDisableGithubModalOpen: false,
       isUserSessionsModalOpen: false,
       isConfirmLogoutDevicesModalOpen: false,
+      isConnectYandexModalOpen: false,
+      isDisableYandexModalOpen: false,
       contextMenu: { visible: false, x: 0, y: 0, board: null },
     }),
 }));

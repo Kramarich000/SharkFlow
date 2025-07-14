@@ -68,22 +68,20 @@ export default function YandexOAuthProvider() {
     sessionStorage.removeItem('captchaToken');
 
     const handler = mode === 'connect' ? yandexConnect : yandexAuth;
+    console.log(mode);
 
     handler(code, stateRaw, storedCaptchaToken)
       .then((res) => {
         if (!res) {
-          throw new Error(
-            'Сервер не вернул данные. Возможна ошибка авторизации',
-          );
+          navigate(nextPath, { replace: true });
+          return;
         }
 
         const { accessToken, csrfToken } = res;
 
         if (mode === 'auth') {
           if (!accessToken || !csrfToken) {
-            throw new Error(
-              'Некорректный ответ от сервера: отсутствуют токены',
-            );
+            navigate(nextPath, { replace: true });
           }
           setAccessToken(accessToken);
           setCsrfToken(csrfToken);

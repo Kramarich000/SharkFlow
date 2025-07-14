@@ -3,7 +3,7 @@ import { apiResponsesHandler } from '@utils/responsesHandler';
 
 export async function sendDisableGithubEmail() {
   return await apiResponsesHandler(
-    () => api.post('/auth/github/confirm-disable', {}, {}),
+    () => api.post('/auth/oauth/github/confirm-disable', {}, {}),
     {},
   );
 }

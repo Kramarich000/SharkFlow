@@ -7,6 +7,7 @@ import {
   FaCheckCircle,
   FaEllipsisH,
   FaTelegramPlane,
+  FaYandex,
 } from 'react-icons/fa';
 import { Button } from '@common/ui/utilities/Button';
 import { useUserStore } from '@features/user';
@@ -227,6 +228,17 @@ export function UserProfileData() {
                 <AiFillGithub /> {user.githubEmail}
               </p>
             )}
+          {user?.yandexOAuthEnabled &&
+            user?.role === 'user' &&
+            user?.yandexEmail &&
+            user.yandexEmail !== user.email && (
+              <p
+                className="text-lg flex items-center gap-2 justify-center"
+                title="Google почта"
+              >
+                <FaYandex /> {user.yandexEmail}
+              </p>
+            )}
 
           {user?.googleOAuthEnabled && user?.role === 'user' && (
             <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
@@ -241,6 +253,11 @@ export function UserProfileData() {
           {user?.githubOAuthEnabled && user?.role === 'user' && (
             <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
               <AiFillGithub /> GitHub-аккаунт привязан
+            </p>
+          )}
+          {user?.yandexOAuthEnabled && user?.role === 'user' && (
+            <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
+              <FaYandex /> Yandex-аккаунт привязан
             </p>
           )}
         </div>

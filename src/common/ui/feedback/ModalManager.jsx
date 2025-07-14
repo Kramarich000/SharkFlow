@@ -32,6 +32,8 @@ import { ConnectGithubModal } from '@features/auth/modals/ConnectGithubModal';
 import { DisableGithubModal } from '@features/auth/modals/DisableGithubModal';
 import { UserSessionsModal } from '@features/user/modals/UserSessionsModal/UserSessionsModal';
 import { ConfirmLogoutDevicesModal } from '@features/user/modals/ConfirmLogoutDevicesModal';
+import { ConnectYandexModal } from '@features/auth/modals/ConnectYandexModal';
+import { DisableYandexModal } from '@features/auth/modals/DisableYandexModal';
 
 const modalList = [
   { flag: 'isLogoutUserModalOpen', Component: LogoutUserModal },
@@ -58,6 +60,8 @@ const modalList = [
     flag: 'isConfirmLogoutDevicesModalOpen',
     Component: ConfirmLogoutDevicesModal,
   },
+  { flag: 'isConnectYandexModalOpen', Component: ConnectYandexModal },
+  { flag: 'isDisableYandexModalOpen', Component: DisableYandexModal },
 ];
 
 export function ModalManager() {
@@ -163,6 +167,16 @@ export function ModalManager() {
     300,
   );
 
+  const shouldRenderConnectYandex = useDelayedUnmount(
+    modalFlags.isConnectYandexModalOpen,
+    300,
+  );
+
+  const shouldRenderDisableYandex = useDelayedUnmount(
+    modalFlags.isDisableYandexModalOpen,
+    300,
+  );
+
   return (
     <>
       {shouldRenderLogout && (
@@ -236,6 +250,14 @@ export function ModalManager() {
         <ConfirmLogoutDevicesModal
           open={modalFlags.isConfirmLogoutDevicesModalOpen}
         />
+      )}
+
+      {shouldRenderConnectYandex && (
+        <ConnectYandexModal open={modalFlags.isConnectYandexModalOpen} />
+      )}
+
+      {shouldRenderDisableYandex && (
+        <DisableYandexModal open={modalFlags.isDisableYandexModalOpen} />
       )}
     </>
   );

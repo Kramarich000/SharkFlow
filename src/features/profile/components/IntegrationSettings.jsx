@@ -19,10 +19,13 @@ import { GoUnlock } from 'react-icons/go';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 import { GitHubAuthButton } from '@features/auth/components/GitHubAuthButton';
 import { AiOutlineSync } from 'react-icons/ai';
+import { YandexAuthButton } from '@features/auth/components/YandexAuthButton';
+import { GrIntegration } from 'react-icons/gr';
 
-export const SecurityAndIntegrationsSettings = () => {
+export const IntegrationSettings = () => {
   const [googleLoad, setGoogleLoad] = useState(false);
   const [githubLoad, setGithubLoad] = useState(false);
+  const [yandexLoad, setYandexLoad] = useState(false);
 
   const {
     setIsDisableGoogleModalOpen,
@@ -32,6 +35,7 @@ export const SecurityAndIntegrationsSettings = () => {
     isConnectTelegramModalOpen,
     setIsDisableTelegramModalOpen,
     setIsDisableGithubModalOpen,
+    setIsDisableYandexModalOpen,
   } = useModalsStore(
     useShallow((state) => ({
       setIsDisableGoogleModalOpen: state.setIsDisableGoogleModalOpen,
@@ -41,6 +45,7 @@ export const SecurityAndIntegrationsSettings = () => {
       isConnectTelegramModalOpen: state.isConnectTelegramModalOpen,
       setIsDisableTelegramModalOpen: state.setIsDisableTelegramModalOpen,
       setIsDisableGithubModalOpen: state.setIsDisableGithubModalOpen,
+      setIsDisableYandexModalOpen: state.setIsDisableYandexModalOpen,
     })),
   );
 
@@ -48,16 +53,15 @@ export const SecurityAndIntegrationsSettings = () => {
   const twoFactorEnabled = user?.twoFactorEnabled;
 
   return (
-    <AccordionItem value="security" className="border-0">
+    <AccordionItem value="integraion" className="border-0">
       <AccordionTrigger className="flex !px-1 items-center gap-4 bg-[var(--main-button-bg)] hover:no-underline hover:bg-[var(--main-button-hover)]">
-        <FaShieldAlt size={30} className="!rotate-0" />
-        <p>Безопасность и интеграции</p>
+        <GrIntegration size={30} className="!rotate-0" />
+        <p>Интеграции</p>
       </AccordionTrigger>
 
       <AccordionContent>
         <h2 className="text-sm mt-1 text-[var(--main-text-muted)]">
-          Здесь вы можете изменить параметры безопасности а также попробовать
-          различные интеграции
+          Здесь вы можете попробовать различные интеграции
         </h2>
 
         <div className="flex flex-col gap-4 mt-4">
@@ -78,6 +82,27 @@ export const SecurityAndIntegrationsSettings = () => {
               googleLoad={googleLoad}
               setGoogleLoad={setGoogleLoad}
               disabled={googleLoad}
+            />
+          )}
+
+          {user?.yandexOAuthEnabled ? (
+            <Button
+              variant="primary"
+              className="!flex !flex-col !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+              onClick={() => setIsDisableYandexModalOpen(true)}
+            >
+              <GoUnlock size={20} /> Отвязать Yandex
+            </Button>
+          ) : (
+            <YandexAuthButton
+              btnText="Привязать Yandex"
+              className="!flex !flex-col"
+              mode="connect"
+              isNavigated={false}
+              isAuth={false}
+              yandexLoad={yandexLoad}
+              setYandexLoad={setYandexLoad}
+              disabled={yandexLoad}
             />
           )}
 
@@ -117,24 +142,6 @@ export const SecurityAndIntegrationsSettings = () => {
               disabled={isConnectTelegramModalOpen}
             >
               <RiRobot2Line size={20} /> Наш бот в Telegram!
-            </Button>
-          )}
-
-          {!twoFactorEnabled ? (
-            <Button
-              variant="primary"
-              className="!flex !flex-col"
-              onClick={() => setIsSetupTotpModalOpen(true)}
-            >
-              <TbAuth2Fa size={20} /> Подключить 2FA
-            </Button>
-          ) : (
-            <Button
-              variant="primary"
-              className="!flex !flex-col !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
-              onClick={() => setIsDisableTotpModalOpen(true)}
-            >
-              <TbAuth2Fa size={20} /> Отключить 2FA
             </Button>
           )}
         </div>

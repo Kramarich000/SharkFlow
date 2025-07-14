@@ -39,6 +39,8 @@ export default function GitHubOAuthProvider() {
     const nextPath =
       nextPathRaw && nextPathRaw.trim() !== '' ? nextPathRaw : '/dashboard';
 
+    console.log(mode);
+
     const storedState = sessionStorage.getItem('github_oauth_state');
     const storedCaptchaToken = sessionStorage.getItem('captchaToken');
     const [storedValue] = (storedState || '').split('|');

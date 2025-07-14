@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { UserProfileData } from '@features/user';
 import { Accordion } from '@common/ui/utilities/Accordion';
 import { AccountSettings } from '@features/profile/components/AccountSettings';
-import { SecurityAndIntegrationsSettings } from '@features/profile/components/SecurityAndIntegrationsSettings';
+import { SecuritySettings } from '@features/profile/components/SecuritySettings';
 import { SiteSettings } from '@features/profile/components/SiteSettings';
+import { IntegrationSettings } from '@features/profile/components/IntegrationSettings';
 import { ProfileLoader } from '@features/profile/components/ProfileLoader';
 import { useUserStore } from '@features/user';
 import { GuestAccount } from '@features/profile/components/GuestAccount';
@@ -33,11 +34,12 @@ export default function Profile() {
 
           <Accordion
             type="multiple"
-            className="w-full flex flex-col md:grid grid-cols-2 gap-x-20 gap-y-4 auto-rows-[470px] xl:grid-cols-3"
+            className="w-full flex flex-col md:grid grid-cols-2 gap-x-20 gap-y-4 auto-rows-[450px] xl:grid-cols-3"
           >
             <AccountSettings />
-            <SecurityAndIntegrationsSettings />
+            <SecuritySettings />
             <SiteSettings />
+            <IntegrationSettings />
           </Accordion>
         </div>
       )}

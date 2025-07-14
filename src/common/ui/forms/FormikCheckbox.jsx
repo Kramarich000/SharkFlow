@@ -40,7 +40,7 @@ export function FormikCheckbox({
       `}
     >
       <div
-        className={`w-5 h-5 left-6 flex items-center justify-center rounded border transition
+        className={`w-6 h-5 left-6 flex items-center justify-center rounded border transition
           ${className} 
           ${
             checked

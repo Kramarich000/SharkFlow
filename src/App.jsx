@@ -93,7 +93,9 @@ function App() {
           googleOAuthEnabled: data.googleOAuthEnabled,
           telegramEnabled: data.telegramEnabled,
           githubOAuthEnabled: data.githubOAuthEnabled,
+          yandexOAuthEnabled: data.yandexOAuthEnabled,
           githubEmail: data.githubEmail,
+          yandexEmail: data.yandexEmail,
         });
       } catch (error) {
         console.error('Ошибка при получении данных:', error);

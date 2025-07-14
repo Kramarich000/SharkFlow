@@ -1,28 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useModalsStore } from '@store/modalsStore';
-import { TbAuth2Fa } from 'react-icons/tb';
 import { useShallow } from 'zustand/shallow';
 import { useUserStore } from '@features/user';
 import { Button } from '@common/ui/utilities/Button';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@common/ui/utilities/Accordion';
-import { FaShieldAlt } from 'react-icons/fa';
-import { MdManageAccounts } from 'react-icons/md';
-import { IoMdSettings } from 'react-icons/io';
-import { MdOutlineNearMeDisabled } from 'react-icons/md';
-import { RiRobot2Line } from 'react-icons/ri';
-import { GoUnlock } from 'react-icons/go';
 import { GoogleAuthButton } from '@features/auth/components/GoogleAuthButton';
 import { GitHubAuthButton } from '@features/auth/components/GitHubAuthButton';
-import { AiOutlineSync } from 'react-icons/ai';
 import { YandexAuthButton } from '@features/auth/components/YandexAuthButton';
 import { GrIntegration } from 'react-icons/gr';
+import { GoUnlock } from 'react-icons/go';
+import { MdOutlineNearMeDisabled } from 'react-icons/md';
+import { RiRobot2Line } from 'react-icons/ri';
+import { FaTelegramPlane, FaYandex } from 'react-icons/fa';
+import { FaGoogle } from 'react-icons/fa';
 
 export const IntegrationSettings = () => {
+  const user = useUserStore((state) => state.user);
   const [googleLoad, setGoogleLoad] = useState(false);
   const [githubLoad, setGithubLoad] = useState(false);
   const [yandexLoad, setYandexLoad] = useState(false);
@@ -49,22 +41,75 @@ export const IntegrationSettings = () => {
     })),
   );
 
-  const user = useUserStore((state) => state.user);
-  const twoFactorEnabled = user?.twoFactorEnabled;
-
   return (
-    <AccordionItem value="integraion" className="border-0">
-      <AccordionTrigger className="flex !px-1 items-center gap-4 bg-[var(--main-button-bg)] hover:no-underline hover:bg-[var(--main-button-hover)]">
-        <GrIntegration size={30} className="!rotate-0" />
-        <p>Интеграции</p>
-      </AccordionTrigger>
+    <div className="rounded-2xl p-8">
+      <div className="flex items-center gap-5 mb-4">
+        <GrIntegration size={36} />
+        <h2 className="text-2xl font-bold">Интеграции</h2>
+      </div>
+      <p className="text-base mb-6 text-[var(--main-text-muted)]">
+        Здесь вы можете попробовать различные интеграции
+      </p>
+      <div className="flex flex-col items-center justify-center gap-3">
+        <div>
+          <p>Статус</p>
+          {user?.googleOAuthEnabled && user?.role === 'user' && (
+            <>
+              <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
+                <FaGoogle /> Google-аккаунт привязан
+              </p>
+              <>
+                {user?.googleEmail && (
+                  <p
+                    className="text-lg flex items-center gap-2 justify-center"
+                    title="Google почта"
+                  >
+                    <FaGoogle /> {user.googleEmail}
+                  </p>
+                )}
+              </>
+            </>
+          )}
+          {user?.telegramEnabled && user?.role === 'user' && (
+            <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
+              <FaTelegramPlane /> Telegram-аккаунт привязан
+            </p>
+          )}
 
-      <AccordionContent>
-        <h2 className="text-sm mt-1 text-[var(--main-text-muted)]">
-          Здесь вы можете попробовать различные интеграции
-        </h2>
-
-        <div className="flex flex-col gap-4 mt-4">
+          {user?.githubOAuthEnabled && user?.role === 'user' && (
+            <>
+              <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
+                <AiFillGithub /> GitHub-аккаунт привязан
+              </p>
+              {user?.githubEmail && (
+                <p
+                  className="text-lg flex items-center gap-2 justify-center"
+                  title="Google почта"
+                >
+                  <AiFillGithub /> {user.githubEmail}
+                </p>
+              )}
+            </>
+          )}
+          {user?.yandexOAuthEnabled && user?.role === 'user' && (
+            <>
+              <p className="text-green-600 text-left text-lg flex items-center gap-2 justify-center rounded-2xl ">
+                <FaYandex /> Yandex-аккаунт привязан
+              </p>
+              <>
+                {user?.yandexEmail && user.yandexEmail !== user.email && (
+                  <p
+                    className="text-lg flex items-center gap-2 justify-center"
+                    title="Google почта"
+                  >
+                    <FaYandex /> {user.yandexEmail}
+                  </p>
+                )}
+              </>
+            </>
+          )}
+        </div>
+        <div className="grid sm:grid-cols-2 xl:flex gap-4 pb-4 mt-auto">
           {user?.googleOAuthEnabled ? (
             <Button
               variant="primary"
@@ -84,7 +129,6 @@ export const IntegrationSettings = () => {
               disabled={googleLoad}
             />
           )}
-
           {user?.yandexOAuthEnabled ? (
             <Button
               variant="primary"
@@ -105,7 +149,6 @@ export const IntegrationSettings = () => {
               disabled={yandexLoad}
             />
           )}
-
           {user?.githubOAuthEnabled ? (
             <Button
               variant="primary"
@@ -125,7 +168,6 @@ export const IntegrationSettings = () => {
               disabled={githubLoad}
             />
           )}
-
           {user?.telegramEnabled ? (
             <Button
               variant="primary"
@@ -143,9 +185,9 @@ export const IntegrationSettings = () => {
             >
               <RiRobot2Line size={20} /> Наш бот в Telegram!
             </Button>
-          )}
+          )}{' '}
         </div>
-      </AccordionContent>
-    </AccordionItem>
+      </div>
+    </div>
   );
 };

@@ -1,16 +1,11 @@
 import { Button } from '@common/ui/utilities/Button';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@common/ui/utilities/Accordion';
 import { FaPen, FaTrash } from 'react-icons/fa';
 import { useModalsStore } from '@store/modalsStore';
 import { useShallow } from 'zustand/shallow';
 import { MdManageAccounts } from 'react-icons/md';
 import { MdPhonelink } from 'react-icons/md';
-import { AiOutlineSync } from 'react-icons/ai';
+import { motion } from 'framer-motion';
+import { UserProfileData } from '@features/user';
 
 export const AccountSettings = () => {
   const {
@@ -28,42 +23,40 @@ export const AccountSettings = () => {
   );
 
   return (
-    <AccordionItem value="account" className="border-0">
-      <AccordionTrigger className="flex !px-1 items-center gap-4 bg-[var(--main-button-bg)] hover:no-underline hover:bg-[var(--main-button-hover)]">
-        <MdManageAccounts size={30} className="!rotate-0" />
-        <p>Управление аккаунтом</p>
-      </AccordionTrigger>
-
-      <AccordionContent>
-        <h2 className="text-sm mt-1 text-[var(--main-text-muted)]">
-          Здесь вы можете изменить имя, email или удалить аккаунт
-        </h2>
-
-        <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4 mt-4 items-center justify-between">
-          <Button
-            variant="primary"
-            onClick={() => setIsUpdateUserModalOpen(true)}
-            className="!flex !flex-col"
-          >
-            <FaPen size={20} /> Изменить данные
-          </Button>
-          <Button
-            variant="primary"
-            className="!flex !flex-col !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
-            onClick={() => setIsDeleteUserModalOpen(true)}
-          >
-            <FaTrash size={20} /> Удалить аккаунт
-          </Button>
-        </div>
+    <div className="p-8">
+      <div className="flex items-center gap-5 mb-4">
+        <MdManageAccounts size={36} />
+        <h2 className="text-2xl font-bold">Управление аккаунтом</h2>
+      </div>
+      <p className="text-base mb-6 text-[var(--main-text-muted)]">
+        Здесь вы можете изменить данные аккаунта, удалить его или просмотреть
+        активные сессии
+      </p>
+      <UserProfileData />
+      <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4 justify-between h-full items-end">
         <Button
           variant="primary"
-          className="!flex !flex-col !mt-4"
+          onClick={() => setIsUpdateUserModalOpen(true)}
+          className="!flex !flex-col"
+        >
+          <FaPen size={20} /> Изменить данные
+        </Button>
+        <Button
+          variant="primary"
+          className="!flex !flex-col !bg-[var(--main-btn-delete-bg)] hover:!bg-[var(--main-btn-delete-hover-bg)]"
+          onClick={() => setIsDeleteUserModalOpen(true)}
+        >
+          <FaTrash size={20} /> Удалить аккаунт
+        </Button>
+        <Button
+          variant="primary"
+          className="!flex !flex-col !"
           onClick={() => setIsUserSessionsModalOpen(true)}
           disabled={isUserSessionsModalOpen}
         >
           <MdPhonelink size={20} /> Просмотреть активные сессии
-        </Button>
-      </AccordionContent>
-    </AccordionItem>
+        </Button>{' '}
+      </div>
+    </div>
   );
 };

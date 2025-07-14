@@ -1,5 +1,6 @@
 import { Button } from '@common/ui/utilities/Button';
 import { AiOutlineSync } from 'react-icons/ai';
+import { FcKey } from 'react-icons/fc';
 
 export function LoginStep2({
   totpCode,
@@ -11,12 +12,13 @@ export function LoginStep2({
   totpLoad,
 }) {
   return (
-    <div className="flex flex-col gap-4 mt-6">
+    <div className="flex flex-col gap-4 mt-6 items-center justify-center ">
+      <FcKey className="mb-10" size={150} />
       <div className="relative">
         <input
           type="text"
           value={totpCode}
-          onChange={e => setTotpCode(e.target.value)}
+          onChange={(e) => setTotpCode(e.target.value)}
           className="peer input-styles input-primary"
           placeholder=" "
         />
@@ -35,4 +37,4 @@ export function LoginStep2({
       </Button>
     </div>
   );
-} 
+}

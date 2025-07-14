@@ -129,21 +129,37 @@ export default function LoginPage() {
               formikRef={formikRef}
               loginSchema={loginSchema}
               handleLoginUser={handleLoginUser}
-              passwordVisible={passwordVisible}
-              setPasswordVisible={setPasswordVisible}
-              guestLoad={guestLoad}
-              load={load}
-              googleLoad={googleLoad}
-              totpLoad={totpLoad}
-              githubLoad={githubLoad}
-              setGithubLoad={setGithubLoad}
-              yandexLoad={yandexLoad}
-              setYandexLoad={setYandexLoad}
-              createGuest={createGuest}
-              setGoogleLoad={setGoogleLoad}
-              captchaKey={captchaKey}
-              handleCheckCaptcha={handleCheckCaptcha}
-              captchaToken={captchaToken}
+              visibility={{
+                passwordVisible,
+                setPasswordVisible,
+              }}
+              guestAuth={{
+                guestLoad,
+                createGuest,
+              }}
+              oauth={{
+                google: {
+                  load: googleLoad,
+                  setLoad: setGoogleLoad,
+                },
+                github: {
+                  load: githubLoad,
+                  setLoad: setGithubLoad,
+                },
+                yandex: {
+                  load: yandexLoad,
+                  setLoad: setYandexLoad,
+                },
+              }}
+              captcha={{
+                token: captchaToken,
+                key: captchaKey,
+                onCheck: handleCheckCaptcha,
+              }}
+              loadFlags={{
+                load,
+                totpLoad,
+              }}
             />
           </motion.div>
         ) : step === 'twoFactor' ? (

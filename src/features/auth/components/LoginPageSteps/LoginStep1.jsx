@@ -13,22 +13,26 @@ export function LoginStep1({
   formikRef,
   loginSchema,
   handleLoginUser,
-  passwordVisible,
-  setPasswordVisible,
-  guestLoad,
-  load,
-  googleLoad,
-  githubLoad,
-  setGithubLoad,
-  yandexLoad,
-  setYandexLoad,
-  totpLoad,
-  createGuest,
-  setGoogleLoad,
-  captchaKey,
-  handleCheckCaptcha,
-  captchaToken,
+  visibility,
+  guestAuth,
+  oauth,
+  captcha,
+  loadFlags,
 }) {
+  const { passwordVisible, setPasswordVisible } = visibility;
+  const { guestLoad, createGuest } = guestAuth;
+  const {
+    google: { load: googleLoad, setLoad: setGoogleLoad },
+    github: { load: githubLoad, setLoad: setGithubLoad },
+    yandex: { load: yandexLoad, setLoad: setYandexLoad },
+  } = oauth;
+  const { load, totpLoad } = loadFlags;
+  const {
+    token: captchaToken,
+    key: captchaKey,
+    onCheck: handleCheckCaptcha,
+  } = captcha;
+
   const isDisabled =
     guestLoad || load || googleLoad || totpLoad || githubLoad || yandexLoad;
   return (

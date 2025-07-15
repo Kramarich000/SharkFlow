@@ -1,7 +1,7 @@
 export * from './BoardActions';
 export * from './BoardCard';
 export * from './BoardCardSkeleton';
-// export * from './BoardContent';
+export * from './BoardContent';
 export * from './BoardContextMenu';
 export * from './BoardGrid';
 export * from './BoardGridLoader';

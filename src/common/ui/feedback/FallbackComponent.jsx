@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Button } from '@common/ui/utilities/Button';
+import { Button } from '@common/ui/utilities';
 
 export function FallbackComponent() {
   return (

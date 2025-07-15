@@ -48,7 +48,7 @@ export function LoginStep1({
     >
       {({ handleBlur }) => (
         <>
-          <Form className="flex flex-col sm:grid grid-cols-2 gap-6 p-8 rounded-2xl bg-surface border-2 border-[var(--main-primary)] shadow-glow">
+          <Form className="flex flex-col sm:grid grid-cols-2 gap-6 p-8 rounded-2xl bg-surface border-2 border-[var(--main-primary)]">
             <h2 className="sm:col-span-2 text-3xl">Вход</h2>
             <div className="flex flex-col justify-center items-center md:flex-row col-span-2 gap-3">
               <p>Войти с помощью:</p>
@@ -88,7 +88,6 @@ export function LoginStep1({
                 или
               </p>
             </div>
-
             <div className="relative">
               <Field
                 type="email"
@@ -111,7 +110,6 @@ export function LoginStep1({
                 {(msg) => <AnimatedError msg={msg} variant="register" />}
               </ErrorMessage>
             </div>
-
             <div className="relative">
               <Field
                 type={!passwordVisible ? 'password' : 'text'}
@@ -145,7 +143,6 @@ export function LoginStep1({
                 {(msg) => <AnimatedError msg={msg} variant="register" />}
               </ErrorMessage>
             </div>
-
             <div className="col-span-2 text-sm flex items-center justify-center">
               <FormikCheckbox
                 name="rememberMe"
@@ -155,7 +152,6 @@ export function LoginStep1({
                 disabled={isDisabled}
               />
             </div>
-
             {process.env.NODE_ENV !== 'development' && (
               <TurnstileWidget
                 key={captchaKey}
@@ -165,12 +161,7 @@ export function LoginStep1({
               />
             )}
             <div className="flex flex-col col-span-2 item-center justify-center gap-1">
-              <Button
-                variant="primary"
-                // className="sm:col-span-2"
-                type="submit"
-                disabled={isDisabled}
-              >
+              <Button variant="primary" type="submit" disabled={isDisabled}>
                 {load ? (
                   <AiOutlineSync size={23} className="animate-spin" />
                 ) : (
@@ -190,12 +181,14 @@ export function LoginStep1({
                 )}
               </Button>
             </div>
-
             <Link className="text-blue-600" to="/register">
               Нет аккаунта?
             </Link>
             <Link className="text-blue-600" to="/reset-password">
               Забыли пароль?
+            </Link>
+            <Link className="text-blue-600 col-span-2" to="/restore">
+              Хотите восстановить аккаунт?
             </Link>
           </Form>
         </>

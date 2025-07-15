@@ -7,3 +7,6 @@ export * from './Separator';
 export * from './Waves';
 export * from './Bubbles';
 export * from './SharkFin';
+export * from './Accordion';
+export * from './Button';
+export * from './VerifyTotpStep';

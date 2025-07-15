@@ -4,3 +4,7 @@ export * from './DisableGoogleModal';
 export * from './DisableTelegramModal';
 export * from './DisableTotpModal';
 export * from './SetupTotpModal';
+export * from './ConnectYandexModal';
+export * from './DisableYandexModal';
+export * from './ConnectGithubModal';
+export * from './DisableGithubModal';

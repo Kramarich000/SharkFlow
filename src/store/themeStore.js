@@ -5,7 +5,7 @@ import {
   getDarkByMode,
   applyTheme,
   DAY_NIGHT_RANGES,
-} from '@utils/theme/toggleTheme';
+} from '@utils/theme/themeConfig';
 export const useThemeStore = create((set, get) => {
   let autoThemeTimer = null;
 

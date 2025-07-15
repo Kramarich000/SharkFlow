@@ -1,7 +1,6 @@
-// export * from './RegisterPageSteps/RegisterFirstStep';
-// export * from './RegisterPageSteps/RegisterSecondStep';
-// export * from './RegisterPageSteps/RegisterThirdStep';
-
 export * from './GoogleAuthButton';
 export * from './LoginPageSteps';
 export * from './RegisterPageSteps';
+export * from './GitHubAuthButton';
+export * from './TurnstileWidget';
+export * from './YandexAuthButton';

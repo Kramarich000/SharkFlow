@@ -45,7 +45,7 @@ function BoardCardComponent({ board, onOpen, onTogglePin, onToggleFav }) {
 
   return (
     <div
-      className="card-base group board-card"
+      className="card-base group board-card min-h-[256px]"
       style={{
         borderColor: board.color.startsWith('#')
           ? board.color

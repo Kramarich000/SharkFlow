@@ -4,6 +4,8 @@ const RegisterPage = lazy(() => import('@pages/auth/RegisterPage'));
 
 const LoginPage = lazy(() => import('@pages/auth/LoginPage'));
 
+const RestorePage = lazy(() => import('@pages/auth/RestorePage'));
+
 const DashboardPage = lazy(() => import('@pages/dashboard/DashboardPage'));
 
 const ProfilePage = lazy(() => import('@pages/profile/ProfilePage'));
@@ -40,6 +42,14 @@ export const routes = [
     title: 'Вход',
     description: 'Регистрация',
     url: `${baseURL}/login`,
+    private: false,
+  },
+  {
+    path: '/restore',
+    component: RestorePage,
+    title: 'Восстановление аккаунта',
+    description: 'Восстановление аккаунта',
+    url: `${baseURL}/restore`,
     private: false,
   },
   {

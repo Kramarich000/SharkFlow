@@ -8,7 +8,11 @@ import { checkTwoFactor } from '@features/auth/api/totp/verification/verificatio
 import { showToast } from '@utils/toast';
 import { useNavigate } from 'react-router-dom';
 import { LoginStep1 } from '../../features/auth/components/LoginPageSteps/LoginStep1';
-import { LoginStep2 } from '../../features/auth/components/LoginPageSteps/LoginStep2';
+import { VerifyTotpStep } from '@common/ui';
+import { UserHasBeenDeleted } from '@common/ui/utilities/UserHasBeenDeleted';
+import { RestoredUserVerify } from '@common/ui/utilities/RestoredUserVerify';
+import { restoreUserTotpVerify } from '@features/auth/api/restore/restoreUserTotpVerify';
+import RestoredSuccess from '@features/auth/components/RestoredSuccess';
 
 export default function LoginPage() {
   const formikRef = useRef(null);
@@ -26,6 +30,10 @@ export default function LoginPage() {
   const [sessionKey, setSessionKey] = useState(null);
   const [captchaToken, setCaptchaToken] = useState(null);
   const [captchaKey, setCaptchaKey] = useState(0);
+  const [deletedUserLogin, setDeletedUserLogin] = useState('');
+  const [deletedUserEmail, setDeletedUserEmail] = useState('');
+  const [deletedUserAvatar, setDeletedUserAvatar] = useState('');
+  const [restoreKey, setRestoreKey] = useState('');
 
   const createGuest = async () => {
     if (!captchaToken && process.env.NODE_ENV === 'production') {
@@ -55,6 +63,15 @@ export default function LoginPage() {
     setLoad(true);
     try {
       const success = await login(values, captchaToken);
+      if (success && success?.isDeleted) {
+        setDeletedUserLogin(success.login);
+        setDeletedUserEmail(success.email);
+        if (success.avatarUrl) {
+          setDeletedUserAvatar(success.avatarUrl);
+        }
+        setRestoreKey(success.restoreKey);
+        setStep('hasBeenDeleted');
+      }
       if (success && success?.accessToken) {
         setCaptchaToken(null);
         const sck = setCaptchaKey((prev) => prev + 1);
@@ -85,6 +102,30 @@ export default function LoginPage() {
         setLoading(true);
         navigate('/dashboard');
         await getUser();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+      setTotpLoad(false);
+    }
+  };
+
+  const handleRestoreUserAfter2FA = async () => {
+    setTotpLoad(true);
+    if (totpCode < 6) {
+      showToast('Код должен состоять из 6 цифр');
+      return;
+    }
+
+    try {
+      const success = await restoreUserTotpVerify(totpCode, restoreKey);
+      if (success) {
+        setLoading(true);
+        setStep('restoredSuccess');
+        setTimeout(() => {
+          setStep('login');
+        }, 3000);
       }
     } catch (error) {
       console.error(error);
@@ -169,7 +210,7 @@ export default function LoginPage() {
             animate={{ opacity: 1, transform: 'translateX(0)' }}
             exit={{ opacity: 0, transform: 'translateX(-50px)' }}
           >
-            <LoginStep2
+            <VerifyTotpStep
               totpCode={totpCode}
               setTotpCode={setTotpCode}
               handleLoginUserAfter2FA={handleLoginUserAfter2FA}
@@ -178,6 +219,60 @@ export default function LoginPage() {
               googleLoad={googleLoad}
               totpLoad={totpLoad}
             />
+          </motion.div>
+        ) : step === 'hasBeenDeleted' ? (
+          <motion.div
+            key="hasBeenDeleted"
+            initial={{ opacity: 0, transform: 'translateX(50px)' }}
+            animate={{ opacity: 1, transform: 'translateX(0)' }}
+            exit={{ opacity: 0, transform: 'translateX(-50px)' }}
+          >
+            <UserHasBeenDeleted
+              deletedUserLogin={deletedUserLogin}
+              deletedUserEmail={deletedUserEmail}
+              deletedUserAvatar={deletedUserAvatar}
+              restoreKey={restoreKey}
+              setStep={setStep}
+            />
+          </motion.div>
+        ) : step === 'restoredUserEmail' ? (
+          <motion.div
+            key="restoredUserEmail"
+            initial={{ opacity: 0, transform: 'translateX(50px)' }}
+            animate={{ opacity: 1, transform: 'translateX(0)' }}
+            exit={{ opacity: 0, transform: 'translateX(-50px)' }}
+          >
+            <RestoredUserVerify
+              deletedUserEmail={deletedUserEmail}
+              setStep={setStep}
+              restoreKey={restoreKey}
+            />
+          </motion.div>
+        ) : step === 'restoredTotpVerify' ? (
+          <motion.div
+            key="restoredTotpVerify"
+            initial={{ opacity: 0, transform: 'translateX(50px)' }}
+            animate={{ opacity: 1, transform: 'translateX(0)' }}
+            exit={{ opacity: 0, transform: 'translateX(-50px)' }}
+          >
+            <VerifyTotpStep
+              totpCode={totpCode}
+              setTotpCode={setTotpCode}
+              handleLoginUserAfter2FA={handleRestoreUserAfter2FA}
+              guestLoad={guestLoad}
+              load={load}
+              googleLoad={googleLoad}
+              totpLoad={totpLoad}
+            />
+          </motion.div>
+        ) : step === 'restoredSuccess' ? (
+          <motion.div
+            key="restoredSuccess"
+            initial={{ opacity: 0, transform: 'translateX(50px)' }}
+            animate={{ opacity: 1, transform: 'translateX(0)' }}
+            exit={{ opacity: 0, transform: 'translateX(-50px)' }}
+          >
+            <RestoredSuccess />
           </motion.div>
         ) : null}
       </AnimatePresence>

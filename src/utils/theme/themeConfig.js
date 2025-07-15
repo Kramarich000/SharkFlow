@@ -1,4 +1,5 @@
 export const MODES = ['light', 'auto', 'dark'];
+
 export const DAY_NIGHT_RANGES = {
   0: { dayStart: 9, dayEnd: 16 }, // Январь
   1: { dayStart: 8, dayEnd: 17 }, // Февраль

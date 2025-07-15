@@ -20,7 +20,7 @@ import { useAuthTokenRefresh, useAuthStore } from '@features/auth';
 import { useUserStore, LogoutUserModal, getUser } from '@features/user';
 import { blockedPublicPaths } from '@config/blockedPublicPaths';
 import { FallbackComponent } from '@common/ui';
-import { getThemeMode, applyTheme } from '@utils/theme/toggleTheme';
+import { getThemeMode, applyTheme } from '@utils/theme/themeConfig';
 import { showToast } from '@utils/toast';
 import { useThemeStore } from '@store/themeStore';
 import { getWarnings } from '@utils/browser/browserWarningsMap';

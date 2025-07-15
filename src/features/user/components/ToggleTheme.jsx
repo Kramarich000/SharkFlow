@@ -1,6 +1,6 @@
 import { useThemeStore } from '@store/themeStore';
 import { FaMoon, FaSun, FaRegClock } from 'react-icons/fa';
-import { MODES } from '@utils/theme/toggleTheme';
+import { MODES } from '@utils/theme/themeConfig';
 import { Button } from '@common/ui/utilities/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 

@@ -13,6 +13,40 @@ import { useShallow } from 'zustand/shallow';
 import { FaTelegram } from 'react-icons/fa';
 import { Avatar } from '@common/ui/layout/Avatar';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+} from '@common/ui/utilities/Drawer';
+import { usePresence } from 'framer-motion';
+
+// Кастомный анимированный контент для Drawer
+const AnimatedDrawerContent = React.forwardRef(function AnimatedDrawerContent(props, ref) {
+  const [isPresent, safeToRemove] = usePresence();
+
+  React.useEffect(() => {
+    if (!isPresent) {
+      const timeout = setTimeout(safeToRemove, 400); // 400ms = длительность анимации
+      return () => clearTimeout(timeout);
+    }
+  }, [isPresent, safeToRemove]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ x: '100%' }}
+      animate={{ x: 0 }}
+      exit={{ x: '100%' }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      style={{ height: '100%' }}
+      className="h-full flex flex-col"
+    >
+      {props.children}
+    </motion.div>
+  );
+});
 
 export const HeaderMenu = React.forwardRef(function HeaderMenu(
   {
@@ -28,6 +62,7 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
 ) {
   const isDesktop = mode === 'desktop';
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobileDrawerVisible, setIsMobileDrawerVisible] = useState(false);
   const menuRef = useRef(null);
   const divRef = useRef(null);
 
@@ -54,6 +89,12 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (!isDesktop) {
+      setIsMobileDrawerVisible(isOpen);
+    }
+  }, [isOpen, isDesktop]);
 
   const handleLinkClick = () => {
     if (onLinkClick) onLinkClick();
@@ -124,183 +165,171 @@ export const HeaderMenu = React.forwardRef(function HeaderMenu(
       </div>
 
       <AnimatePresence mode="wait">
-        {isOpen && (
-          <>
-            {isDesktop && (
-              <motion.div
-                key="desktop-menu"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.2 }}
-                ref={menuRef}
-                className="absolute top-24 right-[-20px] mt-2 w-52 bg-[var(--main-header-bg)] shadow-lg rounded-md z-50 border-1 border-[var(--main-heading)]"
-              >
-                <BiSolidUpArrow
-                  size={40}
-                  className="absolute top-[-20px] right-5 text-[var(--main-header-bg)] "
+        {isOpen && isDesktop && (
+          <motion.div
+            key="desktop-menu"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.2 }}
+            ref={menuRef}
+            className="absolute top-24 right-[-20px] mt-2 w-52 bg-[var(--main-header-bg)] shadow-lg rounded-md z-50 border-1 border-[var(--main-heading)]"
+          >
+            <BiSolidUpArrow
+              size={40}
+              className="absolute top-[-20px] right-5 text-[var(--main-header-bg)] "
+            />
+            <div className="flex flex-col pt-2">
+              {user?.avatarUrl && user?.role === 'user' && token ? (
+                <Avatar
+                  src={user?.avatarUrl}
+                  size={100}
+                  className="mx-auto"
                 />
-                <div className="flex flex-col pt-2">
-                  {user?.avatarUrl && user?.role === 'user' && token ? (
-                    <Avatar
-                      src={user?.avatarUrl}
-                      size={100}
-                      className="mx-auto"
-                    />
-                  ) : (
-                    <MdAccountCircle className="w-20 h-20 mx-auto flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full text-[var(--main-button-text)] mb-2" />
-                  )}
+              ) : (
+                <MdAccountCircle className="w-20 h-20 mx-auto flex items-center justify-center border-2 !border-[var(--main-primary)] rounded-full text-[var(--main-button-text)] mb-2" />
+              )}
 
-                  {user?.role === 'user' && (
-                    <>
-                      <p className="text-center">{user?.login}</p>
-                      <p className="text-sm mx-auto border-b-2 border-white w-[80%] py-1 pb-4 mb-4">
-                        {user?.email}
-                      </p>
-                    </>
-                  )}
+              {user?.role === 'user' && (
+                <>
+                  <p className="text-center">{user?.login}</p>
+                  <p className="text-sm mx-auto border-b-2 border-white w-[80%] py-1 pb-4 mb-4">
+                    {user?.email}
+                  </p>
+                </>
+              )}
 
-                  {user?.role === 'guest' && (
-                    <>
-                      <p className="mx-auto border-b-2 border-white w-[80%] py-1 pb-4 mb-4">
-                        Гость
-                      </p>
-                    </>
-                  )}
+              {user?.role === 'guest' && (
+                <>
+                  <p className="mx-auto border-b-2 border-white w-[80%] py-1 pb-4 mb-4">
+                    Гость
+                  </p>
+                </>
+              )}
 
-                  {navLinks.map((link) => (
-                    <NavLink
-                      key={link.path}
-                      to={link.path}
-                      end
-                      className={({ isActive }) =>
-                        `${linkClasses({ isActive })}`
-                      }
-                      onClick={handleLinkClick}
-                    >
-                      <div className="flex items-center gap-2">
-                        {link.icon} {link.label}
-                      </div>
-                    </NavLink>
-                  ))}
-                  {token && (
-                    <Button
-                      variant="tertiary"
-                      onClick={() => {
-                        setIsOpen(false);
-                        setIsLogoutUserModalOpen(true);
-                      }}
-                      className="!w-full flex justify-start !py-2 !px-4 !bg-[var(--main-header-bg)] !rounded-none !rounded-b-[5px] hover:!bg-black/60 hover:!text-[var(--main-header-text)]"
-                    >
-                      <div className="flex items-center gap-2">
-                        <BiExit /> Выход
-                      </div>
-                    </Button>
-                  )}
-                </div>
-              </motion.div>
-            )}
-
-            {!isDesktop && (
-              <motion.div
-                key="mobile-menu"
-                initial={{ transform: 'translateX(350px)' }}
-                animate={{ transform: 'translateX(0px)' }}
-                exit={{ transform: 'translateX(350px)' }}
-                ref={menuRef}
-                transition={{ duration: 0.4 }}
-                className="fixed top-0 right-0 bottom-0 w-full max-w-xs h-full bg-[var(--main-header-bg)] shadow-lg p-3 flex flex-col overflow-hidden z-9999"
-              >
-                <div className="flex items-center justify-center mb-8 pb-8 border-b-1 border-b-white">
-                  <div className="flex justify-between items-center w-full bg-black/20 p-2 rounded-full">
-                    <div className="flex items-center gap-3">
-                      {user?.role === 'user' ? (
-                        <>
-                          {user.avatarUrl ? (
-                            <Avatar
-                              src={user.avatarUrl}
-                              size={40}
-                              className="mx-auto"
-                            />
-                          ) : (
-                            <MdAccountCircle className="w-12 h-12 text-[var(--main-button-text)]" />
-                          )}
-                          <div>
-                            <p className="font-semibold">{user.login}</p>
-                            <p className="text-sm text-gray-200">
-                              {user.email}
-                            </p>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <MdAccountCircle className="w-12 h-12 text-[var(--main-button-text)]" />
-                          <div>
-                            <p className="font-semibold">Логин</p>
-                            <p className="text-sm text-gray-200">Почта</p>
-                          </div>
-                        </>
-                      )}
-                    </div>
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.path}
+                  to={link.path}
+                  end
+                  className={({ isActive }) =>
+                    `${linkClasses({ isActive })}`
+                  }
+                  onClick={handleLinkClick}
+                >
+                  <div className="flex items-center gap-2">
+                    {link.icon} {link.label}
                   </div>
-
-                  <Button
-                    variant="primary"
-                    className="!bg-transparent !w-fit hover:!bg-black/20 !m-0 rounded-full"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <IoClose size={30} />
-                  </Button>
-                </div>
-                <div className="flex-grow flex flex-col gap-4">
-                  {navLinks.map((link) => (
-                    <NavLink
-                      key={link.path}
-                      to={link.path}
-                      end
-                      className={({ isActive }) =>
-                        `${linkClasses({ isActive })} !text-[var(--main-header-text)] px-4 py-3 !bg-black/20 rounded-full`
-                      }
-                      onClick={handleLinkClick}
-                    >
-                      <div className="flex items-center gap-2">
-                        {link.icon} {link.label}
-                      </div>
-                    </NavLink>
-                  ))}
-                </div>
-                {!user?.telegramEnabled && user?.role === 'user' && token && (
-                  <Button
-                    variant="primary"
-                    className="!flex items-center !mb-4 !bg-black/20 hover:!bg-black/60 !rounded-full"
-                    onClick={() => {
-                      setIsOpen(false);
-                      setIsConnectTelegramModalOpen(true);
-                    }}
-                  >
-                    <FaTelegram size={20} />
-                    Наш бот в Telegram!
-                  </Button>
-                )}
-                {token && (
-                  <Button
-                    variant="primary"
-                    onClick={() => {
-                      setIsOpen(false);
-                      setIsLogoutUserModalOpen(true);
-                    }}
-                    className="mt-auto !py-3 !px-4 !bg-black/20 hover:!bg-black/60 !rounded-full"
-                  >
-                    <div className="flex items-center gap-2">
-                      <BiExit /> Выход
-                    </div>
-                  </Button>
-                )}
-              </motion.div>
-            )}
-          </>
+                </NavLink>
+              ))}
+              {token && (
+                <Button
+                  variant="tertiary"
+                  onClick={() => {
+                    setIsOpen(false);
+                    setIsLogoutUserModalOpen(true);
+                  }}
+                  className="!w-full flex justify-start !py-2 !px-4 !bg-[var(--main-header-bg)] !rounded-none !rounded-b-[5px] hover:!bg-black/60 hover:!text-[var(--main-header-text)]"
+                >
+                  <div className="flex items-center gap-2">
+                    <BiExit /> Выход
+                  </div>
+                </Button>
+              )}
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
+
+      <Drawer open={isMobileDrawerVisible && !isDesktop} onOpenChange={setIsOpen} direction="right">
+        <DrawerContent className="max-w-xs ml-auto p-3 bg-[var(--main-header-bg)] h-full flex flex-col overflow-hidden z-50">
+          <DrawerHeader>
+            <DrawerTitle>
+              <div className="flex justify-between items-center w-full bg-black/20 p-2 rounded-full">
+                <div className="flex items-center gap-3">
+                  {user?.role === 'user' ? (
+                    <>
+                      {user?.avatarUrl ? (
+                        <Avatar
+                          src={user?.avatarUrl}
+                          size={40}
+                          className="mx-auto"
+                        />
+                      ) : (
+                        <MdAccountCircle className="w-12 h-12 text-[var(--main-button-text)]" />
+                      )}
+                      <div>
+                        <p className="font-semibold">{user?.login}</p>
+                        <p className="text-sm text-gray-200">{user?.email}</p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <MdAccountCircle className="w-12 h-12 text-[var(--main-button-text)]" />
+                      <div>
+                        <p className="font-semibold">Логин</p>
+                        <p className="text-sm text-gray-200">Почта</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+                <Button
+                  variant="primary"
+                  className="!bg-transparent !w-fit hover:!bg-black/20 !m-0 rounded-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <IoClose size={30} />
+                </Button>
+              </div>
+            </DrawerTitle>
+            <DrawerDescription className="sr-only">Мобильное меню пользователя</DrawerDescription>
+          </DrawerHeader>
+          <div className="flex-grow flex flex-col gap-4 mt-8">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                end
+                className={({ isActive }) =>
+                  `${linkClasses({ isActive })} !text-[var(--main-header-text)] px-4 py-3 !bg-black/20 rounded-full`
+                }
+                onClick={handleLinkClick}
+              >
+                <div className="flex items-center gap-2">
+                  {link.icon} {link.label}
+                </div>
+              </NavLink>
+            ))}
+          </div>
+          {!user?.telegramEnabled && user?.role === 'user' && token && (
+            <Button
+              variant="primary"
+              className="!flex items-center !mb-4 !bg-black/20 hover:!bg-black/60 !rounded-full"
+              onClick={() => {
+                setIsOpen(false);
+                setIsConnectTelegramModalOpen(true);
+              }}
+            >
+              <FaTelegram size={20} />
+              Наш бот в Telegram!
+            </Button>
+          )}
+          {token && (
+            <Button
+              variant="primary"
+              onClick={() => {
+                setIsOpen(false);
+                setIsLogoutUserModalOpen(true);
+              }}
+              className="mt-auto !py-3 !px-4 !bg-black/20 hover:!bg-black/60 !rounded-full"
+            >
+              <div className="flex items-center gap-2">
+                <BiExit /> Выход
+              </div>
+            </Button>
+          )}
+        </DrawerContent>
+      </Drawer>
     </nav>
   );
 });

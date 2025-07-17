@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { useTaskStore } from '@features/tasks';
 const TiptapEditor = lazy(() => import('@common/tiptap/TiptapEditor'));
@@ -25,10 +25,12 @@ export const TaskDescription = ({
         {isEditing ? (
           <div className="bg-white border-2 rounded-xl border-gray-200 shadow-sm transition-all duration-200 hover:border-gray-300 focus-within:border-gray-500 focus-within:shadow-md">
             <div className="min-h-[400px] max-h-[600px] overflow-hidden">
-              <TiptapEditor
-                description={newDescription}
-                onChange={setNewDescription}
-              />
+              <Suspense fallback={<div>Загрузка редактора...</div>}>
+                <TiptapEditor
+                  description={newDescription}
+                  onChange={setNewDescription}
+                />
+              </Suspense>
             </div>
           </div>
         ) : (

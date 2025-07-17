@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState, useEffect } from 'react';
+import React, { Fragment, useRef, useState, useEffect, startTransition } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useShallow } from 'zustand/shallow';
 import { Listbox, Transition } from '@headlessui/react';
@@ -176,7 +176,9 @@ function TaskDetailsHeaderComponent({
                   <Button
                     variant="primary"
                     className="!justify-between"
-                    onClick={() => setIsEditing(true)}
+                    onClick={() => {
+                      startTransition(() => setIsEditing(true));
+                    }}
                   >
                     Редактировать <FaPen />
                   </Button>
